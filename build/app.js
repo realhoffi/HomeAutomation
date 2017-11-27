@@ -116,7 +116,6 @@ var app = express();
 var log = debug("serverjs");
 var port = normalizePort(Object({"NODE_ENV":"development"}).PORT || 8080);
 var env = "development" || "production";
-var p = path.join("build", "views");
 app.set("port", port);
 app.use(favicon(path.join(__dirname, "icons", "favicon.ico")));
 app.use("/css", express.static(path.join(__dirname, "css")));
@@ -124,12 +123,12 @@ app.use("/js", express.static(path.join(__dirname, "js")));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 var router = express.Router();
-app.use("/api", router);
 router.use(function (req, res, next) {
     var uri = getUriFromRequest(req);
     console.log("Request on URL: " + uri);
     next();
 });
+app.use("/api", router);
 routes_1.registerRoutes(router);
 app.get("/", function (request, response) {
     response.sendFile(path.join("views", "index.html"), { root: __dirname }, function (error) {
@@ -141,8 +140,8 @@ app.get("/", function (request, response) {
 });
 app.get("*", function (request, response) {
     var uri = getUriFromRequest(request);
+    response.status(404).json({ "error": "route " + uri + " not found" });
     console.log("catch wrong api request from URL: " + uri);
-    response.status(404).send("route not found...");
 });
 app.listen(3000);
 var server = http.createServer(app);
