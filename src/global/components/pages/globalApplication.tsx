@@ -1,0 +1,56 @@
+import * as React from "react";
+import { Route, Switch, Link } from "react-router-dom";
+import { Application } from "./application";
+import { Application as YeelightApplication } from "../../../projects/yeelight/components/pages/application";
+import { Application as VacuumApplication } from "../../../projects/vacuumRoboter/components/pages/application";
+import { Application as AldiApplication } from "../../../projects/aldi/components/pages/application";
+import { NotFoundPage } from "../../components/simple/NotFoundPage";
+import { RedirectWithStatus } from "../simple/routing";
+import { BasePage } from "../container/basePage";
+
+export interface IGlobalApplicationProps {
+    requestUrl: string;
+}
+export class GlobalApplication extends React.Component<IGlobalApplicationProps, {}> {
+    constructor(props) {
+        super(props);
+    }
+    componentDidMount() {
+        document.title = "Web-Application by Florian Hoffmann";
+        console.log("componentDidMount Application");
+    }
+    render() {
+        console.log("render Application");
+        return <BasePage Body={
+            <div>
+                <h1>Hello from GlobalApplication!<br />Your requested url is {this.props.requestUrl}</h1>
+                <Switch>
+                    <RedirectWithStatus status={302} from="/courses" to="/aldi" />
+                    <Route exact path="/" component={Application} key="r1" />
+                    <Route path="/light" component={YeelightApplication} key="r2" />
+                    <Route path="/aldi" component={AldiApplication} key="r3" />
+                    <Route path="/vacuum" component={VacuumApplication} key="r4" />
+                    <Route path="*" component={NotFoundPage} key="r5" />
+                </Switch>
+            </div>
+        } Navigation={
+            <div>
+                <ul>
+                    <li>
+                        <Link to={"/"}>Homepage</Link>
+                    </li>
+                    <li>
+                        <Link to={"/light"}>Yeelight</Link>
+                    </li>
+                    <li>
+                        <Link to={"/aldi"}>Aldi</Link>
+                    </li>
+                    <li>
+                        <Link to={"/vacuum"}>Vacuum</Link>
+                    </li>
+                </ul>
+            </div>
+        }
+        />;
+    }
+}

@@ -1,0 +1,103 @@
+{
+    "version": "0.2.0",
+    "compounds": [
+        {
+            "name": "Full-Stack",
+            "configurations": [
+                "Nodemon2",
+                //    "Program",
+                "Attach to Process",
+                "Chrome"
+            ]
+        }
+    ],
+    "configurations": [
+        {
+            "name": "Nodemon1",
+            "type": "node",
+            "request": "launch",
+            "runtimeExecutable": "nodemon",
+            "program": "${workspaceFolder}/src/global/server.js",
+            "restart": true,
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen"
+        },
+        {
+            "name": "Nodemon2",
+            "type": "node",
+            "request": "launch",
+            "runtimeExecutable": "nodemon",
+            "program": "${workspaceFolder}/build/js/app.js",
+            "restart": true,
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Program",
+            "program": "${workspaceFolder}/build/js/app.js",
+            "cwd": "${workspaceRoot}",
+            "outFiles": [],
+            "sourceMaps": false,
+            "restart": true
+        },
+        {
+            "type": "node",
+            "request": "attach",
+            "name": "Attach to Process",
+            "port": 5858,
+            "outFiles": [],
+            "sourceMaps": false
+        },
+        {
+            "name": "Chrome",
+            "type": "chrome",
+            "request": "launch",
+            "url": "http://localhost:8080",
+            "port": 5851,
+            "userDataDir": "${workspaceFolder}/.vscode/chrome",
+            "webRoot": "${workspaceFolder}/"
+        }
+    ]
+}
+// {
+//     "version": "0.2.0",
+//     "compounds": [
+//         {
+//             "name": "Full-Stack",
+//             "configurations": [
+//                 "Node",
+//                 "Chrome"
+//             ]
+//         }
+//     ],
+//     "configurations": [
+//         {
+//             "name": "Nodemon",
+//             "type": "node",
+//             "request": "launch",
+//             "runtimeExecutable": "nodemon",
+//             "program": "${workspaceFolder}/homeautomation/build/server.js",
+//             "restart": true,
+//             "console": "integratedTerminal",
+//             "internalConsoleOptions": "neverOpen"
+//         },
+//         {
+//             "name": "Chrome",
+//             "type": "chrome",
+//             "request": "launch",
+//             "url": "http://localhost:8080",
+//             "port": 9222,
+//             "userDataDir": "${workspaceFolder}/.vscode/chrome",
+//             "webRoot": "${workspaceFolder}/"
+//         },
+//         {
+//             "name": "Node",
+//             "type": "node",
+//             "request": "launch",
+//             "program": "${workspaceFolder}/homeautomation/build/server.js",
+//             "cwd": "${workspaceFolder}"
+//         }
+//     ]
+// }
