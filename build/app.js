@@ -93,6 +93,8 @@ var express = __webpack_require__(/*! express */ 4);
 var debug = __webpack_require__(/*! debug */ 5);
 var url = __webpack_require__(/*! url */ 6);
 var favicon = __webpack_require__(/*! serve-favicon */ 7);
+var routes_1 = __webpack_require__(/*! ../api/routes/routes */ 8);
+var bodyParser = __webpack_require__(/*! body-parser */ 9);
 function normalizePort(val) {
     var port = parseInt(val, 10);
     if (isNaN(port)) {
@@ -103,6 +105,13 @@ function normalizePort(val) {
     }
     return false;
 }
+function getUriFromRequest(request) {
+    return url.format({
+        protocol: request.protocol,
+        host: request.get("host"),
+        pathname: request.originalUrl
+    });
+}
 var app = express();
 var log = debug("serverjs");
 var port = normalizePort(Object({"NODE_ENV":"development"}).PORT || 8080);
@@ -112,28 +121,28 @@ app.set("port", port);
 app.use(favicon(path.join(__dirname, "icons", "favicon.ico")));
 app.use("/css", express.static(path.join(__dirname, "css")));
 app.use("/js", express.static(path.join(__dirname, "js")));
-app.get("*", function (request, response) {
-    var uri = url.format({
-        protocol: request.protocol,
-        host: request.get("host"),
-        pathname: request.originalUrl
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+var router = express.Router();
+app.use("/api", router);
+router.use(function (req, res, next) {
+    var uri = getUriFromRequest(req);
+    console.log("Request on URL: " + uri);
+    next();
+});
+routes_1.registerRoutes(router);
+app.get("/", function (request, response) {
+    response.sendFile(path.join("views", "index.html"), { root: __dirname }, function (error) {
+        if (error) {
+            console.log("ERROR SENDFILE!" + JSON.stringify(error));
+        }
+        response.end();
     });
-    var pp = "";
-    switch (request.path) {
-        case "/":
-            response.sendFile(path.join("views", "index.html"), { root: __dirname }, function (error) {
-                if (error) {
-                    console.log("ERROR SENDFILE!" + JSON.stringify(error));
-                }
-                response.end();
-            });
-            break;
-        default:
-            console.log("Request started: " + request.path);
-            console.log("app.use is correct?");
-            response.end();
-            break;
-    }
+});
+app.get("*", function (request, response) {
+    var uri = getUriFromRequest(request);
+    console.log("catch wrong api request from URL: " + uri);
+    response.status(404).send("route not found...");
 });
 app.listen(3000);
 var server = http.createServer(app);
@@ -210,6 +219,40 @@ module.exports = require("url");
 /***/ (function(module, exports) {
 
 module.exports = require("serve-favicon");
+
+/***/ }),
+/* 8 */
+/*!**********************************!*\
+  !*** ./src/api/routes/routes.ts ***!
+  \**********************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+function registerRoutes(router) {
+    router.route("/bears").get(function (req, res) {
+        res.json([{ "ID": "1" }]);
+    });
+    router.route("/tears").get(function (req, res) {
+        res.json([{ "ID": "2" }]);
+    });
+}
+exports.registerRoutes = registerRoutes;
+
+
+/***/ }),
+/* 9 */
+/*!******************************!*\
+  !*** external "body-parser" ***!
+  \******************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports) {
+
+module.exports = require("body-parser");
 
 /***/ })
 /******/ ]);

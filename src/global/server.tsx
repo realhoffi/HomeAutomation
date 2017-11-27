@@ -8,6 +8,9 @@ import url = require("url");
 import fs = require("fs");
 import { StaticRouter } from "react-router-dom";
 import favicon = require("serve-favicon");
+import { registerRoutes } from "../api/routes/routes";
+import bodyParser = require("body-parser");
+import { Request } from "express";
 
 function normalizePort(val) {
     let port = parseInt(val, 10);
@@ -18,6 +21,13 @@ function normalizePort(val) {
         return port;
     }
     return false;
+}
+function getUriFromRequest(request: Request) {
+    return url.format({
+        protocol: request.protocol,
+        host: request.get("host"),
+        pathname: request.originalUrl
+    });
 }
 
 const app = express();
@@ -31,34 +41,45 @@ app.set("port", port);
 app.use(favicon(path.join(__dirname, "icons", "favicon.ico")));
 app.use("/css", express.static(path.join(__dirname, "css")));
 app.use("/js", express.static(path.join(__dirname, "js")));
+// configure app to use bodyParser()
+// this will let us get the data from a POST
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-app.get("*", function (request, response) {
-    let uri = url.format({
-        protocol: request.protocol,
-        host: request.get("host"),
-        pathname: request.originalUrl
-    });
+// REGISTER OUR ROUTES -------------------------------
+let router = express.Router();
+// all of our routes will be prefixed with /api
+app.use("/api", router);
+
+router.use(function (req, res, next) {
+    let uri = getUriFromRequest(req);
+    console.log("Request on URL: " + uri);
+    // make sure we go to the next routes and don't stop here
+    next();
+});
+
+registerRoutes(router);
+
+app.get("/", function (request, response) {
+    // let uri = this.getUriFromRequest(request);
     // console.log("Request started: " + uri);
     // console.log("dirname: " + __dirname);
     // console.log("filename: " + __filename);
     // console.log("request.path: " + request.path);
+    response.sendFile(path.join("views", "index.html"), { root: __dirname }, (error) => {
+        if (error) {
+            console.log("ERROR SENDFILE!" + JSON.stringify(error));
+        }
+        response.end();
+    });
+});
 
-    let pp = "";
-    switch (request.path) {
-        case "/":
-            response.sendFile(path.join("views", "index.html"), { root: __dirname }, (error) => {
-                if (error) {
-                    console.log("ERROR SENDFILE!" + JSON.stringify(error));
-                }
-                response.end();
-            });
-            break;
-        default:
-            console.log("Request started: " + request.path);
-            console.log("app.use is correct?");
-            response.end();
-            break;
-    }
+// last route to catch routing errors 404 not found
+app.get("*", function (request, response) {
+    let uri = getUriFromRequest(request);
+    // res.status(404).json({ "error": "route not found" });
+    console.log("catch wrong api request from URL: " + uri);
+    response.status(404).send("route not found...");
 });
 
 app.listen(3000);

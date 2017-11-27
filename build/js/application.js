@@ -178,13 +178,13 @@ var GlobalApplication = (function (_super) {
                     React.createElement(react_router_dom_1.Route, { path: "*", component: NotFoundPage_1.NotFoundPage, key: "r5" }))), Navigation: React.createElement("div", null,
                 React.createElement("ul", null,
                     React.createElement("li", null,
-                        React.createElement(react_router_dom_1.Link, { to: "/" }, "Homepage")),
+                        React.createElement(react_router_dom_1.Link, { to: "/", replace: true }, "Homepage")),
                     React.createElement("li", null,
-                        React.createElement(react_router_dom_1.Link, { to: "/light" }, "Yeelight")),
+                        React.createElement(react_router_dom_1.Link, { to: "/light", replace: true }, "Yeelight")),
                     React.createElement("li", null,
-                        React.createElement(react_router_dom_1.Link, { to: "/aldi" }, "Aldi")),
+                        React.createElement(react_router_dom_1.Link, { to: "/aldi", replace: true }, "Aldi")),
                     React.createElement("li", null,
-                        React.createElement(react_router_dom_1.Link, { to: "/vacuum" }, "Vacuum")))) });
+                        React.createElement(react_router_dom_1.Link, { to: "/vacuum", replace: true }, "Vacuum")))) });
     };
     return GlobalApplication;
 }(React.Component));
@@ -1129,7 +1129,7 @@ var NotFoundPage = (function (_super) {
                 React.createElement("h1", null, "404"),
                 React.createElement("h2", null, "Page not found!"),
                 React.createElement("p", null,
-                    React.createElement(react_router_dom_1.Link, { to: "/" }, "Return to Main Page")))));
+                    React.createElement(react_router_dom_1.Link, { to: "/", replace: true }, "Return to Main Page")))));
     };
     return NotFoundPage;
 }(React.Component));
