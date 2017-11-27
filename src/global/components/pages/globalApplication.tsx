@@ -37,16 +37,16 @@ export class GlobalApplication extends React.Component<IGlobalApplicationProps, 
             <div>
                 <ul>
                     <li>
-                        <Link to={"/"}>Homepage</Link>
+                        <Link to={"/"} replace={true}>Homepage</Link>
                     </li>
                     <li>
-                        <Link to={"/light"}>Yeelight</Link>
+                        <Link to={"/light"} replace={true}>Yeelight</Link>
                     </li>
                     <li>
-                        <Link to={"/aldi"}>Aldi</Link>
+                        <Link to={"/aldi"} replace={true}>Aldi</Link>
                     </li>
                     <li>
-                        <Link to={"/vacuum"}>Vacuum</Link>
+                        <Link to={"/vacuum"} replace={true}>Vacuum</Link>
                     </li>
                 </ul>
             </div>

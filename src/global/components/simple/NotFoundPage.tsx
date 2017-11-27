@@ -10,10 +10,10 @@ export class NotFoundPage extends React.Component<{}, {}> {
                     <h1>404</h1>
                     <h2>Page not found!</h2>
                     <p>
-                        <Link to="/">Return to Main Page</Link>
+                        <Link to="/" replace={true}>Return to Main Page</Link>
                     </p>
                 </div>
-            </Status>
+            </Status >
         );
     }
 }
