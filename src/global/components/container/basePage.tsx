@@ -16,7 +16,9 @@ export class BasePage extends React.PureComponent<IBasePageProps, {}> {
                 {
                     this.props.Header &&
                     <div className="ms-Grid-row">
-                        {this.props.Header}
+                        <div className="ms-Grid-col ms-sm12">
+                            {this.props.Header}
+                        </div>
                     </div>
                 }
                 <div className="ms-Grid-row">
@@ -40,7 +42,9 @@ export class BasePage extends React.PureComponent<IBasePageProps, {}> {
                 {
                     this.props.Footer &&
                     <div className="ms-Grid-row">
-                        {this.props.Footer}
+                        <div className="ms-Grid-col ms-sm12">
+                            {this.props.Footer}
+                        </div>
                     </div>
                 }
             </div>

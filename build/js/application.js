@@ -1,6 +1,6 @@
 webpackJsonp([0],{
 
-/***/ 262:
+/***/ 266:
 /*!***************************!*\
   !*** ./src/data/enums.ts ***!
   \***************************/
@@ -21,7 +21,59 @@ var PageType;
 
 /***/ }),
 
-/***/ 263:
+/***/ 267:
+/*!******************************************************!*\
+  !*** ./src/global/components/container/basePage.tsx ***!
+  \******************************************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ 2);
+var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 89);
+var BasePage = (function (_super) {
+    __extends(BasePage, _super);
+    function BasePage(props) {
+        return _super.call(this, props) || this;
+    }
+    BasePage.prototype.render = function () {
+        return React.createElement(office_ui_fabric_react_1.Fabric, null,
+            React.createElement("div", { className: "ms-Grid" },
+                this.props.Header &&
+                    React.createElement("div", { className: "ms-Grid-row" },
+                        React.createElement("div", { className: "ms-Grid-col ms-sm12" }, this.props.Header)),
+                React.createElement("div", { className: "ms-Grid-row" },
+                    this.props.Navigation && [
+                        React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-md12 ms-lg4 ms-xl2", key: "navigation" }, this.props.Navigation),
+                        React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-md12 ms-lg8 ms-xl10", key: "content" }, this.props.Body)
+                    ],
+                    !this.props.Navigation &&
+                        React.createElement("div", { className: "ms-Grid-col ms-sm12" }, this.props.Body)),
+                this.props.Footer &&
+                    React.createElement("div", { className: "ms-Grid-row" },
+                        React.createElement("div", { className: "ms-Grid-col ms-sm12" }, this.props.Footer))));
+    };
+    return BasePage;
+}(React.PureComponent));
+exports.BasePage = BasePage;
+
+
+/***/ }),
+
+/***/ 268:
 /*!**************************************************!*\
   !*** ./src/global/components/simple/routing.tsx ***!
   \**************************************************/
@@ -84,7 +136,7 @@ exports.Status = Status;
 
 /***/ }),
 
-/***/ 298:
+/***/ 303:
 /*!*******************************************************!*\
   !*** multi ./src/global/components/pages/initApp.tsx ***!
   \*******************************************************/
@@ -92,12 +144,12 @@ exports.Status = Status;
 /*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! ./src/global/components/pages/initApp.tsx */299);
+module.exports = __webpack_require__(/*! ./src/global/components/pages/initApp.tsx */304);
 
 
 /***/ }),
 
-/***/ 299:
+/***/ 304:
 /*!*************************************************!*\
   !*** ./src/global/components/pages/initApp.tsx ***!
   \*************************************************/
@@ -108,11 +160,11 @@ module.exports = __webpack_require__(/*! ./src/global/components/pages/initApp.t
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var ReactDOM = __webpack_require__(/*! react-dom */ 45);
+var ReactDOM = __webpack_require__(/*! react-dom */ 46);
 var React = __webpack_require__(/*! react */ 2);
-var globalApplication_1 = __webpack_require__(/*! ./globalApplication */ 314);
+var globalApplication_1 = __webpack_require__(/*! ./globalApplication */ 319);
 var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ 70);
-var icons_1 = __webpack_require__(/*! @uifabric/icons */ 616);
+var icons_1 = __webpack_require__(/*! @uifabric/icons */ 625);
 icons_1.initializeIcons();
 window.onload = function () {
     ReactDOM.render(React.createElement(react_router_dom_1.HashRouter, null,
@@ -122,7 +174,7 @@ window.onload = function () {
 
 /***/ }),
 
-/***/ 314:
+/***/ 319:
 /*!***********************************************************!*\
   !*** ./src/global/components/pages/globalApplication.tsx ***!
   \***********************************************************/
@@ -145,13 +197,13 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 2);
 var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ 70);
-var application_1 = __webpack_require__(/*! ./application */ 336);
-var application_2 = __webpack_require__(/*! ../../../projects/yeelight/components/pages/application */ 337);
-var application_3 = __webpack_require__(/*! ../../../projects/vacuumRoboter/components/pages/application */ 338);
-var application_4 = __webpack_require__(/*! ../../../projects/aldi/components/pages/application */ 342);
-var NotFoundPage_1 = __webpack_require__(/*! ../../components/simple/NotFoundPage */ 614);
-var routing_1 = __webpack_require__(/*! ../simple/routing */ 263);
-var basePage_1 = __webpack_require__(/*! ../container/basePage */ 615);
+var application_1 = __webpack_require__(/*! ./application */ 341);
+var application_2 = __webpack_require__(/*! ../../../projects/yeelight/components/pages/application */ 342);
+var application_3 = __webpack_require__(/*! ../../../projects/vacuumRoboter/components/pages/application */ 343);
+var application_4 = __webpack_require__(/*! ../../../projects/aldi/components/pages/application */ 347);
+var NotFoundPage_1 = __webpack_require__(/*! ../../components/simple/NotFoundPage */ 624);
+var routing_1 = __webpack_require__(/*! ../simple/routing */ 268);
+var basePage_1 = __webpack_require__(/*! ../container/basePage */ 267);
 var GlobalApplication = (function (_super) {
     __extends(GlobalApplication, _super);
     function GlobalApplication(props) {
@@ -193,7 +245,7 @@ exports.GlobalApplication = GlobalApplication;
 
 /***/ }),
 
-/***/ 336:
+/***/ 341:
 /*!*****************************************************!*\
   !*** ./src/global/components/pages/application.tsx ***!
   \*****************************************************/
@@ -237,7 +289,7 @@ exports.Application = Application;
 
 /***/ }),
 
-/***/ 337:
+/***/ 342:
 /*!****************************************************************!*\
   !*** ./src/projects/yeelight/components/pages/application.tsx ***!
   \****************************************************************/
@@ -283,7 +335,7 @@ exports.Application = Application;
 
 /***/ }),
 
-/***/ 338:
+/***/ 343:
 /*!*********************************************************************!*\
   !*** ./src/projects/vacuumRoboter/components/pages/application.tsx ***!
   \*********************************************************************/
@@ -305,7 +357,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 2);
-var debug = __webpack_require__(/*! debug */ 339);
+var debug = __webpack_require__(/*! debug */ 344);
 var Application = (function (_super) {
     __extends(Application, _super);
     function Application(props) {
@@ -329,7 +381,7 @@ exports.Application = Application;
 
 /***/ }),
 
-/***/ 339:
+/***/ 344:
 /*!*******************************************!*\
   !*** ./node_modules/debug/src/browser.js ***!
   \*******************************************/
@@ -343,7 +395,7 @@ exports.Application = Application;
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(/*! ./debug */ 340);
+exports = module.exports = __webpack_require__(/*! ./debug */ 345);
 exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
@@ -537,7 +589,7 @@ function localstorage() {
 
 /***/ }),
 
-/***/ 340:
+/***/ 345:
 /*!*****************************************!*\
   !*** ./node_modules/debug/src/debug.js ***!
   \*****************************************/
@@ -558,7 +610,7 @@ exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = __webpack_require__(/*! ms */ 341);
+exports.humanize = __webpack_require__(/*! ms */ 346);
 
 /**
  * Active `debug` instances.
@@ -774,7 +826,7 @@ function coerce(val) {
 
 /***/ }),
 
-/***/ 341:
+/***/ 346:
 /*!**********************************!*\
   !*** ./node_modules/ms/index.js ***!
   \**********************************/
@@ -938,7 +990,7 @@ function plural(ms, n, name) {
 
 /***/ }),
 
-/***/ 342:
+/***/ 347:
 /*!************************************************************!*\
   !*** ./src/projects/aldi/components/pages/application.tsx ***!
   \************************************************************/
@@ -961,9 +1013,9 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 2);
 var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 89);
-var Modal_1 = __webpack_require__(/*! office-ui-fabric-react/lib/Modal */ 240);
-var ManageRoute_1 = __webpack_require__(/*! ./ManageRoute */ 613);
-var enums_1 = __webpack_require__(/*! ../../../../data/enums */ 262);
+var ManageRoute_1 = __webpack_require__(/*! ./ManageRoute */ 621);
+var enums_1 = __webpack_require__(/*! ../../../../data/enums */ 266);
+var ToolTip_1 = __webpack_require__(/*! ../../../../global/components/simple/ToolTip */ 623);
 var Application = (function (_super) {
     __extends(Application, _super);
     function Application(props) {
@@ -979,8 +1031,9 @@ var Application = (function (_super) {
         document.title = "Aldi Hauptseite";
     };
     Application.prototype.addRouteClick = function () {
-        var c = React.createElement(ManageRoute_1.ManageRoute, { pageType: enums_1.PageType.Add });
+        var c = React.createElement(ManageRoute_1.ManageRoute, { onExitPage: this.closeModal, pageType: enums_1.PageType.Add });
         this.setState({ showModal: true, modalContent: c });
+        this.hideCallOut();
     };
     Application.prototype.closeModal = function () {
         this.setState({ showModal: false, modalContent: undefined });
@@ -996,13 +1049,7 @@ var Application = (function (_super) {
         if (!title && !description) {
             return;
         }
-        var calloutContent = React.createElement("div", { style: { minWidth: "150px" } },
-            React.createElement("div", { className: "ms-CalloutExample-header", style: { padding: "18px 24px 12px" } },
-                React.createElement("span", { className: "ms-fontColor-themePrimary ms-fontWeight-semibold ms-font-l ms-fontSize-l" }, title)),
-            React.createElement("div", { className: "ms-CalloutExample-inner", style: { height: "100%", padding: "0 24px 20px" } },
-                React.createElement("div", { className: "ms-font-l ms-fontSize-m" },
-                    React.createElement("p", { className: "ms-CalloutExample-subText" }, description))));
-        this.setState({ isCalloutVisible: true, callOutContent: calloutContent });
+        this.setState({ isCalloutVisible: true, callOutContent: React.createElement(ToolTip_1.ToolTip, { Title: title, Description: description }) });
         return false;
     };
     Application.prototype.hideCallOut = function () {
@@ -1013,13 +1060,17 @@ var Application = (function (_super) {
     };
     Application.prototype.render = function () {
         return React.createElement("div", { className: "ms-Grid-row" },
-            React.createElement("div", { className: "ms-Grid-col ms-sm6 ms-md4 ms-lg2" },
-                React.createElement("div", { className: "custom-cmd-button" },
-                    React.createElement(office_ui_fabric_react_1.CommandBarButton, { "data-info-title": "Route erfassen", "data-info-desc": "Erstellt eine neue Route für Aldi", iconProps: { iconName: "Add" }, text: "Route erfassen", onClick: this.addRouteClick, onMouseEnter: this.showCallOut, onMouseLeave: this.hideCallOut }))),
-            React.createElement("div", { className: "ms-Grid-col ms-sm6 ms-md4 ms-lg2" },
-                React.createElement("div", { className: "custom-cmd-button" },
-                    React.createElement(office_ui_fabric_react_1.CommandBarButton, { iconProps: { iconName: "Add" }, text: "Filialen erfassen" }))),
-            React.createElement(Modal_1.Modal, { isOpen: this.state.showModal, onDismiss: this.closeModal, isBlocking: true, isDarkOverlay: true, closeButtonAriaLabel: "Schließen", containerClassName: "custom-modal-container-fullSize" }, this.state.modalContent),
+            (this.state.modalContent && this.state.showModal) &&
+                React.createElement("div", { className: "ms-Grid-col ms-sm12" }, this.state.modalContent),
+            (this.state.showModal === false) &&
+                React.createElement("div", { className: "ms-Grid-col ms-sm12" },
+                    React.createElement("div", { className: "ms-Grid-row" },
+                        React.createElement("div", { className: "ms-Grid-col ms-sm6 ms-md4 ms-lg2" },
+                            React.createElement("div", { className: "custom-cmd-button" },
+                                React.createElement(office_ui_fabric_react_1.CommandBarButton, { "data-info-title": "Route erfassen", "data-info-desc": "Erstellt eine neue Route für Aldi", iconProps: { iconName: "Add" }, text: "Route erfassen", onClick: this.addRouteClick, onMouseEnter: this.showCallOut, onMouseLeave: this.hideCallOut }))),
+                        React.createElement("div", { className: "ms-Grid-col ms-sm6 ms-md4 ms-lg2" },
+                            React.createElement("div", { className: "custom-cmd-button" },
+                                React.createElement(office_ui_fabric_react_1.CommandBarButton, { iconProps: { iconName: "Add" }, text: "Filialen erfassen" }))))),
             this.state.isCalloutVisible &&
                 React.createElement("div", null,
                     React.createElement(office_ui_fabric_react_1.Callout, { role: "alertdialog", ariaLabelledBy: "callout-label-2", className: "ms-CalloutExample-callout", gapSpace: 0, target: this.targetCallOutElement, onDismiss: this.hideCallOut, setInitialFocus: true }, this.state.callOutContent)));
@@ -1031,7 +1082,7 @@ exports.Application = Application;
 
 /***/ }),
 
-/***/ 613:
+/***/ 621:
 /*!************************************************************!*\
   !*** ./src/projects/aldi/components/pages/ManageRoute.tsx ***!
   \************************************************************/
@@ -1053,12 +1104,16 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 2);
-var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 89);
-var enums_1 = __webpack_require__(/*! ../../../../data/enums */ 262);
+var enums_1 = __webpack_require__(/*! ../../../../data/enums */ 266);
+var basePage_1 = __webpack_require__(/*! ../../../../global/components/container/basePage */ 267);
+var ButtonRow_1 = __webpack_require__(/*! ../../../../global/components/simple/ButtonRow */ 622);
 var ManageRoute = (function (_super) {
     __extends(ManageRoute, _super);
     function ManageRoute(props) {
-        return _super.call(this, props) || this;
+        var _this = _super.call(this, props) || this;
+        _this.cancelClick = _this.cancelClick.bind(_this);
+        _this.saveClick = _this.saveClick.bind(_this);
+        return _this;
     }
     ManageRoute.prototype.componentDidMount = function () {
         var docTitle = "";
@@ -1077,15 +1132,20 @@ var ManageRoute = (function (_super) {
         }
         document.title = docTitle;
     };
+    ManageRoute.prototype.saveClick = function () {
+        console.log("Save Click");
+        this.props.onExitPage();
+    };
+    ManageRoute.prototype.cancelClick = function () {
+        console.log("cancel Click");
+        this.props.onExitPage();
+    };
     ManageRoute.prototype.render = function () {
-        return React.createElement("div", { className: "ms-Grid" },
-            React.createElement("div", { className: "ms-Grid-row" },
-                React.createElement("div", { className: "ms-Grid-col ms-sm6 ms-md4 ms-lg2" },
-                    React.createElement("div", { className: "custom-cmd-button" },
-                        React.createElement(office_ui_fabric_react_1.CommandBarButton, { iconProps: { iconName: "Add" }, text: "Route erfassen" }))),
-                React.createElement("div", { className: "ms-Grid-col ms-sm6 ms-md4 ms-lg2" },
-                    React.createElement("div", { className: "custom-cmd-button" },
-                        React.createElement(office_ui_fabric_react_1.CommandBarButton, { iconProps: { iconName: "Add" }, text: "Filialen erfassen" })))));
+        return React.createElement(basePage_1.BasePage, { Body: React.createElement("div", { className: "ms-Grid" },
+                React.createElement("div", { className: "ms-Grid-row" },
+                    React.createElement("div", { className: "ms-Grid-col ms-sm12" },
+                        React.createElement("div", { className: "", style: { float: "right" } },
+                            React.createElement(ButtonRow_1.ButtonRow, { saveButtonProps: { checked: false, disabled: false, text: "Speichern", onClickFunc: this.saveClick }, cancelButtonProps: { checked: true, disabled: false, text: "Abbrechen", onClickFunc: this.cancelClick } }))))), Header: React.createElement("div", { className: "ms-font-xxl ms-textAlignCenter" }, "Route verwalten") });
     };
     return ManageRoute;
 }(React.Component));
@@ -1094,7 +1154,90 @@ exports.ManageRoute = ManageRoute;
 
 /***/ }),
 
-/***/ 614:
+/***/ 622:
+/*!****************************************************!*\
+  !*** ./src/global/components/simple/ButtonRow.tsx ***!
+  \****************************************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ 2);
+var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 89);
+var ButtonRow = (function (_super) {
+    __extends(ButtonRow, _super);
+    function ButtonRow() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    ButtonRow.prototype.render = function () {
+        return [
+            React.createElement(office_ui_fabric_react_1.ActionButton, { "data-automation-id": "save", key: "save_btn_" + Date.now(), iconProps: { iconName: "Save" }, disabled: this.props.saveButtonProps.disabled, checked: this.props.saveButtonProps.checked, onClick: this.props.saveButtonProps.onClickFunc }, this.props.saveButtonProps.text),
+            React.createElement(office_ui_fabric_react_1.ActionButton, { "data-automation-id": "cancel", key: "cancel_btn_" + Date.now(), iconProps: { iconName: "Cancel" }, disabled: this.props.cancelButtonProps.disabled, checked: this.props.cancelButtonProps.checked, onClick: this.props.cancelButtonProps.onClickFunc }, this.props.cancelButtonProps.text)
+        ];
+    };
+    return ButtonRow;
+}(React.PureComponent));
+exports.ButtonRow = ButtonRow;
+
+
+/***/ }),
+
+/***/ 623:
+/*!**************************************************!*\
+  !*** ./src/global/components/simple/ToolTip.tsx ***!
+  \**************************************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ 2);
+var ToolTip = (function (_super) {
+    __extends(ToolTip, _super);
+    function ToolTip() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    ToolTip.prototype.render = function () {
+        return (React.createElement("div", { style: { minWidth: "150px" } },
+            React.createElement("div", { className: "ms-CalloutExample-header", style: { padding: "18px 24px 12px" } },
+                React.createElement("span", { className: "ms-fontColor-themePrimary ms-fontWeight-semibold ms-font-l ms-fontSize-l" }, this.props.Title)),
+            React.createElement("div", { className: "ms-CalloutExample-inner", style: { height: "100%", padding: "0 24px 20px" } },
+                React.createElement("div", { className: "ms-font-l ms-fontSize-m" },
+                    React.createElement("p", { className: "ms-CalloutExample-subText" }, this.props.Description)))));
+    };
+    return ToolTip;
+}(React.PureComponent));
+exports.ToolTip = ToolTip;
+
+
+/***/ }),
+
+/***/ 624:
 /*!*******************************************************!*\
   !*** ./src/global/components/simple/NotFoundPage.tsx ***!
   \*******************************************************/
@@ -1117,7 +1260,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 2);
 var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ 70);
-var routing_1 = __webpack_require__(/*! ./routing */ 263);
+var routing_1 = __webpack_require__(/*! ./routing */ 268);
 var NotFoundPage = (function (_super) {
     __extends(NotFoundPage, _super);
     function NotFoundPage() {
@@ -1138,57 +1281,7 @@ exports.NotFoundPage = NotFoundPage;
 
 /***/ }),
 
-/***/ 615:
-/*!******************************************************!*\
-  !*** ./src/global/components/container/basePage.tsx ***!
-  \******************************************************/
-/*! dynamic exports provided */
-/*! all exports used */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ 2);
-var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 89);
-var BasePage = (function (_super) {
-    __extends(BasePage, _super);
-    function BasePage(props) {
-        return _super.call(this, props) || this;
-    }
-    BasePage.prototype.render = function () {
-        return React.createElement(office_ui_fabric_react_1.Fabric, null,
-            React.createElement("div", { className: "ms-Grid" },
-                this.props.Header &&
-                    React.createElement("div", { className: "ms-Grid-row" }, this.props.Header),
-                React.createElement("div", { className: "ms-Grid-row" },
-                    this.props.Navigation && [
-                        React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-md12 ms-lg4 ms-xl2", key: "navigation" }, this.props.Navigation),
-                        React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-md12 ms-lg8 ms-xl10", key: "content" }, this.props.Body)
-                    ],
-                    !this.props.Navigation &&
-                        React.createElement("div", { className: "ms-Grid-col ms-sm12" }, this.props.Body)),
-                this.props.Footer &&
-                    React.createElement("div", { className: "ms-Grid-row" }, this.props.Footer)));
-    };
-    return BasePage;
-}(React.PureComponent));
-exports.BasePage = BasePage;
-
-
-/***/ }),
-
-/***/ 616:
+/***/ 625:
 /*!***************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/index.js ***!
   \***************************************************/
@@ -1199,31 +1292,31 @@ exports.BasePage = BasePage;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var fabric_icons_1 = __webpack_require__(/*! ./fabric-icons */ 617);
-var fabric_icons_0_1 = __webpack_require__(/*! ./fabric-icons-0 */ 618);
-var fabric_icons_1_1 = __webpack_require__(/*! ./fabric-icons-1 */ 619);
-var fabric_icons_2_1 = __webpack_require__(/*! ./fabric-icons-2 */ 620);
-var fabric_icons_3_1 = __webpack_require__(/*! ./fabric-icons-3 */ 621);
-var fabric_icons_4_1 = __webpack_require__(/*! ./fabric-icons-4 */ 622);
-var fabric_icons_5_1 = __webpack_require__(/*! ./fabric-icons-5 */ 623);
-var fabric_icons_6_1 = __webpack_require__(/*! ./fabric-icons-6 */ 624);
-var fabric_icons_7_1 = __webpack_require__(/*! ./fabric-icons-7 */ 625);
-var fabric_icons_8_1 = __webpack_require__(/*! ./fabric-icons-8 */ 626);
-var fabric_icons_9_1 = __webpack_require__(/*! ./fabric-icons-9 */ 627);
-var fabric_icons_10_1 = __webpack_require__(/*! ./fabric-icons-10 */ 628);
-var fabric_icons_11_1 = __webpack_require__(/*! ./fabric-icons-11 */ 629);
-__webpack_require__(/*! ./icon-aliases */ 630);
-var DEFAULT_BASE_URL = 'https://static2.sharepointonline.com/files/fabric/assets/icons/';
-function initializeIcons(baseUrl) {
+var fabric_icons_1 = __webpack_require__(/*! ./fabric-icons */ 626);
+var fabric_icons_0_1 = __webpack_require__(/*! ./fabric-icons-0 */ 627);
+var fabric_icons_1_1 = __webpack_require__(/*! ./fabric-icons-1 */ 628);
+var fabric_icons_2_1 = __webpack_require__(/*! ./fabric-icons-2 */ 629);
+var fabric_icons_3_1 = __webpack_require__(/*! ./fabric-icons-3 */ 630);
+var fabric_icons_4_1 = __webpack_require__(/*! ./fabric-icons-4 */ 631);
+var fabric_icons_5_1 = __webpack_require__(/*! ./fabric-icons-5 */ 632);
+var fabric_icons_6_1 = __webpack_require__(/*! ./fabric-icons-6 */ 633);
+var fabric_icons_7_1 = __webpack_require__(/*! ./fabric-icons-7 */ 634);
+var fabric_icons_8_1 = __webpack_require__(/*! ./fabric-icons-8 */ 635);
+var fabric_icons_9_1 = __webpack_require__(/*! ./fabric-icons-9 */ 636);
+var fabric_icons_10_1 = __webpack_require__(/*! ./fabric-icons-10 */ 637);
+var fabric_icons_11_1 = __webpack_require__(/*! ./fabric-icons-11 */ 638);
+__webpack_require__(/*! ./icon-aliases */ 639);
+var DEFAULT_BASE_URL = 'https://spoprod-a.akamaihd.net/files/fabric/assets/icons/';
+function initializeIcons(baseUrl, options) {
     if (baseUrl === void 0) { baseUrl = DEFAULT_BASE_URL; }
-    [fabric_icons_1.initializeIcons, fabric_icons_0_1.initializeIcons, fabric_icons_1_1.initializeIcons, fabric_icons_2_1.initializeIcons, fabric_icons_3_1.initializeIcons, fabric_icons_4_1.initializeIcons, fabric_icons_5_1.initializeIcons, fabric_icons_6_1.initializeIcons, fabric_icons_7_1.initializeIcons, fabric_icons_8_1.initializeIcons, fabric_icons_9_1.initializeIcons, fabric_icons_10_1.initializeIcons, fabric_icons_11_1.initializeIcons].forEach(function (initialize) { return initialize(baseUrl); });
+    [fabric_icons_1.initializeIcons, fabric_icons_0_1.initializeIcons, fabric_icons_1_1.initializeIcons, fabric_icons_2_1.initializeIcons, fabric_icons_3_1.initializeIcons, fabric_icons_4_1.initializeIcons, fabric_icons_5_1.initializeIcons, fabric_icons_6_1.initializeIcons, fabric_icons_7_1.initializeIcons, fabric_icons_8_1.initializeIcons, fabric_icons_9_1.initializeIcons, fabric_icons_10_1.initializeIcons, fabric_icons_11_1.initializeIcons].forEach(function (initialize) { return initialize(baseUrl, options); });
 }
 exports.initializeIcons = initializeIcons;
 //# sourceMappingURL=index.js.map
 
 /***/ }),
 
-/***/ 617:
+/***/ 626:
 /*!**********************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons.js ***!
   \**********************************************************/
@@ -1236,9 +1329,9 @@ exports.initializeIcons = initializeIcons;
 // tslint:disable:max-line-length
 Object.defineProperty(exports, "__esModule", { value: true });
 var index_1 = __webpack_require__(/*! @uifabric/styling/lib/index */ 20);
-function initializeIcons(baseUrl) {
+function initializeIcons(baseUrl, options) {
     if (baseUrl === void 0) { baseUrl = ''; }
-    index_1.registerIcons({
+    var subset = {
         style: {
             MozOsxFontSmoothing: 'grayscale',
             WebkitFontSmoothing: 'antialiased',
@@ -1306,14 +1399,15 @@ function initializeIcons(baseUrl) {
             'StatusCircleCheckmark': '\uF13E',
             'MoreVertical': '\uF2BC'
         }
-    });
+    };
+    index_1.registerIcons(subset, options);
 }
 exports.initializeIcons = initializeIcons;
 //# sourceMappingURL=fabric-icons.js.map
 
 /***/ }),
 
-/***/ 618:
+/***/ 627:
 /*!************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-0.js ***!
   \************************************************************/
@@ -1326,9 +1420,9 @@ exports.initializeIcons = initializeIcons;
 // tslint:disable:max-line-length
 Object.defineProperty(exports, "__esModule", { value: true });
 var index_1 = __webpack_require__(/*! @uifabric/styling/lib/index */ 20);
-function initializeIcons(baseUrl) {
+function initializeIcons(baseUrl, options) {
     if (baseUrl === void 0) { baseUrl = ''; }
-    index_1.registerIcons({
+    var subset = {
         style: {
             MozOsxFontSmoothing: 'grayscale',
             WebkitFontSmoothing: 'antialiased',
@@ -1442,14 +1536,15 @@ function initializeIcons(baseUrl) {
             'Tab': '\uE7E9',
             'Admin': '\uE7EF'
         }
-    });
+    };
+    index_1.registerIcons(subset, options);
 }
 exports.initializeIcons = initializeIcons;
 //# sourceMappingURL=fabric-icons-0.js.map
 
 /***/ }),
 
-/***/ 619:
+/***/ 628:
 /*!************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-1.js ***!
   \************************************************************/
@@ -1462,9 +1557,9 @@ exports.initializeIcons = initializeIcons;
 // tslint:disable:max-line-length
 Object.defineProperty(exports, "__esModule", { value: true });
 var index_1 = __webpack_require__(/*! @uifabric/styling/lib/index */ 20);
-function initializeIcons(baseUrl) {
+function initializeIcons(baseUrl, options) {
     if (baseUrl === void 0) { baseUrl = ''; }
-    index_1.registerIcons({
+    var subset = {
         style: {
             MozOsxFontSmoothing: 'grayscale',
             WebkitFontSmoothing: 'antialiased',
@@ -1578,14 +1673,15 @@ function initializeIcons(baseUrl) {
             'ChromeClose': '\uE8BB',
             'Accept': '\uE8FB'
         }
-    });
+    };
+    index_1.registerIcons(subset, options);
 }
 exports.initializeIcons = initializeIcons;
 //# sourceMappingURL=fabric-icons-1.js.map
 
 /***/ }),
 
-/***/ 620:
+/***/ 629:
 /*!************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-2.js ***!
   \************************************************************/
@@ -1598,9 +1694,9 @@ exports.initializeIcons = initializeIcons;
 // tslint:disable:max-line-length
 Object.defineProperty(exports, "__esModule", { value: true });
 var index_1 = __webpack_require__(/*! @uifabric/styling/lib/index */ 20);
-function initializeIcons(baseUrl) {
+function initializeIcons(baseUrl, options) {
     if (baseUrl === void 0) { baseUrl = ''; }
-    index_1.registerIcons({
+    var subset = {
         style: {
             MozOsxFontSmoothing: 'grayscale',
             WebkitFontSmoothing: 'antialiased',
@@ -1714,14 +1810,15 @@ function initializeIcons(baseUrl) {
             'MusicInCollectionFill': '\uEA36',
             'Asterisk': '\uEA38'
         }
-    });
+    };
+    index_1.registerIcons(subset, options);
 }
 exports.initializeIcons = initializeIcons;
 //# sourceMappingURL=fabric-icons-2.js.map
 
 /***/ }),
 
-/***/ 621:
+/***/ 630:
 /*!************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-3.js ***!
   \************************************************************/
@@ -1734,9 +1831,9 @@ exports.initializeIcons = initializeIcons;
 // tslint:disable:max-line-length
 Object.defineProperty(exports, "__esModule", { value: true });
 var index_1 = __webpack_require__(/*! @uifabric/styling/lib/index */ 20);
-function initializeIcons(baseUrl) {
+function initializeIcons(baseUrl, options) {
     if (baseUrl === void 0) { baseUrl = ''; }
-    index_1.registerIcons({
+    var subset = {
         style: {
             MozOsxFontSmoothing: 'grayscale',
             WebkitFontSmoothing: 'antialiased',
@@ -1850,14 +1947,15 @@ function initializeIcons(baseUrl) {
             'DeliveryTruck': '\uEBF4',
             'ReminderPerson': '\uEBF7'
         }
-    });
+    };
+    index_1.registerIcons(subset, options);
 }
 exports.initializeIcons = initializeIcons;
 //# sourceMappingURL=fabric-icons-3.js.map
 
 /***/ }),
 
-/***/ 622:
+/***/ 631:
 /*!************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-4.js ***!
   \************************************************************/
@@ -1870,9 +1968,9 @@ exports.initializeIcons = initializeIcons;
 // tslint:disable:max-line-length
 Object.defineProperty(exports, "__esModule", { value: true });
 var index_1 = __webpack_require__(/*! @uifabric/styling/lib/index */ 20);
-function initializeIcons(baseUrl) {
+function initializeIcons(baseUrl, options) {
     if (baseUrl === void 0) { baseUrl = ''; }
-    index_1.registerIcons({
+    var subset = {
         style: {
             MozOsxFontSmoothing: 'grayscale',
             WebkitFontSmoothing: 'antialiased',
@@ -1882,7 +1980,7 @@ function initializeIcons(baseUrl) {
         },
         fontFace: {
             fontFamily: "\"FabricMDL2Icons-4\"",
-            src: "url('" + baseUrl + "fabric-icons-4-03329fef.woff') format('woff')",
+            src: "url('" + baseUrl + "fabric-icons-4-46fbc7bc.woff') format('woff')",
         },
         icons: {
             'ReminderGroup': '\uEBF8',
@@ -1931,7 +2029,6 @@ function initializeIcons(baseUrl) {
             'Photo2Add': '\uECAB',
             'Photo2Remove': '\uECAC',
             'POI': '\uECAF',
-            'FacebookLogo': '\uECB3',
             'AddTo': '\uECC8',
             'RadioBtnOff': '\uECCA',
             'RadioBtnOn': '\uECCB',
@@ -1978,22 +2075,20 @@ function initializeIcons(baseUrl) {
             'AdminPLogoInverse32': '\uED71',
             'AdminSLogoInverse32': '\uED72',
             'AdminYLogoInverse32': '\uED73',
-            'BoxLogo': '\uED75',
             'DelveLogoInverse': '\uED76',
-            'DropboxLogo': '\uED77',
             'ExchangeLogoInverse': '\uED78',
             'LyncLogo': '\uED79',
-            'OfficeVideoLogoInverse': '\uED7A',
-            'ParatureLogo': '\uED7B'
+            'OfficeVideoLogoInverse': '\uED7A'
         }
-    });
+    };
+    index_1.registerIcons(subset, options);
 }
 exports.initializeIcons = initializeIcons;
 //# sourceMappingURL=fabric-icons-4.js.map
 
 /***/ }),
 
-/***/ 623:
+/***/ 632:
 /*!************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-5.js ***!
   \************************************************************/
@@ -2006,9 +2101,9 @@ exports.initializeIcons = initializeIcons;
 // tslint:disable:max-line-length
 Object.defineProperty(exports, "__esModule", { value: true });
 var index_1 = __webpack_require__(/*! @uifabric/styling/lib/index */ 20);
-function initializeIcons(baseUrl) {
+function initializeIcons(baseUrl, options) {
     if (baseUrl === void 0) { baseUrl = ''; }
-    index_1.registerIcons({
+    var subset = {
         style: {
             MozOsxFontSmoothing: 'grayscale',
             WebkitFontSmoothing: 'antialiased',
@@ -2018,7 +2113,7 @@ function initializeIcons(baseUrl) {
         },
         fontFace: {
             fontFamily: "\"FabricMDL2Icons-5\"",
-            src: "url('" + baseUrl + "fabric-icons-5-82c8b87c.woff') format('woff')",
+            src: "url('" + baseUrl + "fabric-icons-5-5bc71068.woff') format('woff')",
         },
         icons: {
             'SocialListeningLogo': '\uED7C',
@@ -2101,7 +2196,6 @@ function initializeIcons(baseUrl) {
             'SingleBookmark': '\uEDFF',
             'DoubleChevronDown': '\uEE04',
             'ReplyAll': '\uEE0A',
-            'GoogleDriveLogo': '\uEE0B',
             'Questionnaire': '\uEE19',
             'ReplyMirrored': '\uEE35',
             'ReplyAllMirrored': '\uEE36',
@@ -2122,14 +2216,15 @@ function initializeIcons(baseUrl) {
             'DoubleChevronLeft12': '\uEE98',
             'DoubleChevronRight12': '\uEE99'
         }
-    });
+    };
+    index_1.registerIcons(subset, options);
 }
 exports.initializeIcons = initializeIcons;
 //# sourceMappingURL=fabric-icons-5.js.map
 
 /***/ }),
 
-/***/ 624:
+/***/ 633:
 /*!************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-6.js ***!
   \************************************************************/
@@ -2142,9 +2237,9 @@ exports.initializeIcons = initializeIcons;
 // tslint:disable:max-line-length
 Object.defineProperty(exports, "__esModule", { value: true });
 var index_1 = __webpack_require__(/*! @uifabric/styling/lib/index */ 20);
-function initializeIcons(baseUrl) {
+function initializeIcons(baseUrl, options) {
     if (baseUrl === void 0) { baseUrl = ''; }
-    index_1.registerIcons({
+    var subset = {
         style: {
             MozOsxFontSmoothing: 'grayscale',
             WebkitFontSmoothing: 'antialiased',
@@ -2154,7 +2249,7 @@ function initializeIcons(baseUrl) {
         },
         fontFace: {
             fontFamily: "\"FabricMDL2Icons-6\"",
-            src: "url('" + baseUrl + "fabric-icons-6-2ab76fc9.woff') format('woff')",
+            src: "url('" + baseUrl + "fabric-icons-6-328cd253.woff') format('woff')",
         },
         icons: {
             'CalendarAgenda': '\uEE9A',
@@ -2248,8 +2343,6 @@ function initializeIcons(baseUrl) {
             'RecycleBin': '\uEF87',
             'EmptyRecycleBin': '\uEF88',
             'Hide2': '\uEF89',
-            'iOSAppStoreLogo': '\uEF8A',
-            'AndroidLogo': '\uEF8B',
             'Breadcrumb': '\uEF8C',
             'PageEdit': '\uEFB6',
             'Database': '\uEFC7',
@@ -2258,14 +2351,15 @@ function initializeIcons(baseUrl) {
             'ZipFolder': '\uF012',
             'TextDocument': '\uF029'
         }
-    });
+    };
+    index_1.registerIcons(subset, options);
 }
 exports.initializeIcons = initializeIcons;
 //# sourceMappingURL=fabric-icons-6.js.map
 
 /***/ }),
 
-/***/ 625:
+/***/ 634:
 /*!************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-7.js ***!
   \************************************************************/
@@ -2278,9 +2372,9 @@ exports.initializeIcons = initializeIcons;
 // tslint:disable:max-line-length
 Object.defineProperty(exports, "__esModule", { value: true });
 var index_1 = __webpack_require__(/*! @uifabric/styling/lib/index */ 20);
-function initializeIcons(baseUrl) {
+function initializeIcons(baseUrl, options) {
     if (baseUrl === void 0) { baseUrl = ''; }
-    index_1.registerIcons({
+    var subset = {
         style: {
             MozOsxFontSmoothing: 'grayscale',
             WebkitFontSmoothing: 'antialiased',
@@ -2394,14 +2488,15 @@ function initializeIcons(baseUrl) {
             'ViewList': '\uF247',
             'ViewListGroup': '\uF248'
         }
-    });
+    };
+    index_1.registerIcons(subset, options);
 }
 exports.initializeIcons = initializeIcons;
 //# sourceMappingURL=fabric-icons-7.js.map
 
 /***/ }),
 
-/***/ 626:
+/***/ 635:
 /*!************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-8.js ***!
   \************************************************************/
@@ -2414,9 +2509,9 @@ exports.initializeIcons = initializeIcons;
 // tslint:disable:max-line-length
 Object.defineProperty(exports, "__esModule", { value: true });
 var index_1 = __webpack_require__(/*! @uifabric/styling/lib/index */ 20);
-function initializeIcons(baseUrl) {
+function initializeIcons(baseUrl, options) {
     if (baseUrl === void 0) { baseUrl = ''; }
-    index_1.registerIcons({
+    var subset = {
         style: {
             MozOsxFontSmoothing: 'grayscale',
             WebkitFontSmoothing: 'antialiased',
@@ -2530,14 +2625,15 @@ function initializeIcons(baseUrl) {
             'StreamingOff': '\uF2BB',
             'ArrowTallUpLeft': '\uF2BD'
         }
-    });
+    };
+    index_1.registerIcons(subset, options);
 }
 exports.initializeIcons = initializeIcons;
 //# sourceMappingURL=fabric-icons-8.js.map
 
 /***/ }),
 
-/***/ 627:
+/***/ 636:
 /*!************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-9.js ***!
   \************************************************************/
@@ -2550,9 +2646,9 @@ exports.initializeIcons = initializeIcons;
 // tslint:disable:max-line-length
 Object.defineProperty(exports, "__esModule", { value: true });
 var index_1 = __webpack_require__(/*! @uifabric/styling/lib/index */ 20);
-function initializeIcons(baseUrl) {
+function initializeIcons(baseUrl, options) {
     if (baseUrl === void 0) { baseUrl = ''; }
-    index_1.registerIcons({
+    var subset = {
         style: {
             MozOsxFontSmoothing: 'grayscale',
             WebkitFontSmoothing: 'antialiased',
@@ -2666,14 +2762,15 @@ function initializeIcons(baseUrl) {
             'AsteriskSolid': '\uF34D',
             'OfflineStorageSolid': '\uF34E'
         }
-    });
+    };
+    index_1.registerIcons(subset, options);
 }
 exports.initializeIcons = initializeIcons;
 //# sourceMappingURL=fabric-icons-9.js.map
 
 /***/ }),
 
-/***/ 628:
+/***/ 637:
 /*!*************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-10.js ***!
   \*************************************************************/
@@ -2686,9 +2783,9 @@ exports.initializeIcons = initializeIcons;
 // tslint:disable:max-line-length
 Object.defineProperty(exports, "__esModule", { value: true });
 var index_1 = __webpack_require__(/*! @uifabric/styling/lib/index */ 20);
-function initializeIcons(baseUrl) {
+function initializeIcons(baseUrl, options) {
     if (baseUrl === void 0) { baseUrl = ''; }
-    index_1.registerIcons({
+    var iconSubset = {
         style: {
             MozOsxFontSmoothing: 'grayscale',
             WebkitFontSmoothing: 'antialiased',
@@ -2698,7 +2795,7 @@ function initializeIcons(baseUrl) {
         },
         fontFace: {
             fontFamily: "\"FabricMDL2Icons-10\"",
-            src: "url('" + baseUrl + "fabric-icons-10-795d6e25.woff') format('woff')",
+            src: "url('" + baseUrl + "fabric-icons-10-a9486bb8.woff') format('woff')",
         },
         icons: {
             'BankSolid': '\uF34F',
@@ -2737,10 +2834,6 @@ function initializeIcons(baseUrl) {
             'ChevronUpEnd6': '\uF370',
             'ChevronLeftEnd6': '\uF371',
             'ChevronRightEnd6': '\uF372',
-            'EgnyteLogo': '\uF373',
-            'GoogleDriveLogoLeftGreen': '\uF374',
-            'GoogleDriveLogoBottomBlue': '\uF375',
-            'GoogleDriveLogoRightYellow': '\uF376',
             'AzureAPIManagement': '\uF37F',
             'AzureServiceEndpoint': '\uF380',
             'VSTSLogo': '\uF381',
@@ -2802,14 +2895,15 @@ function initializeIcons(baseUrl) {
             'Inbox': '\uF41C',
             'IRMReply': '\uF41D'
         }
-    });
+    };
+    index_1.registerIcons(iconSubset, options);
 }
 exports.initializeIcons = initializeIcons;
 //# sourceMappingURL=fabric-icons-10.js.map
 
 /***/ }),
 
-/***/ 629:
+/***/ 638:
 /*!*************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-11.js ***!
   \*************************************************************/
@@ -2822,9 +2916,9 @@ exports.initializeIcons = initializeIcons;
 // tslint:disable:max-line-length
 Object.defineProperty(exports, "__esModule", { value: true });
 var index_1 = __webpack_require__(/*! @uifabric/styling/lib/index */ 20);
-function initializeIcons(baseUrl) {
+function initializeIcons(baseUrl, options) {
     if (baseUrl === void 0) { baseUrl = ''; }
-    index_1.registerIcons({
+    var subset = {
         style: {
             MozOsxFontSmoothing: 'grayscale',
             WebkitFontSmoothing: 'antialiased',
@@ -2922,14 +3016,15 @@ function initializeIcons(baseUrl) {
             'ToDoLogoInverse': '\uF4BC',
             'Snooze': '\uF4BD'
         }
-    });
+    };
+    index_1.registerIcons(subset, options);
 }
 exports.initializeIcons = initializeIcons;
 //# sourceMappingURL=fabric-icons-11.js.map
 
 /***/ }),
 
-/***/ 630:
+/***/ 639:
 /*!**********************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/icon-aliases.js ***!
   \**********************************************************/
@@ -2946,5 +3041,5 @@ index_1.registerIconAlias('trash', 'delete');
 
 /***/ })
 
-},[298]);
+},[303]);
 //# sourceMappingURL=application.js.map

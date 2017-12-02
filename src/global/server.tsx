@@ -33,7 +33,7 @@ function getUriFromRequest(request: Request) {
 const app = express();
 const log = debug("serverjs");
 const port = normalizePort(process.env.PORT || 8080);
- const env = process.env.NODE_ENV || "production";
+const env = process.env.NODE_ENV || "production";
 
 app.set("port", port);
 app.use(favicon(path.join(__dirname, "icons", "favicon.ico")));
@@ -54,9 +54,11 @@ router.use(function (req, res, next) {
 // all of our routes will be prefixed with /api
 app.use("/api", router);
 registerRoutes(router);
-
+app.locals = { test: 1 };
+app.set("test", { "ID": "5ds" });
 app.get("/", function (request, response) {
     response.sendFile(path.join("views", "index.html"), { root: __dirname }, (error) => {
+        app.locals.test += 1;
         if (error) {
             console.log("ERROR SENDFILE!" + JSON.stringify(error));
         }

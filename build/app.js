@@ -130,8 +130,11 @@ router.use(function (req, res, next) {
 });
 app.use("/api", router);
 routes_1.registerRoutes(router);
+app.locals = { test: 1 };
+app.set("test", { "ID": "5ds" });
 app.get("/", function (request, response) {
     response.sendFile(path.join("views", "index.html"), { root: __dirname }, function (error) {
+        app.locals.test += 1;
         if (error) {
             console.log("ERROR SENDFILE!" + JSON.stringify(error));
         }
@@ -233,10 +236,12 @@ module.exports = require("serve-favicon");
 Object.defineProperty(exports, "__esModule", { value: true });
 function registerRoutes(router) {
     router.route("/bears").get(function (req, res) {
-        res.json([{ "ID": "1" }]);
+        req.app.locals.test -= 5;
+        res.json([{ "ID": "1" }, req.app.locals, req.app.get("test")]);
     });
     router.route("/tears").get(function (req, res) {
-        res.json([{ "ID": "2" }]);
+        req.app.locals.test += 100;
+        res.json([{ "ID": "2" }, req.app.locals]);
     });
 }
 exports.registerRoutes = registerRoutes;

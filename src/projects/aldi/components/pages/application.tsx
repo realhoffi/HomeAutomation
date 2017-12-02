@@ -14,6 +14,8 @@ import { Modal } from "office-ui-fabric-react/lib/Modal";
 import { ManageRoute } from "./ManageRoute";
 import { PageType } from "../../../../data/enums";
 import { SyntheticEvent, MouseEventHandler } from "react";
+import { CalloutContent } from "office-ui-fabric-react/lib/components/Callout/CalloutContent";
+import { ToolTip } from "../../../../global/components/simple/ToolTip";
 export class Application extends React.Component<IApplicationProps, IApplicationState> {
     private targetCallOutElement: HTMLElement | null;
     constructor(props) {
@@ -30,8 +32,9 @@ export class Application extends React.Component<IApplicationProps, IApplication
     }
 
     private addRouteClick() {
-        let c = <ManageRoute pageType={PageType.Add} />;
+        let c = <ManageRoute onExitPage={this.closeModal} pageType={PageType.Add} />;
         this.setState({ showModal: true, modalContent: c });
+        this.hideCallOut();
     }
     private closeModal() {
         this.setState({ showModal: false, modalContent: undefined });
@@ -48,22 +51,7 @@ export class Application extends React.Component<IApplicationProps, IApplication
         if (!title && !description) {
             return;
         }
-        let calloutContent = <div style={{ minWidth: "150px" }}>
-            <div className="ms-CalloutExample-header" style={{ padding: "18px 24px 12px" }}>
-                <span className="ms-fontColor-themePrimary ms-fontWeight-semibold ms-font-l ms-fontSize-l">
-                    {title}
-                </span>
-            </div>
-            <div className="ms-CalloutExample-inner" style={{ height: "100%", padding: "0 24px 20px" }}>
-                <div className="ms-font-l ms-fontSize-m">
-                    <p className="ms-CalloutExample-subText">
-                        {description}
-                    </p>
-                </div>
-            </div>
-        </div>;
-
-        this.setState({ isCalloutVisible: true, callOutContent: calloutContent });
+        this.setState({ isCalloutVisible: true, callOutContent: <ToolTip Title={title} Description={description} /> });
         return false;
     }
     private hideCallOut() {
@@ -73,35 +61,40 @@ export class Application extends React.Component<IApplicationProps, IApplication
         return false;
     }
     render() {
+
         return <div className="ms-Grid-row">
-            <div className="ms-Grid-col ms-sm6 ms-md4 ms-lg2">
-                <div className="custom-cmd-button"  >
-                    <CommandBarButton data-info-title="Route erfassen" data-info-desc="Erstellt eine neue Route für Aldi"
-                        iconProps={{ iconName: "Add" }}
-                        text="Route erfassen"
-                        onClick={this.addRouteClick}
-                        onMouseEnter={this.showCallOut}
-                        onMouseLeave={this.hideCallOut}
-                    />
+            {
+                (this.state.modalContent && this.state.showModal) &&
+                <div className="ms-Grid-col ms-sm12">
+                    {this.state.modalContent}
                 </div>
-            </div>
-            <div className="ms-Grid-col ms-sm6 ms-md4 ms-lg2">
-                <div className="custom-cmd-button">
-                    <CommandBarButton
-                        iconProps={{ iconName: "Add" }}
-                        text="Filialen erfassen"
-                    />
+            }
+            {
+                (this.state.showModal === false) &&
+                <div className="ms-Grid-col ms-sm12">
+                    < div className="ms-Grid-row">
+                        <div className="ms-Grid-col ms-sm6 ms-md4 ms-lg2">
+                            <div className="custom-cmd-button"  >
+                                <CommandBarButton data-info-title="Route erfassen" data-info-desc="Erstellt eine neue Route für Aldi"
+                                    iconProps={{ iconName: "Add" }}
+                                    text="Route erfassen"
+                                    onClick={this.addRouteClick}
+                                    onMouseEnter={this.showCallOut}
+                                    onMouseLeave={this.hideCallOut}
+                                />
+                            </div>
+                        </div>
+                        <div className="ms-Grid-col ms-sm6 ms-md4 ms-lg2">
+                            <div className="custom-cmd-button">
+                                <CommandBarButton
+                                    iconProps={{ iconName: "Add" }}
+                                    text="Filialen erfassen"
+                                />
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <Modal
-                isOpen={this.state.showModal}
-                onDismiss={this.closeModal}
-                isBlocking={true}
-                isDarkOverlay={true}
-                closeButtonAriaLabel="Schließen"
-                containerClassName="custom-modal-container-fullSize">
-                {this.state.modalContent}
-            </Modal>
+            }
             {
                 this.state.isCalloutVisible &&
                 <div>
@@ -119,6 +112,6 @@ export class Application extends React.Component<IApplicationProps, IApplication
                     </Callout>
                 </div>
             }
-        </div>;
+        </div >;
     }
 }
