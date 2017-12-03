@@ -21,18 +21,15 @@ export class GlobalApplication extends React.Component<IGlobalApplicationProps, 
     }
     render() {
         console.log("render Application");
-        return <BasePage Body={
-            <div>
-                <h1>Hello from GlobalApplication!<br />Your requested url is {this.props.requestUrl}</h1>
-                <Switch>
-                    <RedirectWithStatus status={302} from="/courses" to="/aldi" />
-                    <Route exact path="/" component={Application} key="r1" />
-                    <Route path="/light" component={YeelightApplication} key="r2" />
-                    <Route path="/aldi" component={AldiApplication} key="r3" />
-                    <Route path="/vacuum" component={VacuumApplication} key="r4" />
-                    <Route path="*" component={NotFoundPage} key="r5" />
-                </Switch>
-            </div>
+        return <BasePage IncludeFabricElement={true} Body={
+            <Switch>
+                <RedirectWithStatus status={302} from="/courses" to="/aldi" />
+                <Route exact path="/" component={Application} key="r1" />
+                <Route path="/light" component={YeelightApplication} key="r2" />
+                <Route path="/aldi" component={AldiApplication} key="r3" />
+                <Route path="/vacuum" component={VacuumApplication} key="r4" />
+                <Route path="*" component={NotFoundPage} key="r5" />
+            </Switch>
         } Navigation={
             <div>
                 <ul>

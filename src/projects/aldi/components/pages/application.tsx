@@ -61,7 +61,6 @@ export class Application extends React.Component<IApplicationProps, IApplication
         return false;
     }
     render() {
-
         return <div className="ms-Grid-row">
             {
                 (this.state.modalContent && this.state.showModal) &&
@@ -73,7 +72,7 @@ export class Application extends React.Component<IApplicationProps, IApplication
                 (this.state.showModal === false) &&
                 <div className="ms-Grid-col ms-sm12">
                     < div className="ms-Grid-row">
-                        <div className="ms-Grid-col ms-sm6 ms-md4 ms-lg2">
+                        <div className="ms-Grid-col ms-sm12 ms-lg4">
                             <div className="custom-cmd-button"  >
                                 <CommandBarButton data-info-title="Route erfassen" data-info-desc="Erstellt eine neue Route für Aldi"
                                     iconProps={{ iconName: "Add" }}
@@ -84,7 +83,7 @@ export class Application extends React.Component<IApplicationProps, IApplication
                                 />
                             </div>
                         </div>
-                        <div className="ms-Grid-col ms-sm6 ms-md4 ms-lg2">
+                        <div className="ms-Grid-col ms-sm12 ms-lg4">
                             <div className="custom-cmd-button">
                                 <CommandBarButton
                                     iconProps={{ iconName: "Add" }}
