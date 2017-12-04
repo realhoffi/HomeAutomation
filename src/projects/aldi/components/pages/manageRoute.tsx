@@ -233,7 +233,7 @@ export class ManageRoute extends React.Component<IManageRouteProps, IManageRoute
                                                 />
                                             }>
                                                 <div className="ms-Grid-row">
-                                                    <div className="ms-Grid-col ms-sm12 ">
+                                                    <div className="ms-Grid-col ms-sm12">
                                                         <select style={{ padding: "10px", width: "100%" }}>
                                                             {
                                                                 this.getRouteSelectOptions()
