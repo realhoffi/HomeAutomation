@@ -169,7 +169,7 @@ export class ManageRoute extends React.Component<IManageRouteProps, IManageRoute
                                         <div className="ms-Grid-col ms-sm2 ms-md1 ms-lg1">
                                             <Label className="ms-fontSize-l ms-textAlignCenter">{index + 1}</Label>
                                         </div>
-                                        <div className="ms-Grid-col ms-sm8 ms-md5 ms-lg3">
+                                        <div className="ms-Grid-col ms-sm8 ms-md8 ms-lg6">
                                             <DatePicker placeholder="Bitte Fahrdatum auswählen"
                                                 showWeekNumbers={true}
                                                 showMonthPickerAsOverlay={true}

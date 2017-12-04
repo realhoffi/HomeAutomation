@@ -133,22 +133,32 @@ export class Gateway extends React.Component<IGatewayProps, {}> {
     render() {
         console.log("gateway render");
         return <div className="ms-Grid-row" key={"gateway_" + this.props.id}>
-            <div className="ms-Grid-col ms-sm12 ms-lg6">
+            <div className="ms-Grid-col ms-sm12 ms-lg12 ms-xl6">
                 <Panel headerText={"Gateway " + this.props.gatewayInformation.sid}>
                     <div className="ms-Grid-row">
-                        <div className="ms-Grid-col ms-sm12">
+                        <div className="ms-Grid-col ms-sm6">
+                            <h1 className="ms-font-xl ms-fontColor-themePrimary">{this.props.gatewayInformation.on ? "Licht anschalten" : "Licht ausschalten"}</h1>
                             <Toggle
                                 key={"gw_" + this.props.id}
                                 checked={this.props.gatewayInformation.on}
-                                label="Licht ein/ausschalten"
                                 onText="On"
                                 offText="Off"
                                 onChanged={this.togglePower}
                             />
                         </div>
+                        <div className="ms-Grid-col ms-sm6">
+                            <h1 className="ms-font-xl ms-fontColor-themePrimary">Farbschema</h1>
+                            <select onChange={this.colorSchemeChanged} style={{ padding: "10px", width: "100%" }}>
+                                {
+                                    this.colorSchemes.map((schema, index) => {
+                                        return <option key={"option_schema_" + index} value={index}>{schema.name}</option>;
+                                    })
+                                }
+                            </select>
+                        </div>
                         <div className="ms-Grid-col ms-sm12">
+                            <h1 className="ms-font-xl ms-fontColor-themePrimary">Leuchtstärke</h1>
                             <Slider
-                                label="Leuchtstärke"
                                 min={1}
                                 max={100}
                                 step={1}
@@ -159,11 +169,11 @@ export class Gateway extends React.Component<IGatewayProps, {}> {
                             />
                         </div>
                         <div className="ms-Grid-col ms-sm12">
-                            <Label>RGB Farben</Label>
+                            <h1 className="ms-font-xl ms-fontColor-themePrimary">RGB Farben</h1>
                             <Slider
                                 label="Rot"
-                                min={1}
-                                max={100}
+                                min={0}
+                                max={255}
                                 step={1}
                                 disabled={this.props.gatewayInformation.on === false}
                                 value={this.props.gatewayInformation.rgb.r}
@@ -172,8 +182,8 @@ export class Gateway extends React.Component<IGatewayProps, {}> {
                             />
                             <Slider
                                 label="Grün"
-                                min={1}
-                                max={100}
+                                min={0}
+                                max={255}
                                 step={1}
                                 disabled={this.props.gatewayInformation.on === false}
                                 value={this.props.gatewayInformation.rgb.g}
@@ -182,24 +192,14 @@ export class Gateway extends React.Component<IGatewayProps, {}> {
                             />
                             <Slider
                                 label="Blau"
-                                min={1}
-                                max={100}
+                                min={0}
+                                max={255}
                                 step={1}
                                 disabled={this.props.gatewayInformation.on === false}
                                 value={this.props.gatewayInformation.rgb.b}
                                 showValue={true}
                                 onChange={this.onBlueChanged}
                             />
-                        </div>
-                        <div className="ms-Grid-col ms-sm12">
-                            <Label>Farbschema</Label>
-                            <select onChange={this.colorSchemeChanged} style={{ padding: "10px", width: "100%" }}>
-                                {
-                                    this.colorSchemes.map((schema, index) => {
-                                        return <option key={"option_schema_" + index} value={index}>{schema.name}</option>;
-                                    })
-                                }
-                            </select>
                         </div>
                     </div>
                 </Panel>

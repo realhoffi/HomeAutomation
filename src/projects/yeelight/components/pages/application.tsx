@@ -42,25 +42,23 @@ export class Application extends React.Component<IApplicationProps, IApplication
     }
     render() {
         console.log("Yewelight render");
-
         return <div className="ms-Grid-row">
             <div className="ms-Grid-col ms-sm12">
-                <h1>Hello from Yeelight!<br />Your requested url is {this.props.requestUrl}</h1>
+                {
+                    this.state.gateways.map((gw, index) => {
+                        return <div className="ms-Grid-row" key={"gwr_" + index}>
+                            <div className="ms-Grid-col ms-sm12">
+                                <Gateway gatewayInformation={gw}
+                                    id={index}
+                                    onColorChanged={this.setNewGateWayInformations}
+                                    onIntensityChanged={this.setNewGateWayInformations}
+                                    onPowerChanged={this.setNewGateWayInformations}
+                                    onColorSchemaChanged={this.setNewGateWayInformations} />
+                            </div>
+                        </div>;
+                    })
+                }
             </div>
-            {
-                this.state.gateways.map((gw, index) => {
-                    return <div className="ms-Grid-row" key={"gwr_" + index}>
-                        <div className="ms-Grid-col ms-sm12">
-                            <Gateway gatewayInformation={gw}
-                                id={index}
-                                onColorChanged={this.setNewGateWayInformations}
-                                onIntensityChanged={this.setNewGateWayInformations}
-                                onPowerChanged={this.setNewGateWayInformations}
-                                onColorSchemaChanged={this.setNewGateWayInformations} />
-                        </div>
-                    </div>;
-                })
-            }
         </div>;
     }
 }

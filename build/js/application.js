@@ -1165,17 +1165,11 @@ var Application = (function (_super) {
         var _this = this;
         console.log("Yewelight render");
         return React.createElement("div", { className: "ms-Grid-row" },
-            React.createElement("div", { className: "ms-Grid-col ms-sm12" },
-                React.createElement("h1", null,
-                    "Hello from Yeelight!",
-                    React.createElement("br", null),
-                    "Your requested url is ",
-                    this.props.requestUrl)),
-            this.state.gateways.map(function (gw, index) {
+            React.createElement("div", { className: "ms-Grid-col ms-sm12" }, this.state.gateways.map(function (gw, index) {
                 return React.createElement("div", { className: "ms-Grid-row", key: "gwr_" + index },
                     React.createElement("div", { className: "ms-Grid-col ms-sm12" },
                         React.createElement(gateway_1.Gateway, { gatewayInformation: gw, id: index, onColorChanged: _this.setNewGateWayInformations, onIntensityChanged: _this.setNewGateWayInformations, onPowerChanged: _this.setNewGateWayInformations, onColorSchemaChanged: _this.setNewGateWayInformations })));
-            }));
+            })));
     };
     return Application;
 }(React.Component));
@@ -2315,7 +2309,7 @@ var Gateway = (function (_super) {
         }
         this.sliderDelay = setTimeout(function () {
             _this.postColor(color);
-        }, 1400);
+        }, 400);
     };
     Gateway.prototype.onBlueChanged = function (value) {
         var _this = this;
@@ -2342,23 +2336,25 @@ var Gateway = (function (_super) {
     Gateway.prototype.render = function () {
         console.log("gateway render");
         return React.createElement("div", { className: "ms-Grid-row", key: "gateway_" + this.props.id },
-            React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-lg6" },
+            React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-lg12 ms-xl6" },
                 React.createElement(Panel_1.Panel, { headerText: "Gateway " + this.props.gatewayInformation.sid },
                     React.createElement("div", { className: "ms-Grid-row" },
-                        React.createElement("div", { className: "ms-Grid-col ms-sm12" },
-                            React.createElement(office_ui_fabric_react_1.Toggle, { key: "gw_" + this.props.id, checked: this.props.gatewayInformation.on, label: "Licht ein/ausschalten", onText: "On", offText: "Off", onChanged: this.togglePower })),
-                        React.createElement("div", { className: "ms-Grid-col ms-sm12" },
-                            React.createElement(office_ui_fabric_react_1.Slider, { label: "Leuchtstärke", min: 1, max: 100, step: 1, disabled: this.props.gatewayInformation.on === false, value: this.props.gatewayInformation.intensity, showValue: true, onChange: this.sliderChanged })),
-                        React.createElement("div", { className: "ms-Grid-col ms-sm12" },
-                            React.createElement(office_ui_fabric_react_1.Label, null, "RGB Farben"),
-                            React.createElement(office_ui_fabric_react_1.Slider, { label: "Rot", min: 1, max: 100, step: 1, disabled: this.props.gatewayInformation.on === false, value: this.props.gatewayInformation.rgb.r, showValue: true, onChange: this.onRedChanged }),
-                            React.createElement(office_ui_fabric_react_1.Slider, { label: "Grün", min: 1, max: 100, step: 1, disabled: this.props.gatewayInformation.on === false, value: this.props.gatewayInformation.rgb.g, showValue: true, onChange: this.onGreenChanged }),
-                            React.createElement(office_ui_fabric_react_1.Slider, { label: "Blau", min: 1, max: 100, step: 1, disabled: this.props.gatewayInformation.on === false, value: this.props.gatewayInformation.rgb.b, showValue: true, onChange: this.onBlueChanged })),
-                        React.createElement("div", { className: "ms-Grid-col ms-sm12" },
-                            React.createElement(office_ui_fabric_react_1.Label, null, "Farbschema"),
+                        React.createElement("div", { className: "ms-Grid-col ms-sm6" },
+                            React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, this.props.gatewayInformation.on ? "Licht anschalten" : "Licht ausschalten"),
+                            React.createElement(office_ui_fabric_react_1.Toggle, { key: "gw_" + this.props.id, checked: this.props.gatewayInformation.on, onText: "On", offText: "Off", onChanged: this.togglePower })),
+                        React.createElement("div", { className: "ms-Grid-col ms-sm6" },
+                            React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, "Farbschema"),
                             React.createElement("select", { onChange: this.colorSchemeChanged, style: { padding: "10px", width: "100%" } }, this.colorSchemes.map(function (schema, index) {
                                 return React.createElement("option", { key: "option_schema_" + index, value: index }, schema.name);
-                            })))))));
+                            }))),
+                        React.createElement("div", { className: "ms-Grid-col ms-sm12" },
+                            React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, "Leuchtst\u00E4rke"),
+                            React.createElement(office_ui_fabric_react_1.Slider, { min: 1, max: 100, step: 1, disabled: this.props.gatewayInformation.on === false, value: this.props.gatewayInformation.intensity, showValue: true, onChange: this.sliderChanged })),
+                        React.createElement("div", { className: "ms-Grid-col ms-sm12" },
+                            React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, "RGB Farben"),
+                            React.createElement(office_ui_fabric_react_1.Slider, { label: "Rot", min: 0, max: 255, step: 1, disabled: this.props.gatewayInformation.on === false, value: this.props.gatewayInformation.rgb.r, showValue: true, onChange: this.onRedChanged }),
+                            React.createElement(office_ui_fabric_react_1.Slider, { label: "Grün", min: 0, max: 255, step: 1, disabled: this.props.gatewayInformation.on === false, value: this.props.gatewayInformation.rgb.g, showValue: true, onChange: this.onGreenChanged }),
+                            React.createElement(office_ui_fabric_react_1.Slider, { label: "Blau", min: 0, max: 255, step: 1, disabled: this.props.gatewayInformation.on === false, value: this.props.gatewayInformation.rgb.b, showValue: true, onChange: this.onBlueChanged }))))));
     };
     return Gateway;
 }(React.Component));
@@ -3240,7 +3236,7 @@ var ManageRoute = (function (_super) {
                                 return React.createElement("div", { className: "ms-Grid-row", key: "route_" + index },
                                     React.createElement("div", { className: "ms-Grid-col ms-sm2 ms-md1 ms-lg1" },
                                         React.createElement(office_ui_fabric_react_1.Label, { className: "ms-fontSize-l ms-textAlignCenter" }, index + 1)),
-                                    React.createElement("div", { className: "ms-Grid-col ms-sm8 ms-md5 ms-lg3" },
+                                    React.createElement("div", { className: "ms-Grid-col ms-sm8 ms-md8 ms-lg6" },
                                         React.createElement(office_ui_fabric_react_1.DatePicker, { placeholder: "Bitte Fahrdatum auswählen", showWeekNumbers: true, showMonthPickerAsOverlay: true, allowTextInput: false, formatDate: date_1.getGermanDateString, firstDayOfWeek: 1, key: "fahrt" + index, value: fahrt, onSelectDate: function (date) {
                                                 var ns = __assign({}, _this.state);
                                                 ns.routenfahrten[index] = date;
