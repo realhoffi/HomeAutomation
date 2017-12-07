@@ -1,6 +1,84 @@
 webpackJsonp([0],{
 
-/***/ 129:
+/***/ 108:
+/*!************************************************!*\
+  !*** ./src/global/components/simple/Panel.tsx ***!
+  \************************************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ 2);
+var Button_1 = __webpack_require__(/*! office-ui-fabric-react/lib/Button */ 17);
+var Panel = (function (_super) {
+    __extends(Panel, _super);
+    function Panel(props) {
+        var _this = _super.call(this, props) || this;
+        _this.state = {
+            isContentVisible: !_this.props.isCollapsed
+        };
+        _this.linkClicked = _this.linkClicked.bind(_this);
+        return _this;
+    }
+    Panel.prototype.linkClicked = function (e) {
+        if (this.props.canToggleContentHidden === false) {
+            return false;
+        }
+        e.preventDefault();
+        var newState = __assign({}, this.state);
+        newState.isContentVisible = !newState.isContentVisible;
+        this.setState(newState);
+        return false;
+    };
+    Panel.prototype.render = function () {
+        var c = this.props.className || "";
+        return React.createElement("div", { className: c },
+            React.createElement("div", { className: "custom-border-settings ms-borderColor-neutralLighter" },
+                React.createElement("div", { className: "ms-bgColor-neutralLighter custom-panel-header" },
+                    React.createElement(Button_1.IconButton, { disabled: false, style: { width: "40px", height: "36px" }, checked: false, iconProps: { iconName: this.props.canToggleContentHidden ? (this.state.isContentVisible ? "ChevronUp" : "ChevronDownMed") : "blank" }, title: "Emoji", ariaLabel: "Emoji", onClick: this.linkClicked }),
+                    React.createElement("div", { onClick: this.linkClicked, style: { cursor: "pointer", width: this.props.headerControls ? "75%" : "100%" } },
+                        React.createElement("span", { className: "ms-font-xl ms-fontColor-themePrimary" }, this.props.headerText)),
+                    this.props.headerControls &&
+                        this.props.headerControls),
+                this.state.isContentVisible &&
+                    React.createElement("div", { style: { padding: "10px", paddingTop: "15px" } }, this.props.children)));
+    };
+    Panel.defaultProps = {
+        headerText: "Kein Text",
+        className: "",
+        isCollapsed: false,
+        canToggleContentHidden: true,
+        headerControls: null
+    };
+    return Panel;
+}(React.PureComponent));
+exports.Panel = Panel;
+
+
+/***/ }),
+
+/***/ 130:
 /*!********************************************!*\
   !*** ./node_modules/axios/lib/defaults.js ***!
   \********************************************/
@@ -28,10 +106,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(/*! ./adapters/xhr */ 201);
+    adapter = __webpack_require__(/*! ./adapters/xhr */ 203);
   } else if (typeof process !== 'undefined') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(/*! ./adapters/http */ 201);
+    adapter = __webpack_require__(/*! ./adapters/http */ 203);
   }
   return adapter;
 }
@@ -106,7 +184,7 @@ module.exports = defaults;
 
 /***/ }),
 
-/***/ 199:
+/***/ 201:
 /*!*************************************!*\
   !*** ./node_modules/axios/index.js ***!
   \*************************************/
@@ -114,11 +192,11 @@ module.exports = defaults;
 /*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! ./lib/axios */ 352);
+module.exports = __webpack_require__(/*! ./lib/axios */ 354);
 
 /***/ }),
 
-/***/ 200:
+/***/ 202:
 /*!************************************************!*\
   !*** ./node_modules/axios/lib/helpers/bind.js ***!
   \************************************************/
@@ -142,7 +220,7 @@ module.exports = function bind(fn, thisArg) {
 
 /***/ }),
 
-/***/ 201:
+/***/ 203:
 /*!************************************************!*\
   !*** ./node_modules/axios/lib/adapters/xhr.js ***!
   \************************************************/
@@ -158,7 +236,7 @@ var settle = __webpack_require__(/*! ./../core/settle */ 358);
 var buildURL = __webpack_require__(/*! ./../helpers/buildURL */ 360);
 var parseHeaders = __webpack_require__(/*! ./../helpers/parseHeaders */ 361);
 var isURLSameOrigin = __webpack_require__(/*! ./../helpers/isURLSameOrigin */ 362);
-var createError = __webpack_require__(/*! ../core/createError */ 202);
+var createError = __webpack_require__(/*! ../core/createError */ 204);
 var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(/*! ./../helpers/btoa */ 363);
 
 module.exports = function xhrAdapter(config) {
@@ -332,11 +410,11 @@ module.exports = function xhrAdapter(config) {
   });
 };
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 40)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 34)))
 
 /***/ }),
 
-/***/ 202:
+/***/ 204:
 /*!****************************************************!*\
   !*** ./node_modules/axios/lib/core/createError.js ***!
   \****************************************************/
@@ -367,7 +445,7 @@ module.exports = function createError(message, config, code, request, response) 
 
 /***/ }),
 
-/***/ 203:
+/***/ 205:
 /*!***************************************************!*\
   !*** ./node_modules/axios/lib/cancel/isCancel.js ***!
   \***************************************************/
@@ -385,7 +463,7 @@ module.exports = function isCancel(value) {
 
 /***/ }),
 
-/***/ 204:
+/***/ 206:
 /*!*************************************************!*\
   !*** ./node_modules/axios/lib/cancel/Cancel.js ***!
   \*************************************************/
@@ -428,7 +506,7 @@ module.exports = Cancel;
 "use strict";
 
 
-var bind = __webpack_require__(/*! ./helpers/bind */ 200);
+var bind = __webpack_require__(/*! ./helpers/bind */ 202);
 var isBuffer = __webpack_require__(/*! is-buffer */ 355);
 
 /*global toString:true*/
@@ -733,85 +811,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 274:
-/*!************************************************!*\
-  !*** ./src/global/components/simple/Panel.tsx ***!
-  \************************************************/
-/*! dynamic exports provided */
-/*! all exports used */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __assign = (this && this.__assign) || Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-    }
-    return t;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ 2);
-var Button_1 = __webpack_require__(/*! office-ui-fabric-react/lib/Button */ 17);
-var Panel = (function (_super) {
-    __extends(Panel, _super);
-    function Panel(props) {
-        var _this = _super.call(this, props) || this;
-        _this.state = {
-            isContentVisible: !_this.props.isCollapsed
-        };
-        _this.linkClicked = _this.linkClicked.bind(_this);
-        return _this;
-    }
-    Panel.prototype.linkClicked = function (e) {
-        if (this.props.canToggleContentHidden === false) {
-            return false;
-        }
-        e.preventDefault();
-        var newState = __assign({}, this.state);
-        newState.isContentVisible = !newState.isContentVisible;
-        this.setState(newState);
-        return false;
-    };
-    Panel.prototype.render = function () {
-        var c = this.props.className || "";
-        return React.createElement("div", { className: c },
-            React.createElement("div", { className: "custom-border-settings ms-borderColor-neutralLighter" },
-                React.createElement("div", { className: "ms-bgColor-neutralLighter custom-panel-header" },
-                    React.createElement(Button_1.IconButton, { disabled: false, style: { width: "40px", height: "36px" }, checked: false, iconProps: { iconName: this.props.canToggleContentHidden ? (this.state.isContentVisible ? "ChevronUp" : "ChevronDownMed") : "blank" }, title: "Emoji", ariaLabel: "Emoji", onClick: this.linkClicked }),
-                    React.createElement("div", { onClick: this.linkClicked, style: { cursor: "pointer", width: this.props.headerControls ? "75%" : "100%" } },
-                        React.createElement("span", { className: "ms-font-xl ms-fontColor-themePrimary" }, this.props.headerText)),
-                    this.props.headerControls &&
-                        this.props.headerControls),
-                this.state.isContentVisible &&
-                    React.createElement("div", { style: { padding: "10px", paddingTop: "15px" } }, this.props.children)));
-    };
-    Panel.defaultProps = {
-        headerText: "Kein Text",
-        className: "",
-        isCollapsed: false,
-        canToggleContentHidden: true,
-        headerControls: null
-    };
-    return Panel;
-}(React.PureComponent));
-exports.Panel = Panel;
-
-
-/***/ }),
-
-/***/ 275:
+/***/ 276:
 /*!***************************!*\
   !*** ./src/data/enums.ts ***!
   \***************************/
@@ -832,7 +832,7 @@ var PageType;
 
 /***/ }),
 
-/***/ 276:
+/***/ 277:
 /*!******************************************************!*\
   !*** ./src/global/components/container/basePage.tsx ***!
   \******************************************************/
@@ -854,7 +854,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 2);
-var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 49);
+var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 44);
 var BasePage = (function (_super) {
     __extends(BasePage, _super);
     function BasePage(props) {
@@ -886,7 +886,7 @@ exports.BasePage = BasePage;
 
 /***/ }),
 
-/***/ 277:
+/***/ 278:
 /*!**************************************************!*\
   !*** ./src/global/components/simple/routing.tsx ***!
   \**************************************************/
@@ -949,7 +949,7 @@ exports.Status = Status;
 
 /***/ }),
 
-/***/ 312:
+/***/ 313:
 /*!*******************************************************!*\
   !*** multi ./src/global/components/pages/initApp.tsx ***!
   \*******************************************************/
@@ -957,12 +957,12 @@ exports.Status = Status;
 /*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! ./src/global/components/pages/initApp.tsx */313);
+module.exports = __webpack_require__(/*! ./src/global/components/pages/initApp.tsx */314);
 
 
 /***/ }),
 
-/***/ 313:
+/***/ 314:
 /*!*************************************************!*\
   !*** ./src/global/components/pages/initApp.tsx ***!
   \*************************************************/
@@ -973,11 +973,11 @@ module.exports = __webpack_require__(/*! ./src/global/components/pages/initApp.t
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var ReactDOM = __webpack_require__(/*! react-dom */ 48);
+var ReactDOM = __webpack_require__(/*! react-dom */ 49);
 var React = __webpack_require__(/*! react */ 2);
-var globalApplication_1 = __webpack_require__(/*! ./globalApplication */ 328);
+var globalApplication_1 = __webpack_require__(/*! ./globalApplication */ 329);
 var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ 73);
-var icons_1 = __webpack_require__(/*! @uifabric/icons */ 655);
+var icons_1 = __webpack_require__(/*! @uifabric/icons */ 658);
 icons_1.initializeIcons();
 window.onload = function () {
     ReactDOM.render(React.createElement(react_router_dom_1.HashRouter, null,
@@ -987,7 +987,7 @@ window.onload = function () {
 
 /***/ }),
 
-/***/ 328:
+/***/ 329:
 /*!***********************************************************!*\
   !*** ./src/global/components/pages/globalApplication.tsx ***!
   \***********************************************************/
@@ -1010,13 +1010,13 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 2);
 var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ 73);
-var application_1 = __webpack_require__(/*! ./application */ 350);
-var application_2 = __webpack_require__(/*! ../../../projects/yeelight/components/pages/application */ 351);
-var application_3 = __webpack_require__(/*! ../../../projects/vacuumRoboter/components/pages/application */ 644);
-var application_4 = __webpack_require__(/*! ../../../projects/aldi/components/pages/application */ 648);
-var NotFoundPage_1 = __webpack_require__(/*! ../../components/simple/NotFoundPage */ 654);
-var routing_1 = __webpack_require__(/*! ../simple/routing */ 277);
-var basePage_1 = __webpack_require__(/*! ../container/basePage */ 276);
+var application_1 = __webpack_require__(/*! ./application */ 351);
+var application_2 = __webpack_require__(/*! ../../../projects/yeelight/components/pages/application */ 352);
+var application_3 = __webpack_require__(/*! ../../../projects/vacuumRoboter/components/pages/application */ 647);
+var application_4 = __webpack_require__(/*! ../../../projects/aldi/components/pages/application */ 651);
+var NotFoundPage_1 = __webpack_require__(/*! ../../components/simple/NotFoundPage */ 657);
+var routing_1 = __webpack_require__(/*! ../simple/routing */ 278);
+var basePage_1 = __webpack_require__(/*! ../container/basePage */ 277);
 var GlobalApplication = (function (_super) {
     __extends(GlobalApplication, _super);
     function GlobalApplication(props) {
@@ -1052,7 +1052,7 @@ exports.GlobalApplication = GlobalApplication;
 
 /***/ }),
 
-/***/ 350:
+/***/ 351:
 /*!*****************************************************!*\
   !*** ./src/global/components/pages/application.tsx ***!
   \*****************************************************/
@@ -1096,7 +1096,7 @@ exports.Application = Application;
 
 /***/ }),
 
-/***/ 351:
+/***/ 352:
 /*!****************************************************************!*\
   !*** ./src/projects/yeelight/components/pages/application.tsx ***!
   \****************************************************************/
@@ -1105,7 +1105,7 @@ exports.Application = Application;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function(Promise) {
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -1126,23 +1126,42 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 2);
-var axios_1 = __webpack_require__(/*! axios */ 199);
+var axios_1 = __webpack_require__(/*! axios */ 201);
 var gateway_1 = __webpack_require__(/*! ../gateway */ 372);
+var BaseLight_1 = __webpack_require__(/*! ../../../../global/components/simple/BaseLight */ 644);
+var BaseWeatherSensor_1 = __webpack_require__(/*! ../../../../global/components/simple/BaseWeatherSensor */ 645);
+var timers_1 = __webpack_require__(/*! timers */ 200);
+var intToRGB = __webpack_require__(/*! int-to-rgb */ 646);
 var Application = (function (_super) {
     __extends(Application, _super);
     function Application(props) {
         var _this = _super.call(this, props) || this;
-        _this.state = { gateways: [] };
+        _this.state = { gateways: [], lights: [], sensors: [] };
         _this.setNewGateWayInformations = _this.setNewGateWayInformations.bind(_this);
+        _this.colorChangedOnLight = _this.colorChangedOnLight.bind(_this);
+        _this.powerChangedOnLight = _this.powerChangedOnLight.bind(_this);
+        _this.colorSchemaChangedOnLight = _this.colorSchemaChangedOnLight.bind(_this);
+        _this.brightnessChangedOnLight = _this.brightnessChangedOnLight.bind(_this);
+        _this.reloadLightInformations = _this.reloadLightInformations.bind(_this);
+        _this.loadDevices = _this.loadDevices.bind(_this);
         return _this;
     }
     Application.prototype.componentDidMount = function () {
-        var _this = this;
         document.title = "Yeelight Hauptseite";
         console.log("Yeelight componentDidMount");
-        axios_1.default.get("/api/gateways").then(function (data) {
-            _this.setState({ gateways: data.data.gateways });
-        });
+        this.loadDevices();
+        timers_1.setInterval(this.loadDevices, 60000);
+    };
+    Application.prototype.loadDevices = function () {
+        var _this = this;
+        var p1 = axios_1.default.get("/api/lights/details");
+        var p2 = axios_1.default.get("/api/gateways");
+        var p3 = axios_1.default.get("/api/sensors");
+        Promise.all([p1, p2, p3])
+            .then(function (results) {
+            _this.setState({ lights: results[0].data["lights"], sensors: results[2].data["sensors"] });
+        })
+            .catch(function (error) { });
     };
     Application.prototype.getGatewayIndexBySid = function (sid) {
         var currentGatewayIndex = -1;
@@ -1153,7 +1172,7 @@ var Application = (function (_super) {
         return currentGatewayIndex;
     };
     Application.prototype.setNewGateWayInformations = function (currentGatewayInformation, newGatewayInformation) {
-        var index = this.getGatewayIndexBySid(currentGatewayInformation.sid);
+        var index = this.getGatewayIndexBySid(currentGatewayInformation.id);
         if (index < 0) {
             return;
         }
@@ -1161,24 +1180,70 @@ var Application = (function (_super) {
         newState.gateways[index] = newGatewayInformation;
         this.setState(newState);
     };
+    Application.prototype.reloadLightInformations = function () {
+        var _this = this;
+        axios_1.default.get("/api/lights/details").then(function (result) {
+            _this.setState({ lights: result.data.lights });
+            var newState = __assign({}, _this.state);
+        });
+    };
+    Application.prototype.colorChangedOnLight = function (lightInformation, color) {
+        var rgb = (color.r * 65536) + (color.g * 256) + color.b;
+        axios_1.default.post("/api/lights/" + lightInformation.id + "/color/" + rgb)
+            .then(this.reloadLightInformations);
+    };
+    Application.prototype.powerChangedOnLight = function (lightInformation) {
+        axios_1.default.post("/api/lights/" + lightInformation.id + "/power")
+            .then(this.reloadLightInformations);
+    };
+    Application.prototype.colorSchemaChangedOnLight = function (lightInformation, color, brightness) {
+        var rgb = (color.r * 65536) + (color.g * 256) + color.b;
+        Promise.all([
+            axios_1.default.post("/api/lights/" + lightInformation.id + "/brightness/" + brightness),
+            axios_1.default.post("/api/lights/" + lightInformation.id + "/color/" + rgb)
+        ]).then(this.reloadLightInformations);
+    };
+    Application.prototype.brightnessChangedOnLight = function (lightInformation, brightness) {
+        axios_1.default.post("/api/lights/" + lightInformation.id + "/brightness/" + brightness)
+            .then(this.reloadLightInformations);
+    };
     Application.prototype.render = function () {
         var _this = this;
         console.log("Yewelight render");
         return React.createElement("div", { className: "ms-Grid-row" },
-            React.createElement("div", { className: "ms-Grid-col ms-sm12" }, this.state.gateways.map(function (gw, index) {
-                return React.createElement("div", { className: "ms-Grid-row", key: "gwr_" + index },
-                    React.createElement("div", { className: "ms-Grid-col ms-sm12" },
-                        React.createElement(gateway_1.Gateway, { gatewayInformation: gw, id: index, onColorChanged: _this.setNewGateWayInformations, onIntensityChanged: _this.setNewGateWayInformations, onPowerChanged: _this.setNewGateWayInformations, onColorSchemaChanged: _this.setNewGateWayInformations })));
-            })));
+            React.createElement("div", { className: "ms-Grid-col ms-sm12" },
+                (!this.state.sensors || this.state.sensors.length < 1) &&
+                    React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, "Keine Sensoren gefunden"),
+                React.createElement("div", { className: "ms-Grid-row" }, (this.state.sensors && this.state.sensors.length > 0) &&
+                    this.state.sensors.map(function (sensor, index) {
+                        return React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-lg6 ms-xl3", key: "sensor_container_" + index },
+                            React.createElement(BaseWeatherSensor_1.BaseWeatherSensor, { id: index, sensorInformations: sensor }));
+                    })),
+                (!this.state.lights || this.state.lights.length < 1) &&
+                    React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, "Keine Lampen gefunden"),
+                React.createElement("div", { className: "ms-Grid-row" }, (this.state.lights && this.state.lights.length > 0) &&
+                    this.state.lights.map(function (light, index) {
+                        return React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-lg6", key: "light_container_" + index },
+                            React.createElement(BaseLight_1.BaseLight, { lightInformation: light, id: index, onBrightnessChanged: _this.brightnessChangedOnLight, onColorChanged: _this.colorChangedOnLight, onColorSchemaChanged: _this.colorSchemaChangedOnLight, onPowerChanged: _this.powerChangedOnLight }));
+                    })),
+                (!this.state.gateways || this.state.gateways.length < 1) &&
+                    React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, "Keine Gateways gefunden"),
+                (this.state.gateways && this.state.gateways.length > 0) &&
+                    this.state.gateways.map(function (gw, index) {
+                        return React.createElement("div", { className: "ms-Grid-row", key: "gwr_" + index },
+                            React.createElement("div", { className: "ms-Grid-col ms-sm12" },
+                                React.createElement(gateway_1.Gateway, { gatewayInformation: gw, id: index, onColorChanged: _this.setNewGateWayInformations, onIntensityChanged: _this.setNewGateWayInformations, onPowerChanged: _this.setNewGateWayInformations, onColorSchemaChanged: _this.setNewGateWayInformations })));
+                    })));
     };
     return Application;
 }(React.Component));
 exports.Application = Application;
 
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 34)))
 
 /***/ }),
 
-/***/ 352:
+/***/ 354:
 /*!*****************************************!*\
   !*** ./node_modules/axios/lib/axios.js ***!
   \*****************************************/
@@ -1190,9 +1255,9 @@ exports.Application = Application;
 /* WEBPACK VAR INJECTION */(function(Promise) {
 
 var utils = __webpack_require__(/*! ./utils */ 26);
-var bind = __webpack_require__(/*! ./helpers/bind */ 200);
+var bind = __webpack_require__(/*! ./helpers/bind */ 202);
 var Axios = __webpack_require__(/*! ./core/Axios */ 356);
-var defaults = __webpack_require__(/*! ./defaults */ 129);
+var defaults = __webpack_require__(/*! ./defaults */ 130);
 
 /**
  * Create an instance of Axios
@@ -1225,9 +1290,9 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(/*! ./cancel/Cancel */ 204);
+axios.Cancel = __webpack_require__(/*! ./cancel/Cancel */ 206);
 axios.CancelToken = __webpack_require__(/*! ./cancel/CancelToken */ 370);
-axios.isCancel = __webpack_require__(/*! ./cancel/isCancel */ 203);
+axios.isCancel = __webpack_require__(/*! ./cancel/isCancel */ 205);
 
 // Expose all/spread
 axios.all = function all(promises) {
@@ -1240,7 +1305,7 @@ module.exports = axios;
 // Allow use of default import syntax in TypeScript
 module.exports.default = axios;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 40)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 34)))
 
 /***/ }),
 
@@ -1288,7 +1353,7 @@ function isSlowBuffer (obj) {
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Promise) {
 
-var defaults = __webpack_require__(/*! ./../defaults */ 129);
+var defaults = __webpack_require__(/*! ./../defaults */ 130);
 var utils = __webpack_require__(/*! ./../utils */ 26);
 var InterceptorManager = __webpack_require__(/*! ./InterceptorManager */ 365);
 var dispatchRequest = __webpack_require__(/*! ./dispatchRequest */ 366);
@@ -1366,7 +1431,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = Axios;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 40)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 34)))
 
 /***/ }),
 
@@ -1406,7 +1471,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 "use strict";
 
 
-var createError = __webpack_require__(/*! ./createError */ 202);
+var createError = __webpack_require__(/*! ./createError */ 204);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -1889,8 +1954,8 @@ module.exports = InterceptorManager;
 
 var utils = __webpack_require__(/*! ./../utils */ 26);
 var transformData = __webpack_require__(/*! ./transformData */ 367);
-var isCancel = __webpack_require__(/*! ../cancel/isCancel */ 203);
-var defaults = __webpack_require__(/*! ../defaults */ 129);
+var isCancel = __webpack_require__(/*! ../cancel/isCancel */ 205);
+var defaults = __webpack_require__(/*! ../defaults */ 130);
 var isAbsoluteURL = __webpack_require__(/*! ./../helpers/isAbsoluteURL */ 368);
 var combineURLs = __webpack_require__(/*! ./../helpers/combineURLs */ 369);
 
@@ -1972,7 +2037,7 @@ module.exports = function dispatchRequest(config) {
   });
 };
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 40)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 34)))
 
 /***/ }),
 
@@ -2074,7 +2139,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Promise) {
 
-var Cancel = __webpack_require__(/*! ./Cancel */ 204);
+var Cancel = __webpack_require__(/*! ./Cancel */ 206);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -2130,7 +2195,7 @@ CancelToken.source = function source() {
 
 module.exports = CancelToken;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 40)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 34)))
 
 /***/ }),
 
@@ -2204,9 +2269,9 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 2);
-var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 49);
-var axios_1 = __webpack_require__(/*! axios */ 199);
-var Panel_1 = __webpack_require__(/*! ../../../global/components/simple/Panel */ 274);
+var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 44);
+var axios_1 = __webpack_require__(/*! axios */ 201);
+var Panel_1 = __webpack_require__(/*! ../../../global/components/simple/Panel */ 108);
 var Gateway = (function (_super) {
     __extends(Gateway, _super);
     function Gateway(props) {
@@ -2364,6 +2429,239 @@ exports.Gateway = Gateway;
 /***/ }),
 
 /***/ 644:
+/*!****************************************************!*\
+  !*** ./src/global/components/simple/BaseLight.tsx ***!
+  \****************************************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ 2);
+var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 44);
+var Panel_1 = __webpack_require__(/*! ../../../global/components/simple/Panel */ 108);
+var BaseLight = (function (_super) {
+    __extends(BaseLight, _super);
+    function BaseLight(props) {
+        var _this = _super.call(this, props) || this;
+        _this.state = { gateways: [] };
+        _this.colorSchemes = [
+            {
+                name: "Bitte auswählen...",
+                color: { "r": 0, "g": 0, "b": 0 },
+                brightness: -1
+            },
+            {
+                name: "Romantik",
+                color: { "r": 235, "g": 104, "b": 119 },
+                brightness: 43
+            },
+            {
+                name: "Sky",
+                color: { "r": 0, "g": 255, "b": 127 },
+                brightness: 43
+            }
+        ];
+        _this.brightnessChanged = _this.brightnessChanged.bind(_this);
+        _this.togglePower = _this.togglePower.bind(_this);
+        _this.setBrightness = _this.setBrightness.bind(_this);
+        _this.colorSchemeChanged = _this.colorSchemeChanged.bind(_this);
+        _this.onRedChanged = _this.onRedChanged.bind(_this);
+        _this.onBlueChanged = _this.onBlueChanged.bind(_this);
+        _this.onGreenChanged = _this.onGreenChanged.bind(_this);
+        return _this;
+    }
+    BaseLight.prototype.colorSchemeChanged = function (event) {
+        var schemeIndex = event.currentTarget.selectedIndex;
+        var schema = this.colorSchemes[schemeIndex];
+        if (!schema || schema.intensity === -1)
+            return;
+        this.props.onColorSchemaChanged(this.props.lightInformation, schema.color, schema.brightness);
+    };
+    BaseLight.prototype.togglePower = function () {
+        this.props.onPowerChanged(this.props.lightInformation);
+    };
+    BaseLight.prototype.setBrightness = function (value) {
+        this.props.onBrightnessChanged(this.props.lightInformation, value);
+    };
+    BaseLight.prototype.brightnessChanged = function (value) {
+        var _this = this;
+        if (this.sliderDelay) {
+            clearTimeout(this.sliderDelay);
+        }
+        this.sliderDelay = setTimeout(function () {
+            _this.setBrightness(value);
+        }, 400);
+    };
+    BaseLight.prototype.onColorChanged = function (color) {
+        this.props.onColorChanged(this.props.lightInformation, color);
+    };
+    BaseLight.prototype.onRedChanged = function (value) {
+        var _this = this;
+        var color = __assign({}, this.props.lightInformation.rgb);
+        color.r = value;
+        if (this.sliderDelay) {
+            clearTimeout(this.sliderDelay);
+        }
+        this.sliderDelay = setTimeout(function () {
+            _this.onColorChanged(color);
+        }, 400);
+    };
+    BaseLight.prototype.onBlueChanged = function (value) {
+        var _this = this;
+        var color = __assign({}, this.props.lightInformation.rgb);
+        color.b = value;
+        if (this.sliderDelay) {
+            clearTimeout(this.sliderDelay);
+        }
+        this.sliderDelay = setTimeout(function () {
+            _this.onColorChanged(color);
+        }, 400);
+    };
+    BaseLight.prototype.onGreenChanged = function (value) {
+        var _this = this;
+        var color = __assign({}, this.props.lightInformation.rgb);
+        color.g = value;
+        if (this.sliderDelay) {
+            clearTimeout(this.sliderDelay);
+        }
+        this.sliderDelay = setTimeout(function () {
+            _this.onColorChanged(color);
+        }, 400);
+    };
+    BaseLight.prototype.render = function () {
+        console.log("baseLight render");
+        return React.createElement("div", { className: "ms-Grid-row", key: "list_" + this.props.id },
+            React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-lg12 ms-xl6" },
+                React.createElement(Panel_1.Panel, { headerText: this.props.lightInformation.name, className: "custom-padding-bottom-10px" },
+                    React.createElement("div", { className: "ms-Grid-row" },
+                        React.createElement("div", { className: "ms-Grid-col ms-sm6" },
+                            React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, this.props.lightInformation.power ? "Licht anschalten" : "Licht ausschalten"),
+                            React.createElement(office_ui_fabric_react_1.Toggle, { key: "light_power_" + this.props.id, checked: this.props.lightInformation.power, onText: "On", offText: "Off", onChanged: this.togglePower })),
+                        React.createElement("div", { className: "ms-Grid-col ms-sm6" },
+                            React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, "Farbschema"),
+                            React.createElement("select", { onChange: this.colorSchemeChanged, style: { padding: "10px", width: "100%" }, disabled: !this.props.lightInformation.power }, this.colorSchemes.map(function (schema, index) {
+                                return React.createElement("option", { key: "option_schema_" + index, value: index }, schema.name);
+                            }))),
+                        React.createElement("div", { className: "ms-Grid-col ms-sm12" },
+                            React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, "Leuchtst\u00E4rke"),
+                            React.createElement(office_ui_fabric_react_1.Slider, { min: 1, max: 100, step: 1, disabled: !this.props.lightInformation.power, value: this.props.lightInformation.brightness, showValue: true, onChange: this.brightnessChanged })),
+                        React.createElement("div", { className: "ms-Grid-col ms-sm12" },
+                            React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, "RGB Farben"),
+                            React.createElement(office_ui_fabric_react_1.Slider, { label: "Rot", min: 0, max: 255, step: 1, disabled: !this.props.lightInformation.power, value: this.props.lightInformation.rgb.r, showValue: true, onChange: this.onRedChanged }),
+                            React.createElement(office_ui_fabric_react_1.Slider, { label: "Grün", min: 0, max: 255, step: 1, disabled: !this.props.lightInformation.power, value: this.props.lightInformation.rgb.g, showValue: true, onChange: this.onGreenChanged }),
+                            React.createElement(office_ui_fabric_react_1.Slider, { label: "Blau", min: 0, max: 255, step: 1, disabled: !this.props.lightInformation.power, value: this.props.lightInformation.rgb.b, showValue: true, onChange: this.onBlueChanged }))))));
+    };
+    return BaseLight;
+}(React.Component));
+exports.BaseLight = BaseLight;
+
+
+/***/ }),
+
+/***/ 645:
+/*!************************************************************!*\
+  !*** ./src/global/components/simple/BaseWeatherSensor.tsx ***!
+  \************************************************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ 2);
+var Panel_1 = __webpack_require__(/*! ../../../global/components/simple/Panel */ 108);
+var BaseWeatherSensor = (function (_super) {
+    __extends(BaseWeatherSensor, _super);
+    function BaseWeatherSensor(props) {
+        return _super.call(this, props) || this;
+    }
+    BaseWeatherSensor.prototype.render = function () {
+        console.log("BaseWeatherSensor render");
+        return React.createElement("div", { className: "ms-Grid-row", key: "sensor" + this.props.id },
+            React.createElement("div", { className: "ms-Grid-col ms-sm12" },
+                React.createElement(Panel_1.Panel, { headerText: this.props.sensorInformations.name, className: "custom-padding-bottom-10px" },
+                    React.createElement("div", { className: "ms-Grid-row" },
+                        React.createElement("div", { className: "ms-Grid-col ms-sm12" },
+                            React.createElement("h1", { className: "ms-font-su ms-fontColor-themePrimary" }, this.props.sensorInformations.temperature + " °C"))),
+                    React.createElement("div", { className: "ms-Grid-row" },
+                        React.createElement("div", { className: "ms-Grid-col ms-sm6" },
+                            React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" },
+                                this.props.sensorInformations.humidity,
+                                React.createElement("i", { className: "ms-Icon ms-Icon--Precipitation", "aria-hidden": "true" }))),
+                        this.props.sensorInformations.hasPressure &&
+                            React.createElement("div", { className: "ms-Grid-col ms-sm6" },
+                                React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, this.props.sensorInformations.pressure))))));
+    };
+    return BaseWeatherSensor;
+}(React.Component));
+exports.BaseWeatherSensor = BaseWeatherSensor;
+
+
+/***/ }),
+
+/***/ 646:
+/*!******************************************!*\
+  !*** ./node_modules/int-to-rgb/index.js ***!
+  \******************************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports) {
+
+var errorMessage = 'Must provide an integer between 0 and 16777215';
+
+
+module.exports = function(int) {
+  if (typeof int !== 'number') throw new Error(errorMessage);
+  if (Math.floor(int) !== int) throw new Error(errorMessage);
+  if (int < 0 || int > 16777215) throw new Error(errorMessage);
+
+  var red = int >> 16;
+  var green = int - (red << 16) >> 8;
+  var blue = int - (red << 16) - (green << 8);
+
+  return {
+    red: red,
+    green: green,
+    blue: blue
+  }
+}
+
+
+/***/ }),
+
+/***/ 647:
 /*!*********************************************************************!*\
   !*** ./src/projects/vacuumRoboter/components/pages/application.tsx ***!
   \*********************************************************************/
@@ -2385,7 +2683,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 2);
-var debug = __webpack_require__(/*! debug */ 645);
+var debug = __webpack_require__(/*! debug */ 648);
 var Application = (function (_super) {
     __extends(Application, _super);
     function Application(props) {
@@ -2409,7 +2707,7 @@ exports.Application = Application;
 
 /***/ }),
 
-/***/ 645:
+/***/ 648:
 /*!*******************************************!*\
   !*** ./node_modules/debug/src/browser.js ***!
   \*******************************************/
@@ -2423,7 +2721,7 @@ exports.Application = Application;
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(/*! ./debug */ 646);
+exports = module.exports = __webpack_require__(/*! ./debug */ 649);
 exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
@@ -2617,7 +2915,7 @@ function localstorage() {
 
 /***/ }),
 
-/***/ 646:
+/***/ 649:
 /*!*****************************************!*\
   !*** ./node_modules/debug/src/debug.js ***!
   \*****************************************/
@@ -2638,7 +2936,7 @@ exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = __webpack_require__(/*! ms */ 647);
+exports.humanize = __webpack_require__(/*! ms */ 650);
 
 /**
  * Active `debug` instances.
@@ -2854,7 +3152,7 @@ function coerce(val) {
 
 /***/ }),
 
-/***/ 647:
+/***/ 650:
 /*!**********************************!*\
   !*** ./node_modules/ms/index.js ***!
   \**********************************/
@@ -3018,7 +3316,7 @@ function plural(ms, n, name) {
 
 /***/ }),
 
-/***/ 648:
+/***/ 651:
 /*!************************************************************!*\
   !*** ./src/projects/aldi/components/pages/application.tsx ***!
   \************************************************************/
@@ -3040,10 +3338,10 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 2);
-var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 49);
-var ManageRoute_1 = __webpack_require__(/*! ./ManageRoute */ 649);
-var enums_1 = __webpack_require__(/*! ../../../../data/enums */ 275);
-var ToolTip_1 = __webpack_require__(/*! ../../../../global/components/simple/ToolTip */ 653);
+var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 44);
+var ManageRoute_1 = __webpack_require__(/*! ./ManageRoute */ 652);
+var enums_1 = __webpack_require__(/*! ../../../../data/enums */ 276);
+var ToolTip_1 = __webpack_require__(/*! ../../../../global/components/simple/ToolTip */ 656);
 var Application = (function (_super) {
     __extends(Application, _super);
     function Application(props) {
@@ -3110,7 +3408,7 @@ exports.Application = Application;
 
 /***/ }),
 
-/***/ 649:
+/***/ 652:
 /*!************************************************************!*\
   !*** ./src/projects/aldi/components/pages/ManageRoute.tsx ***!
   \************************************************************/
@@ -3140,13 +3438,13 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 2);
-var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 49);
-var enums_1 = __webpack_require__(/*! ../../../../data/enums */ 275);
-var basePage_1 = __webpack_require__(/*! ../../../../global/components/container/basePage */ 276);
-var ButtonRow_1 = __webpack_require__(/*! ../../../../global/components/simple/ButtonRow */ 650);
-var Panel_1 = __webpack_require__(/*! ../../../../global/components/simple/Panel */ 274);
-var NumberTextField_1 = __webpack_require__(/*! ../../../../global/components/simple/NumberTextField */ 651);
-var date_1 = __webpack_require__(/*! ../../../../helper/date */ 652);
+var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 44);
+var enums_1 = __webpack_require__(/*! ../../../../data/enums */ 276);
+var basePage_1 = __webpack_require__(/*! ../../../../global/components/container/basePage */ 277);
+var ButtonRow_1 = __webpack_require__(/*! ../../../../global/components/simple/ButtonRow */ 653);
+var Panel_1 = __webpack_require__(/*! ../../../../global/components/simple/Panel */ 108);
+var NumberTextField_1 = __webpack_require__(/*! ../../../../global/components/simple/NumberTextField */ 654);
+var date_1 = __webpack_require__(/*! ../../../../helper/date */ 655);
 var ManageRoute = (function (_super) {
     __extends(ManageRoute, _super);
     function ManageRoute(props) {
@@ -3295,7 +3593,7 @@ exports.ManageRoute = ManageRoute;
 
 /***/ }),
 
-/***/ 650:
+/***/ 653:
 /*!****************************************************!*\
   !*** ./src/global/components/simple/ButtonRow.tsx ***!
   \****************************************************/
@@ -3317,7 +3615,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 2);
-var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 49);
+var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 44);
 var ButtonRow = (function (_super) {
     __extends(ButtonRow, _super);
     function ButtonRow() {
@@ -3336,7 +3634,7 @@ exports.ButtonRow = ButtonRow;
 
 /***/ }),
 
-/***/ 651:
+/***/ 654:
 /*!**********************************************************!*\
   !*** ./src/global/components/simple/NumberTextField.tsx ***!
   \**********************************************************/
@@ -3358,7 +3656,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 2);
-var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 49);
+var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 44);
 var NumberTextField = (function (_super) {
     __extends(NumberTextField, _super);
     function NumberTextField(props) {
@@ -3381,7 +3679,7 @@ exports.NumberTextField = NumberTextField;
 
 /***/ }),
 
-/***/ 652:
+/***/ 655:
 /*!****************************!*\
   !*** ./src/helper/date.ts ***!
   \****************************/
@@ -3403,7 +3701,7 @@ exports.getGermanDateString = getGermanDateString;
 
 /***/ }),
 
-/***/ 653:
+/***/ 656:
 /*!**************************************************!*\
   !*** ./src/global/components/simple/ToolTip.tsx ***!
   \**************************************************/
@@ -3445,7 +3743,7 @@ exports.ToolTip = ToolTip;
 
 /***/ }),
 
-/***/ 654:
+/***/ 657:
 /*!*******************************************************!*\
   !*** ./src/global/components/simple/NotFoundPage.tsx ***!
   \*******************************************************/
@@ -3468,7 +3766,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 2);
 var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ 73);
-var routing_1 = __webpack_require__(/*! ./routing */ 277);
+var routing_1 = __webpack_require__(/*! ./routing */ 278);
 var NotFoundPage = (function (_super) {
     __extends(NotFoundPage, _super);
     function NotFoundPage() {
@@ -3489,7 +3787,7 @@ exports.NotFoundPage = NotFoundPage;
 
 /***/ }),
 
-/***/ 655:
+/***/ 658:
 /*!***************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/index.js ***!
   \***************************************************/
@@ -3500,20 +3798,20 @@ exports.NotFoundPage = NotFoundPage;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var fabric_icons_1 = __webpack_require__(/*! ./fabric-icons */ 656);
-var fabric_icons_0_1 = __webpack_require__(/*! ./fabric-icons-0 */ 657);
-var fabric_icons_1_1 = __webpack_require__(/*! ./fabric-icons-1 */ 658);
-var fabric_icons_2_1 = __webpack_require__(/*! ./fabric-icons-2 */ 659);
-var fabric_icons_3_1 = __webpack_require__(/*! ./fabric-icons-3 */ 660);
-var fabric_icons_4_1 = __webpack_require__(/*! ./fabric-icons-4 */ 661);
-var fabric_icons_5_1 = __webpack_require__(/*! ./fabric-icons-5 */ 662);
-var fabric_icons_6_1 = __webpack_require__(/*! ./fabric-icons-6 */ 663);
-var fabric_icons_7_1 = __webpack_require__(/*! ./fabric-icons-7 */ 664);
-var fabric_icons_8_1 = __webpack_require__(/*! ./fabric-icons-8 */ 665);
-var fabric_icons_9_1 = __webpack_require__(/*! ./fabric-icons-9 */ 666);
-var fabric_icons_10_1 = __webpack_require__(/*! ./fabric-icons-10 */ 667);
-var fabric_icons_11_1 = __webpack_require__(/*! ./fabric-icons-11 */ 668);
-__webpack_require__(/*! ./icon-aliases */ 669);
+var fabric_icons_1 = __webpack_require__(/*! ./fabric-icons */ 659);
+var fabric_icons_0_1 = __webpack_require__(/*! ./fabric-icons-0 */ 660);
+var fabric_icons_1_1 = __webpack_require__(/*! ./fabric-icons-1 */ 661);
+var fabric_icons_2_1 = __webpack_require__(/*! ./fabric-icons-2 */ 662);
+var fabric_icons_3_1 = __webpack_require__(/*! ./fabric-icons-3 */ 663);
+var fabric_icons_4_1 = __webpack_require__(/*! ./fabric-icons-4 */ 664);
+var fabric_icons_5_1 = __webpack_require__(/*! ./fabric-icons-5 */ 665);
+var fabric_icons_6_1 = __webpack_require__(/*! ./fabric-icons-6 */ 666);
+var fabric_icons_7_1 = __webpack_require__(/*! ./fabric-icons-7 */ 667);
+var fabric_icons_8_1 = __webpack_require__(/*! ./fabric-icons-8 */ 668);
+var fabric_icons_9_1 = __webpack_require__(/*! ./fabric-icons-9 */ 669);
+var fabric_icons_10_1 = __webpack_require__(/*! ./fabric-icons-10 */ 670);
+var fabric_icons_11_1 = __webpack_require__(/*! ./fabric-icons-11 */ 671);
+__webpack_require__(/*! ./icon-aliases */ 672);
 var DEFAULT_BASE_URL = 'https://spoprod-a.akamaihd.net/files/fabric/assets/icons/';
 function initializeIcons(baseUrl, options) {
     if (baseUrl === void 0) { baseUrl = DEFAULT_BASE_URL; }
@@ -3524,7 +3822,7 @@ exports.initializeIcons = initializeIcons;
 
 /***/ }),
 
-/***/ 656:
+/***/ 659:
 /*!**********************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons.js ***!
   \**********************************************************/
@@ -3615,7 +3913,7 @@ exports.initializeIcons = initializeIcons;
 
 /***/ }),
 
-/***/ 657:
+/***/ 660:
 /*!************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-0.js ***!
   \************************************************************/
@@ -3752,7 +4050,7 @@ exports.initializeIcons = initializeIcons;
 
 /***/ }),
 
-/***/ 658:
+/***/ 661:
 /*!************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-1.js ***!
   \************************************************************/
@@ -3889,7 +4187,7 @@ exports.initializeIcons = initializeIcons;
 
 /***/ }),
 
-/***/ 659:
+/***/ 662:
 /*!************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-2.js ***!
   \************************************************************/
@@ -4026,7 +4324,7 @@ exports.initializeIcons = initializeIcons;
 
 /***/ }),
 
-/***/ 660:
+/***/ 663:
 /*!************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-3.js ***!
   \************************************************************/
@@ -4163,7 +4461,7 @@ exports.initializeIcons = initializeIcons;
 
 /***/ }),
 
-/***/ 661:
+/***/ 664:
 /*!************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-4.js ***!
   \************************************************************/
@@ -4296,7 +4594,7 @@ exports.initializeIcons = initializeIcons;
 
 /***/ }),
 
-/***/ 662:
+/***/ 665:
 /*!************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-5.js ***!
   \************************************************************/
@@ -4432,7 +4730,7 @@ exports.initializeIcons = initializeIcons;
 
 /***/ }),
 
-/***/ 663:
+/***/ 666:
 /*!************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-6.js ***!
   \************************************************************/
@@ -4567,7 +4865,7 @@ exports.initializeIcons = initializeIcons;
 
 /***/ }),
 
-/***/ 664:
+/***/ 667:
 /*!************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-7.js ***!
   \************************************************************/
@@ -4704,7 +5002,7 @@ exports.initializeIcons = initializeIcons;
 
 /***/ }),
 
-/***/ 665:
+/***/ 668:
 /*!************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-8.js ***!
   \************************************************************/
@@ -4841,7 +5139,7 @@ exports.initializeIcons = initializeIcons;
 
 /***/ }),
 
-/***/ 666:
+/***/ 669:
 /*!************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-9.js ***!
   \************************************************************/
@@ -4978,7 +5276,7 @@ exports.initializeIcons = initializeIcons;
 
 /***/ }),
 
-/***/ 667:
+/***/ 670:
 /*!*************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-10.js ***!
   \*************************************************************/
@@ -5111,7 +5409,7 @@ exports.initializeIcons = initializeIcons;
 
 /***/ }),
 
-/***/ 668:
+/***/ 671:
 /*!*************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-11.js ***!
   \*************************************************************/
@@ -5232,7 +5530,7 @@ exports.initializeIcons = initializeIcons;
 
 /***/ }),
 
-/***/ 669:
+/***/ 672:
 /*!**********************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/icon-aliases.js ***!
   \**********************************************************/
@@ -5249,5 +5547,5 @@ index_1.registerIconAlias('trash', 'delete');
 
 /***/ })
 
-},[312]);
+},[313]);
 //# sourceMappingURL=application.js.map

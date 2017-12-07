@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Toggle, Slider, Label } from "office-ui-fabric-react";
 import Axios from "axios";
-import { IGatewayModel, IGatewayColor } from "../../../models/gateway";
+import { IGatewayModel, IGatewayColor } from "../../../models/xiaomi";
 import { Panel } from "../../../global/components/simple/Panel";
 import { json } from "body-parser";
 export interface IGatewayProps {
