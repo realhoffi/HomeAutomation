@@ -1,5 +1,5 @@
 import express = require("express");
-import { ILightModel, IRGBColor, IBaseWeatherSensor } from "../../models/xiaomi";
+import { ILightModel, IRGBColor, IBaseWeatherSensor, IGatewayModel } from "../../models/xiaomi";
 import { request } from "http";
 const cfg = require("./../../config/config.json");
 export function registerRoutes(router: express.Router) {
@@ -14,11 +14,11 @@ export function registerRoutes(router: express.Router) {
                     id: sensor.id,
                     ip: sensor.ip,
                     humidity: sensor.humidity || -1,
-                    pressure: sensor.pressure || -1,
+                    pressure: sensor.hasCapability("pressure") ? sensor.pressure : -1,
                     temperature: sensor.temperature || -1,
                 } as IBaseWeatherSensor;
             });
-            console.log(JSON.stringify(result));
+            //   console.log(JSON.stringify(result));
         }
         cfg.devices.sensors.forEach((sensor) => {
             result.forEach((sens) => {
@@ -29,6 +29,19 @@ export function registerRoutes(router: express.Router) {
         });
         res.json({ sensors: result });
     });
+    router.route("/sensors/:id/info/:properties").get(function (req, res) {
+        let sensors: any[] = req.app.locals.xiaomi.sensors;
+        let sensor = sensors.find((sens) => {
+            return sens.id === req.params.id;
+        });
+        if (sensor) {
+            console.log("batteryLevel: " + sensor.batteryLevel);
+            console.log("battery_level: " + sensor.battery_level);
+            console.log("voltage: " + sensor.voltage);
+            res.json({ id: req.params.id, "properties": sensor.batteryLevel });
+        }
+    });
+
 
     router.route("/lights").get(function (req, res) {
         let a = cfg;
@@ -126,9 +139,10 @@ export function registerRoutes(router: express.Router) {
         if (light) {
             light.setPower(!light.power).then((newValue, b) => {
                 res.json({ "power": newValue });
+            }).catch(() => {
+                res.json({ "power": "error" });
             });
         }
-
     });
     router.route("/lights/:id/brightness/:value").post(function (req, res) {
         let yeelights: any[] = req.app.locals.xiaomi.yeelights;
@@ -149,11 +163,11 @@ export function registerRoutes(router: express.Router) {
 
             light.setBrightness(bright).then(() => {
                 console.log("Light brightness: " + bright);
+                res.json({ "brightness": req.params.value });
+            }).catch(() => {
+                res.json({ "brightness": "error" });
             });
-            // const rgb = 255 * 65536 + 1 * 256 + 1;
-            // light.call("set_rgb", [rgb, "smooth", 500]);
         }
-        res.json({ "intensity": req.params.value });
     });
     router.route("/lights/:id/temperature/:value").post(function (req, res) {
         let yeelights: any[] = req.app.locals.xiaomi.yeelights;
@@ -169,6 +183,8 @@ export function registerRoutes(router: express.Router) {
             light.call("set_ct_abx", [parsedValue, "smooth", 100]).then((a) => {
                 console.log("set ct!" + a);
                 res.json({ "set_ct_abx": req.params.value });
+            }).catch(() => {
+                res.json({ "set_ct_abx": "error" });
             });
         }
 
@@ -178,74 +194,145 @@ export function registerRoutes(router: express.Router) {
         let light = yeelights.find((gw) => {
             return gw.id === req.params.id;
         });
-        if (light) {
-            let parsedValue = parseInt(req.params.value);
-            if (isNaN(parsedValue)) {
-                res.status(500).json({ error: "value must between 1700 and 6500" });
-            }
-
-            light.call("set_rgb", [parsedValue, "smooth", 500]).then((a) => {
-                res.json({ "rgb": a });
-            });
+        if (!light) {
+            res.json({ "rgb": "light not found" });
+            return;
         }
-    });
+        let parsedValue = parseInt(req.params.value);
+        if (isNaN(parsedValue)) {
+            res.status(500).json({ error: "value must between 1700 and 6500" });
+        }
 
+        light.call("set_rgb", [parsedValue, "smooth", 500]).then((newValue) => {
+            res.json({ "rgb": newValue });
+        }).catch(() => {
+            res.json({ "rgb": "error" });
+        });
+    });
 
     router.route("/gateways").get(function (req, res) {
         let result: IGatewayModel[] = [];
         let gateways: any[] = req.app.locals.xiaomi.gateways;
         if (gateways && gateways.length > 0) {
             result = gateways.map((gw): IGatewayModel => {
+                console.log("RGB: " + JSON.stringify(gw.color));
+                console.log("brightness: " + JSON.stringify(gw.brightness));
                 return {
-                    intensity: gw.intensity,
-                    sid: gw.sid,
+                    illuminance: gw.illuminance,
+                    id: gw.id,
                     ip: gw.ip,
-                    on: gw.intensity > 0,
-                    rgb: gw.color
+                    power: gw.brightness > 0,
+                    rgb: gw.color || { b: 0, r: 0, g: 0 },
+                    name: "",
+                    brightness: gw.brightness
                 };
             });
+            cfg.devices.gateways.forEach((gw) => {
+                result.forEach((gwModel) => {
+                    if (gwModel.id === gw.id) {
+                        gwModel.name = gw.name;
+                    }
+                });
+            });
+            let requests = gateways.map((gw) => {
+                return gw.call("get_prop", ["rgb"]);
+            });
+            Promise.all(requests).then((resultProperties) => {
+                resultProperties.forEach((properties, index) => {
+                    const buf = Buffer.alloc(4);
+                    buf.writeUInt32BE(properties[0], 0);
+                    result[index].rgb = { b: buf.readUInt8(3), g: buf.readUInt8(2), r: buf.readUInt8(1) };
+                    result[index].brightness = buf.readUInt8(0);
+                });
+                res.json({ gateways: result });
+            }).catch((err) => {
+                console.log("Error:" + JSON.stringify(err));
+                res.status(500).json({ error: "error" });
+            });
         }
-        res.json({ gateways: result });
     });
-    router.route("/gateways/:sid/intensity/:value").post(function (req, res) {
+    router.route("/gateways/:id/info/:properties").get(function (req, res) {
         let gateways: any[] = req.app.locals.xiaomi.gateways;
         let gateway = gateways.find((gw) => {
-            return gw.sid === req.params["sid"];
+            return gw.id === req.params.id;
         });
         if (gateway) {
-            console.log("found gw: " + req.params.sid);
-            gateway.setIntensity(req.params.value);
+            gateway.call("get_prop", req.params.properties.split(";")).then((resultProperties) => {
+                console.log("GWPROPS: " + JSON.stringify(resultProperties));
+                const buf = Buffer.alloc(4);
+                buf.writeUInt32BE(resultProperties[0], 0);
+                let rgb: IRGBColor = { b: buf.readUInt8(3), g: buf.readUInt8(2), r: buf.readUInt8(1) };
+                let intensity = buf.readUInt8(0); // 0-100
+                console.log("INTENSI: " + intensity);
+                console.log("N: " + JSON.stringify(rgb));
+
+                res.json({ id: req.params.id, "properties": resultProperties });
+            });
         }
-        res.json({ "intensity": req.params.value });
+
     });
-    router.route("/gateways/:sid/color").post(function (req, res) {
+    router.route("/gateways/:id/brightness/:value").post(function (req, res) {
         let gateways: any[] = req.app.locals.xiaomi.gateways;
         let gateway = gateways.find((gw) => {
-            return gw.sid === req.params["sid"];
-        });
-        let color = req.body || undefined;
-        console.log(color);
-        if (gateway && color) {
-            console.log("found gw: " + req.params.sid);
-            gateway.setColor(color);
-        }
-        res.json(color as {});
-    });
-    router.route("/gateways/:sid/").get(function (req, res) {
-        let gateways: any[] = req.app.locals.xiaomi.gateways;
-        let gateway = gateways.find((gw) => {
-            return gw.sid === req.params["sid"];
+            return gw.id === req.params["id"];
         });
         if (gateway) {
-            res.status(200).json({
-                intensity: gateway.intensity,
-                sid: gateway.sid,
-                ip: gateway.ip,
-                on: gateway.intensity > 0,
-                rgb: gateway.color
+            let newBrightness = req.params.value;
+            const color = gateway.rgb;
+            const bright = gateway.brightness;
+
+            const brightness = Math.max(0, Math.min(100, Math.round(newBrightness)));
+            const rgb = brightness << 24 | (color.red << 16) | (color.green << 8) | color.blue;
+
+
+            gateway.call("set_rgb", [rgb], { refresh: true }).then((newValue) => {
+                res.json({ "rgb": newValue });
+            }).catch(() => {
+                res.json({ "error": "brightness not set" });
             });
         } else {
-            res.status(500).json({ error: "Gateway mit sid " + req.params["sid"] + " nicht gefunden" });
+            res.json({ "brightness": "error! can not set brightness" });
+        }
+    });
+    router.route("/gateways/:id/color").post(function (req, res) {
+        let gateways: any[] = req.app.locals.xiaomi.gateways;
+        let gateway = gateways.find((gw) => {
+            return gw.id === req.params["id"];
+        });
+        let color: IRGBColor = req.body.color;
+        console.log("Color: " + JSON.stringify(color));
+        if (gateway && color) {
+            console.log("found gw: " + req.params.id);
+
+            const brightness = Math.max(0, Math.min(100, Math.round(gateway.brightness)));
+            const rgb = brightness << 24 | (color.r << 16) | (color.g << 8) | color.b;
+            console.log("new color: " + rgb);
+            gateway.call("set_rgb", [rgb], { refresh: true }).then((newValue) => {
+                res.json({ "rgb": newValue });
+            }).catch(() => {
+                res.json({ "error": "color not set" });
+            });
+        }
+    });
+    router.route("/gateways/:id/power").post(function (req, res) {
+        let gateways: any[] = req.app.locals.xiaomi.gateways;
+        let gateway = gateways.find((gw) => {
+            return gw.id === req.params["id"];
+        });
+        if (gateway) {
+            const color = gateway.rgb;
+            const bright = gateway.brightness;
+
+            const brightness = Math.max(0, Math.min(100, Math.round(gateway.brightness > 0 ? 0 : 100)));
+            const rgb = brightness << 24 | (color.red << 16) | (color.green << 8) | color.blue;
+            console.log("RGB::: " + rgb);
+            gateway.call("set_rgb", [rgb], { refresh: true }).then((newValue) => {
+                res.json({ "power": gateway.brightness > 0 });
+            }).catch(() => {
+                res.json({ "error": "brightness not set" });
+            });
+        } else {
+            res.status(500).json({ error: "Kein Gateway mit ID " + req.params["id"] + " gefunden" });
         }
     });
 }

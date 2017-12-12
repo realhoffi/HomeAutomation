@@ -100,7 +100,7 @@ export class BaseLight extends React.Component<IBaseLightProps, {}> {
     render() {
         console.log("baseLight render");
         return <div className="ms-Grid-row" key={"list_" + this.props.id}>
-            <div className="ms-Grid-col ms-sm12 ms-lg12 ms-xl6">
+            <div className="ms-Grid-col ms-sm12 ms-lg12">
                 <Panel headerText={this.props.lightInformation.name} className="custom-padding-bottom-10px" >
                     <div className="ms-Grid-row">
                         <div className="ms-Grid-col ms-sm6">

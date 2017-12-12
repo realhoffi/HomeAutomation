@@ -15,8 +15,11 @@ export interface ILightModel extends IXiaomiDevice {
     rgb: IRGBColor;
 }
 
-export interface IGatewayModel {
-
+export interface IGatewayModel extends IXiaomiDevice {
+    power: boolean;
+    illuminance: number;
+    brightness: number;
+    rgb: IRGBColor;
 }
 
 export interface IBaseWeatherSensor extends IXiaomiDevice {

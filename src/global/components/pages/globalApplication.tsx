@@ -4,6 +4,8 @@ import { Application } from "./application";
 import { Application as YeelightApplication } from "../../../projects/yeelight/components/pages/application";
 import { Application as VacuumApplication } from "../../../projects/vacuumRoboter/components/pages/application";
 import { Application as AldiApplication } from "../../../projects/aldi/components/pages/application";
+import { Application as SensorApplication } from "../../../projects/xiaomi/components/pages/sensors";
+import { Application as GatewayApplication } from "../../../projects/xiaomi/components/pages/gateways";
 import { NotFoundPage } from "../../components/simple/NotFoundPage";
 import { RedirectWithStatus } from "../simple/routing";
 import { BasePage } from "../container/basePage";
@@ -28,16 +30,24 @@ export class GlobalApplication extends React.Component<IGlobalApplicationProps, 
                 <Route path="/light" component={YeelightApplication} key="r2" />
                 <Route path="/aldi" component={AldiApplication} key="r3" />
                 <Route path="/vacuum" component={VacuumApplication} key="r4" />
+                <Route path="/sensors" component={SensorApplication} key="r6" />
+                <Route path="/gateways" component={GatewayApplication} key="r7" />
                 <Route path="*" component={NotFoundPage} key="r5" />
             </Switch>
         } Navigation={
             <div>
                 <ul>
                     <li>
-                        <Link to={"/"} replace={true}>Homepage</Link>
+                        <Link to={"/"} replace={true}>Übersicht</Link>
                     </li>
                     <li>
                         <Link to={"/light"} replace={true}>Yeelight</Link>
+                    </li>
+                    <li>
+                        <Link to={"/sensors"} replace={true}>Sensoren</Link>
+                    </li>
+                    <li>
+                        <Link to={"/gateways"} replace={true}>Gateways</Link>
                     </li>
                     <li>
                         <Link to={"/aldi"} replace={true}>Aldi</Link>

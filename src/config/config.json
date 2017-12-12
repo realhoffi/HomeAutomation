@@ -28,7 +28,7 @@
             {
                 "name": "Sensor Terasse",
                 "beschreibung": "Eckig",
-                " ort": "Terasse",
+                "ort": "Terasse",
                 "id": "158d0001b9635d",
                 "type": "sensor",
                 "model": "lumi.weather"
@@ -38,7 +38,7 @@
             {
                 "name": "Lampe Bad",
                 "beschreibung": "",
-                " ort": "Badezimmer",
+                "ort": "Badezimmer",
                 "id": "72779159",
                 "type": "light",
                 "model": "yeelink.light.color1"
@@ -46,6 +46,9 @@
         ],
         "gateways": [
             {
+                "name": "Hauptgateway",
+                "beschreibung": "",
+                "ort": "Wohnzimmer",
                 "id": "73058750",
                 "model": "lumi.gateway.v3",
                 "address": "192.168.178.45"

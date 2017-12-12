@@ -100,114 +100,12 @@ server.listen(port, err => {
     console.info(`Server running on http://localhost:${port} [${env}]`);
 });
 
-
-// const aqara = new Aqara();
-// aqara.on("gateway", (gateway) => {
-//     console.log("Gateway discovered");
-//     gateway.on("ready", () => {
-//         let exists = app.locals.xiaomi.gateways.filter((gw) => {
-//             return gateway.sid === gw;
-//         });
-//         // console.log(exists);
-//         if (!exists || exists.length === 0) {
-//             console.log("Gateway existiert nicht");
-//             app.locals.xiaomi.gateways.push(gateway);
-//         } else {
-//             console.log("Gateway existiert bereits", gateway.sid);
-//         }
-
-//         console.log("Gateway is ready");
-//         console.log("IP:", gateway.ip);
-//         console.log("sid:", gateway.sid);
-//         gateway.setPassword("E2DFC915F00C49B4");
-//         // gateway.setColor({ r: 255, g: 255, b: 125 });
-//         // gateway.setColor({ r: 0, g: 0, b: 0 });
-//         // gateway.setIntensity(100);
-//     });
-
-//     gateway.on("offline", () => {
-//         gateway = null;
-//         console.log("Gateway is offline");
-//     });
-
-//     gateway.on("subdevice", (device) => {
-//         console.log("New device");
-//         console.log(`  Battery: ${device.getBatteryPercentage()}%`);
-//         console.log(`  Type: ${device.getType()}`);
-//         console.log(`  SID: ${device.getSid()}`);
-//         switch (device.getType()) {
-//             case "magnet":
-//                 console.log(`  Magnet (${device.isOpen() ? "open" : "close"})`);
-//                 device.on("open", () => {
-//                     console.log(`${device.getSid()} is now open`);
-//                 });
-//                 device.on("close", () => {
-//                     console.log(`${device.getSid()} is now close`);
-//                 });
-//                 break;
-//             case "switch":
-//                 console.log(`  Switch`);
-//                 device.on("click", () => {
-//                     console.log(`${device.getSid()} is clicked`);
-//                 });
-//                 device.on("doubleClick", () => {
-//                     console.log(`${device.getSid()} is double clicked`);
-//                 });
-//                 device.on("longClickPress", () => {
-//                     console.log(`${device.getSid()} is long pressed`);
-//                 });
-//                 device.on("longClickRelease", () => {
-//                     console.log(`${device.getSid()} is long released`);
-//                 });
-//                 break;
-//             case "motion":
-//                 console.log(`  Motion (${device.hasMotion() ? "motion" : "no motion"})`);
-//                 device.on("motion", () => {
-//                     console.log(`${device.getSid()} has motion${device.getLux() !== null ? " (lux:" + device.getLux() + ")" : ""}`);
-//                 });
-//                 device.on("noMotion", () => {
-//                     console.log(`${device.getSid()} has no motion (inactive:${device.getSecondsSinceMotion()}${device.getLux() !== null ? " lux:" + device.getLux() : ""})`);
-//                 });
-//                 break;
-//             case "sensor":
-//                 console.log(`  Sensor (temperature:${device.getTemperature()}C rh:${device.getHumidity()}%${device.getPressure() != null ? " pressure:" + device.getPressure() + "kPa" : ""})`);
-//                 device.on("update", () => {
-//                     console.log(`${device.getSid()} temperature: ${device.getTemperature()}C rh:${device.getHumidity()}%${device.getPressure() != null ? " pressure:" + device.getPressure() + "kPa" : ""}`);
-//                 });
-//                 break;
-//             case "leak":
-//                 console.log(`  Leak sensor`);
-//                 device.on("update", () => {
-//                     console.log(`${device.getSid()}${device.isLeaking() ? "" : " not"} leaking`);
-//                 });
-//                 break;
-//             case "cube":
-//                 console.log(`  Cube`);
-//                 device.on("update", () => {
-//                     console.log(`${device.getSid()} ${device.getStatus()}${device.getRotateDegrees() !== null ? " " + device.getRotateDegrees() : ""}`);
-//                 });
-//                 break;
-//         }
-//     });
-
-//     gateway.on("lightState", (state) => {
-//         let b = -1;
-//         console.log(`Light updated: ${JSON.stringify(state)}`);
-//         let exists = app.locals.xiaomi.gateways.find((gw, index) => {
-//             b = index;
-//             return gateway.sid === gw;
-//         });
-//         if (b > -1) {
-//             app.locals.xiaomi.gateways[b] = gateway;
-//         }
-//     });
-// });
-
-
 const devices = miio.devices({
-    cacheTime: 300 // 5 minutes. Default is 1800 seconds (30 minutes)
+    cacheTime: 60 // 5 minutes. Default is 1800 seconds (30 minutes)
 });
+// console.log(devices);
 devices.on("available", reg => {
+    console.log("Refresh Device");
     const device = reg.device;
 
     device.on("propertyChanged", e => console.log("propertyChanged: " + e.property, e.oldValue, e.value));
@@ -215,7 +113,7 @@ devices.on("available", reg => {
     device.on("action", e => console.log("Action performed:", e.id));
 
     console.log(reg);
-    console.log("@@device.type: " + device.type);
+    // console.log("@@device.type: " + device.type);
 
     if (!device) {
         console.log(reg.id, "could not be connected to");
@@ -260,6 +158,10 @@ devices.on("available", reg => {
             break;
         case "sensor":
             console.log("SENSOR DETECTED");
+            device.defineProperty("batteryLevel");
+            device.defineProperty("battery_level");
+            device.defineProperty("voltage");
+
             exists = app.locals.xiaomi.sensors.filter((sensor, index) => {
                 indexOfElement = index;
                 return device.id === sensor.id;
@@ -286,7 +188,10 @@ devices.on("available", reg => {
 });
 
 devices.on("unavailable", reg => {
-    // if (!reg.device) return;
+    if (!reg.device) {
+        console.log("Device " + reg.id + " not available");
+        return;
+    }
 
     // Do whatever you need here
 });

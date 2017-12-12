@@ -1,6 +1,124 @@
 webpackJsonp([0],{
 
-/***/ 108:
+/***/ 130:
+/*!*************************************!*\
+  !*** ./node_modules/axios/index.js ***!
+  \*************************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! ./lib/axios */ 359);
+
+/***/ }),
+
+/***/ 131:
+/*!********************************************!*\
+  !*** ./node_modules/axios/lib/defaults.js ***!
+  \********************************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+var utils = __webpack_require__(/*! ./utils */ 26);
+var normalizeHeaderName = __webpack_require__(/*! ./helpers/normalizeHeaderName */ 362);
+
+var DEFAULT_CONTENT_TYPE = {
+  'Content-Type': 'application/x-www-form-urlencoded'
+};
+
+function setContentTypeIfUnset(headers, value) {
+  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
+    headers['Content-Type'] = value;
+  }
+}
+
+function getDefaultAdapter() {
+  var adapter;
+  if (typeof XMLHttpRequest !== 'undefined') {
+    // For browsers use XHR adapter
+    adapter = __webpack_require__(/*! ./adapters/xhr */ 206);
+  } else if (typeof process !== 'undefined') {
+    // For node use HTTP adapter
+    adapter = __webpack_require__(/*! ./adapters/http */ 206);
+  }
+  return adapter;
+}
+
+var defaults = {
+  adapter: getDefaultAdapter(),
+
+  transformRequest: [function transformRequest(data, headers) {
+    normalizeHeaderName(headers, 'Content-Type');
+    if (utils.isFormData(data) ||
+      utils.isArrayBuffer(data) ||
+      utils.isBuffer(data) ||
+      utils.isStream(data) ||
+      utils.isFile(data) ||
+      utils.isBlob(data)
+    ) {
+      return data;
+    }
+    if (utils.isArrayBufferView(data)) {
+      return data.buffer;
+    }
+    if (utils.isURLSearchParams(data)) {
+      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
+      return data.toString();
+    }
+    if (utils.isObject(data)) {
+      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
+      return JSON.stringify(data);
+    }
+    return data;
+  }],
+
+  transformResponse: [function transformResponse(data) {
+    /*eslint no-param-reassign:0*/
+    if (typeof data === 'string') {
+      try {
+        data = JSON.parse(data);
+      } catch (e) { /* Ignore */ }
+    }
+    return data;
+  }],
+
+  timeout: 0,
+
+  xsrfCookieName: 'XSRF-TOKEN',
+  xsrfHeaderName: 'X-XSRF-TOKEN',
+
+  maxContentLength: -1,
+
+  validateStatus: function validateStatus(status) {
+    return status >= 200 && status < 300;
+  }
+};
+
+defaults.headers = {
+  common: {
+    'Accept': 'application/json, text/plain, */*'
+  }
+};
+
+utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
+  defaults.headers[method] = {};
+});
+
+utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
+});
+
+module.exports = defaults;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../process/browser.js */ 76)))
+
+/***/ }),
+
+/***/ 162:
 /*!************************************************!*\
   !*** ./src/global/components/simple/Panel.tsx ***!
   \************************************************/
@@ -78,125 +196,152 @@ exports.Panel = Panel;
 
 /***/ }),
 
-/***/ 130:
-/*!********************************************!*\
-  !*** ./node_modules/axios/lib/defaults.js ***!
-  \********************************************/
+/***/ 163:
+/*!******************************************!*\
+  !*** ./node_modules/int-to-rgb/index.js ***!
+  \******************************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports) {
+
+var errorMessage = 'Must provide an integer between 0 and 16777215';
+
+
+module.exports = function(int) {
+  if (typeof int !== 'number') throw new Error(errorMessage);
+  if (Math.floor(int) !== int) throw new Error(errorMessage);
+  if (int < 0 || int > 16777215) throw new Error(errorMessage);
+
+  var red = int >> 16;
+  var green = int - (red << 16) >> 8;
+  var blue = int - (red << 16) - (green << 8);
+
+  return {
+    red: red,
+    green: green,
+    blue: blue
+  }
+}
+
+
+/***/ }),
+
+/***/ 204:
+/*!****************************************************************!*\
+  !*** ./src/projects/yeelight/components/pages/application.tsx ***!
+  \****************************************************************/
 /*! dynamic exports provided */
 /*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-var utils = __webpack_require__(/*! ./utils */ 26);
-var normalizeHeaderName = __webpack_require__(/*! ./helpers/normalizeHeaderName */ 357);
-
-var DEFAULT_CONTENT_TYPE = {
-  'Content-Type': 'application/x-www-form-urlencoded'
+/* WEBPACK VAR INJECTION */(function(Promise) {
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
 };
-
-function setContentTypeIfUnset(headers, value) {
-  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
-    headers['Content-Type'] = value;
-  }
-}
-
-function getDefaultAdapter() {
-  var adapter;
-  if (typeof XMLHttpRequest !== 'undefined') {
-    // For browsers use XHR adapter
-    adapter = __webpack_require__(/*! ./adapters/xhr */ 203);
-  } else if (typeof process !== 'undefined') {
-    // For node use HTTP adapter
-    adapter = __webpack_require__(/*! ./adapters/http */ 203);
-  }
-  return adapter;
-}
-
-var defaults = {
-  adapter: getDefaultAdapter(),
-
-  transformRequest: [function transformRequest(data, headers) {
-    normalizeHeaderName(headers, 'Content-Type');
-    if (utils.isFormData(data) ||
-      utils.isArrayBuffer(data) ||
-      utils.isBuffer(data) ||
-      utils.isStream(data) ||
-      utils.isFile(data) ||
-      utils.isBlob(data)
-    ) {
-      return data;
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ 2);
+var axios_1 = __webpack_require__(/*! axios */ 130);
+var BaseLight_1 = __webpack_require__(/*! ../../../../global/components/simple/BaseLight */ 210);
+var timers_1 = __webpack_require__(/*! timers */ 92);
+var intToRGB = __webpack_require__(/*! int-to-rgb */ 163);
+var Application = (function (_super) {
+    __extends(Application, _super);
+    function Application(props) {
+        var _this = _super.call(this, props) || this;
+        _this.state = { lights: [], isInitialized: false };
+        _this.colorChangedOnLight = _this.colorChangedOnLight.bind(_this);
+        _this.powerChangedOnLight = _this.powerChangedOnLight.bind(_this);
+        _this.colorSchemaChangedOnLight = _this.colorSchemaChangedOnLight.bind(_this);
+        _this.brightnessChangedOnLight = _this.brightnessChangedOnLight.bind(_this);
+        _this.reloadLightInformations = _this.reloadLightInformations.bind(_this);
+        _this.loadDevices = _this.loadDevices.bind(_this);
+        return _this;
     }
-    if (utils.isArrayBufferView(data)) {
-      return data.buffer;
-    }
-    if (utils.isURLSearchParams(data)) {
-      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
-      return data.toString();
-    }
-    if (utils.isObject(data)) {
-      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
-      return JSON.stringify(data);
-    }
-    return data;
-  }],
+    Application.prototype.componentDidMount = function () {
+        var _this = this;
+        document.title = "Yeelight Hauptseite";
+        console.log("Yeelight componentDidMount");
+        this.loadDevices().then(function () {
+            _this.setState({ isInitialized: true });
+        });
+        timers_1.setInterval(this.loadDevices, 60000);
+    };
+    Application.prototype.loadDevices = function () {
+        var _this = this;
+        return axios_1.default.get("/api/lights/details")
+            .then(function (results) {
+            _this.setState({ lights: results.data["lights"] });
+        })
+            .catch(function (error) { });
+    };
+    Application.prototype.reloadLightInformations = function () {
+        var _this = this;
+        axios_1.default.get("/api/lights/details").then(function (result) {
+            _this.setState({ lights: result.data.lights });
+            var newState = __assign({}, _this.state);
+        });
+    };
+    Application.prototype.colorChangedOnLight = function (lightInformation, color) {
+        var rgb = (color.r * 65536) + (color.g * 256) + color.b;
+        axios_1.default.post("/api/lights/" + lightInformation.id + "/color/" + rgb)
+            .then(this.reloadLightInformations);
+    };
+    Application.prototype.powerChangedOnLight = function (lightInformation) {
+        axios_1.default.post("/api/lights/" + lightInformation.id + "/power")
+            .then(this.reloadLightInformations);
+    };
+    Application.prototype.colorSchemaChangedOnLight = function (lightInformation, color, brightness) {
+        var rgb = (color.r * 65536) + (color.g * 256) + color.b;
+        Promise.all([
+            axios_1.default.post("/api/lights/" + lightInformation.id + "/brightness/" + brightness),
+            axios_1.default.post("/api/lights/" + lightInformation.id + "/color/" + rgb)
+        ]).then(this.reloadLightInformations);
+    };
+    Application.prototype.brightnessChangedOnLight = function (lightInformation, brightness) {
+        axios_1.default.post("/api/lights/" + lightInformation.id + "/brightness/" + brightness)
+            .then(this.reloadLightInformations);
+    };
+    Application.prototype.render = function () {
+        var _this = this;
+        if (!this.state.isInitialized) {
+            return false;
+        }
+        console.log("Yewelight render");
+        return React.createElement("div", { className: "ms-Grid-row" },
+            React.createElement("div", { className: "ms-Grid-col ms-sm12" },
+                (!this.state.lights || this.state.lights.length < 1) &&
+                    React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, "Keine Lampen gefunden"),
+                React.createElement("div", { className: "ms-Grid-row" }, (this.state.lights && this.state.lights.length > 0) &&
+                    this.state.lights.map(function (light, index) {
+                        return React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-lg6 ms-xl3", key: "light_container_" + index },
+                            React.createElement(BaseLight_1.BaseLight, { lightInformation: light, id: index, onBrightnessChanged: _this.brightnessChangedOnLight, onColorChanged: _this.colorChangedOnLight, onColorSchemaChanged: _this.colorSchemaChangedOnLight, onPowerChanged: _this.powerChangedOnLight }));
+                    }))));
+    };
+    return Application;
+}(React.Component));
+exports.Application = Application;
 
-  transformResponse: [function transformResponse(data) {
-    /*eslint no-param-reassign:0*/
-    if (typeof data === 'string') {
-      try {
-        data = JSON.parse(data);
-      } catch (e) { /* Ignore */ }
-    }
-    return data;
-  }],
-
-  timeout: 0,
-
-  xsrfCookieName: 'XSRF-TOKEN',
-  xsrfHeaderName: 'X-XSRF-TOKEN',
-
-  maxContentLength: -1,
-
-  validateStatus: function validateStatus(status) {
-    return status >= 200 && status < 300;
-  }
-};
-
-defaults.headers = {
-  common: {
-    'Accept': 'application/json, text/plain, */*'
-  }
-};
-
-utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
-  defaults.headers[method] = {};
-});
-
-utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
-  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
-});
-
-module.exports = defaults;
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../process/browser.js */ 76)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 34)))
 
 /***/ }),
 
-/***/ 201:
-/*!*************************************!*\
-  !*** ./node_modules/axios/index.js ***!
-  \*************************************/
-/*! dynamic exports provided */
-/*! all exports used */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(/*! ./lib/axios */ 354);
-
-/***/ }),
-
-/***/ 202:
+/***/ 205:
 /*!************************************************!*\
   !*** ./node_modules/axios/lib/helpers/bind.js ***!
   \************************************************/
@@ -220,7 +365,7 @@ module.exports = function bind(fn, thisArg) {
 
 /***/ }),
 
-/***/ 203:
+/***/ 206:
 /*!************************************************!*\
   !*** ./node_modules/axios/lib/adapters/xhr.js ***!
   \************************************************/
@@ -232,12 +377,12 @@ module.exports = function bind(fn, thisArg) {
 /* WEBPACK VAR INJECTION */(function(Promise) {
 
 var utils = __webpack_require__(/*! ./../utils */ 26);
-var settle = __webpack_require__(/*! ./../core/settle */ 358);
-var buildURL = __webpack_require__(/*! ./../helpers/buildURL */ 360);
-var parseHeaders = __webpack_require__(/*! ./../helpers/parseHeaders */ 361);
-var isURLSameOrigin = __webpack_require__(/*! ./../helpers/isURLSameOrigin */ 362);
-var createError = __webpack_require__(/*! ../core/createError */ 204);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(/*! ./../helpers/btoa */ 363);
+var settle = __webpack_require__(/*! ./../core/settle */ 363);
+var buildURL = __webpack_require__(/*! ./../helpers/buildURL */ 365);
+var parseHeaders = __webpack_require__(/*! ./../helpers/parseHeaders */ 366);
+var isURLSameOrigin = __webpack_require__(/*! ./../helpers/isURLSameOrigin */ 367);
+var createError = __webpack_require__(/*! ../core/createError */ 207);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(/*! ./../helpers/btoa */ 368);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -334,7 +479,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(/*! ./../helpers/cookies */ 364);
+      var cookies = __webpack_require__(/*! ./../helpers/cookies */ 369);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -414,7 +559,7 @@ module.exports = function xhrAdapter(config) {
 
 /***/ }),
 
-/***/ 204:
+/***/ 207:
 /*!****************************************************!*\
   !*** ./node_modules/axios/lib/core/createError.js ***!
   \****************************************************/
@@ -425,7 +570,7 @@ module.exports = function xhrAdapter(config) {
 "use strict";
 
 
-var enhanceError = __webpack_require__(/*! ./enhanceError */ 359);
+var enhanceError = __webpack_require__(/*! ./enhanceError */ 364);
 
 /**
  * Create an Error with the specified message, config, error code, request and response.
@@ -445,7 +590,7 @@ module.exports = function createError(message, config, code, request, response) 
 
 /***/ }),
 
-/***/ 205:
+/***/ 208:
 /*!***************************************************!*\
   !*** ./node_modules/axios/lib/cancel/isCancel.js ***!
   \***************************************************/
@@ -463,7 +608,7 @@ module.exports = function isCancel(value) {
 
 /***/ }),
 
-/***/ 206:
+/***/ 209:
 /*!*************************************************!*\
   !*** ./node_modules/axios/lib/cancel/Cancel.js ***!
   \*************************************************/
@@ -495,6 +640,157 @@ module.exports = Cancel;
 
 /***/ }),
 
+/***/ 210:
+/*!****************************************************!*\
+  !*** ./src/global/components/simple/BaseLight.tsx ***!
+  \****************************************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ 2);
+var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 44);
+var Panel_1 = __webpack_require__(/*! ../../../global/components/simple/Panel */ 162);
+var BaseLight = (function (_super) {
+    __extends(BaseLight, _super);
+    function BaseLight(props) {
+        var _this = _super.call(this, props) || this;
+        _this.state = { gateways: [] };
+        _this.colorSchemes = [
+            {
+                name: "Bitte auswählen...",
+                color: { "r": 0, "g": 0, "b": 0 },
+                brightness: -1
+            },
+            {
+                name: "Romantik",
+                color: { "r": 235, "g": 104, "b": 119 },
+                brightness: 43
+            },
+            {
+                name: "Sky",
+                color: { "r": 0, "g": 255, "b": 127 },
+                brightness: 43
+            }
+        ];
+        _this.brightnessChanged = _this.brightnessChanged.bind(_this);
+        _this.togglePower = _this.togglePower.bind(_this);
+        _this.setBrightness = _this.setBrightness.bind(_this);
+        _this.colorSchemeChanged = _this.colorSchemeChanged.bind(_this);
+        _this.onRedChanged = _this.onRedChanged.bind(_this);
+        _this.onBlueChanged = _this.onBlueChanged.bind(_this);
+        _this.onGreenChanged = _this.onGreenChanged.bind(_this);
+        return _this;
+    }
+    BaseLight.prototype.colorSchemeChanged = function (event) {
+        var schemeIndex = event.currentTarget.selectedIndex;
+        var schema = this.colorSchemes[schemeIndex];
+        if (!schema || schema.intensity === -1)
+            return;
+        this.props.onColorSchemaChanged(this.props.lightInformation, schema.color, schema.brightness);
+    };
+    BaseLight.prototype.togglePower = function () {
+        this.props.onPowerChanged(this.props.lightInformation);
+    };
+    BaseLight.prototype.setBrightness = function (value) {
+        this.props.onBrightnessChanged(this.props.lightInformation, value);
+    };
+    BaseLight.prototype.brightnessChanged = function (value) {
+        var _this = this;
+        if (this.sliderDelay) {
+            clearTimeout(this.sliderDelay);
+        }
+        this.sliderDelay = setTimeout(function () {
+            _this.setBrightness(value);
+        }, 400);
+    };
+    BaseLight.prototype.onColorChanged = function (color) {
+        this.props.onColorChanged(this.props.lightInformation, color);
+    };
+    BaseLight.prototype.onRedChanged = function (value) {
+        var _this = this;
+        var color = __assign({}, this.props.lightInformation.rgb);
+        color.r = value;
+        if (this.sliderDelay) {
+            clearTimeout(this.sliderDelay);
+        }
+        this.sliderDelay = setTimeout(function () {
+            _this.onColorChanged(color);
+        }, 400);
+    };
+    BaseLight.prototype.onBlueChanged = function (value) {
+        var _this = this;
+        var color = __assign({}, this.props.lightInformation.rgb);
+        color.b = value;
+        if (this.sliderDelay) {
+            clearTimeout(this.sliderDelay);
+        }
+        this.sliderDelay = setTimeout(function () {
+            _this.onColorChanged(color);
+        }, 400);
+    };
+    BaseLight.prototype.onGreenChanged = function (value) {
+        var _this = this;
+        var color = __assign({}, this.props.lightInformation.rgb);
+        color.g = value;
+        if (this.sliderDelay) {
+            clearTimeout(this.sliderDelay);
+        }
+        this.sliderDelay = setTimeout(function () {
+            _this.onColorChanged(color);
+        }, 400);
+    };
+    BaseLight.prototype.render = function () {
+        console.log("baseLight render");
+        return React.createElement("div", { className: "ms-Grid-row", key: "list_" + this.props.id },
+            React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-lg12" },
+                React.createElement(Panel_1.Panel, { headerText: this.props.lightInformation.name, className: "custom-padding-bottom-10px" },
+                    React.createElement("div", { className: "ms-Grid-row" },
+                        React.createElement("div", { className: "ms-Grid-col ms-sm6" },
+                            React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, this.props.lightInformation.power ? "Licht anschalten" : "Licht ausschalten"),
+                            React.createElement(office_ui_fabric_react_1.Toggle, { key: "light_power_" + this.props.id, checked: this.props.lightInformation.power, onText: "On", offText: "Off", onChanged: this.togglePower })),
+                        React.createElement("div", { className: "ms-Grid-col ms-sm6" },
+                            React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, "Farbschema"),
+                            React.createElement("select", { onChange: this.colorSchemeChanged, style: { padding: "10px", width: "100%" }, disabled: !this.props.lightInformation.power }, this.colorSchemes.map(function (schema, index) {
+                                return React.createElement("option", { key: "option_schema_" + index, value: index }, schema.name);
+                            }))),
+                        React.createElement("div", { className: "ms-Grid-col ms-sm12" },
+                            React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, "Leuchtst\u00E4rke"),
+                            React.createElement(office_ui_fabric_react_1.Slider, { min: 1, max: 100, step: 1, disabled: !this.props.lightInformation.power, value: this.props.lightInformation.brightness, showValue: true, onChange: this.brightnessChanged })),
+                        React.createElement("div", { className: "ms-Grid-col ms-sm12" },
+                            React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, "RGB Farben"),
+                            React.createElement(office_ui_fabric_react_1.Slider, { label: "Rot", min: 0, max: 255, step: 1, disabled: !this.props.lightInformation.power, value: this.props.lightInformation.rgb.r, showValue: true, onChange: this.onRedChanged }),
+                            React.createElement(office_ui_fabric_react_1.Slider, { label: "Grün", min: 0, max: 255, step: 1, disabled: !this.props.lightInformation.power, value: this.props.lightInformation.rgb.g, showValue: true, onChange: this.onGreenChanged }),
+                            React.createElement(office_ui_fabric_react_1.Slider, { label: "Blau", min: 0, max: 255, step: 1, disabled: !this.props.lightInformation.power, value: this.props.lightInformation.rgb.b, showValue: true, onChange: this.onBlueChanged }))))));
+    };
+    return BaseLight;
+}(React.Component));
+exports.BaseLight = BaseLight;
+
+
+/***/ }),
+
 /***/ 26:
 /*!*****************************************!*\
   !*** ./node_modules/axios/lib/utils.js ***!
@@ -506,8 +802,8 @@ module.exports = Cancel;
 "use strict";
 
 
-var bind = __webpack_require__(/*! ./helpers/bind */ 202);
-var isBuffer = __webpack_require__(/*! is-buffer */ 355);
+var bind = __webpack_require__(/*! ./helpers/bind */ 205);
+var isBuffer = __webpack_require__(/*! is-buffer */ 360);
 
 /*global toString:true*/
 
@@ -811,7 +1107,186 @@ module.exports = {
 
 /***/ }),
 
-/***/ 276:
+/***/ 280:
+/*!**********************************************************!*\
+  !*** ./src/projects/xiaomi/components/pages/sensors.tsx ***!
+  \**********************************************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ 2);
+var axios_1 = __webpack_require__(/*! axios */ 130);
+var BaseWeatherSensor_1 = __webpack_require__(/*! ../../../../global/components/simple/BaseWeatherSensor */ 653);
+var timers_1 = __webpack_require__(/*! timers */ 92);
+var intToRGB = __webpack_require__(/*! int-to-rgb */ 163);
+var Application = (function (_super) {
+    __extends(Application, _super);
+    function Application(props) {
+        var _this = _super.call(this, props) || this;
+        _this.state = { sensors: [], isInitialized: false };
+        _this.loadDevices = _this.loadDevices.bind(_this);
+        return _this;
+    }
+    Application.prototype.componentDidMount = function () {
+        var _this = this;
+        document.title = "Yeelight Hauptseite";
+        console.log("Yeelight componentDidMount");
+        this.loadDevices().then(function () {
+            _this.setState({ isInitialized: true });
+        });
+        timers_1.setInterval(this.loadDevices, 60000);
+    };
+    Application.prototype.loadDevices = function () {
+        var _this = this;
+        return axios_1.default.get("/api/sensors").then(function (result) {
+            _this.setState({ sensors: result.data["sensors"] });
+        });
+    };
+    Application.prototype.render = function () {
+        if (!this.state.isInitialized) {
+            return false;
+        }
+        return React.createElement("div", { className: "ms-Grid-row" },
+            React.createElement("div", { className: "ms-Grid-col ms-sm12" },
+                (!this.state.sensors || this.state.sensors.length < 1) &&
+                    React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, "Keine Sensoren gefunden"),
+                React.createElement("div", { className: "ms-Grid-row" }, (this.state.sensors && this.state.sensors.length > 0) &&
+                    this.state.sensors.map(function (sensor, index) {
+                        return React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-lg6 ms-xl3", key: "sensor_container_" + index },
+                            React.createElement(BaseWeatherSensor_1.BaseWeatherSensor, { id: index, sensorInformations: sensor }));
+                    }))));
+    };
+    return Application;
+}(React.Component));
+exports.Application = Application;
+
+
+/***/ }),
+
+/***/ 281:
+/*!***********************************************************!*\
+  !*** ./src/projects/xiaomi/components/pages/gateways.tsx ***!
+  \***********************************************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ 2);
+var axios_1 = __webpack_require__(/*! axios */ 130);
+var BaseLight_1 = __webpack_require__(/*! ../../../../global/components/simple/BaseLight */ 210);
+var timers_1 = __webpack_require__(/*! timers */ 92);
+var intToRGB = __webpack_require__(/*! int-to-rgb */ 163);
+var Application = (function (_super) {
+    __extends(Application, _super);
+    function Application(props) {
+        var _this = _super.call(this, props) || this;
+        _this.state = { gateways: [], gatewayLights: [], isInitialized: false };
+        _this.loadDevices = _this.loadDevices.bind(_this);
+        _this.reloadGatewayInformations = _this.reloadGatewayInformations.bind(_this);
+        return _this;
+    }
+    Application.prototype.componentDidMount = function () {
+        var _this = this;
+        document.title = "Yeelight Hauptseite";
+        console.log("Yeelight componentDidMount");
+        this.loadDevices().then(function () {
+            _this.setState({ isInitialized: true });
+        });
+        timers_1.setInterval(this.loadDevices, 60000);
+    };
+    Application.prototype.loadDevices = function () {
+        var _this = this;
+        return axios_1.default.get("/api/gateways").then(function (results) {
+            var gws = results.data["gateways"];
+            var gwLights = gws.map(_this.mapGatewayToLightModel);
+            _this.setState({ gateways: gws, gatewayLights: gwLights });
+        }).catch(function (error) { });
+    };
+    Application.prototype.mapGatewayToLightModel = function (gwModel) {
+        return {
+            id: gwModel.id,
+            ip: gwModel.ip,
+            power: gwModel.power,
+            brightness: gwModel.brightness,
+            name: gwModel.name,
+            colorTemperature: gwModel.illuminance,
+            rgb: gwModel.rgb
+        };
+    };
+    Application.prototype.reloadGatewayInformations = function () {
+        var _this = this;
+        axios_1.default.get("/api/gateways").then(function (result) {
+            var gateways = result.data.gateways;
+            var gwLights = gateways.map(_this.mapGatewayToLightModel);
+            _this.setState({ gateways: gateways, gatewayLights: gwLights });
+        });
+    };
+    Application.prototype.render = function () {
+        var _this = this;
+        if (!this.state.isInitialized) {
+            return false;
+        }
+        console.log("Yewelight render");
+        return React.createElement("div", { className: "ms-Grid-row" },
+            React.createElement("div", { className: "ms-Grid-col ms-sm12" },
+                (!this.state.gatewayLights || this.state.gatewayLights.length < 1) &&
+                    React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, "Keine Gateways gefunden"),
+                React.createElement("div", { className: "ms-Grid-row" }, (this.state.gatewayLights && this.state.gatewayLights.length > 0) &&
+                    this.state.gatewayLights.map(function (gw, index) {
+                        return React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-lg6 ms-xl3", key: "gwr_" + index },
+                            React.createElement(BaseLight_1.BaseLight, { lightInformation: gw, id: index, onBrightnessChanged: function (lightInformation, brightness) {
+                                    axios_1.default.post("/api/gateways/" + lightInformation.id + "/brightness/" + brightness)
+                                        .then(_this.reloadGatewayInformations);
+                                }, onColorChanged: function (lightInformation, color) {
+                                    axios_1.default.post("/api/gateways/" + lightInformation.id + "/color", { color: color })
+                                        .then(_this.reloadGatewayInformations);
+                                }, onColorSchemaChanged: function (lightInformation, color, brightness) {
+                                    axios_1.default.post("/api/gateways/" + lightInformation.id + "/color", { color: color })
+                                        .then(function () {
+                                        return axios_1.default.post("/api/gateways/" + lightInformation.id + "/brightness/" + brightness);
+                                    })
+                                        .then(_this.reloadGatewayInformations);
+                                }, onPowerChanged: function (lightInformation) {
+                                    axios_1.default.post("/api/gateways/" + lightInformation.id + "/power")
+                                        .then(_this.reloadGatewayInformations);
+                                } }));
+                    }))));
+    };
+    return Application;
+}(React.Component));
+exports.Application = Application;
+
+
+/***/ }),
+
+/***/ 282:
 /*!***************************!*\
   !*** ./src/data/enums.ts ***!
   \***************************/
@@ -832,7 +1307,7 @@ var PageType;
 
 /***/ }),
 
-/***/ 277:
+/***/ 283:
 /*!******************************************************!*\
   !*** ./src/global/components/container/basePage.tsx ***!
   \******************************************************/
@@ -886,7 +1361,7 @@ exports.BasePage = BasePage;
 
 /***/ }),
 
-/***/ 278:
+/***/ 284:
 /*!**************************************************!*\
   !*** ./src/global/components/simple/routing.tsx ***!
   \**************************************************/
@@ -949,7 +1424,7 @@ exports.Status = Status;
 
 /***/ }),
 
-/***/ 313:
+/***/ 319:
 /*!*******************************************************!*\
   !*** multi ./src/global/components/pages/initApp.tsx ***!
   \*******************************************************/
@@ -957,12 +1432,12 @@ exports.Status = Status;
 /*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! ./src/global/components/pages/initApp.tsx */314);
+module.exports = __webpack_require__(/*! ./src/global/components/pages/initApp.tsx */320);
 
 
 /***/ }),
 
-/***/ 314:
+/***/ 320:
 /*!*************************************************!*\
   !*** ./src/global/components/pages/initApp.tsx ***!
   \*************************************************/
@@ -975,9 +1450,9 @@ module.exports = __webpack_require__(/*! ./src/global/components/pages/initApp.t
 Object.defineProperty(exports, "__esModule", { value: true });
 var ReactDOM = __webpack_require__(/*! react-dom */ 49);
 var React = __webpack_require__(/*! react */ 2);
-var globalApplication_1 = __webpack_require__(/*! ./globalApplication */ 329);
+var globalApplication_1 = __webpack_require__(/*! ./globalApplication */ 335);
 var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ 73);
-var icons_1 = __webpack_require__(/*! @uifabric/icons */ 658);
+var icons_1 = __webpack_require__(/*! @uifabric/icons */ 665);
 icons_1.initializeIcons();
 window.onload = function () {
     ReactDOM.render(React.createElement(react_router_dom_1.HashRouter, null,
@@ -987,7 +1462,7 @@ window.onload = function () {
 
 /***/ }),
 
-/***/ 329:
+/***/ 335:
 /*!***********************************************************!*\
   !*** ./src/global/components/pages/globalApplication.tsx ***!
   \***********************************************************/
@@ -1010,13 +1485,15 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 2);
 var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ 73);
-var application_1 = __webpack_require__(/*! ./application */ 351);
-var application_2 = __webpack_require__(/*! ../../../projects/yeelight/components/pages/application */ 352);
-var application_3 = __webpack_require__(/*! ../../../projects/vacuumRoboter/components/pages/application */ 647);
-var application_4 = __webpack_require__(/*! ../../../projects/aldi/components/pages/application */ 651);
-var NotFoundPage_1 = __webpack_require__(/*! ../../components/simple/NotFoundPage */ 657);
-var routing_1 = __webpack_require__(/*! ../simple/routing */ 278);
-var basePage_1 = __webpack_require__(/*! ../container/basePage */ 277);
+var application_1 = __webpack_require__(/*! ./application */ 357);
+var application_2 = __webpack_require__(/*! ../../../projects/yeelight/components/pages/application */ 204);
+var application_3 = __webpack_require__(/*! ../../../projects/vacuumRoboter/components/pages/application */ 654);
+var application_4 = __webpack_require__(/*! ../../../projects/aldi/components/pages/application */ 658);
+var sensors_1 = __webpack_require__(/*! ../../../projects/xiaomi/components/pages/sensors */ 280);
+var gateways_1 = __webpack_require__(/*! ../../../projects/xiaomi/components/pages/gateways */ 281);
+var NotFoundPage_1 = __webpack_require__(/*! ../../components/simple/NotFoundPage */ 664);
+var routing_1 = __webpack_require__(/*! ../simple/routing */ 284);
+var basePage_1 = __webpack_require__(/*! ../container/basePage */ 283);
 var GlobalApplication = (function (_super) {
     __extends(GlobalApplication, _super);
     function GlobalApplication(props) {
@@ -1034,12 +1511,18 @@ var GlobalApplication = (function (_super) {
                 React.createElement(react_router_dom_1.Route, { path: "/light", component: application_2.Application, key: "r2" }),
                 React.createElement(react_router_dom_1.Route, { path: "/aldi", component: application_4.Application, key: "r3" }),
                 React.createElement(react_router_dom_1.Route, { path: "/vacuum", component: application_3.Application, key: "r4" }),
+                React.createElement(react_router_dom_1.Route, { path: "/sensors", component: sensors_1.Application, key: "r6" }),
+                React.createElement(react_router_dom_1.Route, { path: "/gateways", component: gateways_1.Application, key: "r7" }),
                 React.createElement(react_router_dom_1.Route, { path: "*", component: NotFoundPage_1.NotFoundPage, key: "r5" })), Navigation: React.createElement("div", null,
                 React.createElement("ul", null,
                     React.createElement("li", null,
-                        React.createElement(react_router_dom_1.Link, { to: "/", replace: true }, "Homepage")),
+                        React.createElement(react_router_dom_1.Link, { to: "/", replace: true }, "\u00DCbersicht")),
                     React.createElement("li", null,
                         React.createElement(react_router_dom_1.Link, { to: "/light", replace: true }, "Yeelight")),
+                    React.createElement("li", null,
+                        React.createElement(react_router_dom_1.Link, { to: "/sensors", replace: true }, "Sensoren")),
+                    React.createElement("li", null,
+                        React.createElement(react_router_dom_1.Link, { to: "/gateways", replace: true }, "Gateways")),
                     React.createElement("li", null,
                         React.createElement(react_router_dom_1.Link, { to: "/aldi", replace: true }, "Aldi")),
                     React.createElement("li", null,
@@ -1052,7 +1535,7 @@ exports.GlobalApplication = GlobalApplication;
 
 /***/ }),
 
-/***/ 351:
+/***/ 357:
 /*!*****************************************************!*\
   !*** ./src/global/components/pages/application.tsx ***!
   \*****************************************************/
@@ -1074,20 +1557,34 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 2);
+var application_1 = __webpack_require__(/*! ../../../projects/yeelight/components/pages/application */ 204);
+var sensors_1 = __webpack_require__(/*! ../../../projects/xiaomi/components/pages/sensors */ 280);
+var gateways_1 = __webpack_require__(/*! ../../../projects/xiaomi/components/pages/gateways */ 281);
+var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 44);
+var PivotItem_1 = __webpack_require__(/*! office-ui-fabric-react/lib/components/Pivot/PivotItem */ 160);
 var Application = (function (_super) {
     __extends(Application, _super);
     function Application(props) {
-        return _super.call(this, props) || this;
+        var _this = _super.call(this, props) || this;
+        _this.state = {
+            GatewayInformations: React.createElement(gateways_1.Application, null),
+            SensorInformations: React.createElement(sensors_1.Application, null),
+            YeelightInformations: React.createElement(application_1.Application, null)
+        };
+        return _this;
     }
     Application.prototype.componentDidMount = function () {
         console.log("componentDidMount Application");
     };
     Application.prototype.render = function () {
-        return React.createElement("h1", null,
-            "Hello from Root!",
-            React.createElement("br", null),
-            "Your requested url is ",
-            this.props.requestUrl);
+        return React.createElement("div", null,
+            React.createElement(office_ui_fabric_react_1.Pivot, { linkSize: office_ui_fabric_react_1.PivotLinkSize.large },
+                React.createElement(PivotItem_1.PivotItem, { linkText: "Yeelights", itemIcon: "Lightbulb" },
+                    React.createElement("div", { style: { paddingTop: "15px" } }, this.state.YeelightInformations)),
+                React.createElement(PivotItem_1.PivotItem, { linkText: "Gateways", itemIcon: "Light" },
+                    React.createElement("div", { style: { paddingTop: "15px" } }, this.state.GatewayInformations)),
+                React.createElement(PivotItem_1.PivotItem, { linkText: "Sensoren", itemIcon: "CloudWeather" },
+                    React.createElement("div", { style: { paddingTop: "15px" } }, this.state.SensorInformations))));
     };
     return Application;
 }(React.PureComponent));
@@ -1096,154 +1593,7 @@ exports.Application = Application;
 
 /***/ }),
 
-/***/ 352:
-/*!****************************************************************!*\
-  !*** ./src/projects/yeelight/components/pages/application.tsx ***!
-  \****************************************************************/
-/*! dynamic exports provided */
-/*! all exports used */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(Promise) {
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __assign = (this && this.__assign) || Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-    }
-    return t;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ 2);
-var axios_1 = __webpack_require__(/*! axios */ 201);
-var gateway_1 = __webpack_require__(/*! ../gateway */ 372);
-var BaseLight_1 = __webpack_require__(/*! ../../../../global/components/simple/BaseLight */ 644);
-var BaseWeatherSensor_1 = __webpack_require__(/*! ../../../../global/components/simple/BaseWeatherSensor */ 645);
-var timers_1 = __webpack_require__(/*! timers */ 200);
-var intToRGB = __webpack_require__(/*! int-to-rgb */ 646);
-var Application = (function (_super) {
-    __extends(Application, _super);
-    function Application(props) {
-        var _this = _super.call(this, props) || this;
-        _this.state = { gateways: [], lights: [], sensors: [] };
-        _this.setNewGateWayInformations = _this.setNewGateWayInformations.bind(_this);
-        _this.colorChangedOnLight = _this.colorChangedOnLight.bind(_this);
-        _this.powerChangedOnLight = _this.powerChangedOnLight.bind(_this);
-        _this.colorSchemaChangedOnLight = _this.colorSchemaChangedOnLight.bind(_this);
-        _this.brightnessChangedOnLight = _this.brightnessChangedOnLight.bind(_this);
-        _this.reloadLightInformations = _this.reloadLightInformations.bind(_this);
-        _this.loadDevices = _this.loadDevices.bind(_this);
-        return _this;
-    }
-    Application.prototype.componentDidMount = function () {
-        document.title = "Yeelight Hauptseite";
-        console.log("Yeelight componentDidMount");
-        this.loadDevices();
-        timers_1.setInterval(this.loadDevices, 60000);
-    };
-    Application.prototype.loadDevices = function () {
-        var _this = this;
-        var p1 = axios_1.default.get("/api/lights/details");
-        var p2 = axios_1.default.get("/api/gateways");
-        var p3 = axios_1.default.get("/api/sensors");
-        Promise.all([p1, p2, p3])
-            .then(function (results) {
-            _this.setState({ lights: results[0].data["lights"], sensors: results[2].data["sensors"] });
-        })
-            .catch(function (error) { });
-    };
-    Application.prototype.getGatewayIndexBySid = function (sid) {
-        var currentGatewayIndex = -1;
-        var i = this.state.gateways.find(function (gw, index) {
-            currentGatewayIndex = index;
-            return gw.sid === sid;
-        });
-        return currentGatewayIndex;
-    };
-    Application.prototype.setNewGateWayInformations = function (currentGatewayInformation, newGatewayInformation) {
-        var index = this.getGatewayIndexBySid(currentGatewayInformation.id);
-        if (index < 0) {
-            return;
-        }
-        var newState = __assign({}, this.state);
-        newState.gateways[index] = newGatewayInformation;
-        this.setState(newState);
-    };
-    Application.prototype.reloadLightInformations = function () {
-        var _this = this;
-        axios_1.default.get("/api/lights/details").then(function (result) {
-            _this.setState({ lights: result.data.lights });
-            var newState = __assign({}, _this.state);
-        });
-    };
-    Application.prototype.colorChangedOnLight = function (lightInformation, color) {
-        var rgb = (color.r * 65536) + (color.g * 256) + color.b;
-        axios_1.default.post("/api/lights/" + lightInformation.id + "/color/" + rgb)
-            .then(this.reloadLightInformations);
-    };
-    Application.prototype.powerChangedOnLight = function (lightInformation) {
-        axios_1.default.post("/api/lights/" + lightInformation.id + "/power")
-            .then(this.reloadLightInformations);
-    };
-    Application.prototype.colorSchemaChangedOnLight = function (lightInformation, color, brightness) {
-        var rgb = (color.r * 65536) + (color.g * 256) + color.b;
-        Promise.all([
-            axios_1.default.post("/api/lights/" + lightInformation.id + "/brightness/" + brightness),
-            axios_1.default.post("/api/lights/" + lightInformation.id + "/color/" + rgb)
-        ]).then(this.reloadLightInformations);
-    };
-    Application.prototype.brightnessChangedOnLight = function (lightInformation, brightness) {
-        axios_1.default.post("/api/lights/" + lightInformation.id + "/brightness/" + brightness)
-            .then(this.reloadLightInformations);
-    };
-    Application.prototype.render = function () {
-        var _this = this;
-        console.log("Yewelight render");
-        return React.createElement("div", { className: "ms-Grid-row" },
-            React.createElement("div", { className: "ms-Grid-col ms-sm12" },
-                (!this.state.sensors || this.state.sensors.length < 1) &&
-                    React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, "Keine Sensoren gefunden"),
-                React.createElement("div", { className: "ms-Grid-row" }, (this.state.sensors && this.state.sensors.length > 0) &&
-                    this.state.sensors.map(function (sensor, index) {
-                        return React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-lg6 ms-xl3", key: "sensor_container_" + index },
-                            React.createElement(BaseWeatherSensor_1.BaseWeatherSensor, { id: index, sensorInformations: sensor }));
-                    })),
-                (!this.state.lights || this.state.lights.length < 1) &&
-                    React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, "Keine Lampen gefunden"),
-                React.createElement("div", { className: "ms-Grid-row" }, (this.state.lights && this.state.lights.length > 0) &&
-                    this.state.lights.map(function (light, index) {
-                        return React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-lg6", key: "light_container_" + index },
-                            React.createElement(BaseLight_1.BaseLight, { lightInformation: light, id: index, onBrightnessChanged: _this.brightnessChangedOnLight, onColorChanged: _this.colorChangedOnLight, onColorSchemaChanged: _this.colorSchemaChangedOnLight, onPowerChanged: _this.powerChangedOnLight }));
-                    })),
-                (!this.state.gateways || this.state.gateways.length < 1) &&
-                    React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, "Keine Gateways gefunden"),
-                (this.state.gateways && this.state.gateways.length > 0) &&
-                    this.state.gateways.map(function (gw, index) {
-                        return React.createElement("div", { className: "ms-Grid-row", key: "gwr_" + index },
-                            React.createElement("div", { className: "ms-Grid-col ms-sm12" },
-                                React.createElement(gateway_1.Gateway, { gatewayInformation: gw, id: index, onColorChanged: _this.setNewGateWayInformations, onIntensityChanged: _this.setNewGateWayInformations, onPowerChanged: _this.setNewGateWayInformations, onColorSchemaChanged: _this.setNewGateWayInformations })));
-                    })));
-    };
-    return Application;
-}(React.Component));
-exports.Application = Application;
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 34)))
-
-/***/ }),
-
-/***/ 354:
+/***/ 359:
 /*!*****************************************!*\
   !*** ./node_modules/axios/lib/axios.js ***!
   \*****************************************/
@@ -1255,9 +1605,9 @@ exports.Application = Application;
 /* WEBPACK VAR INJECTION */(function(Promise) {
 
 var utils = __webpack_require__(/*! ./utils */ 26);
-var bind = __webpack_require__(/*! ./helpers/bind */ 202);
-var Axios = __webpack_require__(/*! ./core/Axios */ 356);
-var defaults = __webpack_require__(/*! ./defaults */ 130);
+var bind = __webpack_require__(/*! ./helpers/bind */ 205);
+var Axios = __webpack_require__(/*! ./core/Axios */ 361);
+var defaults = __webpack_require__(/*! ./defaults */ 131);
 
 /**
  * Create an instance of Axios
@@ -1290,15 +1640,15 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(/*! ./cancel/Cancel */ 206);
-axios.CancelToken = __webpack_require__(/*! ./cancel/CancelToken */ 370);
-axios.isCancel = __webpack_require__(/*! ./cancel/isCancel */ 205);
+axios.Cancel = __webpack_require__(/*! ./cancel/Cancel */ 209);
+axios.CancelToken = __webpack_require__(/*! ./cancel/CancelToken */ 375);
+axios.isCancel = __webpack_require__(/*! ./cancel/isCancel */ 208);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(/*! ./helpers/spread */ 371);
+axios.spread = __webpack_require__(/*! ./helpers/spread */ 376);
 
 module.exports = axios;
 
@@ -1309,7 +1659,7 @@ module.exports.default = axios;
 
 /***/ }),
 
-/***/ 355:
+/***/ 360:
 /*!*****************************************!*\
   !*** ./node_modules/is-buffer/index.js ***!
   \*****************************************/
@@ -1342,7 +1692,7 @@ function isSlowBuffer (obj) {
 
 /***/ }),
 
-/***/ 356:
+/***/ 361:
 /*!**********************************************!*\
   !*** ./node_modules/axios/lib/core/Axios.js ***!
   \**********************************************/
@@ -1353,10 +1703,10 @@ function isSlowBuffer (obj) {
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Promise) {
 
-var defaults = __webpack_require__(/*! ./../defaults */ 130);
+var defaults = __webpack_require__(/*! ./../defaults */ 131);
 var utils = __webpack_require__(/*! ./../utils */ 26);
-var InterceptorManager = __webpack_require__(/*! ./InterceptorManager */ 365);
-var dispatchRequest = __webpack_require__(/*! ./dispatchRequest */ 366);
+var InterceptorManager = __webpack_require__(/*! ./InterceptorManager */ 370);
+var dispatchRequest = __webpack_require__(/*! ./dispatchRequest */ 371);
 
 /**
  * Create a new instance of Axios
@@ -1435,7 +1785,7 @@ module.exports = Axios;
 
 /***/ }),
 
-/***/ 357:
+/***/ 362:
 /*!***************************************************************!*\
   !*** ./node_modules/axios/lib/helpers/normalizeHeaderName.js ***!
   \***************************************************************/
@@ -1460,7 +1810,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 /***/ }),
 
-/***/ 358:
+/***/ 363:
 /*!***********************************************!*\
   !*** ./node_modules/axios/lib/core/settle.js ***!
   \***********************************************/
@@ -1471,7 +1821,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 "use strict";
 
 
-var createError = __webpack_require__(/*! ./createError */ 204);
+var createError = __webpack_require__(/*! ./createError */ 207);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -1499,7 +1849,7 @@ module.exports = function settle(resolve, reject, response) {
 
 /***/ }),
 
-/***/ 359:
+/***/ 364:
 /*!*****************************************************!*\
   !*** ./node_modules/axios/lib/core/enhanceError.js ***!
   \*****************************************************/
@@ -1533,7 +1883,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 
 /***/ }),
 
-/***/ 360:
+/***/ 365:
 /*!****************************************************!*\
   !*** ./node_modules/axios/lib/helpers/buildURL.js ***!
   \****************************************************/
@@ -1614,7 +1964,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 /***/ }),
 
-/***/ 361:
+/***/ 366:
 /*!********************************************************!*\
   !*** ./node_modules/axios/lib/helpers/parseHeaders.js ***!
   \********************************************************/
@@ -1680,7 +2030,7 @@ module.exports = function parseHeaders(headers) {
 
 /***/ }),
 
-/***/ 362:
+/***/ 367:
 /*!***********************************************************!*\
   !*** ./node_modules/axios/lib/helpers/isURLSameOrigin.js ***!
   \***********************************************************/
@@ -1761,7 +2111,7 @@ module.exports = (
 
 /***/ }),
 
-/***/ 363:
+/***/ 368:
 /*!************************************************!*\
   !*** ./node_modules/axios/lib/helpers/btoa.js ***!
   \************************************************/
@@ -1810,7 +2160,7 @@ module.exports = btoa;
 
 /***/ }),
 
-/***/ 364:
+/***/ 369:
 /*!***************************************************!*\
   !*** ./node_modules/axios/lib/helpers/cookies.js ***!
   \***************************************************/
@@ -1876,7 +2226,7 @@ module.exports = (
 
 /***/ }),
 
-/***/ 365:
+/***/ 370:
 /*!***********************************************************!*\
   !*** ./node_modules/axios/lib/core/InterceptorManager.js ***!
   \***********************************************************/
@@ -1941,7 +2291,7 @@ module.exports = InterceptorManager;
 
 /***/ }),
 
-/***/ 366:
+/***/ 371:
 /*!********************************************************!*\
   !*** ./node_modules/axios/lib/core/dispatchRequest.js ***!
   \********************************************************/
@@ -1953,11 +2303,11 @@ module.exports = InterceptorManager;
 /* WEBPACK VAR INJECTION */(function(Promise) {
 
 var utils = __webpack_require__(/*! ./../utils */ 26);
-var transformData = __webpack_require__(/*! ./transformData */ 367);
-var isCancel = __webpack_require__(/*! ../cancel/isCancel */ 205);
-var defaults = __webpack_require__(/*! ../defaults */ 130);
-var isAbsoluteURL = __webpack_require__(/*! ./../helpers/isAbsoluteURL */ 368);
-var combineURLs = __webpack_require__(/*! ./../helpers/combineURLs */ 369);
+var transformData = __webpack_require__(/*! ./transformData */ 372);
+var isCancel = __webpack_require__(/*! ../cancel/isCancel */ 208);
+var defaults = __webpack_require__(/*! ../defaults */ 131);
+var isAbsoluteURL = __webpack_require__(/*! ./../helpers/isAbsoluteURL */ 373);
+var combineURLs = __webpack_require__(/*! ./../helpers/combineURLs */ 374);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -2041,7 +2391,7 @@ module.exports = function dispatchRequest(config) {
 
 /***/ }),
 
-/***/ 367:
+/***/ 372:
 /*!******************************************************!*\
   !*** ./node_modules/axios/lib/core/transformData.js ***!
   \******************************************************/
@@ -2074,7 +2424,7 @@ module.exports = function transformData(data, headers, fns) {
 
 /***/ }),
 
-/***/ 368:
+/***/ 373:
 /*!*********************************************************!*\
   !*** ./node_modules/axios/lib/helpers/isAbsoluteURL.js ***!
   \*********************************************************/
@@ -2101,7 +2451,7 @@ module.exports = function isAbsoluteURL(url) {
 
 /***/ }),
 
-/***/ 369:
+/***/ 374:
 /*!*******************************************************!*\
   !*** ./node_modules/axios/lib/helpers/combineURLs.js ***!
   \*******************************************************/
@@ -2128,7 +2478,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 /***/ }),
 
-/***/ 370:
+/***/ 375:
 /*!******************************************************!*\
   !*** ./node_modules/axios/lib/cancel/CancelToken.js ***!
   \******************************************************/
@@ -2139,7 +2489,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Promise) {
 
-var Cancel = __webpack_require__(/*! ./Cancel */ 206);
+var Cancel = __webpack_require__(/*! ./Cancel */ 209);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -2199,7 +2549,7 @@ module.exports = CancelToken;
 
 /***/ }),
 
-/***/ 371:
+/***/ 376:
 /*!**************************************************!*\
   !*** ./node_modules/axios/lib/helpers/spread.js ***!
   \**************************************************/
@@ -2239,347 +2589,7 @@ module.exports = function spread(callback) {
 
 /***/ }),
 
-/***/ 372:
-/*!******************************************************!*\
-  !*** ./src/projects/yeelight/components/gateway.tsx ***!
-  \******************************************************/
-/*! dynamic exports provided */
-/*! all exports used */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __assign = (this && this.__assign) || Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-    }
-    return t;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ 2);
-var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 44);
-var axios_1 = __webpack_require__(/*! axios */ 201);
-var Panel_1 = __webpack_require__(/*! ../../../global/components/simple/Panel */ 108);
-var Gateway = (function (_super) {
-    __extends(Gateway, _super);
-    function Gateway(props) {
-        var _this = _super.call(this, props) || this;
-        _this.state = { gateways: [] };
-        _this.colorSchemes = [
-            {
-                name: "Bitte auswählen...",
-                color: { "r": 0, "g": 0, "b": 0 },
-                intensity: -1
-            },
-            {
-                name: "Romantik",
-                color: { "r": 235, "g": 104, "b": 119 },
-                intensity: 43
-            },
-            {
-                name: "Sky",
-                color: { "r": 0, "g": 255, "b": 127 },
-                intensity: 43
-            }
-        ];
-        _this.sliderChanged = _this.sliderChanged.bind(_this);
-        _this.togglePower = _this.togglePower.bind(_this);
-        _this.setIntensity = _this.setIntensity.bind(_this);
-        _this.colorSchemeChanged = _this.colorSchemeChanged.bind(_this);
-        _this.onRedChanged = _this.onRedChanged.bind(_this);
-        _this.onBlueChanged = _this.onBlueChanged.bind(_this);
-        _this.onGreenChanged = _this.onGreenChanged.bind(_this);
-        return _this;
-    }
-    Gateway.prototype.componentDidMount = function () {
-    };
-    Gateway.prototype.colorSchemeChanged = function (event) {
-        var _this = this;
-        var schemeIndex = event.currentTarget.selectedIndex;
-        var schema = this.colorSchemes[schemeIndex];
-        if (!schema || schema.intensity === -1)
-            return;
-        axios_1.default.post("/api/gateways/" + this.props.gatewayInformation.sid + "/intensity/" + schema.intensity)
-            .then(function (result) {
-            console.log("Response intensity: " + JSON.stringify(result.data));
-            return axios_1.default.post("/api/gateways/" + _this.props.gatewayInformation.sid + "/color", schema.color);
-        })
-            .then(function (resultTwo) {
-            console.log("Response color: " + JSON.stringify(resultTwo.data));
-            return axios_1.default.get("/api/gateways/" + _this.props.gatewayInformation.sid);
-        })
-            .then(function (resultThree) {
-            console.log("Response intensity: " + JSON.stringify(resultThree.data));
-            _this.props.onColorSchemaChanged(_this.props.gatewayInformation, resultThree.data);
-        });
-    };
-    Gateway.prototype.togglePower = function () {
-        var _this = this;
-        var newPowerState = this.props.gatewayInformation.on ? 0 : 100;
-        axios_1.default.post("/api/gateways/" + this.props.gatewayInformation.sid + "/intensity/" + newPowerState)
-            .then(function (result) {
-            return axios_1.default.get("/api/gateways/" + _this.props.gatewayInformation.sid);
-        }).then(function (data) {
-            _this.props.onPowerChanged(_this.props.gatewayInformation, data.data);
-        });
-    };
-    Gateway.prototype.setIntensity = function (value) {
-        var _this = this;
-        return axios_1.default.post("/api/gateways/" + this.props.gatewayInformation.sid + "/intensity/" + value)
-            .then(function () {
-            return axios_1.default.get("/api/gateways/" + _this.props.gatewayInformation.sid);
-        }).then(function (data) {
-            _this.props.onIntensityChanged(_this.props.gatewayInformation, data.data);
-        });
-    };
-    Gateway.prototype.sliderChanged = function (value) {
-        var _this = this;
-        if (this.sliderDelay) {
-            clearTimeout(this.sliderDelay);
-        }
-        this.sliderDelay = setTimeout(function () {
-            _this.setIntensity(value);
-        }, 400);
-    };
-    Gateway.prototype.postColor = function (color) {
-        var _this = this;
-        return axios_1.default.post("/api/gateways/" + this.props.gatewayInformation.sid + "/color", color)
-            .then(function (resultTwo) {
-            console.log("Response color: " + JSON.stringify(resultTwo.data));
-            return axios_1.default.get("/api/gateways/" + _this.props.gatewayInformation.sid);
-        })
-            .then(function (resultThree) {
-            console.log("Response intensity: " + JSON.stringify(resultThree.data));
-            _this.props.onColorChanged(_this.props.gatewayInformation, resultThree.data);
-        });
-    };
-    Gateway.prototype.onRedChanged = function (value) {
-        var _this = this;
-        var color = __assign({}, this.props.gatewayInformation.rgb);
-        color.r = value;
-        if (this.sliderDelay) {
-            clearTimeout(this.sliderDelay);
-        }
-        this.sliderDelay = setTimeout(function () {
-            _this.postColor(color);
-        }, 400);
-    };
-    Gateway.prototype.onBlueChanged = function (value) {
-        var _this = this;
-        var color = __assign({}, this.props.gatewayInformation.rgb);
-        color.b = value;
-        if (this.sliderDelay) {
-            clearTimeout(this.sliderDelay);
-        }
-        this.sliderDelay = setTimeout(function () {
-            _this.postColor(color);
-        }, 400);
-    };
-    Gateway.prototype.onGreenChanged = function (value) {
-        var _this = this;
-        var color = __assign({}, this.props.gatewayInformation.rgb);
-        color.g = value;
-        if (this.sliderDelay) {
-            clearTimeout(this.sliderDelay);
-        }
-        this.sliderDelay = setTimeout(function () {
-            _this.postColor(color);
-        }, 400);
-    };
-    Gateway.prototype.render = function () {
-        console.log("gateway render");
-        return React.createElement("div", { className: "ms-Grid-row", key: "gateway_" + this.props.id },
-            React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-lg12 ms-xl6" },
-                React.createElement(Panel_1.Panel, { headerText: "Gateway " + this.props.gatewayInformation.sid },
-                    React.createElement("div", { className: "ms-Grid-row" },
-                        React.createElement("div", { className: "ms-Grid-col ms-sm6" },
-                            React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, this.props.gatewayInformation.on ? "Licht anschalten" : "Licht ausschalten"),
-                            React.createElement(office_ui_fabric_react_1.Toggle, { key: "gw_" + this.props.id, checked: this.props.gatewayInformation.on, onText: "On", offText: "Off", onChanged: this.togglePower })),
-                        React.createElement("div", { className: "ms-Grid-col ms-sm6" },
-                            React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, "Farbschema"),
-                            React.createElement("select", { onChange: this.colorSchemeChanged, style: { padding: "10px", width: "100%" } }, this.colorSchemes.map(function (schema, index) {
-                                return React.createElement("option", { key: "option_schema_" + index, value: index }, schema.name);
-                            }))),
-                        React.createElement("div", { className: "ms-Grid-col ms-sm12" },
-                            React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, "Leuchtst\u00E4rke"),
-                            React.createElement(office_ui_fabric_react_1.Slider, { min: 1, max: 100, step: 1, disabled: this.props.gatewayInformation.on === false, value: this.props.gatewayInformation.intensity, showValue: true, onChange: this.sliderChanged })),
-                        React.createElement("div", { className: "ms-Grid-col ms-sm12" },
-                            React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, "RGB Farben"),
-                            React.createElement(office_ui_fabric_react_1.Slider, { label: "Rot", min: 0, max: 255, step: 1, disabled: this.props.gatewayInformation.on === false, value: this.props.gatewayInformation.rgb.r, showValue: true, onChange: this.onRedChanged }),
-                            React.createElement(office_ui_fabric_react_1.Slider, { label: "Grün", min: 0, max: 255, step: 1, disabled: this.props.gatewayInformation.on === false, value: this.props.gatewayInformation.rgb.g, showValue: true, onChange: this.onGreenChanged }),
-                            React.createElement(office_ui_fabric_react_1.Slider, { label: "Blau", min: 0, max: 255, step: 1, disabled: this.props.gatewayInformation.on === false, value: this.props.gatewayInformation.rgb.b, showValue: true, onChange: this.onBlueChanged }))))));
-    };
-    return Gateway;
-}(React.Component));
-exports.Gateway = Gateway;
-
-
-/***/ }),
-
-/***/ 644:
-/*!****************************************************!*\
-  !*** ./src/global/components/simple/BaseLight.tsx ***!
-  \****************************************************/
-/*! dynamic exports provided */
-/*! all exports used */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __assign = (this && this.__assign) || Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-    }
-    return t;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ 2);
-var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 44);
-var Panel_1 = __webpack_require__(/*! ../../../global/components/simple/Panel */ 108);
-var BaseLight = (function (_super) {
-    __extends(BaseLight, _super);
-    function BaseLight(props) {
-        var _this = _super.call(this, props) || this;
-        _this.state = { gateways: [] };
-        _this.colorSchemes = [
-            {
-                name: "Bitte auswählen...",
-                color: { "r": 0, "g": 0, "b": 0 },
-                brightness: -1
-            },
-            {
-                name: "Romantik",
-                color: { "r": 235, "g": 104, "b": 119 },
-                brightness: 43
-            },
-            {
-                name: "Sky",
-                color: { "r": 0, "g": 255, "b": 127 },
-                brightness: 43
-            }
-        ];
-        _this.brightnessChanged = _this.brightnessChanged.bind(_this);
-        _this.togglePower = _this.togglePower.bind(_this);
-        _this.setBrightness = _this.setBrightness.bind(_this);
-        _this.colorSchemeChanged = _this.colorSchemeChanged.bind(_this);
-        _this.onRedChanged = _this.onRedChanged.bind(_this);
-        _this.onBlueChanged = _this.onBlueChanged.bind(_this);
-        _this.onGreenChanged = _this.onGreenChanged.bind(_this);
-        return _this;
-    }
-    BaseLight.prototype.colorSchemeChanged = function (event) {
-        var schemeIndex = event.currentTarget.selectedIndex;
-        var schema = this.colorSchemes[schemeIndex];
-        if (!schema || schema.intensity === -1)
-            return;
-        this.props.onColorSchemaChanged(this.props.lightInformation, schema.color, schema.brightness);
-    };
-    BaseLight.prototype.togglePower = function () {
-        this.props.onPowerChanged(this.props.lightInformation);
-    };
-    BaseLight.prototype.setBrightness = function (value) {
-        this.props.onBrightnessChanged(this.props.lightInformation, value);
-    };
-    BaseLight.prototype.brightnessChanged = function (value) {
-        var _this = this;
-        if (this.sliderDelay) {
-            clearTimeout(this.sliderDelay);
-        }
-        this.sliderDelay = setTimeout(function () {
-            _this.setBrightness(value);
-        }, 400);
-    };
-    BaseLight.prototype.onColorChanged = function (color) {
-        this.props.onColorChanged(this.props.lightInformation, color);
-    };
-    BaseLight.prototype.onRedChanged = function (value) {
-        var _this = this;
-        var color = __assign({}, this.props.lightInformation.rgb);
-        color.r = value;
-        if (this.sliderDelay) {
-            clearTimeout(this.sliderDelay);
-        }
-        this.sliderDelay = setTimeout(function () {
-            _this.onColorChanged(color);
-        }, 400);
-    };
-    BaseLight.prototype.onBlueChanged = function (value) {
-        var _this = this;
-        var color = __assign({}, this.props.lightInformation.rgb);
-        color.b = value;
-        if (this.sliderDelay) {
-            clearTimeout(this.sliderDelay);
-        }
-        this.sliderDelay = setTimeout(function () {
-            _this.onColorChanged(color);
-        }, 400);
-    };
-    BaseLight.prototype.onGreenChanged = function (value) {
-        var _this = this;
-        var color = __assign({}, this.props.lightInformation.rgb);
-        color.g = value;
-        if (this.sliderDelay) {
-            clearTimeout(this.sliderDelay);
-        }
-        this.sliderDelay = setTimeout(function () {
-            _this.onColorChanged(color);
-        }, 400);
-    };
-    BaseLight.prototype.render = function () {
-        console.log("baseLight render");
-        return React.createElement("div", { className: "ms-Grid-row", key: "list_" + this.props.id },
-            React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-lg12 ms-xl6" },
-                React.createElement(Panel_1.Panel, { headerText: this.props.lightInformation.name, className: "custom-padding-bottom-10px" },
-                    React.createElement("div", { className: "ms-Grid-row" },
-                        React.createElement("div", { className: "ms-Grid-col ms-sm6" },
-                            React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, this.props.lightInformation.power ? "Licht anschalten" : "Licht ausschalten"),
-                            React.createElement(office_ui_fabric_react_1.Toggle, { key: "light_power_" + this.props.id, checked: this.props.lightInformation.power, onText: "On", offText: "Off", onChanged: this.togglePower })),
-                        React.createElement("div", { className: "ms-Grid-col ms-sm6" },
-                            React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, "Farbschema"),
-                            React.createElement("select", { onChange: this.colorSchemeChanged, style: { padding: "10px", width: "100%" }, disabled: !this.props.lightInformation.power }, this.colorSchemes.map(function (schema, index) {
-                                return React.createElement("option", { key: "option_schema_" + index, value: index }, schema.name);
-                            }))),
-                        React.createElement("div", { className: "ms-Grid-col ms-sm12" },
-                            React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, "Leuchtst\u00E4rke"),
-                            React.createElement(office_ui_fabric_react_1.Slider, { min: 1, max: 100, step: 1, disabled: !this.props.lightInformation.power, value: this.props.lightInformation.brightness, showValue: true, onChange: this.brightnessChanged })),
-                        React.createElement("div", { className: "ms-Grid-col ms-sm12" },
-                            React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, "RGB Farben"),
-                            React.createElement(office_ui_fabric_react_1.Slider, { label: "Rot", min: 0, max: 255, step: 1, disabled: !this.props.lightInformation.power, value: this.props.lightInformation.rgb.r, showValue: true, onChange: this.onRedChanged }),
-                            React.createElement(office_ui_fabric_react_1.Slider, { label: "Grün", min: 0, max: 255, step: 1, disabled: !this.props.lightInformation.power, value: this.props.lightInformation.rgb.g, showValue: true, onChange: this.onGreenChanged }),
-                            React.createElement(office_ui_fabric_react_1.Slider, { label: "Blau", min: 0, max: 255, step: 1, disabled: !this.props.lightInformation.power, value: this.props.lightInformation.rgb.b, showValue: true, onChange: this.onBlueChanged }))))));
-    };
-    return BaseLight;
-}(React.Component));
-exports.BaseLight = BaseLight;
-
-
-/***/ }),
-
-/***/ 645:
+/***/ 653:
 /*!************************************************************!*\
   !*** ./src/global/components/simple/BaseWeatherSensor.tsx ***!
   \************************************************************/
@@ -2601,7 +2611,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 2);
-var Panel_1 = __webpack_require__(/*! ../../../global/components/simple/Panel */ 108);
+var Panel_1 = __webpack_require__(/*! ../../../global/components/simple/Panel */ 162);
 var BaseWeatherSensor = (function (_super) {
     __extends(BaseWeatherSensor, _super);
     function BaseWeatherSensor(props) {
@@ -2631,37 +2641,7 @@ exports.BaseWeatherSensor = BaseWeatherSensor;
 
 /***/ }),
 
-/***/ 646:
-/*!******************************************!*\
-  !*** ./node_modules/int-to-rgb/index.js ***!
-  \******************************************/
-/*! dynamic exports provided */
-/*! all exports used */
-/***/ (function(module, exports) {
-
-var errorMessage = 'Must provide an integer between 0 and 16777215';
-
-
-module.exports = function(int) {
-  if (typeof int !== 'number') throw new Error(errorMessage);
-  if (Math.floor(int) !== int) throw new Error(errorMessage);
-  if (int < 0 || int > 16777215) throw new Error(errorMessage);
-
-  var red = int >> 16;
-  var green = int - (red << 16) >> 8;
-  var blue = int - (red << 16) - (green << 8);
-
-  return {
-    red: red,
-    green: green,
-    blue: blue
-  }
-}
-
-
-/***/ }),
-
-/***/ 647:
+/***/ 654:
 /*!*********************************************************************!*\
   !*** ./src/projects/vacuumRoboter/components/pages/application.tsx ***!
   \*********************************************************************/
@@ -2683,7 +2663,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 2);
-var debug = __webpack_require__(/*! debug */ 648);
+var debug = __webpack_require__(/*! debug */ 655);
 var Application = (function (_super) {
     __extends(Application, _super);
     function Application(props) {
@@ -2707,7 +2687,7 @@ exports.Application = Application;
 
 /***/ }),
 
-/***/ 648:
+/***/ 655:
 /*!*******************************************!*\
   !*** ./node_modules/debug/src/browser.js ***!
   \*******************************************/
@@ -2721,7 +2701,7 @@ exports.Application = Application;
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(/*! ./debug */ 649);
+exports = module.exports = __webpack_require__(/*! ./debug */ 656);
 exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
@@ -2915,7 +2895,7 @@ function localstorage() {
 
 /***/ }),
 
-/***/ 649:
+/***/ 656:
 /*!*****************************************!*\
   !*** ./node_modules/debug/src/debug.js ***!
   \*****************************************/
@@ -2936,7 +2916,7 @@ exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = __webpack_require__(/*! ms */ 650);
+exports.humanize = __webpack_require__(/*! ms */ 657);
 
 /**
  * Active `debug` instances.
@@ -3152,7 +3132,7 @@ function coerce(val) {
 
 /***/ }),
 
-/***/ 650:
+/***/ 657:
 /*!**********************************!*\
   !*** ./node_modules/ms/index.js ***!
   \**********************************/
@@ -3316,7 +3296,7 @@ function plural(ms, n, name) {
 
 /***/ }),
 
-/***/ 651:
+/***/ 658:
 /*!************************************************************!*\
   !*** ./src/projects/aldi/components/pages/application.tsx ***!
   \************************************************************/
@@ -3339,9 +3319,9 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 2);
 var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 44);
-var ManageRoute_1 = __webpack_require__(/*! ./ManageRoute */ 652);
-var enums_1 = __webpack_require__(/*! ../../../../data/enums */ 276);
-var ToolTip_1 = __webpack_require__(/*! ../../../../global/components/simple/ToolTip */ 656);
+var ManageRoute_1 = __webpack_require__(/*! ./ManageRoute */ 659);
+var enums_1 = __webpack_require__(/*! ../../../../data/enums */ 282);
+var ToolTip_1 = __webpack_require__(/*! ../../../../global/components/simple/ToolTip */ 663);
 var Application = (function (_super) {
     __extends(Application, _super);
     function Application(props) {
@@ -3408,7 +3388,7 @@ exports.Application = Application;
 
 /***/ }),
 
-/***/ 652:
+/***/ 659:
 /*!************************************************************!*\
   !*** ./src/projects/aldi/components/pages/ManageRoute.tsx ***!
   \************************************************************/
@@ -3439,12 +3419,12 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 2);
 var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 44);
-var enums_1 = __webpack_require__(/*! ../../../../data/enums */ 276);
-var basePage_1 = __webpack_require__(/*! ../../../../global/components/container/basePage */ 277);
-var ButtonRow_1 = __webpack_require__(/*! ../../../../global/components/simple/ButtonRow */ 653);
-var Panel_1 = __webpack_require__(/*! ../../../../global/components/simple/Panel */ 108);
-var NumberTextField_1 = __webpack_require__(/*! ../../../../global/components/simple/NumberTextField */ 654);
-var date_1 = __webpack_require__(/*! ../../../../helper/date */ 655);
+var enums_1 = __webpack_require__(/*! ../../../../data/enums */ 282);
+var basePage_1 = __webpack_require__(/*! ../../../../global/components/container/basePage */ 283);
+var ButtonRow_1 = __webpack_require__(/*! ../../../../global/components/simple/ButtonRow */ 660);
+var Panel_1 = __webpack_require__(/*! ../../../../global/components/simple/Panel */ 162);
+var NumberTextField_1 = __webpack_require__(/*! ../../../../global/components/simple/NumberTextField */ 661);
+var date_1 = __webpack_require__(/*! ../../../../helper/date */ 662);
 var ManageRoute = (function (_super) {
     __extends(ManageRoute, _super);
     function ManageRoute(props) {
@@ -3593,7 +3573,7 @@ exports.ManageRoute = ManageRoute;
 
 /***/ }),
 
-/***/ 653:
+/***/ 660:
 /*!****************************************************!*\
   !*** ./src/global/components/simple/ButtonRow.tsx ***!
   \****************************************************/
@@ -3634,7 +3614,7 @@ exports.ButtonRow = ButtonRow;
 
 /***/ }),
 
-/***/ 654:
+/***/ 661:
 /*!**********************************************************!*\
   !*** ./src/global/components/simple/NumberTextField.tsx ***!
   \**********************************************************/
@@ -3679,7 +3659,7 @@ exports.NumberTextField = NumberTextField;
 
 /***/ }),
 
-/***/ 655:
+/***/ 662:
 /*!****************************!*\
   !*** ./src/helper/date.ts ***!
   \****************************/
@@ -3701,7 +3681,7 @@ exports.getGermanDateString = getGermanDateString;
 
 /***/ }),
 
-/***/ 656:
+/***/ 663:
 /*!**************************************************!*\
   !*** ./src/global/components/simple/ToolTip.tsx ***!
   \**************************************************/
@@ -3743,7 +3723,7 @@ exports.ToolTip = ToolTip;
 
 /***/ }),
 
-/***/ 657:
+/***/ 664:
 /*!*******************************************************!*\
   !*** ./src/global/components/simple/NotFoundPage.tsx ***!
   \*******************************************************/
@@ -3766,7 +3746,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 2);
 var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ 73);
-var routing_1 = __webpack_require__(/*! ./routing */ 278);
+var routing_1 = __webpack_require__(/*! ./routing */ 284);
 var NotFoundPage = (function (_super) {
     __extends(NotFoundPage, _super);
     function NotFoundPage() {
@@ -3787,7 +3767,7 @@ exports.NotFoundPage = NotFoundPage;
 
 /***/ }),
 
-/***/ 658:
+/***/ 665:
 /*!***************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/index.js ***!
   \***************************************************/
@@ -3798,20 +3778,20 @@ exports.NotFoundPage = NotFoundPage;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var fabric_icons_1 = __webpack_require__(/*! ./fabric-icons */ 659);
-var fabric_icons_0_1 = __webpack_require__(/*! ./fabric-icons-0 */ 660);
-var fabric_icons_1_1 = __webpack_require__(/*! ./fabric-icons-1 */ 661);
-var fabric_icons_2_1 = __webpack_require__(/*! ./fabric-icons-2 */ 662);
-var fabric_icons_3_1 = __webpack_require__(/*! ./fabric-icons-3 */ 663);
-var fabric_icons_4_1 = __webpack_require__(/*! ./fabric-icons-4 */ 664);
-var fabric_icons_5_1 = __webpack_require__(/*! ./fabric-icons-5 */ 665);
-var fabric_icons_6_1 = __webpack_require__(/*! ./fabric-icons-6 */ 666);
-var fabric_icons_7_1 = __webpack_require__(/*! ./fabric-icons-7 */ 667);
-var fabric_icons_8_1 = __webpack_require__(/*! ./fabric-icons-8 */ 668);
-var fabric_icons_9_1 = __webpack_require__(/*! ./fabric-icons-9 */ 669);
-var fabric_icons_10_1 = __webpack_require__(/*! ./fabric-icons-10 */ 670);
-var fabric_icons_11_1 = __webpack_require__(/*! ./fabric-icons-11 */ 671);
-__webpack_require__(/*! ./icon-aliases */ 672);
+var fabric_icons_1 = __webpack_require__(/*! ./fabric-icons */ 666);
+var fabric_icons_0_1 = __webpack_require__(/*! ./fabric-icons-0 */ 667);
+var fabric_icons_1_1 = __webpack_require__(/*! ./fabric-icons-1 */ 668);
+var fabric_icons_2_1 = __webpack_require__(/*! ./fabric-icons-2 */ 669);
+var fabric_icons_3_1 = __webpack_require__(/*! ./fabric-icons-3 */ 670);
+var fabric_icons_4_1 = __webpack_require__(/*! ./fabric-icons-4 */ 671);
+var fabric_icons_5_1 = __webpack_require__(/*! ./fabric-icons-5 */ 672);
+var fabric_icons_6_1 = __webpack_require__(/*! ./fabric-icons-6 */ 673);
+var fabric_icons_7_1 = __webpack_require__(/*! ./fabric-icons-7 */ 674);
+var fabric_icons_8_1 = __webpack_require__(/*! ./fabric-icons-8 */ 675);
+var fabric_icons_9_1 = __webpack_require__(/*! ./fabric-icons-9 */ 676);
+var fabric_icons_10_1 = __webpack_require__(/*! ./fabric-icons-10 */ 677);
+var fabric_icons_11_1 = __webpack_require__(/*! ./fabric-icons-11 */ 678);
+__webpack_require__(/*! ./icon-aliases */ 679);
 var DEFAULT_BASE_URL = 'https://spoprod-a.akamaihd.net/files/fabric/assets/icons/';
 function initializeIcons(baseUrl, options) {
     if (baseUrl === void 0) { baseUrl = DEFAULT_BASE_URL; }
@@ -3822,7 +3802,7 @@ exports.initializeIcons = initializeIcons;
 
 /***/ }),
 
-/***/ 659:
+/***/ 666:
 /*!**********************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons.js ***!
   \**********************************************************/
@@ -3913,7 +3893,7 @@ exports.initializeIcons = initializeIcons;
 
 /***/ }),
 
-/***/ 660:
+/***/ 667:
 /*!************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-0.js ***!
   \************************************************************/
@@ -4050,7 +4030,7 @@ exports.initializeIcons = initializeIcons;
 
 /***/ }),
 
-/***/ 661:
+/***/ 668:
 /*!************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-1.js ***!
   \************************************************************/
@@ -4187,7 +4167,7 @@ exports.initializeIcons = initializeIcons;
 
 /***/ }),
 
-/***/ 662:
+/***/ 669:
 /*!************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-2.js ***!
   \************************************************************/
@@ -4324,7 +4304,7 @@ exports.initializeIcons = initializeIcons;
 
 /***/ }),
 
-/***/ 663:
+/***/ 670:
 /*!************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-3.js ***!
   \************************************************************/
@@ -4461,7 +4441,7 @@ exports.initializeIcons = initializeIcons;
 
 /***/ }),
 
-/***/ 664:
+/***/ 671:
 /*!************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-4.js ***!
   \************************************************************/
@@ -4594,7 +4574,7 @@ exports.initializeIcons = initializeIcons;
 
 /***/ }),
 
-/***/ 665:
+/***/ 672:
 /*!************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-5.js ***!
   \************************************************************/
@@ -4730,7 +4710,7 @@ exports.initializeIcons = initializeIcons;
 
 /***/ }),
 
-/***/ 666:
+/***/ 673:
 /*!************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-6.js ***!
   \************************************************************/
@@ -4865,7 +4845,7 @@ exports.initializeIcons = initializeIcons;
 
 /***/ }),
 
-/***/ 667:
+/***/ 674:
 /*!************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-7.js ***!
   \************************************************************/
@@ -5002,7 +4982,7 @@ exports.initializeIcons = initializeIcons;
 
 /***/ }),
 
-/***/ 668:
+/***/ 675:
 /*!************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-8.js ***!
   \************************************************************/
@@ -5139,7 +5119,7 @@ exports.initializeIcons = initializeIcons;
 
 /***/ }),
 
-/***/ 669:
+/***/ 676:
 /*!************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-9.js ***!
   \************************************************************/
@@ -5276,7 +5256,7 @@ exports.initializeIcons = initializeIcons;
 
 /***/ }),
 
-/***/ 670:
+/***/ 677:
 /*!*************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-10.js ***!
   \*************************************************************/
@@ -5409,7 +5389,7 @@ exports.initializeIcons = initializeIcons;
 
 /***/ }),
 
-/***/ 671:
+/***/ 678:
 /*!*************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-11.js ***!
   \*************************************************************/
@@ -5530,7 +5510,7 @@ exports.initializeIcons = initializeIcons;
 
 /***/ }),
 
-/***/ 672:
+/***/ 679:
 /*!**********************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/icon-aliases.js ***!
   \**********************************************************/
@@ -5547,5 +5527,5 @@ index_1.registerIconAlias('trash', 'delete');
 
 /***/ })
 
-},[313]);
+},[319]);
 //# sourceMappingURL=application.js.map
