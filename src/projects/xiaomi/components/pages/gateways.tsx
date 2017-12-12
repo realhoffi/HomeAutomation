@@ -14,25 +14,36 @@ export interface IApplicationState {
     gatewayLights: ILightModel[];
 }
 export class Application extends React.Component<IApplicationProps, IApplicationState> {
+    private isMountedFinished = false;
+    private ival;
     constructor(props) {
         super(props);
         this.state = { gateways: [], gatewayLights: [], isInitialized: false };
         this.loadDevices = this.loadDevices.bind(this);
-        this.reloadGatewayInformations = this.reloadGatewayInformations.bind(this);
     }
     componentDidMount() {
         document.title = "Yeelight Hauptseite";
         console.log("Yeelight componentDidMount");
         this.loadDevices().then(() => {
-            this.setState({ isInitialized: true });
+            if (this.isMountedFinished === true) {
+                this.setState({ isInitialized: true });
+            }
         });
-        setInterval(this.loadDevices, 60000);
+        this.ival = setInterval(this.loadDevices, 30000);
+        this.isMountedFinished = true;
+    }
+    componentWillUnmount() {
+        clearInterval(this.ival);
+        this.isMountedFinished = false;
+
     }
     private loadDevices() {
         return Axios.get("/api/gateways").then((results) => {
-            let gws: IGatewayModel[] = results.data["gateways"];
-            let gwLights: ILightModel[] = gws.map(this.mapGatewayToLightModel);
-            this.setState({ gateways: gws, gatewayLights: gwLights });
+            if (this.isMountedFinished === true) {
+                let gws: IGatewayModel[] = results.data["gateways"];
+                let gwLights: ILightModel[] = gws.map(this.mapGatewayToLightModel);
+                this.setState({ gateways: gws, gatewayLights: gwLights });
+            }
         }).catch((error) => { });
     }
     private mapGatewayToLightModel(gwModel: IGatewayModel): ILightModel {
@@ -46,14 +57,6 @@ export class Application extends React.Component<IApplicationProps, IApplication
             rgb: gwModel.rgb
         } as ILightModel;
     }
-    private reloadGatewayInformations() {
-        Axios.get("/api/gateways").then((result) => {
-            let gateways = result.data.gateways;
-            let gwLights: ILightModel[] = gateways.map(this.mapGatewayToLightModel);
-            this.setState({ gateways: gateways, gatewayLights: gwLights });
-        });
-    }
-
     render() {
         if (!this.state.isInitialized) {
             return false;
@@ -74,22 +77,22 @@ export class Application extends React.Component<IApplicationProps, IApplication
                                     id={index}
                                     onBrightnessChanged={(lightInformation: ILightModel, brightness: number) => {
                                         Axios.post("/api/gateways/" + lightInformation.id + "/brightness/" + brightness)
-                                            .then(this.reloadGatewayInformations);
+                                            .then(this.loadDevices);
                                     }}
                                     onColorChanged={(lightInformation: ILightModel, color: IRGBColor) => {
                                         Axios.post("/api/gateways/" + lightInformation.id + "/color", { color })
-                                            .then(this.reloadGatewayInformations);
+                                            .then(this.loadDevices);
                                     }}
                                     onColorSchemaChanged={(lightInformation: ILightModel, color: IRGBColor, brightness: number) => {
                                         Axios.post("/api/gateways/" + lightInformation.id + "/color", { color })
                                             .then(() => {
                                                 return Axios.post("/api/gateways/" + lightInformation.id + "/brightness/" + brightness);
                                             })
-                                            .then(this.reloadGatewayInformations);
+                                            .then(this.loadDevices);
                                     }}
                                     onPowerChanged={(lightInformation: ILightModel) => {
                                         Axios.post("/api/gateways/" + lightInformation.id + "/power")
-                                            .then(this.reloadGatewayInformations);
+                                            .then(this.loadDevices);
                                     }} />
                             </div>;
                         })

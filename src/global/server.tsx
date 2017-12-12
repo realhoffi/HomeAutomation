@@ -101,8 +101,12 @@ server.listen(port, err => {
 });
 
 const devices = miio.devices({
-    cacheTime: 60 // 5 minutes. Default is 1800 seconds (30 minutes)
+    cacheTime: 15 // 5 minutes. Default is 1800 seconds (30 minutes)
 });
+setInterval(() => {
+    console.log("DEVICE DETECTION");
+    devices.start();
+}, 30000);
 // console.log(devices);
 devices.on("available", reg => {
     console.log("Refresh Device");
@@ -112,7 +116,7 @@ devices.on("available", reg => {
     // Some devices have custom events
     device.on("action", e => console.log("Action performed:", e.id));
 
-    console.log(reg);
+    // console.log(reg);
     // console.log("@@device.type: " + device.type);
 
     if (!device) {
@@ -124,6 +128,7 @@ devices.on("available", reg => {
         console.log(reg.id, "hides its token. Leave function");
         return;
     }
+    // device.management.info().then(console.log);
     let indexOfElement = -1;
     let exists = undefined;
     switch (device.type) {
@@ -158,9 +163,9 @@ devices.on("available", reg => {
             break;
         case "sensor":
             console.log("SENSOR DETECTED");
-            device.defineProperty("batteryLevel");
-            device.defineProperty("battery_level");
-            device.defineProperty("voltage");
+            // device.defineProperty("batteryLevel");
+            // device.defineProperty("battery_level");
+            // device.defineProperty("voltage");
 
             exists = app.locals.xiaomi.sensors.filter((sensor, index) => {
                 indexOfElement = index;
@@ -192,8 +197,8 @@ devices.on("unavailable", reg => {
         console.log("Device " + reg.id + " not available");
         return;
     }
-
-    // Do whatever you need here
+    // REMOVE from collection...
+    console.log("Device " + reg.id + " not avaiulable");
 });
 
 devices.on("error", err => {

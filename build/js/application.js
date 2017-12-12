@@ -264,6 +264,7 @@ var Application = (function (_super) {
     __extends(Application, _super);
     function Application(props) {
         var _this = _super.call(this, props) || this;
+        _this.isMountedFinished = false;
         _this.state = { lights: [], isInitialized: false };
         _this.colorChangedOnLight = _this.colorChangedOnLight.bind(_this);
         _this.powerChangedOnLight = _this.powerChangedOnLight.bind(_this);
@@ -278,15 +279,24 @@ var Application = (function (_super) {
         document.title = "Yeelight Hauptseite";
         console.log("Yeelight componentDidMount");
         this.loadDevices().then(function () {
-            _this.setState({ isInitialized: true });
+            if (_this.isMountedFinished === true) {
+                _this.setState({ isInitialized: true });
+            }
         });
-        timers_1.setInterval(this.loadDevices, 60000);
+        this.ival = timers_1.setInterval(this.loadDevices, 30000);
+        this.isMountedFinished = true;
+    };
+    Application.prototype.componentWillUnmount = function () {
+        clearInterval(this.ival);
+        this.isMountedFinished = false;
     };
     Application.prototype.loadDevices = function () {
         var _this = this;
         return axios_1.default.get("/api/lights/details")
             .then(function (results) {
-            _this.setState({ lights: results.data["lights"] });
+            if (_this.isMountedFinished === true) {
+                _this.setState({ lights: results.data["lights"] });
+            }
         })
             .catch(function (error) { });
     };
@@ -1137,6 +1147,7 @@ var Application = (function (_super) {
     __extends(Application, _super);
     function Application(props) {
         var _this = _super.call(this, props) || this;
+        _this.isMountedFinished = false;
         _this.state = { sensors: [], isInitialized: false };
         _this.loadDevices = _this.loadDevices.bind(_this);
         return _this;
@@ -1146,14 +1157,23 @@ var Application = (function (_super) {
         document.title = "Yeelight Hauptseite";
         console.log("Yeelight componentDidMount");
         this.loadDevices().then(function () {
-            _this.setState({ isInitialized: true });
+            if (_this.isMountedFinished === true) {
+                _this.setState({ isInitialized: true });
+            }
         });
-        timers_1.setInterval(this.loadDevices, 60000);
+        this.ival = timers_1.setInterval(this.loadDevices, 30000);
+        this.isMountedFinished = true;
+    };
+    Application.prototype.componentWillUnmount = function () {
+        clearInterval(this.ival);
+        this.isMountedFinished = false;
     };
     Application.prototype.loadDevices = function () {
         var _this = this;
         return axios_1.default.get("/api/sensors").then(function (result) {
-            _this.setState({ sensors: result.data["sensors"] });
+            if (_this.isMountedFinished === true) {
+                _this.setState({ sensors: result.data["sensors"] });
+            }
         });
     };
     Application.prototype.render = function () {
@@ -1207,9 +1227,9 @@ var Application = (function (_super) {
     __extends(Application, _super);
     function Application(props) {
         var _this = _super.call(this, props) || this;
+        _this.isMountedFinished = false;
         _this.state = { gateways: [], gatewayLights: [], isInitialized: false };
         _this.loadDevices = _this.loadDevices.bind(_this);
-        _this.reloadGatewayInformations = _this.reloadGatewayInformations.bind(_this);
         return _this;
     }
     Application.prototype.componentDidMount = function () {
@@ -1217,16 +1237,25 @@ var Application = (function (_super) {
         document.title = "Yeelight Hauptseite";
         console.log("Yeelight componentDidMount");
         this.loadDevices().then(function () {
-            _this.setState({ isInitialized: true });
+            if (_this.isMountedFinished === true) {
+                _this.setState({ isInitialized: true });
+            }
         });
-        timers_1.setInterval(this.loadDevices, 60000);
+        this.ival = timers_1.setInterval(this.loadDevices, 30000);
+        this.isMountedFinished = true;
+    };
+    Application.prototype.componentWillUnmount = function () {
+        clearInterval(this.ival);
+        this.isMountedFinished = false;
     };
     Application.prototype.loadDevices = function () {
         var _this = this;
         return axios_1.default.get("/api/gateways").then(function (results) {
-            var gws = results.data["gateways"];
-            var gwLights = gws.map(_this.mapGatewayToLightModel);
-            _this.setState({ gateways: gws, gatewayLights: gwLights });
+            if (_this.isMountedFinished === true) {
+                var gws = results.data["gateways"];
+                var gwLights = gws.map(_this.mapGatewayToLightModel);
+                _this.setState({ gateways: gws, gatewayLights: gwLights });
+            }
         }).catch(function (error) { });
     };
     Application.prototype.mapGatewayToLightModel = function (gwModel) {
@@ -1239,14 +1268,6 @@ var Application = (function (_super) {
             colorTemperature: gwModel.illuminance,
             rgb: gwModel.rgb
         };
-    };
-    Application.prototype.reloadGatewayInformations = function () {
-        var _this = this;
-        axios_1.default.get("/api/gateways").then(function (result) {
-            var gateways = result.data.gateways;
-            var gwLights = gateways.map(_this.mapGatewayToLightModel);
-            _this.setState({ gateways: gateways, gatewayLights: gwLights });
-        });
     };
     Application.prototype.render = function () {
         var _this = this;
@@ -1263,19 +1284,19 @@ var Application = (function (_super) {
                         return React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-lg6 ms-xl3", key: "gwr_" + index },
                             React.createElement(BaseLight_1.BaseLight, { lightInformation: gw, id: index, onBrightnessChanged: function (lightInformation, brightness) {
                                     axios_1.default.post("/api/gateways/" + lightInformation.id + "/brightness/" + brightness)
-                                        .then(_this.reloadGatewayInformations);
+                                        .then(_this.loadDevices);
                                 }, onColorChanged: function (lightInformation, color) {
                                     axios_1.default.post("/api/gateways/" + lightInformation.id + "/color", { color: color })
-                                        .then(_this.reloadGatewayInformations);
+                                        .then(_this.loadDevices);
                                 }, onColorSchemaChanged: function (lightInformation, color, brightness) {
                                     axios_1.default.post("/api/gateways/" + lightInformation.id + "/color", { color: color })
                                         .then(function () {
                                         return axios_1.default.post("/api/gateways/" + lightInformation.id + "/brightness/" + brightness);
                                     })
-                                        .then(_this.reloadGatewayInformations);
+                                        .then(_this.loadDevices);
                                 }, onPowerChanged: function (lightInformation) {
                                     axios_1.default.post("/api/gateways/" + lightInformation.id + "/power")
-                                        .then(_this.reloadGatewayInformations);
+                                        .then(_this.loadDevices);
                                 } }));
                     }))));
     };

@@ -28,6 +28,7 @@ export class Application extends React.PureComponent<IApplicationProps, IApplica
     componentDidMount() {
         console.log("componentDidMount Application");
     }
+
     render() {
         return <div>
             <Pivot linkSize={PivotLinkSize.large}>

@@ -918,14 +918,17 @@ server.listen(port, function (err) {
     console.info("Server running on http://localhost:" + port + " [" + env + "]");
 });
 var devices = miio.devices({
-    cacheTime: 60
+    cacheTime: 15
 });
+setInterval(function () {
+    console.log("DEVICE DETECTION");
+    devices.start();
+}, 30000);
 devices.on("available", function (reg) {
     console.log("Refresh Device");
     var device = reg.device;
     device.on("propertyChanged", function (e) { return console.log("propertyChanged: " + e.property, e.oldValue, e.value); });
     device.on("action", function (e) { return console.log("Action performed:", e.id); });
-    console.log(reg);
     if (!device) {
         console.log(reg.id, "could not be connected to");
         return;
@@ -968,9 +971,6 @@ devices.on("available", function (reg) {
             break;
         case "sensor":
             console.log("SENSOR DETECTED");
-            device.defineProperty("batteryLevel");
-            device.defineProperty("battery_level");
-            device.defineProperty("voltage");
             exists = app.locals.xiaomi.sensors.filter(function (sensor, index) {
                 indexOfElement = index;
                 return device.id === sensor.id;
@@ -993,6 +993,7 @@ devices.on("unavailable", function (reg) {
         console.log("Device " + reg.id + " not available");
         return;
     }
+    console.log("Device " + reg.id + " not avaiulable");
 });
 devices.on("error", function (err) {
     console.log("Something went wrong connecting to device", err);

@@ -13,6 +13,8 @@ export interface IApplicationState {
     lights: ILightModel[];
 }
 export class Application extends React.Component<IApplicationProps, IApplicationState> {
+    private ival;
+    private isMountedFinished = false;
     constructor(props) {
         super(props);
         this.state = { lights: [], isInitialized: false };
@@ -28,14 +30,23 @@ export class Application extends React.Component<IApplicationProps, IApplication
         document.title = "Yeelight Hauptseite";
         console.log("Yeelight componentDidMount");
         this.loadDevices().then(() => {
-            this.setState({ isInitialized: true });
+            if (this.isMountedFinished === true) {
+                this.setState({ isInitialized: true });
+            }
         });
-        setInterval(this.loadDevices, 60000);
+        this.ival = setInterval(this.loadDevices, 30000);
+        this.isMountedFinished = true;
+    }
+    componentWillUnmount() {
+        clearInterval(this.ival);
+        this.isMountedFinished = false;
     }
     private loadDevices() {
         return Axios.get("/api/lights/details")
             .then((results) => {
-                this.setState({ lights: results.data["lights"] });
+                if (this.isMountedFinished === true) {
+                    this.setState({ lights: results.data["lights"] });
+                }
             })
             .catch((error) => { });
     }

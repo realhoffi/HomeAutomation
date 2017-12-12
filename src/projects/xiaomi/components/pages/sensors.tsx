@@ -13,6 +13,8 @@ export interface IApplicationState {
     sensors: IBaseWeatherSensor[];
 }
 export class Application extends React.Component<IApplicationProps, IApplicationState> {
+    private isMountedFinished = false;
+    private ival;
     constructor(props) {
         super(props);
         this.state = { sensors: [], isInitialized: false };
@@ -22,13 +24,22 @@ export class Application extends React.Component<IApplicationProps, IApplication
         document.title = "Yeelight Hauptseite";
         console.log("Yeelight componentDidMount");
         this.loadDevices().then(() => {
-            this.setState({ isInitialized: true });
+            if (this.isMountedFinished === true) {
+                this.setState({ isInitialized: true });
+            }
         });
-        setInterval(this.loadDevices, 60000);
+        this.ival = setInterval(this.loadDevices, 30000);
+        this.isMountedFinished = true;
+    }
+    componentWillUnmount() {
+        clearInterval(this.ival);
+        this.isMountedFinished = false;
     }
     private loadDevices() {
         return Axios.get("/api/sensors").then((result) => {
-            this.setState({ sensors: result.data["sensors"] });
+            if (this.isMountedFinished === true) {
+                this.setState({ sensors: result.data["sensors"] });
+            }
         });
     }
 
