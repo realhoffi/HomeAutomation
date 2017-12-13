@@ -872,10 +872,8 @@ function findIdInArray(targetArray, id) {
         console.log("findIdInArray: exit, array is null");
         return returnValue;
     }
-    console.log("targetArray length: " + targetArray.length);
     targetArray.forEach(function (item, index) {
         if (item.id === id) {
-            console.log("findIdInArray: element found at index " + index);
             returnValue = index;
         }
     });
@@ -1000,10 +998,8 @@ devices.on("unavailable", function (reg) {
     var device = reg.device;
     console.log("Device " + device.id + " not available. Remove from Collection");
     var indexOfElement = findIdInArray(app.locals.xiaomi.sensors, device.id);
-    console.log("indexOfElement: " + indexOfElement);
     if (indexOfElement < 0) {
         indexOfElement = findIdInArray(app.locals.xiaomi.gateways, device.id);
-        console.log("indexOfElement: " + indexOfElement);
     }
     else {
         app.locals.xiaomi.sensors.splice(indexOfElement, 1);
@@ -1011,14 +1007,12 @@ devices.on("unavailable", function (reg) {
     }
     if (indexOfElement < 0) {
         indexOfElement = findIdInArray(app.locals.xiaomi.yeelights, device.id);
-        console.log("indexOfElement: " + indexOfElement);
     }
     else {
         app.locals.xiaomi.gateways.splice(indexOfElement, 1);
         return;
     }
     if (indexOfElement < 0) {
-        console.log("Device mit Id " + device.id + " existiert in keinem Array");
         return;
     }
     else {
@@ -1145,15 +1139,21 @@ function registerRoutes(router) {
             console.log("batteryLevel: " + sensor.batteryLevel);
             console.log("battery_level: " + sensor.battery_level);
             console.log("voltage: " + sensor.voltage);
-            res.json({ id: req.params.id, "properties": sensor.batteryLevel });
+            console.log(sensor);
+            console.log(sensor.id);
+            console.log(sensor._parent.id);
+            sensor._parent.call("get_device_prop_exp", [["lumi." + sensor.id].concat(req.params.properties.split(";"))])
+                .then(function (resultProperties) {
+                res.json({ id: req.params.id, "properties": resultProperties });
+            }).catch(function (error) {
+                console.log(error);
+                res.status(500).json({ "info": "Error fetching Info" });
+            });
         }
     });
     router.route("/lights").get(function (req, res) {
-        var a = cfg;
-        console.log(cfg);
         var result = [];
         var yeelights = req.app.locals.xiaomi.yeelights;
-        console.log("WEBAPI: " + yeelights.length);
         if (yeelights && yeelights.length > 0) {
             result = yeelights.map(function (light, index) {
                 return {
@@ -1174,15 +1174,17 @@ function registerRoutes(router) {
                     }
                 });
             });
-            console.log(JSON.stringify(result));
+            res.json({ lights: result });
         }
-        res.json({ lights: result });
+        else {
+            res.status(500).json({ lights: [] });
+        }
     });
     router.route("/lights/details").get(function (req, res) {
         var result = [];
         var yeelights = req.app.locals.xiaomi.yeelights;
         if (!yeelights || yeelights.length < 1) {
-            res.json({ lights: result });
+            res.status(500).json({ lights: result });
             res.end();
             return;
         }
@@ -1206,7 +1208,7 @@ function registerRoutes(router) {
             });
         });
         var requests = yeelights.map(function (light) {
-            return light.call("get_prop", ["rgb", "ct"]);
+            return light.call("get_prop", ["rgb", "ct", "name"]);
         });
         Promise.all(requests).then(function (resultProperties) {
             resultProperties.forEach(function (properties, index) {
@@ -1229,7 +1231,12 @@ function registerRoutes(router) {
         if (light) {
             light.call("get_prop", req.params.properties.split(";")).then(function (resultProperties) {
                 res.json({ id: req.params.id, "properties": resultProperties });
+            }).catch(function () {
+                res.status(500).json({ "info": "Error fetching Info" });
             });
+        }
+        else {
+            res.status(500).json({ "info": "Light not found" });
         }
     });
     router.route("/lights/:id/power").post(function (req, res) {
@@ -1241,8 +1248,11 @@ function registerRoutes(router) {
             light.setPower(!light.power).then(function (newValue, b) {
                 res.json({ "power": newValue });
             }).catch(function () {
-                res.json({ "power": "error" });
+                res.status(500).json({ "power": "error" });
             });
+        }
+        else {
+            res.status(500).json({ "power": "Light not found" });
         }
     });
     router.route("/lights/:id/brightness/:value").post(function (req, res) {
@@ -1251,20 +1261,17 @@ function registerRoutes(router) {
             return gw.id === req.params.id;
         });
         if (light) {
-            console.log("PROPERTIES ");
-            console.log("power: " + light.power);
-            console.log("brightness: " + light.brightness);
-            console.log("colorMode: " + light.colorMode);
-            console.log("colorTemperature: " + light.colorTemperature);
-            console.log("model: " + light.model);
             console.log("found light: " + req.params.id + " @@ brightness: " + req.params.value);
             var bright_1 = parseInt(req.params.value);
             light.setBrightness(bright_1).then(function () {
                 console.log("Light brightness: " + bright_1);
                 res.json({ "brightness": req.params.value });
             }).catch(function () {
-                res.json({ "brightness": "error" });
+                res.status(500).json({ "brightness": "error" });
             });
+        }
+        else {
+            res.status(500).json({ "brightness": "Light not found" });
         }
     });
     router.route("/lights/:id/temperature/:value").post(function (req, res) {
@@ -1281,8 +1288,11 @@ function registerRoutes(router) {
                 console.log("set ct!" + a);
                 res.json({ "set_ct_abx": req.params.value });
             }).catch(function () {
-                res.json({ "set_ct_abx": "error" });
+                res.status(500).json({ "set_ct_abx": "error" });
             });
+        }
+        else {
+            res.status(500).json({ "set_ct_abx": "error" });
         }
     });
     router.route("/lights/:id/color/:value").post(function (req, res) {
@@ -1291,7 +1301,7 @@ function registerRoutes(router) {
             return gw.id === req.params.id;
         });
         if (!light) {
-            res.json({ "rgb": "light not found" });
+            res.status(500).json({ "rgb": "light not found" });
             return;
         }
         var parsedValue = parseInt(req.params.value);
@@ -1301,7 +1311,7 @@ function registerRoutes(router) {
         light.call("set_rgb", [parsedValue, "smooth", 500]).then(function (newValue) {
             res.json({ "rgb": newValue });
         }).catch(function () {
-            res.json({ "rgb": "error" });
+            res.status(500).json({ "rgb": "error" });
         });
     });
     router.route("/gateways").get(function (req, res) {
@@ -1309,8 +1319,6 @@ function registerRoutes(router) {
         var gateways = req.app.locals.xiaomi.gateways;
         if (gateways && gateways.length > 0) {
             result = gateways.map(function (gw) {
-                console.log("RGB: " + JSON.stringify(gw.color));
-                console.log("brightness: " + JSON.stringify(gw.brightness));
                 return {
                     illuminance: gw.illuminance,
                     id: gw.id,
@@ -1353,14 +1361,13 @@ function registerRoutes(router) {
         if (gateway) {
             gateway.call("get_prop", req.params.properties.split(";")).then(function (resultProperties) {
                 console.log("GWPROPS: " + JSON.stringify(resultProperties));
-                var buf = Buffer.alloc(4);
-                buf.writeUInt32BE(resultProperties[0], 0);
-                var rgb = { b: buf.readUInt8(3), g: buf.readUInt8(2), r: buf.readUInt8(1) };
-                var intensity = buf.readUInt8(0);
-                console.log("INTENSI: " + intensity);
-                console.log("N: " + JSON.stringify(rgb));
                 res.json({ id: req.params.id, "properties": resultProperties });
+            }).catch(function () {
+                res.status(500).json({ error: "prop not fetched" });
             });
+        }
+        else {
+            res.status(500).json({ error: "Gateway not found" });
         }
     });
     router.route("/gateways/:id/brightness/:value").post(function (req, res) {
@@ -1377,11 +1384,11 @@ function registerRoutes(router) {
             gateway.call("set_rgb", [rgb], { refresh: true }).then(function (newValue) {
                 res.json({ "rgb": newValue });
             }).catch(function () {
-                res.json({ "error": "brightness not set" });
+                res.status(500).json({ "error": "brightness not set" });
             });
         }
         else {
-            res.json({ "brightness": "error! can not set brightness" });
+            res.status(500).json({ "brightness": "error! can not set brightness" });
         }
     });
     router.route("/gateways/:id/color").post(function (req, res) {
@@ -1399,7 +1406,7 @@ function registerRoutes(router) {
             gateway.call("set_rgb", [rgb], { refresh: true }).then(function (newValue) {
                 res.json({ "rgb": newValue });
             }).catch(function () {
-                res.json({ "error": "color not set" });
+                res.status(500).json({ "error": "color not set" });
             });
         }
     });

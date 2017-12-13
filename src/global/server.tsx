@@ -146,6 +146,8 @@ devices.on("available", reg => {
     }
     console.log("Detected Device: " + device.id + " (" + device.type + ")");
     // device.management.info().then(console.log);
+
+
     let indexOfElement = -1;
     switch (device.type) {
         case "light":
