@@ -1384,7 +1384,7 @@ exports.BasePage = BasePage;
 
 /***/ 284:
 /*!**************************************************!*\
-  !*** ./src/global/components/simple/routing.tsx ***!
+  !*** ./src/global/components/simple/Routing.tsx ***!
   \**************************************************/
 /*! dynamic exports provided */
 /*! all exports used */
@@ -1513,7 +1513,7 @@ var application_4 = __webpack_require__(/*! ../../../projects/aldi/components/pa
 var sensors_1 = __webpack_require__(/*! ../../../projects/xiaomi/components/pages/sensors */ 280);
 var gateways_1 = __webpack_require__(/*! ../../../projects/xiaomi/components/pages/gateways */ 281);
 var NotFoundPage_1 = __webpack_require__(/*! ../../components/simple/NotFoundPage */ 664);
-var routing_1 = __webpack_require__(/*! ../simple/routing */ 284);
+var Routing_1 = __webpack_require__(/*! ../simple/Routing */ 284);
 var basePage_1 = __webpack_require__(/*! ../container/basePage */ 283);
 var GlobalApplication = (function (_super) {
     __extends(GlobalApplication, _super);
@@ -1527,7 +1527,7 @@ var GlobalApplication = (function (_super) {
     GlobalApplication.prototype.render = function () {
         console.log("render Application");
         return React.createElement(basePage_1.BasePage, { IncludeFabricElement: true, Body: React.createElement(react_router_dom_1.Switch, null,
-                React.createElement(routing_1.RedirectWithStatus, { status: 302, from: "/courses", to: "/aldi" }),
+                React.createElement(Routing_1.RedirectWithStatus, { status: 302, from: "/courses", to: "/aldi" }),
                 React.createElement(react_router_dom_1.Route, { exact: true, path: "/", component: application_1.Application, key: "r1" }),
                 React.createElement(react_router_dom_1.Route, { path: "/light", component: application_2.Application, key: "r2" }),
                 React.createElement(react_router_dom_1.Route, { path: "/aldi", component: application_4.Application, key: "r3" }),
@@ -3767,14 +3767,14 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 2);
 var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ 73);
-var routing_1 = __webpack_require__(/*! ./routing */ 284);
+var Routing_1 = __webpack_require__(/*! ./Routing */ 284);
 var NotFoundPage = (function (_super) {
     __extends(NotFoundPage, _super);
     function NotFoundPage() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     NotFoundPage.prototype.render = function () {
-        return (React.createElement(routing_1.Status, { code: 404 },
+        return (React.createElement(Routing_1.Status, { code: 404 },
             React.createElement("div", { className: "not-found" },
                 React.createElement("h1", null, "404"),
                 React.createElement("h2", null, "Page not found!"),

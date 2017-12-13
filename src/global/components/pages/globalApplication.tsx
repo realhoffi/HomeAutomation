@@ -7,7 +7,7 @@ import { Application as AldiApplication } from "../../../projects/aldi/component
 import { Application as SensorApplication } from "../../../projects/xiaomi/components/pages/sensors";
 import { Application as GatewayApplication } from "../../../projects/xiaomi/components/pages/gateways";
 import { NotFoundPage } from "../../components/simple/NotFoundPage";
-import { RedirectWithStatus } from "../simple/routing";
+import { RedirectWithStatus } from "../simple/Routing";
 import { BasePage } from "../container/basePage";
 
 export interface IGlobalApplicationProps {

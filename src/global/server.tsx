@@ -33,6 +33,22 @@ function getUriFromRequest(request: Request) {
         pathname: request.originalUrl
     });
 }
+function findIdInArray(targetArray: any[], id): number {
+    let returnValue = -1;
+    if (!targetArray) {
+        console.log("findIdInArray: exit, array is null");
+        return returnValue;
+    }
+    // console.log("targetArray length: " + targetArray.length);
+    targetArray.forEach((item, index) => {
+        if (item.id === id) {
+            // console.log("findIdInArray: element found at index " + index);
+            returnValue = index;
+        }
+    });
+    console.log("findIdInArray: element at index: " + returnValue);
+    return returnValue;
+}
 
 const app = express();
 const log = debug("serverjs");
@@ -104,7 +120,7 @@ const devices = miio.devices({
     cacheTime: 15 // 5 minutes. Default is 1800 seconds (30 minutes)
 });
 setInterval(() => {
-    console.log("DEVICE DETECTION");
+    // console.log("DEVICE DETECTION");
     devices.start();
 }, 30000);
 // console.log(devices);
@@ -128,68 +144,47 @@ devices.on("available", reg => {
         console.log(reg.id, "hides its token. Leave function");
         return;
     }
+    console.log("Detected Device: " + device.id + " (" + device.type + ")");
     // device.management.info().then(console.log);
     let indexOfElement = -1;
-    let exists = undefined;
     switch (device.type) {
         case "light":
-            exists = app.locals.xiaomi.yeelights.filter((gw, index) => {
-                indexOfElement = index;
-                return device.id === gw.id;
-            });
-            // console.log(exists);
-            if (!exists || exists.length === 0) {
-                console.log("Light existiert nicht");
-                console.error("power:" + device.power);
+            indexOfElement = findIdInArray(app.locals.xiaomi.yeelights, device.id);
+            if (indexOfElement < 0) {
+                console.log("Licht existiert nicht");
                 app.locals.xiaomi.yeelights.push(device);
             } else {
-                console.log("Light existiert bereits", device.id);
+                console.log("Licht existiert", device.id);
                 app.locals.xiaomi.yeelights[indexOfElement] = device;
             }
             break;
         case "gateway":
-            exists = app.locals.xiaomi.gateways.filter((gw, index) => {
-                indexOfElement = index;
-                return reg.id === gw.id;
-            });
-            // console.log(exists);
-            if (!exists || exists.length === 0) {
+            indexOfElement = findIdInArray(app.locals.xiaomi.gateways, device.id);
+            if (indexOfElement < 0) {
                 console.log("Gateway existiert nicht");
                 app.locals.xiaomi.gateways.push(device);
             } else {
-                console.log("Gateway existiert bereits", reg.id);
+                console.log("Gateway existiert", reg.id);
                 app.locals.xiaomi.gateways[indexOfElement] = device;
             }
             break;
         case "sensor":
-            console.log("SENSOR DETECTED");
+            // console.log("SENSOR DETECTED");
             // device.defineProperty("batteryLevel");
             // device.defineProperty("battery_level");
             // device.defineProperty("voltage");
-
-            exists = app.locals.xiaomi.sensors.filter((sensor, index) => {
-                indexOfElement = index;
-                return device.id === sensor.id;
-            });
-            console.log(exists);
-            if (!exists || exists.length === 0) {
-                console.log("sensor existiert nicht");
+            indexOfElement = findIdInArray(app.locals.xiaomi.sensors, device.id);
+            if (indexOfElement < 0) {
+                console.log("Sensor existiert nicht");
                 app.locals.xiaomi.sensors.push(device);
             } else {
-                console.log("sensor existiert bereits", device.id);
+                console.log("Sensor existiert", device.id);
                 app.locals.xiaomi.sensors[indexOfElement] = device;
             }
             break;
         default: "Found no Type: " + device.type;
     }
-
-    // const device = reg.device;
-    // if (!device) {
-    //     console.log(reg.id, "could not be connected to");
-    //     return;
-    // }
-
-    // Do something useful with the device
+    // console.log("indexOfElement: " + indexOfElement);
 });
 
 devices.on("unavailable", reg => {
@@ -197,8 +192,32 @@ devices.on("unavailable", reg => {
         console.log("Device " + reg.id + " not available");
         return;
     }
-    // REMOVE from collection...
-    console.log("Device " + reg.id + " not avaiulable");
+    console.log(reg.device);
+    let device = reg.device;
+    console.log("Device " + device.id + " not available. Remove from Collection");
+    let indexOfElement = findIdInArray(app.locals.xiaomi.sensors, device.id);
+    // console.log("indexOfElement: " + indexOfElement);
+    if (indexOfElement < 0) {
+        indexOfElement = findIdInArray(app.locals.xiaomi.gateways, device.id);
+        // console.log("indexOfElement: " + indexOfElement);
+    } else {
+        app.locals.xiaomi.sensors.splice(indexOfElement, 1);
+        return;
+    }
+    if (indexOfElement < 0) {
+        indexOfElement = findIdInArray(app.locals.xiaomi.yeelights, device.id);
+        // console.log("indexOfElement: " + indexOfElement);
+    } else {
+        app.locals.xiaomi.gateways.splice(indexOfElement, 1);
+        return;
+    }
+    if (indexOfElement < 0) {
+        //   console.log("Device mit Id " + device.id + " existiert in keinem Array");
+        return;
+    } else {
+        app.locals.xiaomi.yeelights.splice(indexOfElement, 1);
+    }
+    console.log("Device mit Id " + device.id + " entfernt");
 });
 
 devices.on("error", err => {
