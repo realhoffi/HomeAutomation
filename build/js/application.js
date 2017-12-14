@@ -1,18 +1,36 @@
 webpackJsonp([0],{
 
-/***/ 130:
-/*!*************************************!*\
-  !*** ./node_modules/axios/index.js ***!
-  \*************************************/
+/***/ 110:
+/*!******************************************!*\
+  !*** ./node_modules/int-to-rgb/index.js ***!
+  \******************************************/
 /*! dynamic exports provided */
 /*! all exports used */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-module.exports = __webpack_require__(/*! ./lib/axios */ 359);
+var errorMessage = 'Must provide an integer between 0 and 16777215';
+
+
+module.exports = function(int) {
+  if (typeof int !== 'number') throw new Error(errorMessage);
+  if (Math.floor(int) !== int) throw new Error(errorMessage);
+  if (int < 0 || int > 16777215) throw new Error(errorMessage);
+
+  var red = int >> 16;
+  var green = int - (red << 16) >> 8;
+  var blue = int - (red << 16) - (green << 8);
+
+  return {
+    red: red,
+    green: green,
+    blue: blue
+  }
+}
+
 
 /***/ }),
 
-/***/ 131:
+/***/ 132:
 /*!********************************************!*\
   !*** ./node_modules/axios/lib/defaults.js ***!
   \********************************************/
@@ -24,7 +42,7 @@ module.exports = __webpack_require__(/*! ./lib/axios */ 359);
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(/*! ./utils */ 26);
-var normalizeHeaderName = __webpack_require__(/*! ./helpers/normalizeHeaderName */ 362);
+var normalizeHeaderName = __webpack_require__(/*! ./helpers/normalizeHeaderName */ 363);
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -118,7 +136,7 @@ module.exports = defaults;
 
 /***/ }),
 
-/***/ 162:
+/***/ 163:
 /*!************************************************!*\
   !*** ./src/global/components/simple/Panel.tsx ***!
   \************************************************/
@@ -196,36 +214,6 @@ exports.Panel = Panel;
 
 /***/ }),
 
-/***/ 163:
-/*!******************************************!*\
-  !*** ./node_modules/int-to-rgb/index.js ***!
-  \******************************************/
-/*! dynamic exports provided */
-/*! all exports used */
-/***/ (function(module, exports) {
-
-var errorMessage = 'Must provide an integer between 0 and 16777215';
-
-
-module.exports = function(int) {
-  if (typeof int !== 'number') throw new Error(errorMessage);
-  if (Math.floor(int) !== int) throw new Error(errorMessage);
-  if (int < 0 || int > 16777215) throw new Error(errorMessage);
-
-  var red = int >> 16;
-  var green = int - (red << 16) >> 8;
-  var blue = int - (red << 16) - (green << 8);
-
-  return {
-    red: red,
-    green: green,
-    blue: blue
-  }
-}
-
-
-/***/ }),
-
 /***/ 204:
 /*!****************************************************************!*\
   !*** ./src/projects/yeelight/components/pages/application.tsx ***!
@@ -256,10 +244,10 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 2);
-var axios_1 = __webpack_require__(/*! axios */ 130);
+var axios_1 = __webpack_require__(/*! axios */ 93);
 var BaseLight_1 = __webpack_require__(/*! ../../../../global/components/simple/BaseLight */ 210);
-var timers_1 = __webpack_require__(/*! timers */ 92);
-var intToRGB = __webpack_require__(/*! int-to-rgb */ 163);
+var timers_1 = __webpack_require__(/*! timers */ 78);
+var intToRGB = __webpack_require__(/*! int-to-rgb */ 110);
 var Application = (function (_super) {
     __extends(Application, _super);
     function Application(props) {
@@ -387,12 +375,12 @@ module.exports = function bind(fn, thisArg) {
 /* WEBPACK VAR INJECTION */(function(Promise) {
 
 var utils = __webpack_require__(/*! ./../utils */ 26);
-var settle = __webpack_require__(/*! ./../core/settle */ 363);
-var buildURL = __webpack_require__(/*! ./../helpers/buildURL */ 365);
-var parseHeaders = __webpack_require__(/*! ./../helpers/parseHeaders */ 366);
-var isURLSameOrigin = __webpack_require__(/*! ./../helpers/isURLSameOrigin */ 367);
+var settle = __webpack_require__(/*! ./../core/settle */ 364);
+var buildURL = __webpack_require__(/*! ./../helpers/buildURL */ 366);
+var parseHeaders = __webpack_require__(/*! ./../helpers/parseHeaders */ 367);
+var isURLSameOrigin = __webpack_require__(/*! ./../helpers/isURLSameOrigin */ 368);
 var createError = __webpack_require__(/*! ../core/createError */ 207);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(/*! ./../helpers/btoa */ 368);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(/*! ./../helpers/btoa */ 369);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -489,7 +477,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(/*! ./../helpers/cookies */ 369);
+      var cookies = __webpack_require__(/*! ./../helpers/cookies */ 370);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -580,7 +568,7 @@ module.exports = function xhrAdapter(config) {
 "use strict";
 
 
-var enhanceError = __webpack_require__(/*! ./enhanceError */ 364);
+var enhanceError = __webpack_require__(/*! ./enhanceError */ 365);
 
 /**
  * Create an Error with the specified message, config, error code, request and response.
@@ -681,7 +669,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 2);
 var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 44);
-var Panel_1 = __webpack_require__(/*! ../../../global/components/simple/Panel */ 162);
+var Panel_1 = __webpack_require__(/*! ../../../global/components/simple/Panel */ 163);
 var BaseLight = (function (_super) {
     __extends(BaseLight, _super);
     function BaseLight(props) {
@@ -813,7 +801,7 @@ exports.BaseLight = BaseLight;
 
 
 var bind = __webpack_require__(/*! ./helpers/bind */ 205);
-var isBuffer = __webpack_require__(/*! is-buffer */ 360);
+var isBuffer = __webpack_require__(/*! is-buffer */ 361);
 
 /*global toString:true*/
 
@@ -1139,10 +1127,10 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 2);
-var axios_1 = __webpack_require__(/*! axios */ 130);
-var BaseWeatherSensor_1 = __webpack_require__(/*! ../../../../global/components/simple/BaseWeatherSensor */ 653);
-var timers_1 = __webpack_require__(/*! timers */ 92);
-var intToRGB = __webpack_require__(/*! int-to-rgb */ 163);
+var axios_1 = __webpack_require__(/*! axios */ 93);
+var BaseWeatherSensor_1 = __webpack_require__(/*! ../../../../global/components/simple/BaseWeatherSensor */ 654);
+var timers_1 = __webpack_require__(/*! timers */ 78);
+var intToRGB = __webpack_require__(/*! int-to-rgb */ 110);
 var Application = (function (_super) {
     __extends(Application, _super);
     function Application(props) {
@@ -1219,10 +1207,10 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 2);
-var axios_1 = __webpack_require__(/*! axios */ 130);
+var axios_1 = __webpack_require__(/*! axios */ 93);
 var BaseLight_1 = __webpack_require__(/*! ../../../../global/components/simple/BaseLight */ 210);
-var timers_1 = __webpack_require__(/*! timers */ 92);
-var intToRGB = __webpack_require__(/*! int-to-rgb */ 163);
+var timers_1 = __webpack_require__(/*! timers */ 78);
+var intToRGB = __webpack_require__(/*! int-to-rgb */ 110);
 var Application = (function (_super) {
     __extends(Application, _super);
     function Application(props) {
@@ -1308,6 +1296,84 @@ exports.Application = Application;
 /***/ }),
 
 /***/ 282:
+/*!*************************************************************!*\
+  !*** ./src/projects/system/components/pages/systeminfo.tsx ***!
+  \*************************************************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ 2);
+var axios_1 = __webpack_require__(/*! axios */ 93);
+var timers_1 = __webpack_require__(/*! timers */ 78);
+var intToRGB = __webpack_require__(/*! int-to-rgb */ 110);
+var SystemInfo = (function (_super) {
+    __extends(SystemInfo, _super);
+    function SystemInfo(props) {
+        var _this = _super.call(this, props) || this;
+        _this.isMountedFinished = false;
+        _this.state = { systemInformation: undefined, isInitialized: false };
+        _this.loadDevices = _this.loadDevices.bind(_this);
+        return _this;
+    }
+    SystemInfo.prototype.componentDidMount = function () {
+        var _this = this;
+        document.title = "System Informationen";
+        console.log("SystemInfo componentDidMount");
+        this.loadDevices().then(function () {
+            if (_this.isMountedFinished === true) {
+                _this.setState({ isInitialized: true });
+            }
+        });
+        this.ival = timers_1.setInterval(this.loadDevices, 10000);
+        this.isMountedFinished = true;
+    };
+    SystemInfo.prototype.componentWillUnmount = function () {
+        clearInterval(this.ival);
+        this.isMountedFinished = false;
+    };
+    SystemInfo.prototype.loadDevices = function () {
+        var _this = this;
+        return axios_1.default.get("/api/system").then(function (result) {
+            if (_this.isMountedFinished === true) {
+                _this.setState({ systemInformation: result.data["system"] });
+            }
+        });
+    };
+    SystemInfo.prototype.render = function () {
+        if (!this.state.isInitialized) {
+            return false;
+        }
+        return React.createElement("div", { className: "ms-Grid-row" },
+            React.createElement("div", { className: "ms-Grid-col ms-sm12" },
+                (!this.state.systemInformation) &&
+                    React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, "Keine System-Informationen gefunden"),
+                React.createElement("div", { className: "ms-Grid-row" },
+                    this.state.systemInformation &&
+                        React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-lg6 ms-xl3", key: "sysinfo_" }, JSON.stringify(this.state.systemInformation)),
+                    "}")));
+    };
+    return SystemInfo;
+}(React.Component));
+exports.SystemInfo = SystemInfo;
+
+
+/***/ }),
+
+/***/ 283:
 /*!***************************!*\
   !*** ./src/data/enums.ts ***!
   \***************************/
@@ -1328,7 +1394,7 @@ var PageType;
 
 /***/ }),
 
-/***/ 283:
+/***/ 284:
 /*!******************************************************!*\
   !*** ./src/global/components/container/basePage.tsx ***!
   \******************************************************/
@@ -1382,7 +1448,7 @@ exports.BasePage = BasePage;
 
 /***/ }),
 
-/***/ 284:
+/***/ 285:
 /*!**************************************************!*\
   !*** ./src/global/components/simple/Routing.tsx ***!
   \**************************************************/
@@ -1445,7 +1511,7 @@ exports.Status = Status;
 
 /***/ }),
 
-/***/ 319:
+/***/ 320:
 /*!*******************************************************!*\
   !*** multi ./src/global/components/pages/initApp.tsx ***!
   \*******************************************************/
@@ -1453,12 +1519,12 @@ exports.Status = Status;
 /*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! ./src/global/components/pages/initApp.tsx */320);
+module.exports = __webpack_require__(/*! ./src/global/components/pages/initApp.tsx */321);
 
 
 /***/ }),
 
-/***/ 320:
+/***/ 321:
 /*!*************************************************!*\
   !*** ./src/global/components/pages/initApp.tsx ***!
   \*************************************************/
@@ -1471,9 +1537,9 @@ module.exports = __webpack_require__(/*! ./src/global/components/pages/initApp.t
 Object.defineProperty(exports, "__esModule", { value: true });
 var ReactDOM = __webpack_require__(/*! react-dom */ 49);
 var React = __webpack_require__(/*! react */ 2);
-var globalApplication_1 = __webpack_require__(/*! ./globalApplication */ 335);
+var globalApplication_1 = __webpack_require__(/*! ./globalApplication */ 336);
 var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ 73);
-var icons_1 = __webpack_require__(/*! @uifabric/icons */ 665);
+var icons_1 = __webpack_require__(/*! @uifabric/icons */ 666);
 icons_1.initializeIcons();
 window.onload = function () {
     ReactDOM.render(React.createElement(react_router_dom_1.HashRouter, null,
@@ -1483,7 +1549,7 @@ window.onload = function () {
 
 /***/ }),
 
-/***/ 335:
+/***/ 336:
 /*!***********************************************************!*\
   !*** ./src/global/components/pages/globalApplication.tsx ***!
   \***********************************************************/
@@ -1506,15 +1572,16 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 2);
 var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ 73);
-var application_1 = __webpack_require__(/*! ./application */ 357);
+var application_1 = __webpack_require__(/*! ./application */ 358);
 var application_2 = __webpack_require__(/*! ../../../projects/yeelight/components/pages/application */ 204);
-var application_3 = __webpack_require__(/*! ../../../projects/vacuumRoboter/components/pages/application */ 654);
-var application_4 = __webpack_require__(/*! ../../../projects/aldi/components/pages/application */ 658);
+var application_3 = __webpack_require__(/*! ../../../projects/vacuumRoboter/components/pages/application */ 655);
+var application_4 = __webpack_require__(/*! ../../../projects/aldi/components/pages/application */ 659);
 var sensors_1 = __webpack_require__(/*! ../../../projects/xiaomi/components/pages/sensors */ 280);
 var gateways_1 = __webpack_require__(/*! ../../../projects/xiaomi/components/pages/gateways */ 281);
-var NotFoundPage_1 = __webpack_require__(/*! ../../components/simple/NotFoundPage */ 664);
-var Routing_1 = __webpack_require__(/*! ../simple/Routing */ 284);
-var basePage_1 = __webpack_require__(/*! ../container/basePage */ 283);
+var NotFoundPage_1 = __webpack_require__(/*! ../../components/simple/NotFoundPage */ 665);
+var Routing_1 = __webpack_require__(/*! ../simple/Routing */ 285);
+var basePage_1 = __webpack_require__(/*! ../container/basePage */ 284);
+var systeminfo_1 = __webpack_require__(/*! ../../../projects/system/components/pages/systeminfo */ 282);
 var GlobalApplication = (function (_super) {
     __extends(GlobalApplication, _super);
     function GlobalApplication(props) {
@@ -1529,6 +1596,7 @@ var GlobalApplication = (function (_super) {
         return React.createElement(basePage_1.BasePage, { IncludeFabricElement: true, Body: React.createElement(react_router_dom_1.Switch, null,
                 React.createElement(Routing_1.RedirectWithStatus, { status: 302, from: "/courses", to: "/aldi" }),
                 React.createElement(react_router_dom_1.Route, { exact: true, path: "/", component: application_1.Application, key: "r1" }),
+                React.createElement(react_router_dom_1.Route, { path: "/system", component: systeminfo_1.SystemInfo, key: "r8" }),
                 React.createElement(react_router_dom_1.Route, { path: "/light", component: application_2.Application, key: "r2" }),
                 React.createElement(react_router_dom_1.Route, { path: "/aldi", component: application_4.Application, key: "r3" }),
                 React.createElement(react_router_dom_1.Route, { path: "/vacuum", component: application_3.Application, key: "r4" }),
@@ -1538,6 +1606,8 @@ var GlobalApplication = (function (_super) {
                 React.createElement("ul", null,
                     React.createElement("li", null,
                         React.createElement(react_router_dom_1.Link, { to: "/", replace: true }, "\u00DCbersicht")),
+                    React.createElement("li", null,
+                        React.createElement(react_router_dom_1.Link, { to: "/system", replace: true }, "System-Informationen")),
                     React.createElement("li", null,
                         React.createElement(react_router_dom_1.Link, { to: "/light", replace: true }, "Yeelight")),
                     React.createElement("li", null,
@@ -1556,7 +1626,7 @@ exports.GlobalApplication = GlobalApplication;
 
 /***/ }),
 
-/***/ 357:
+/***/ 358:
 /*!*****************************************************!*\
   !*** ./src/global/components/pages/application.tsx ***!
   \*****************************************************/
@@ -1582,7 +1652,8 @@ var application_1 = __webpack_require__(/*! ../../../projects/yeelight/component
 var sensors_1 = __webpack_require__(/*! ../../../projects/xiaomi/components/pages/sensors */ 280);
 var gateways_1 = __webpack_require__(/*! ../../../projects/xiaomi/components/pages/gateways */ 281);
 var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 44);
-var PivotItem_1 = __webpack_require__(/*! office-ui-fabric-react/lib/components/Pivot/PivotItem */ 160);
+var PivotItem_1 = __webpack_require__(/*! office-ui-fabric-react/lib/components/Pivot/PivotItem */ 161);
+var systeminfo_1 = __webpack_require__(/*! ../../../projects/system/components/pages/systeminfo */ 282);
 var Application = (function (_super) {
     __extends(Application, _super);
     function Application(props) {
@@ -1590,7 +1661,8 @@ var Application = (function (_super) {
         _this.state = {
             GatewayInformations: React.createElement(gateways_1.Application, null),
             SensorInformations: React.createElement(sensors_1.Application, null),
-            YeelightInformations: React.createElement(application_1.Application, null)
+            YeelightInformations: React.createElement(application_1.Application, null),
+            SystemInformations: React.createElement(systeminfo_1.SystemInfo, null)
         };
         return _this;
     }
@@ -1600,6 +1672,8 @@ var Application = (function (_super) {
     Application.prototype.render = function () {
         return React.createElement("div", null,
             React.createElement(office_ui_fabric_react_1.Pivot, { linkSize: office_ui_fabric_react_1.PivotLinkSize.large },
+                React.createElement(PivotItem_1.PivotItem, { linkText: "System-Info", itemIcon: "Settings" },
+                    React.createElement("div", { style: { paddingTop: "15px" } }, this.state.SystemInformations)),
                 React.createElement(PivotItem_1.PivotItem, { linkText: "Yeelights", itemIcon: "Lightbulb" },
                     React.createElement("div", { style: { paddingTop: "15px" } }, this.state.YeelightInformations)),
                 React.createElement(PivotItem_1.PivotItem, { linkText: "Gateways", itemIcon: "Light" },
@@ -1614,7 +1688,7 @@ exports.Application = Application;
 
 /***/ }),
 
-/***/ 359:
+/***/ 360:
 /*!*****************************************!*\
   !*** ./node_modules/axios/lib/axios.js ***!
   \*****************************************/
@@ -1627,8 +1701,8 @@ exports.Application = Application;
 
 var utils = __webpack_require__(/*! ./utils */ 26);
 var bind = __webpack_require__(/*! ./helpers/bind */ 205);
-var Axios = __webpack_require__(/*! ./core/Axios */ 361);
-var defaults = __webpack_require__(/*! ./defaults */ 131);
+var Axios = __webpack_require__(/*! ./core/Axios */ 362);
+var defaults = __webpack_require__(/*! ./defaults */ 132);
 
 /**
  * Create an instance of Axios
@@ -1662,14 +1736,14 @@ axios.create = function create(instanceConfig) {
 
 // Expose Cancel & CancelToken
 axios.Cancel = __webpack_require__(/*! ./cancel/Cancel */ 209);
-axios.CancelToken = __webpack_require__(/*! ./cancel/CancelToken */ 375);
+axios.CancelToken = __webpack_require__(/*! ./cancel/CancelToken */ 376);
 axios.isCancel = __webpack_require__(/*! ./cancel/isCancel */ 208);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(/*! ./helpers/spread */ 376);
+axios.spread = __webpack_require__(/*! ./helpers/spread */ 377);
 
 module.exports = axios;
 
@@ -1680,7 +1754,7 @@ module.exports.default = axios;
 
 /***/ }),
 
-/***/ 360:
+/***/ 361:
 /*!*****************************************!*\
   !*** ./node_modules/is-buffer/index.js ***!
   \*****************************************/
@@ -1713,7 +1787,7 @@ function isSlowBuffer (obj) {
 
 /***/ }),
 
-/***/ 361:
+/***/ 362:
 /*!**********************************************!*\
   !*** ./node_modules/axios/lib/core/Axios.js ***!
   \**********************************************/
@@ -1724,10 +1798,10 @@ function isSlowBuffer (obj) {
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Promise) {
 
-var defaults = __webpack_require__(/*! ./../defaults */ 131);
+var defaults = __webpack_require__(/*! ./../defaults */ 132);
 var utils = __webpack_require__(/*! ./../utils */ 26);
-var InterceptorManager = __webpack_require__(/*! ./InterceptorManager */ 370);
-var dispatchRequest = __webpack_require__(/*! ./dispatchRequest */ 371);
+var InterceptorManager = __webpack_require__(/*! ./InterceptorManager */ 371);
+var dispatchRequest = __webpack_require__(/*! ./dispatchRequest */ 372);
 
 /**
  * Create a new instance of Axios
@@ -1806,7 +1880,7 @@ module.exports = Axios;
 
 /***/ }),
 
-/***/ 362:
+/***/ 363:
 /*!***************************************************************!*\
   !*** ./node_modules/axios/lib/helpers/normalizeHeaderName.js ***!
   \***************************************************************/
@@ -1831,7 +1905,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 /***/ }),
 
-/***/ 363:
+/***/ 364:
 /*!***********************************************!*\
   !*** ./node_modules/axios/lib/core/settle.js ***!
   \***********************************************/
@@ -1870,7 +1944,7 @@ module.exports = function settle(resolve, reject, response) {
 
 /***/ }),
 
-/***/ 364:
+/***/ 365:
 /*!*****************************************************!*\
   !*** ./node_modules/axios/lib/core/enhanceError.js ***!
   \*****************************************************/
@@ -1904,7 +1978,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 
 /***/ }),
 
-/***/ 365:
+/***/ 366:
 /*!****************************************************!*\
   !*** ./node_modules/axios/lib/helpers/buildURL.js ***!
   \****************************************************/
@@ -1985,7 +2059,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 /***/ }),
 
-/***/ 366:
+/***/ 367:
 /*!********************************************************!*\
   !*** ./node_modules/axios/lib/helpers/parseHeaders.js ***!
   \********************************************************/
@@ -2051,7 +2125,7 @@ module.exports = function parseHeaders(headers) {
 
 /***/ }),
 
-/***/ 367:
+/***/ 368:
 /*!***********************************************************!*\
   !*** ./node_modules/axios/lib/helpers/isURLSameOrigin.js ***!
   \***********************************************************/
@@ -2132,7 +2206,7 @@ module.exports = (
 
 /***/ }),
 
-/***/ 368:
+/***/ 369:
 /*!************************************************!*\
   !*** ./node_modules/axios/lib/helpers/btoa.js ***!
   \************************************************/
@@ -2181,7 +2255,7 @@ module.exports = btoa;
 
 /***/ }),
 
-/***/ 369:
+/***/ 370:
 /*!***************************************************!*\
   !*** ./node_modules/axios/lib/helpers/cookies.js ***!
   \***************************************************/
@@ -2247,7 +2321,7 @@ module.exports = (
 
 /***/ }),
 
-/***/ 370:
+/***/ 371:
 /*!***********************************************************!*\
   !*** ./node_modules/axios/lib/core/InterceptorManager.js ***!
   \***********************************************************/
@@ -2312,7 +2386,7 @@ module.exports = InterceptorManager;
 
 /***/ }),
 
-/***/ 371:
+/***/ 372:
 /*!********************************************************!*\
   !*** ./node_modules/axios/lib/core/dispatchRequest.js ***!
   \********************************************************/
@@ -2324,11 +2398,11 @@ module.exports = InterceptorManager;
 /* WEBPACK VAR INJECTION */(function(Promise) {
 
 var utils = __webpack_require__(/*! ./../utils */ 26);
-var transformData = __webpack_require__(/*! ./transformData */ 372);
+var transformData = __webpack_require__(/*! ./transformData */ 373);
 var isCancel = __webpack_require__(/*! ../cancel/isCancel */ 208);
-var defaults = __webpack_require__(/*! ../defaults */ 131);
-var isAbsoluteURL = __webpack_require__(/*! ./../helpers/isAbsoluteURL */ 373);
-var combineURLs = __webpack_require__(/*! ./../helpers/combineURLs */ 374);
+var defaults = __webpack_require__(/*! ../defaults */ 132);
+var isAbsoluteURL = __webpack_require__(/*! ./../helpers/isAbsoluteURL */ 374);
+var combineURLs = __webpack_require__(/*! ./../helpers/combineURLs */ 375);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -2412,7 +2486,7 @@ module.exports = function dispatchRequest(config) {
 
 /***/ }),
 
-/***/ 372:
+/***/ 373:
 /*!******************************************************!*\
   !*** ./node_modules/axios/lib/core/transformData.js ***!
   \******************************************************/
@@ -2445,7 +2519,7 @@ module.exports = function transformData(data, headers, fns) {
 
 /***/ }),
 
-/***/ 373:
+/***/ 374:
 /*!*********************************************************!*\
   !*** ./node_modules/axios/lib/helpers/isAbsoluteURL.js ***!
   \*********************************************************/
@@ -2472,7 +2546,7 @@ module.exports = function isAbsoluteURL(url) {
 
 /***/ }),
 
-/***/ 374:
+/***/ 375:
 /*!*******************************************************!*\
   !*** ./node_modules/axios/lib/helpers/combineURLs.js ***!
   \*******************************************************/
@@ -2499,7 +2573,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 /***/ }),
 
-/***/ 375:
+/***/ 376:
 /*!******************************************************!*\
   !*** ./node_modules/axios/lib/cancel/CancelToken.js ***!
   \******************************************************/
@@ -2570,7 +2644,7 @@ module.exports = CancelToken;
 
 /***/ }),
 
-/***/ 376:
+/***/ 377:
 /*!**************************************************!*\
   !*** ./node_modules/axios/lib/helpers/spread.js ***!
   \**************************************************/
@@ -2610,7 +2684,7 @@ module.exports = function spread(callback) {
 
 /***/ }),
 
-/***/ 653:
+/***/ 654:
 /*!************************************************************!*\
   !*** ./src/global/components/simple/BaseWeatherSensor.tsx ***!
   \************************************************************/
@@ -2632,7 +2706,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 2);
-var Panel_1 = __webpack_require__(/*! ../../../global/components/simple/Panel */ 162);
+var Panel_1 = __webpack_require__(/*! ../../../global/components/simple/Panel */ 163);
 var BaseWeatherSensor = (function (_super) {
     __extends(BaseWeatherSensor, _super);
     function BaseWeatherSensor(props) {
@@ -2662,7 +2736,7 @@ exports.BaseWeatherSensor = BaseWeatherSensor;
 
 /***/ }),
 
-/***/ 654:
+/***/ 655:
 /*!*********************************************************************!*\
   !*** ./src/projects/vacuumRoboter/components/pages/application.tsx ***!
   \*********************************************************************/
@@ -2684,7 +2758,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 2);
-var debug = __webpack_require__(/*! debug */ 655);
+var debug = __webpack_require__(/*! debug */ 656);
 var Application = (function (_super) {
     __extends(Application, _super);
     function Application(props) {
@@ -2708,7 +2782,7 @@ exports.Application = Application;
 
 /***/ }),
 
-/***/ 655:
+/***/ 656:
 /*!*******************************************!*\
   !*** ./node_modules/debug/src/browser.js ***!
   \*******************************************/
@@ -2722,7 +2796,7 @@ exports.Application = Application;
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(/*! ./debug */ 656);
+exports = module.exports = __webpack_require__(/*! ./debug */ 657);
 exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
@@ -2916,7 +2990,7 @@ function localstorage() {
 
 /***/ }),
 
-/***/ 656:
+/***/ 657:
 /*!*****************************************!*\
   !*** ./node_modules/debug/src/debug.js ***!
   \*****************************************/
@@ -2937,7 +3011,7 @@ exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = __webpack_require__(/*! ms */ 657);
+exports.humanize = __webpack_require__(/*! ms */ 658);
 
 /**
  * Active `debug` instances.
@@ -3153,7 +3227,7 @@ function coerce(val) {
 
 /***/ }),
 
-/***/ 657:
+/***/ 658:
 /*!**********************************!*\
   !*** ./node_modules/ms/index.js ***!
   \**********************************/
@@ -3317,7 +3391,7 @@ function plural(ms, n, name) {
 
 /***/ }),
 
-/***/ 658:
+/***/ 659:
 /*!************************************************************!*\
   !*** ./src/projects/aldi/components/pages/application.tsx ***!
   \************************************************************/
@@ -3340,9 +3414,9 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 2);
 var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 44);
-var ManageRoute_1 = __webpack_require__(/*! ./ManageRoute */ 659);
-var enums_1 = __webpack_require__(/*! ../../../../data/enums */ 282);
-var ToolTip_1 = __webpack_require__(/*! ../../../../global/components/simple/ToolTip */ 663);
+var ManageRoute_1 = __webpack_require__(/*! ./ManageRoute */ 660);
+var enums_1 = __webpack_require__(/*! ../../../../data/enums */ 283);
+var ToolTip_1 = __webpack_require__(/*! ../../../../global/components/simple/ToolTip */ 664);
 var Application = (function (_super) {
     __extends(Application, _super);
     function Application(props) {
@@ -3409,7 +3483,7 @@ exports.Application = Application;
 
 /***/ }),
 
-/***/ 659:
+/***/ 660:
 /*!************************************************************!*\
   !*** ./src/projects/aldi/components/pages/ManageRoute.tsx ***!
   \************************************************************/
@@ -3440,12 +3514,12 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 2);
 var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 44);
-var enums_1 = __webpack_require__(/*! ../../../../data/enums */ 282);
-var basePage_1 = __webpack_require__(/*! ../../../../global/components/container/basePage */ 283);
-var ButtonRow_1 = __webpack_require__(/*! ../../../../global/components/simple/ButtonRow */ 660);
-var Panel_1 = __webpack_require__(/*! ../../../../global/components/simple/Panel */ 162);
-var NumberTextField_1 = __webpack_require__(/*! ../../../../global/components/simple/NumberTextField */ 661);
-var date_1 = __webpack_require__(/*! ../../../../helper/date */ 662);
+var enums_1 = __webpack_require__(/*! ../../../../data/enums */ 283);
+var basePage_1 = __webpack_require__(/*! ../../../../global/components/container/basePage */ 284);
+var ButtonRow_1 = __webpack_require__(/*! ../../../../global/components/simple/ButtonRow */ 661);
+var Panel_1 = __webpack_require__(/*! ../../../../global/components/simple/Panel */ 163);
+var NumberTextField_1 = __webpack_require__(/*! ../../../../global/components/simple/NumberTextField */ 662);
+var date_1 = __webpack_require__(/*! ../../../../helper/date */ 663);
 var ManageRoute = (function (_super) {
     __extends(ManageRoute, _super);
     function ManageRoute(props) {
@@ -3594,7 +3668,7 @@ exports.ManageRoute = ManageRoute;
 
 /***/ }),
 
-/***/ 660:
+/***/ 661:
 /*!****************************************************!*\
   !*** ./src/global/components/simple/ButtonRow.tsx ***!
   \****************************************************/
@@ -3635,7 +3709,7 @@ exports.ButtonRow = ButtonRow;
 
 /***/ }),
 
-/***/ 661:
+/***/ 662:
 /*!**********************************************************!*\
   !*** ./src/global/components/simple/NumberTextField.tsx ***!
   \**********************************************************/
@@ -3680,7 +3754,7 @@ exports.NumberTextField = NumberTextField;
 
 /***/ }),
 
-/***/ 662:
+/***/ 663:
 /*!****************************!*\
   !*** ./src/helper/date.ts ***!
   \****************************/
@@ -3702,7 +3776,7 @@ exports.getGermanDateString = getGermanDateString;
 
 /***/ }),
 
-/***/ 663:
+/***/ 664:
 /*!**************************************************!*\
   !*** ./src/global/components/simple/ToolTip.tsx ***!
   \**************************************************/
@@ -3744,7 +3818,7 @@ exports.ToolTip = ToolTip;
 
 /***/ }),
 
-/***/ 664:
+/***/ 665:
 /*!*******************************************************!*\
   !*** ./src/global/components/simple/NotFoundPage.tsx ***!
   \*******************************************************/
@@ -3767,7 +3841,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 2);
 var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ 73);
-var Routing_1 = __webpack_require__(/*! ./Routing */ 284);
+var Routing_1 = __webpack_require__(/*! ./Routing */ 285);
 var NotFoundPage = (function (_super) {
     __extends(NotFoundPage, _super);
     function NotFoundPage() {
@@ -3788,7 +3862,7 @@ exports.NotFoundPage = NotFoundPage;
 
 /***/ }),
 
-/***/ 665:
+/***/ 666:
 /*!***************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/index.js ***!
   \***************************************************/
@@ -3799,20 +3873,20 @@ exports.NotFoundPage = NotFoundPage;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var fabric_icons_1 = __webpack_require__(/*! ./fabric-icons */ 666);
-var fabric_icons_0_1 = __webpack_require__(/*! ./fabric-icons-0 */ 667);
-var fabric_icons_1_1 = __webpack_require__(/*! ./fabric-icons-1 */ 668);
-var fabric_icons_2_1 = __webpack_require__(/*! ./fabric-icons-2 */ 669);
-var fabric_icons_3_1 = __webpack_require__(/*! ./fabric-icons-3 */ 670);
-var fabric_icons_4_1 = __webpack_require__(/*! ./fabric-icons-4 */ 671);
-var fabric_icons_5_1 = __webpack_require__(/*! ./fabric-icons-5 */ 672);
-var fabric_icons_6_1 = __webpack_require__(/*! ./fabric-icons-6 */ 673);
-var fabric_icons_7_1 = __webpack_require__(/*! ./fabric-icons-7 */ 674);
-var fabric_icons_8_1 = __webpack_require__(/*! ./fabric-icons-8 */ 675);
-var fabric_icons_9_1 = __webpack_require__(/*! ./fabric-icons-9 */ 676);
-var fabric_icons_10_1 = __webpack_require__(/*! ./fabric-icons-10 */ 677);
-var fabric_icons_11_1 = __webpack_require__(/*! ./fabric-icons-11 */ 678);
-__webpack_require__(/*! ./icon-aliases */ 679);
+var fabric_icons_1 = __webpack_require__(/*! ./fabric-icons */ 667);
+var fabric_icons_0_1 = __webpack_require__(/*! ./fabric-icons-0 */ 668);
+var fabric_icons_1_1 = __webpack_require__(/*! ./fabric-icons-1 */ 669);
+var fabric_icons_2_1 = __webpack_require__(/*! ./fabric-icons-2 */ 670);
+var fabric_icons_3_1 = __webpack_require__(/*! ./fabric-icons-3 */ 671);
+var fabric_icons_4_1 = __webpack_require__(/*! ./fabric-icons-4 */ 672);
+var fabric_icons_5_1 = __webpack_require__(/*! ./fabric-icons-5 */ 673);
+var fabric_icons_6_1 = __webpack_require__(/*! ./fabric-icons-6 */ 674);
+var fabric_icons_7_1 = __webpack_require__(/*! ./fabric-icons-7 */ 675);
+var fabric_icons_8_1 = __webpack_require__(/*! ./fabric-icons-8 */ 676);
+var fabric_icons_9_1 = __webpack_require__(/*! ./fabric-icons-9 */ 677);
+var fabric_icons_10_1 = __webpack_require__(/*! ./fabric-icons-10 */ 678);
+var fabric_icons_11_1 = __webpack_require__(/*! ./fabric-icons-11 */ 679);
+__webpack_require__(/*! ./icon-aliases */ 680);
 var DEFAULT_BASE_URL = 'https://spoprod-a.akamaihd.net/files/fabric/assets/icons/';
 function initializeIcons(baseUrl, options) {
     if (baseUrl === void 0) { baseUrl = DEFAULT_BASE_URL; }
@@ -3823,7 +3897,7 @@ exports.initializeIcons = initializeIcons;
 
 /***/ }),
 
-/***/ 666:
+/***/ 667:
 /*!**********************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons.js ***!
   \**********************************************************/
@@ -3914,7 +3988,7 @@ exports.initializeIcons = initializeIcons;
 
 /***/ }),
 
-/***/ 667:
+/***/ 668:
 /*!************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-0.js ***!
   \************************************************************/
@@ -4051,7 +4125,7 @@ exports.initializeIcons = initializeIcons;
 
 /***/ }),
 
-/***/ 668:
+/***/ 669:
 /*!************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-1.js ***!
   \************************************************************/
@@ -4188,7 +4262,7 @@ exports.initializeIcons = initializeIcons;
 
 /***/ }),
 
-/***/ 669:
+/***/ 670:
 /*!************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-2.js ***!
   \************************************************************/
@@ -4325,7 +4399,7 @@ exports.initializeIcons = initializeIcons;
 
 /***/ }),
 
-/***/ 670:
+/***/ 671:
 /*!************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-3.js ***!
   \************************************************************/
@@ -4462,7 +4536,7 @@ exports.initializeIcons = initializeIcons;
 
 /***/ }),
 
-/***/ 671:
+/***/ 672:
 /*!************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-4.js ***!
   \************************************************************/
@@ -4595,7 +4669,7 @@ exports.initializeIcons = initializeIcons;
 
 /***/ }),
 
-/***/ 672:
+/***/ 673:
 /*!************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-5.js ***!
   \************************************************************/
@@ -4731,7 +4805,7 @@ exports.initializeIcons = initializeIcons;
 
 /***/ }),
 
-/***/ 673:
+/***/ 674:
 /*!************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-6.js ***!
   \************************************************************/
@@ -4866,7 +4940,7 @@ exports.initializeIcons = initializeIcons;
 
 /***/ }),
 
-/***/ 674:
+/***/ 675:
 /*!************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-7.js ***!
   \************************************************************/
@@ -5003,7 +5077,7 @@ exports.initializeIcons = initializeIcons;
 
 /***/ }),
 
-/***/ 675:
+/***/ 676:
 /*!************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-8.js ***!
   \************************************************************/
@@ -5140,7 +5214,7 @@ exports.initializeIcons = initializeIcons;
 
 /***/ }),
 
-/***/ 676:
+/***/ 677:
 /*!************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-9.js ***!
   \************************************************************/
@@ -5277,7 +5351,7 @@ exports.initializeIcons = initializeIcons;
 
 /***/ }),
 
-/***/ 677:
+/***/ 678:
 /*!*************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-10.js ***!
   \*************************************************************/
@@ -5410,7 +5484,7 @@ exports.initializeIcons = initializeIcons;
 
 /***/ }),
 
-/***/ 678:
+/***/ 679:
 /*!*************************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/fabric-icons-11.js ***!
   \*************************************************************/
@@ -5531,7 +5605,7 @@ exports.initializeIcons = initializeIcons;
 
 /***/ }),
 
-/***/ 679:
+/***/ 680:
 /*!**********************************************************!*\
   !*** ./node_modules/@uifabric/icons/lib/icon-aliases.js ***!
   \**********************************************************/
@@ -5546,7 +5620,19 @@ var index_1 = __webpack_require__(/*! @uifabric/styling/lib/index */ 20);
 index_1.registerIconAlias('trash', 'delete');
 //# sourceMappingURL=icon-aliases.js.map
 
+/***/ }),
+
+/***/ 93:
+/*!*************************************!*\
+  !*** ./node_modules/axios/index.js ***!
+  \*************************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! ./lib/axios */ 360);
+
 /***/ })
 
-},[319]);
+},[320]);
 //# sourceMappingURL=application.js.map

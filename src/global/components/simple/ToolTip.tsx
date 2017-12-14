@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
-import { Status } from "./routing";
+import { Status } from "./Routing";
 
 export interface IToolTipProps {
     Title: string;

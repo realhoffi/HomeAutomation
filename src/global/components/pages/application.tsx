@@ -2,16 +2,18 @@ import * as React from "react";
 
 import { Application as YeelightApplication } from "../../../projects/yeelight/components/pages/application";
 import { Application as VacuumApplication } from "../../../projects/vacuumRoboter/components/pages/application";
-import { Application as AldiApplication } from "../../../projects/aldi/components/pages/application";
+import { Application as AldiApplication } from "../../../projects/aldi/components/pages/Application";
 import { Application as SensorApplication } from "../../../projects/xiaomi/components/pages/sensors";
 import { Application as GatewayApplication } from "../../../projects/xiaomi/components/pages/gateways";
 
 import { Pivot, Label, PivotLinkSize } from "office-ui-fabric-react";
 import { PivotItem } from "office-ui-fabric-react/lib/components/Pivot/PivotItem";
+import { SystemInfo } from "../../../projects/system/components/pages/systeminfo";
 export interface IApplicationState {
     GatewayInformations: JSX.Element;
     SensorInformations: JSX.Element;
     YeelightInformations: JSX.Element;
+    SystemInformations: JSX.Element;
 }
 export interface IApplicationProps {
     requestUrl: string;
@@ -22,7 +24,8 @@ export class Application extends React.PureComponent<IApplicationProps, IApplica
         this.state = {
             GatewayInformations: <GatewayApplication />,
             SensorInformations: <SensorApplication />,
-            YeelightInformations: <YeelightApplication />
+            YeelightInformations: <YeelightApplication />,
+            SystemInformations: <SystemInfo />
         };
     }
     componentDidMount() {
@@ -32,6 +35,11 @@ export class Application extends React.PureComponent<IApplicationProps, IApplica
     render() {
         return <div>
             <Pivot linkSize={PivotLinkSize.large}>
+                <PivotItem linkText="System-Info" itemIcon="Settings">
+                    <div style={{ paddingTop: "15px" }}>
+                        {this.state.SystemInformations}
+                    </div>
+                </PivotItem>
                 <PivotItem linkText="Yeelights" itemIcon="Lightbulb">
                     <div style={{ paddingTop: "15px" }}>
                         {this.state.YeelightInformations}

@@ -847,8 +847,8 @@ var debug = __webpack_require__(/*! debug */ 11);
 var url = __webpack_require__(/*! url */ 12);
 var favicon = __webpack_require__(/*! serve-favicon */ 13);
 var routes_1 = __webpack_require__(/*! ../api/routes/routes */ 14);
-var bodyParser = __webpack_require__(/*! body-parser */ 47);
-var miio = __webpack_require__(/*! miio */ 48);
+var bodyParser = __webpack_require__(/*! body-parser */ 48);
+var miio = __webpack_require__(/*! miio */ 49);
 function normalizePort(val) {
     var port = parseInt(val, 10);
     if (isNaN(port)) {
@@ -1103,11 +1103,16 @@ module.exports = require("serve-favicon");
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Promise) {
 Object.defineProperty(exports, "__esModule", { value: true });
-var cfg = __webpack_require__(/*! ./../../config/config.json */ 45);
+var os = __webpack_require__(/*! os */ 45);
+var cfg = __webpack_require__(/*! ./../../config/config.json */ 46);
 function registerRoutes(router) {
     router.route("/sensors").get(function (req, res) {
         var result = [];
         var sensors = req.app.locals.xiaomi.sensors;
+        if (!sensors || sensors.length < 1) {
+            res.json({ sensors: result });
+            return;
+        }
         if (sensors && sensors.length > 0) {
             result = sensors.map(function (sensor, index) {
                 return {
@@ -1139,9 +1144,6 @@ function registerRoutes(router) {
             console.log("batteryLevel: " + sensor.batteryLevel);
             console.log("battery_level: " + sensor.battery_level);
             console.log("voltage: " + sensor.voltage);
-            console.log(sensor);
-            console.log(sensor.id);
-            console.log(sensor._parent.id);
             sensor._parent.call("get_device_prop_exp", [["lumi." + sensor.id].concat(req.params.properties.split(";"))])
                 .then(function (resultProperties) {
                 res.json({ id: req.params.id, "properties": resultProperties });
@@ -1150,42 +1152,44 @@ function registerRoutes(router) {
                 res.status(500).json({ "info": "Error fetching Info" });
             });
         }
+        else {
+            res.status(500).json({ "info": "sensor not found" });
+        }
     });
     router.route("/lights").get(function (req, res) {
         var result = [];
         var yeelights = req.app.locals.xiaomi.yeelights;
-        if (yeelights && yeelights.length > 0) {
-            result = yeelights.map(function (light, index) {
-                return {
-                    name: "",
-                    power: light.power,
-                    id: light.id,
-                    intensity: light.intensity,
-                    brightness: light.brightness,
-                    colorTemperature: light.colorTemperature,
-                    ip: light.address,
-                    rgb: light.rgb || { b: 0, g: 0, r: 0 }
-                };
-            });
-            cfg.devices.lights.forEach(function (light) {
-                result.forEach(function (lightModel) {
-                    if (lightModel.id === light.id) {
-                        lightModel.name = light.name;
-                    }
-                });
-            });
+        if (!yeelights || yeelights.length < 1) {
             res.json({ lights: result });
+            res.end();
+            return;
         }
-        else {
-            res.status(500).json({ lights: [] });
-        }
+        result = yeelights.map(function (light, index) {
+            return {
+                name: "",
+                power: light.power,
+                id: light.id,
+                intensity: light.intensity,
+                brightness: light.brightness,
+                colorTemperature: light.colorTemperature,
+                ip: light.address,
+                rgb: light.rgb || { b: 0, g: 0, r: 0 }
+            };
+        });
+        cfg.devices.lights.forEach(function (light) {
+            result.forEach(function (lightModel) {
+                if (lightModel.id === light.id) {
+                    lightModel.name = light.name;
+                }
+            });
+        });
+        res.json({ lights: result });
     });
     router.route("/lights/details").get(function (req, res) {
         var result = [];
         var yeelights = req.app.locals.xiaomi.yeelights;
         if (!yeelights || yeelights.length < 1) {
-            res.status(500).json({ lights: result });
-            res.end();
+            res.json({ lights: result });
             return;
         }
         result = yeelights.map(function (light, index) {
@@ -1213,7 +1217,7 @@ function registerRoutes(router) {
         Promise.all(requests).then(function (resultProperties) {
             resultProperties.forEach(function (properties, index) {
                 console.log("PROPERTIES: " + properties);
-                var intToRGB = __webpack_require__(/*! int-to-rgb */ 46);
+                var intToRGB = __webpack_require__(/*! int-to-rgb */ 47);
                 var rgbInt = parseInt(properties[0]);
                 var colors = intToRGB(rgbInt);
                 result[index].rgb = { b: colors.blue, g: colors.green, r: colors.red };
@@ -1317,41 +1321,43 @@ function registerRoutes(router) {
     router.route("/gateways").get(function (req, res) {
         var result = [];
         var gateways = req.app.locals.xiaomi.gateways;
-        if (gateways && gateways.length > 0) {
-            result = gateways.map(function (gw) {
-                return {
-                    illuminance: gw.illuminance,
-                    id: gw.id,
-                    ip: gw.ip,
-                    power: gw.brightness > 0,
-                    rgb: gw.color || { b: 0, r: 0, g: 0 },
-                    name: "",
-                    brightness: gw.brightness
-                };
-            });
-            cfg.devices.gateways.forEach(function (gw) {
-                result.forEach(function (gwModel) {
-                    if (gwModel.id === gw.id) {
-                        gwModel.name = gw.name;
-                    }
-                });
-            });
-            var requests = gateways.map(function (gw) {
-                return gw.call("get_prop", ["rgb"]);
-            });
-            Promise.all(requests).then(function (resultProperties) {
-                resultProperties.forEach(function (properties, index) {
-                    var buf = Buffer.alloc(4);
-                    buf.writeUInt32BE(properties[0], 0);
-                    result[index].rgb = { b: buf.readUInt8(3), g: buf.readUInt8(2), r: buf.readUInt8(1) };
-                    result[index].brightness = buf.readUInt8(0);
-                });
-                res.json({ gateways: result });
-            }).catch(function (err) {
-                console.log("Error:" + JSON.stringify(err));
-                res.status(500).json({ error: "error" });
-            });
+        if (!gateways || gateways.length < 1) {
+            res.json({ gateways: result });
+            return;
         }
+        result = gateways.map(function (gw) {
+            return {
+                illuminance: gw.illuminance,
+                id: gw.id,
+                ip: gw.ip,
+                power: gw.brightness > 0,
+                rgb: gw.color || { b: 0, r: 0, g: 0 },
+                name: "",
+                brightness: gw.brightness
+            };
+        });
+        cfg.devices.gateways.forEach(function (gw) {
+            result.forEach(function (gwModel) {
+                if (gwModel.id === gw.id) {
+                    gwModel.name = gw.name;
+                }
+            });
+        });
+        var requests = gateways.map(function (gw) {
+            return gw.call("get_prop", ["rgb"]);
+        });
+        Promise.all(requests).then(function (resultProperties) {
+            resultProperties.forEach(function (properties, index) {
+                var buf = Buffer.alloc(4);
+                buf.writeUInt32BE(properties[0], 0);
+                result[index].rgb = { b: buf.readUInt8(3), g: buf.readUInt8(2), r: buf.readUInt8(1) };
+                result[index].brightness = buf.readUInt8(0);
+            });
+            res.json({ gateways: result });
+        }).catch(function (err) {
+            console.log("Error:" + JSON.stringify(err));
+            res.status(500).json({ error: "error" });
+        });
     });
     router.route("/gateways/:id/info/:properties").get(function (req, res) {
         var gateways = req.app.locals.xiaomi.gateways;
@@ -1430,6 +1436,16 @@ function registerRoutes(router) {
         else {
             res.status(500).json({ error: "Kein Gateway mit ID " + req.params["id"] + " gefunden" });
         }
+    });
+    router.route("/system").get(function (req, res) {
+        res.json({
+            system: {
+                freeMemory: os.freemem(), totalMemory: os.totalmem(), hostname: os.hostname(),
+                userName: os.userInfo().username,
+                uptime: os.uptime(),
+                platform: os.platform(), arch: os.arch()
+            }
+        });
     });
 }
 exports.registerRoutes = registerRoutes;
@@ -6639,6 +6655,17 @@ Promise.prototype.any = function () {
 
 /***/ }),
 /* 45 */
+/*!*********************!*\
+  !*** external "os" ***!
+  \*********************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports) {
+
+module.exports = require("os");
+
+/***/ }),
+/* 46 */
 /*!********************************!*\
   !*** ./src/config/config.json ***!
   \********************************/
@@ -6649,7 +6676,7 @@ Promise.prototype.any = function () {
 module.exports = {"devices":{"sensors":[{"name":"Sensor Wohnzimmer","beschreibung":"Rund","ort":"Wohnzimmer","id":"158d0001c19abd","model":"lumi.sensor_ht","type":"sensor"},{"name":"Sensor Schlafzimmer","beschreibung":"rund","ort":"Schlafzimmer","id":"158d0001c19ab8","type":"sensor","model":"lumi.sensor_ht"},{"name":"Sensor Bad","beschreibung":"Eckig","ort":"Bad","id":"158d0001b962aa","type":"sensor","model":"lumi.weather"},{"name":"Sensor Terasse","beschreibung":"Eckig","ort":"Terasse","id":"158d0001b9635d","type":"sensor","model":"lumi.weather"}],"lights":[{"name":"Lampe Bad","beschreibung":"","ort":"Badezimmer","id":"72779159","type":"light","model":"yeelink.light.color1"}],"gateways":[{"name":"Hauptgateway","beschreibung":"","ort":"Wohnzimmer","id":"73058750","model":"lumi.gateway.v3","address":"192.168.178.45"}]}}
 
 /***/ }),
-/* 46 */
+/* 47 */
 /*!*****************************!*\
   !*** external "int-to-rgb" ***!
   \*****************************/
@@ -6660,7 +6687,7 @@ module.exports = {"devices":{"sensors":[{"name":"Sensor Wohnzimmer","beschreibun
 module.exports = require("int-to-rgb");
 
 /***/ }),
-/* 47 */
+/* 48 */
 /*!******************************!*\
   !*** external "body-parser" ***!
   \******************************/
@@ -6671,7 +6698,7 @@ module.exports = require("int-to-rgb");
 module.exports = require("body-parser");
 
 /***/ }),
-/* 48 */
+/* 49 */
 /*!***********************!*\
   !*** external "miio" ***!
   \***********************/
