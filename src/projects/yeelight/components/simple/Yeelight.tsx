@@ -1,10 +1,14 @@
 import * as React from "react";
 import { Toggle, Slider, Label } from "office-ui-fabric-react";
-import { ILightModel, IRGBColor } from "../../../models/xiaomi";
-import { Panel } from "../../../global/components/simple/Panel";
 import Axios from "axios";
+import { ILightModel, IRGBColor } from "../../../../models/xiaomi";
+import { Panel } from "../../../../global/components/simple/Panel";
 // const fc = require("./../../../config/config");
-export interface IBaseLightProps {
+export interface IYeelightProps {
+  onColorTemperatureChanged(
+    lightInformation: ILightModel,
+    colorTemperature: number
+  );
   onBrightnessChanged(lightInformation: ILightModel, brightness: number);
   onColorChanged(lightInformation: ILightModel, color: IRGBColor);
   onPowerChanged(lightInformation: ILightModel);
@@ -16,7 +20,7 @@ export interface IBaseLightProps {
   lightInformation: ILightModel;
   id: number;
 }
-export class BaseLight extends React.Component<IBaseLightProps, {}> {
+export class Yeelight extends React.Component<IYeelightProps, {}> {
   private sliderDelay;
   private colorSchemes;
   constructor(props) {
@@ -43,6 +47,7 @@ export class BaseLight extends React.Component<IBaseLightProps, {}> {
     this.togglePower = this.togglePower.bind(this);
     this.setBrightness = this.setBrightness.bind(this);
     this.colorSchemeChanged = this.colorSchemeChanged.bind(this);
+    this.colorTemperatureChanged = this.colorTemperatureChanged.bind(this);
 
     this.onRedChanged = this.onRedChanged.bind(this);
     this.onBlueChanged = this.onBlueChanged.bind(this);
@@ -70,6 +75,14 @@ export class BaseLight extends React.Component<IBaseLightProps, {}> {
     }
     this.sliderDelay = setTimeout(() => {
       this.setBrightness(value);
+    }, 400);
+  }
+  private colorTemperatureChanged(value: number) {
+    if (this.sliderDelay) {
+      clearTimeout(this.sliderDelay);
+    }
+    this.sliderDelay = setTimeout(() => {
+      this.props.onColorTemperatureChanged(this.props.lightInformation, value);
     }, 400);
   }
   private onColorChanged(color: IRGBColor) {
@@ -106,7 +119,7 @@ export class BaseLight extends React.Component<IBaseLightProps, {}> {
     }, 400);
   }
   render() {
-    console.log("baseLight render");
+    console.log("Yeelight render");
     return (
       <div className="ms-Grid-row" key={"list_" + this.props.id}>
         <div className="ms-Grid-col ms-sm12 ms-lg12">
@@ -159,6 +172,20 @@ export class BaseLight extends React.Component<IBaseLightProps, {}> {
                   value={this.props.lightInformation.brightness}
                   showValue={true}
                   onChange={this.brightnessChanged}
+                />
+              </div>
+              <div className="ms-Grid-col ms-sm12">
+                <h1 className="ms-font-xl ms-fontColor-themePrimary">
+                  Farbtemperatur
+                </h1>
+                <Slider
+                  min={1700}
+                  max={6500}
+                  step={1}
+                  disabled={!this.props.lightInformation.power}
+                  value={this.props.lightInformation.colorTemperature}
+                  showValue={true}
+                  onChange={this.colorTemperatureChanged}
                 />
               </div>
               <div className="ms-Grid-col ms-sm12">

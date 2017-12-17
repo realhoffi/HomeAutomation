@@ -916,7 +916,7 @@ app.get("/", function (request, response) {
 });
 app.get("*", function (request, response) {
     var uri = getUriFromRequest(request);
-    response.status(404).json({ "error": "route " + uri + " not found" });
+    response.status(404).json({ error: "route " + uri + " not found" });
     console.log("catch wrong api request from URL: " + uri);
 });
 app.use(function (err, req, res, next) {
@@ -934,13 +934,12 @@ server.listen(port, function (err) {
 var devices = miio.devices({
     cacheTime: 15
 });
-setInterval(function () {
-    devices.start();
-}, 30000);
 devices.on("available", function (reg) {
     console.log("Refresh Device");
     var device = reg.device;
-    device.on("propertyChanged", function (e) { return console.log("propertyChanged: " + e.property, e.oldValue, e.value); });
+    device.on("propertyChanged", function (e) {
+        return console.log("propertyChanged: " + e.property, e.oldValue, e.value);
+    });
     device.on("action", function (e) { return console.log("Action performed:", e.id); });
     if (!device) {
         console.log(reg.id, "could not be connected to");
@@ -986,7 +985,8 @@ devices.on("available", function (reg) {
                 app.locals.xiaomi.sensors[indexOfElement] = device;
             }
             break;
-        default: "Found no Type: " + device.type;
+        default:
+            "Found no Type: " + device.type;
     }
 });
 devices.on("unavailable", function (reg) {
@@ -994,7 +994,6 @@ devices.on("unavailable", function (reg) {
         console.log("Device " + reg.id + " not available");
         return;
     }
-    console.log(reg.device);
     var device = reg.device;
     console.log("Device " + device.id + " not available. Remove from Collection");
     var indexOfElement = findIdInArray(app.locals.xiaomi.sensors, device.id);
@@ -1122,7 +1121,7 @@ function registerRoutes(router) {
                     ip: sensor.ip,
                     humidity: sensor.humidity || -1,
                     pressure: sensor.hasCapability("pressure") ? sensor.pressure : -1,
-                    temperature: sensor.temperature || -1,
+                    temperature: sensor.temperature || -1
                 };
             });
         }
@@ -1144,16 +1143,20 @@ function registerRoutes(router) {
             console.log("batteryLevel: " + sensor.batteryLevel);
             console.log("battery_level: " + sensor.battery_level);
             console.log("voltage: " + sensor.voltage);
-            sensor._parent.call("get_device_prop_exp", [["lumi." + sensor.id].concat(req.params.properties.split(";"))])
+            sensor._parent
+                .call("get_device_prop_exp", [
+                ["lumi." + sensor.id].concat(req.params.properties.split(";"))
+            ])
                 .then(function (resultProperties) {
-                res.json({ id: req.params.id, "properties": resultProperties });
-            }).catch(function (error) {
+                res.json({ id: req.params.id, properties: resultProperties });
+            })
+                .catch(function (error) {
                 console.log(error);
-                res.status(500).json({ "info": "Error fetching Info" });
+                res.status(500).json({ info: "Error fetching Info" });
             });
         }
         else {
-            res.status(500).json({ "info": "sensor not found" });
+            res.status(500).json({ info: "sensor not found" });
         }
     });
     router.route("/lights").get(function (req, res) {
@@ -1214,16 +1217,23 @@ function registerRoutes(router) {
         var requests = yeelights.map(function (light) {
             return light.call("get_prop", ["rgb", "ct", "name"]);
         });
-        Promise.all(requests).then(function (resultProperties) {
+        Promise.all(requests)
+            .then(function (resultProperties) {
             resultProperties.forEach(function (properties, index) {
                 console.log("PROPERTIES: " + properties);
                 var intToRGB = __webpack_require__(/*! int-to-rgb */ 47);
                 var rgbInt = parseInt(properties[0]);
                 var colors = intToRGB(rgbInt);
-                result[index].rgb = { b: colors.blue, g: colors.green, r: colors.red };
+                result[index].rgb = {
+                    b: colors.blue,
+                    g: colors.green,
+                    r: colors.red
+                };
+                result[index].colorTemperature = properties[1];
             });
             res.json({ lights: result });
-        }).catch(function () {
+        })
+            .catch(function () {
             res.status(500).json({ error: "error" });
         });
     });
@@ -1233,14 +1243,17 @@ function registerRoutes(router) {
             return gw.id === req.params.id;
         });
         if (light) {
-            light.call("get_prop", req.params.properties.split(";")).then(function (resultProperties) {
-                res.json({ id: req.params.id, "properties": resultProperties });
-            }).catch(function () {
-                res.status(500).json({ "info": "Error fetching Info" });
+            light
+                .call("get_prop", req.params.properties.split(";"))
+                .then(function (resultProperties) {
+                res.json({ id: req.params.id, properties: resultProperties });
+            })
+                .catch(function () {
+                res.status(500).json({ info: "Error fetching Info" });
             });
         }
         else {
-            res.status(500).json({ "info": "Light not found" });
+            res.status(500).json({ info: "Light not found" });
         }
     });
     router.route("/lights/:id/power").post(function (req, res) {
@@ -1249,14 +1262,17 @@ function registerRoutes(router) {
             return gw.id === req.params.id;
         });
         if (light) {
-            light.setPower(!light.power).then(function (newValue, b) {
-                res.json({ "power": newValue });
-            }).catch(function () {
-                res.status(500).json({ "power": "error" });
+            light
+                .setPower(!light.power)
+                .then(function (newValue, b) {
+                res.json({ power: newValue });
+            })
+                .catch(function () {
+                res.status(500).json({ power: "error" });
             });
         }
         else {
-            res.status(500).json({ "power": "Light not found" });
+            res.status(500).json({ power: "Light not found" });
         }
     });
     router.route("/lights/:id/brightness/:value").post(function (req, res) {
@@ -1267,15 +1283,18 @@ function registerRoutes(router) {
         if (light) {
             console.log("found light: " + req.params.id + " @@ brightness: " + req.params.value);
             var bright_1 = parseInt(req.params.value);
-            light.setBrightness(bright_1).then(function () {
+            light
+                .setBrightness(bright_1)
+                .then(function () {
                 console.log("Light brightness: " + bright_1);
-                res.json({ "brightness": req.params.value });
-            }).catch(function () {
-                res.status(500).json({ "brightness": "error" });
+                res.json({ brightness: req.params.value });
+            })
+                .catch(function () {
+                res.status(500).json({ brightness: "error" });
             });
         }
         else {
-            res.status(500).json({ "brightness": "Light not found" });
+            res.status(500).json({ brightness: "Light not found" });
         }
     });
     router.route("/lights/:id/temperature/:value").post(function (req, res) {
@@ -1288,15 +1307,18 @@ function registerRoutes(router) {
             if (parsedValue < 1700 || parsedValue > 6500) {
                 res.status(500).json({ error: "value must between 1700 and 6500" });
             }
-            light.call("set_ct_abx", [parsedValue, "smooth", 100]).then(function (a) {
+            light
+                .call("set_ct_abx", [parsedValue, "smooth", 100])
+                .then(function (a) {
                 console.log("set ct!" + a);
-                res.json({ "set_ct_abx": req.params.value });
-            }).catch(function () {
-                res.status(500).json({ "set_ct_abx": "error" });
+                res.json({ set_ct_abx: req.params.value });
+            })
+                .catch(function () {
+                res.status(500).json({ set_ct_abx: "error" });
             });
         }
         else {
-            res.status(500).json({ "set_ct_abx": "error" });
+            res.status(500).json({ set_ct_abx: "error" });
         }
     });
     router.route("/lights/:id/color/:value").post(function (req, res) {
@@ -1305,17 +1327,20 @@ function registerRoutes(router) {
             return gw.id === req.params.id;
         });
         if (!light) {
-            res.status(500).json({ "rgb": "light not found" });
+            res.status(500).json({ rgb: "light not found" });
             return;
         }
         var parsedValue = parseInt(req.params.value);
         if (isNaN(parsedValue)) {
             res.status(500).json({ error: "value must between 1700 and 6500" });
         }
-        light.call("set_rgb", [parsedValue, "smooth", 500]).then(function (newValue) {
-            res.json({ "rgb": newValue });
-        }).catch(function () {
-            res.status(500).json({ "rgb": "error" });
+        light
+            .call("set_rgb", [parsedValue, "smooth", 500])
+            .then(function (newValue) {
+            res.json({ rgb: newValue });
+        })
+            .catch(function () {
+            res.status(500).json({ rgb: "error" });
         });
     });
     router.route("/gateways").get(function (req, res) {
@@ -1346,15 +1371,21 @@ function registerRoutes(router) {
         var requests = gateways.map(function (gw) {
             return gw.call("get_prop", ["rgb"]);
         });
-        Promise.all(requests).then(function (resultProperties) {
+        Promise.all(requests)
+            .then(function (resultProperties) {
             resultProperties.forEach(function (properties, index) {
                 var buf = Buffer.alloc(4);
                 buf.writeUInt32BE(properties[0], 0);
-                result[index].rgb = { b: buf.readUInt8(3), g: buf.readUInt8(2), r: buf.readUInt8(1) };
+                result[index].rgb = {
+                    b: buf.readUInt8(3),
+                    g: buf.readUInt8(2),
+                    r: buf.readUInt8(1)
+                };
                 result[index].brightness = buf.readUInt8(0);
             });
             res.json({ gateways: result });
-        }).catch(function (err) {
+        })
+            .catch(function (err) {
             console.log("Error:" + JSON.stringify(err));
             res.status(500).json({ error: "error" });
         });
@@ -1365,10 +1396,13 @@ function registerRoutes(router) {
             return gw.id === req.params.id;
         });
         if (gateway) {
-            gateway.call("get_prop", req.params.properties.split(";")).then(function (resultProperties) {
+            gateway
+                .call("get_prop", req.params.properties.split(";"))
+                .then(function (resultProperties) {
                 console.log("GWPROPS: " + JSON.stringify(resultProperties));
-                res.json({ id: req.params.id, "properties": resultProperties });
-            }).catch(function () {
+                res.json({ id: req.params.id, properties: resultProperties });
+            })
+                .catch(function () {
                 res.status(500).json({ error: "prop not fetched" });
             });
         }
@@ -1386,15 +1420,21 @@ function registerRoutes(router) {
             var color = gateway.rgb;
             var bright = gateway.brightness;
             var brightness = Math.max(0, Math.min(100, Math.round(newBrightness)));
-            var rgb = brightness << 24 | (color.red << 16) | (color.green << 8) | color.blue;
-            gateway.call("set_rgb", [rgb], { refresh: true }).then(function (newValue) {
-                res.json({ "rgb": newValue });
-            }).catch(function () {
-                res.status(500).json({ "error": "brightness not set" });
+            var rgb = (brightness << 24) |
+                (color.red << 16) |
+                (color.green << 8) |
+                color.blue;
+            gateway
+                .call("set_rgb", [rgb], { refresh: true })
+                .then(function (newValue) {
+                res.json({ rgb: newValue });
+            })
+                .catch(function () {
+                res.status(500).json({ error: "brightness not set" });
             });
         }
         else {
-            res.status(500).json({ "brightness": "error! can not set brightness" });
+            res.status(500).json({ brightness: "error! can not set brightness" });
         }
     });
     router.route("/gateways/:id/color").post(function (req, res) {
@@ -1407,12 +1447,15 @@ function registerRoutes(router) {
         if (gateway && color) {
             console.log("found gw: " + req.params.id);
             var brightness = Math.max(0, Math.min(100, Math.round(gateway.brightness)));
-            var rgb = brightness << 24 | (color.r << 16) | (color.g << 8) | color.b;
+            var rgb = (brightness << 24) | (color.r << 16) | (color.g << 8) | color.b;
             console.log("new color: " + rgb);
-            gateway.call("set_rgb", [rgb], { refresh: true }).then(function (newValue) {
-                res.json({ "rgb": newValue });
-            }).catch(function () {
-                res.status(500).json({ "error": "color not set" });
+            gateway
+                .call("set_rgb", [rgb], { refresh: true })
+                .then(function (newValue) {
+                res.json({ rgb: newValue });
+            })
+                .catch(function () {
+                res.status(500).json({ error: "color not set" });
             });
         }
     });
@@ -1425,25 +1468,36 @@ function registerRoutes(router) {
             var color = gateway.rgb;
             var bright = gateway.brightness;
             var brightness = Math.max(0, Math.min(100, Math.round(gateway.brightness > 0 ? 0 : 100)));
-            var rgb = brightness << 24 | (color.red << 16) | (color.green << 8) | color.blue;
+            var rgb = (brightness << 24) |
+                (color.red << 16) |
+                (color.green << 8) |
+                color.blue;
             console.log("RGB::: " + rgb);
-            gateway.call("set_rgb", [rgb], { refresh: true }).then(function (newValue) {
-                res.json({ "power": gateway.brightness > 0 });
-            }).catch(function () {
-                res.json({ "error": "brightness not set" });
+            gateway
+                .call("set_rgb", [rgb], { refresh: true })
+                .then(function (newValue) {
+                res.json({ power: gateway.brightness > 0 });
+            })
+                .catch(function () {
+                res.json({ error: "brightness not set" });
             });
         }
         else {
-            res.status(500).json({ error: "Kein Gateway mit ID " + req.params["id"] + " gefunden" });
+            res.status(500).json({
+                error: "Kein Gateway mit ID " + req.params["id"] + " gefunden"
+            });
         }
     });
     router.route("/system").get(function (req, res) {
         res.json({
             system: {
-                freeMemory: os.freemem(), totalMemory: os.totalmem(), hostname: os.hostname(),
+                freeMemory: os.freemem(),
+                totalMemory: os.totalmem(),
+                hostname: os.hostname(),
                 userName: os.userInfo().username,
                 uptime: os.uptime(),
-                platform: os.platform(), arch: os.arch()
+                platform: os.platform(),
+                arch: os.arch()
             }
         });
     });

@@ -17,37 +17,37 @@ import Aqara = require("lumi-aqara");
 const miio = require("miio");
 
 function normalizePort(val) {
-    let port = parseInt(val, 10);
-    if (isNaN(port)) {
-        return val;
-    }
-    if (port >= 0) {
-        return port;
-    }
-    return false;
+  let port = parseInt(val, 10);
+  if (isNaN(port)) {
+    return val;
+  }
+  if (port >= 0) {
+    return port;
+  }
+  return false;
 }
 function getUriFromRequest(request: Request) {
-    return url.format({
-        protocol: request.protocol,
-        host: request.get("host"),
-        pathname: request.originalUrl
-    });
+  return url.format({
+    protocol: request.protocol,
+    host: request.get("host"),
+    pathname: request.originalUrl
+  });
 }
 function findIdInArray(targetArray: any[], id): number {
-    let returnValue = -1;
-    if (!targetArray) {
-        console.log("findIdInArray: exit, array is null");
-        return returnValue;
-    }
-    // console.log("targetArray length: " + targetArray.length);
-    targetArray.forEach((item, index) => {
-        if (item.id === id) {
-            // console.log("findIdInArray: element found at index " + index);
-            returnValue = index;
-        }
-    });
-    console.log("findIdInArray: element at index: " + returnValue);
+  let returnValue = -1;
+  if (!targetArray) {
+    console.log("findIdInArray: exit, array is null");
     return returnValue;
+  }
+  // console.log("targetArray length: " + targetArray.length);
+  targetArray.forEach((item, index) => {
+    if (item.id === id) {
+      // console.log("findIdInArray: element found at index " + index);
+      returnValue = index;
+    }
+  });
+  console.log("findIdInArray: element at index: " + returnValue);
+  return returnValue;
 }
 
 const app = express();
@@ -66,165 +66,170 @@ app.use(bodyParser.json());
 // REGISTER OUR ROUTES -------------------------------
 let router = express.Router();
 
-router.use(function (req, res, next) {
-    let uri = getUriFromRequest(req);
-    console.log("Request on URL: " + uri);
-    next();
+router.use(function(req, res, next) {
+  let uri = getUriFromRequest(req);
+  console.log("Request on URL: " + uri);
+  next();
 });
 registerRoutes(router);
 // all of our routes will be prefixed with /api
 app.use("/api", router);
 
 app.locals = {
-    xiaomi: {
-        gateways: [],
-        yeelights: [],
-        sensors: []
-    }
+  xiaomi: {
+    gateways: [],
+    yeelights: [],
+    sensors: []
+  }
 };
 
-
-app.get("/", function (request, response) {
-    response.sendFile(path.join("views", "index.html"), { root: __dirname }, (error) => {
-        app.locals.test += 1;
-        if (error) {
-            console.log("ERROR SENDFILE!" + JSON.stringify(error));
-        }
-        response.end();
-    });
+app.get("/", function(request, response) {
+  response.sendFile(
+    path.join("views", "index.html"),
+    { root: __dirname },
+    error => {
+      app.locals.test += 1;
+      if (error) {
+        console.log("ERROR SENDFILE!" + JSON.stringify(error));
+      }
+      response.end();
+    }
+  );
 });
 
 // last route to catch routing errors 404 not found
-app.get("*", function (request, response) {
-    let uri = getUriFromRequest(request);
-    response.status(404).json({ "error": "route " + uri + " not found" });
-    console.log("catch wrong api request from URL: " + uri);
+app.get("*", function(request, response) {
+  let uri = getUriFromRequest(request);
+  response.status(404).json({ error: "route " + uri + " not found" });
+  console.log("catch wrong api request from URL: " + uri);
 });
 
 app.use((err, req, res, next) => {
-    res.status(500);
-    res.render("error", { error: err });
+  res.status(500);
+  res.render("error", { error: err });
 });
 
 app.listen(3000);
 
 let server = http.createServer(app);
 server.listen(port, err => {
-    if (err) {
-        return console.error(err);
-    }
-    console.info(`Server running on http://localhost:${port} [${env}]`);
+  if (err) {
+    return console.error(err);
+  }
+  console.info(`Server running on http://localhost:${port} [${env}]`);
 });
 
 const devices = miio.devices({
-    cacheTime: 15 // 5 minutes. Default is 1800 seconds (30 minutes)
+  cacheTime: 15 // 5 minutes. Default is 1800 seconds (30 minutes)
 });
-setInterval(() => {
-    // console.log("DEVICE DETECTION");
-    devices.start();
-}, 30000);
+// setInterval(() => {
+//   // console.log("DEVICE DETECTION");
+//   // devices.start();
+// }, 30000);
 // console.log(devices);
 devices.on("available", reg => {
-    console.log("Refresh Device");
-    const device = reg.device;
+  console.log("Refresh Device");
+  const device = reg.device;
 
-    device.on("propertyChanged", e => console.log("propertyChanged: " + e.property, e.oldValue, e.value));
-    // Some devices have custom events
-    device.on("action", e => console.log("Action performed:", e.id));
+  device.on("propertyChanged", e =>
+    console.log("propertyChanged: " + e.property, e.oldValue, e.value)
+  );
+  // Some devices have custom events
+  device.on("action", e => console.log("Action performed:", e.id));
 
-    // console.log(reg);
-    // console.log("@@device.type: " + device.type);
+  // console.log(reg);
+  // console.log("@@device.type: " + device.type);
 
-    if (!device) {
-        console.log(reg.id, "could not be connected to");
-        return;
-    }
+  if (!device) {
+    console.log(reg.id, "could not be connected to");
+    return;
+  }
 
-    if (!reg.token && device.type !== "sensor") {
-        console.log(reg.id, "hides its token. Leave function");
-        return;
-    }
-    console.log("Detected Device: " + device.id + " (" + device.type + ")");
-    // device.management.info().then(console.log);
+  if (!reg.token && device.type !== "sensor") {
+    console.log(reg.id, "hides its token. Leave function");
+    return;
+  }
+  console.log("Detected Device: " + device.id + " (" + device.type + ")");
+  // device.management.info().then(console.log);
 
-
-    let indexOfElement = -1;
-    switch (device.type) {
-        case "light":
-            indexOfElement = findIdInArray(app.locals.xiaomi.yeelights, device.id);
-            if (indexOfElement < 0) {
-                console.log("Licht existiert nicht");
-                app.locals.xiaomi.yeelights.push(device);
-            } else {
-                console.log("Licht existiert", device.id);
-                app.locals.xiaomi.yeelights[indexOfElement] = device;
-            }
-            break;
-        case "gateway":
-            indexOfElement = findIdInArray(app.locals.xiaomi.gateways, device.id);
-            if (indexOfElement < 0) {
-                console.log("Gateway existiert nicht");
-                app.locals.xiaomi.gateways.push(device);
-            } else {
-                console.log("Gateway existiert", reg.id);
-                app.locals.xiaomi.gateways[indexOfElement] = device;
-            }
-            break;
-        case "sensor":
-            // console.log("SENSOR DETECTED");
-            // device.defineProperty("batteryLevel");
-            // device.defineProperty("battery_level");
-            // device.defineProperty("voltage");
-            indexOfElement = findIdInArray(app.locals.xiaomi.sensors, device.id);
-            if (indexOfElement < 0) {
-                console.log("Sensor existiert nicht");
-                app.locals.xiaomi.sensors.push(device);
-            } else {
-                console.log("Sensor existiert", device.id);
-                app.locals.xiaomi.sensors[indexOfElement] = device;
-            }
-            break;
-        default: "Found no Type: " + device.type;
-    }
-    // console.log("indexOfElement: " + indexOfElement);
+  let indexOfElement = -1;
+  switch (device.type) {
+    case "light":
+      indexOfElement = findIdInArray(app.locals.xiaomi.yeelights, device.id);
+      if (indexOfElement < 0) {
+        console.log("Licht existiert nicht");
+        app.locals.xiaomi.yeelights.push(device);
+      } else {
+        console.log("Licht existiert", device.id);
+        app.locals.xiaomi.yeelights[indexOfElement] = device;
+      }
+      break;
+    case "gateway":
+      indexOfElement = findIdInArray(app.locals.xiaomi.gateways, device.id);
+      if (indexOfElement < 0) {
+        console.log("Gateway existiert nicht");
+        app.locals.xiaomi.gateways.push(device);
+      } else {
+        console.log("Gateway existiert", reg.id);
+        app.locals.xiaomi.gateways[indexOfElement] = device;
+      }
+      break;
+    case "sensor":
+      // console.log("SENSOR DETECTED");
+      // device.defineProperty("batteryLevel");
+      // device.defineProperty("battery_level");
+      // device.defineProperty("voltage");
+      indexOfElement = findIdInArray(app.locals.xiaomi.sensors, device.id);
+      if (indexOfElement < 0) {
+        console.log("Sensor existiert nicht");
+        app.locals.xiaomi.sensors.push(device);
+      } else {
+        console.log("Sensor existiert", device.id);
+        app.locals.xiaomi.sensors[indexOfElement] = device;
+      }
+      break;
+    default:
+      "Found no Type: " + device.type;
+  }
+  // console.log("indexOfElement: " + indexOfElement);
 });
 
 devices.on("unavailable", reg => {
-    if (!reg.device) {
-        console.log("Device " + reg.id + " not available");
-        return;
-    }
-    console.log(reg.device);
-    let device = reg.device;
-    console.log("Device " + device.id + " not available. Remove from Collection");
-    let indexOfElement = findIdInArray(app.locals.xiaomi.sensors, device.id);
+  if (!reg.device) {
+    console.log("Device " + reg.id + " not available");
+    return;
+  }
+  // console.log(reg.device);
+  let device = reg.device;
+  console.log("Device " + device.id + " not available. Remove from Collection");
+  let indexOfElement = findIdInArray(app.locals.xiaomi.sensors, device.id);
+  // console.log("indexOfElement: " + indexOfElement);
+  if (indexOfElement < 0) {
+    indexOfElement = findIdInArray(app.locals.xiaomi.gateways, device.id);
     // console.log("indexOfElement: " + indexOfElement);
-    if (indexOfElement < 0) {
-        indexOfElement = findIdInArray(app.locals.xiaomi.gateways, device.id);
-        // console.log("indexOfElement: " + indexOfElement);
-    } else {
-        app.locals.xiaomi.sensors.splice(indexOfElement, 1);
-        return;
-    }
-    if (indexOfElement < 0) {
-        indexOfElement = findIdInArray(app.locals.xiaomi.yeelights, device.id);
-        // console.log("indexOfElement: " + indexOfElement);
-    } else {
-        app.locals.xiaomi.gateways.splice(indexOfElement, 1);
-        return;
-    }
-    if (indexOfElement < 0) {
-        //   console.log("Device mit Id " + device.id + " existiert in keinem Array");
-        return;
-    } else {
-        app.locals.xiaomi.yeelights.splice(indexOfElement, 1);
-    }
-    console.log("Device mit Id " + device.id + " entfernt");
+  } else {
+    app.locals.xiaomi.sensors.splice(indexOfElement, 1);
+    return;
+  }
+  if (indexOfElement < 0) {
+    indexOfElement = findIdInArray(app.locals.xiaomi.yeelights, device.id);
+    // console.log("indexOfElement: " + indexOfElement);
+  } else {
+    app.locals.xiaomi.gateways.splice(indexOfElement, 1);
+    return;
+  }
+  if (indexOfElement < 0) {
+    //   console.log("Device mit Id " + device.id + " existiert in keinem Array");
+    return;
+  } else {
+    app.locals.xiaomi.yeelights.splice(indexOfElement, 1);
+  }
+  console.log("Device mit Id " + device.id + " entfernt");
 });
 
 devices.on("error", err => {
-    // err.device points to info about the device
-    console.log("Something went wrong connecting to device", err);
+  // err.device points to info about the device
+  console.log("Something went wrong connecting to device", err);
 });
 
 // const device = miio.createDevice({

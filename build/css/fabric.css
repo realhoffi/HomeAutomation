@@ -1,7 +1,7 @@
 @charset 'UTF-8';
 /* Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license. See LICENSE in the project root for license information. */
 /**
- * Office UI Fabric Core 9.2.0
+ * Office UI Fabric Core 9.3.0
  * The front-end framework for building experiences for Office 365.
  **/
 /*
@@ -289,316 +289,418 @@
   }
 }
 
-[dir='ltr'] .ms-slideRightIn10 {
-  animation-name: ms-fadeIn, ms-slideRightIn10;
-  animation-duration: 0.367s;
-  animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  [dir='ltr'] .ms-slideRightIn10 {
+    animation-name: ms-fadeIn, ms-slideRightIn10;
+    animation-duration: 0.367s;
+    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
+    animation-fill-mode: both;
+  }
 }
 
-[dir='rtl'] .ms-slideRightIn10 {
-  animation-name: ms-fadeIn, ms-slideLeftIn10;
-  animation-duration: 0.367s;
-  animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  [dir='rtl'] .ms-slideRightIn10 {
+    animation-name: ms-fadeIn, ms-slideLeftIn10;
+    animation-duration: 0.367s;
+    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
+    animation-fill-mode: both;
+  }
 }
 
-[dir='ltr'] .ms-slideRightIn20 {
-  animation-name: ms-fadeIn, ms-slideRightIn20;
-  animation-duration: 0.367s;
-  animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  [dir='ltr'] .ms-slideRightIn20 {
+    animation-name: ms-fadeIn, ms-slideRightIn20;
+    animation-duration: 0.367s;
+    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
+    animation-fill-mode: both;
+  }
 }
 
-[dir='rtl'] .ms-slideRightIn20 {
-  animation-name: ms-fadeIn, ms-slideLeftIn20;
-  animation-duration: 0.367s;
-  animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  [dir='rtl'] .ms-slideRightIn20 {
+    animation-name: ms-fadeIn, ms-slideLeftIn20;
+    animation-duration: 0.367s;
+    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
+    animation-fill-mode: both;
+  }
 }
 
-[dir='ltr'] .ms-slideRightIn40 {
-  animation-name: ms-fadeIn, ms-slideRightIn40;
-  animation-duration: 0.367s;
-  animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  [dir='ltr'] .ms-slideRightIn40 {
+    animation-name: ms-fadeIn, ms-slideRightIn40;
+    animation-duration: 0.367s;
+    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
+    animation-fill-mode: both;
+  }
 }
 
-[dir='rtl'] .ms-slideRightIn40 {
-  animation-name: ms-fadeIn, ms-slideLeftIn40;
-  animation-duration: 0.367s;
-  animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  [dir='rtl'] .ms-slideRightIn40 {
+    animation-name: ms-fadeIn, ms-slideLeftIn40;
+    animation-duration: 0.367s;
+    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
+    animation-fill-mode: both;
+  }
 }
 
-[dir='ltr'] .ms-slideRightIn400 {
-  animation-name: ms-fadeIn, ms-slideRightIn400;
-  animation-duration: 0.367s;
-  animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  [dir='ltr'] .ms-slideRightIn400 {
+    animation-name: ms-fadeIn, ms-slideRightIn400;
+    animation-duration: 0.367s;
+    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
+    animation-fill-mode: both;
+  }
 }
 
-[dir='rtl'] .ms-slideRightIn400 {
-  animation-name: ms-fadeIn, ms-slideLeftIn400;
-  animation-duration: 0.367s;
-  animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  [dir='rtl'] .ms-slideRightIn400 {
+    animation-name: ms-fadeIn, ms-slideLeftIn400;
+    animation-duration: 0.367s;
+    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
+    animation-fill-mode: both;
+  }
 }
 
-[dir='ltr'] .ms-slideRightOut40 {
-  animation-name: ms-fadeOut, ms-slideRightOut40;
-  animation-duration: 0.167s;
-  animation-timing-function: cubic-bezier(0.1, 0.25, 0.75, 0.9);
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  [dir='ltr'] .ms-slideRightOut40 {
+    animation-name: ms-fadeOut, ms-slideRightOut40;
+    animation-duration: 0.167s;
+    animation-timing-function: cubic-bezier(0.1, 0.25, 0.75, 0.9);
+    animation-fill-mode: both;
+  }
 }
 
-[dir='rtl'] .ms-slideRightOut40 {
-  animation-name: ms-fadeOut, ms-slideLeftOut40;
-  animation-duration: 0.167s;
-  animation-timing-function: cubic-bezier(0.1, 0.25, 0.75, 0.9);
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  [dir='rtl'] .ms-slideRightOut40 {
+    animation-name: ms-fadeOut, ms-slideLeftOut40;
+    animation-duration: 0.167s;
+    animation-timing-function: cubic-bezier(0.1, 0.25, 0.75, 0.9);
+    animation-fill-mode: both;
+  }
 }
 
-[dir='ltr'] .ms-slideRightOut400 {
-  animation-name: ms-fadeOut, ms-slideRightOut400;
-  animation-duration: 0.167s;
-  animation-timing-function: cubic-bezier(0.1, 0.25, 0.75, 0.9);
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  [dir='ltr'] .ms-slideRightOut400 {
+    animation-name: ms-fadeOut, ms-slideRightOut400;
+    animation-duration: 0.167s;
+    animation-timing-function: cubic-bezier(0.1, 0.25, 0.75, 0.9);
+    animation-fill-mode: both;
+  }
 }
 
-[dir='rtl'] .ms-slideRightOut400 {
-  animation-name: ms-fadeOut, ms-slideLeftOut400;
-  animation-duration: 0.167s;
-  animation-timing-function: cubic-bezier(0.1, 0.25, 0.75, 0.9);
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  [dir='rtl'] .ms-slideRightOut400 {
+    animation-name: ms-fadeOut, ms-slideLeftOut400;
+    animation-duration: 0.167s;
+    animation-timing-function: cubic-bezier(0.1, 0.25, 0.75, 0.9);
+    animation-fill-mode: both;
+  }
 }
 
-[dir='ltr'] .ms-slideLeftIn10 {
-  animation-name: ms-fadeIn, ms-slideLeftIn10;
-  animation-duration: 0.367s;
-  animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  [dir='ltr'] .ms-slideLeftIn10 {
+    animation-name: ms-fadeIn, ms-slideLeftIn10;
+    animation-duration: 0.367s;
+    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
+    animation-fill-mode: both;
+  }
 }
 
-[dir='rtl'] .ms-slideLeftIn10 {
-  animation-name: ms-fadeIn, ms-slideRightIn10;
-  animation-duration: 0.367s;
-  animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  [dir='rtl'] .ms-slideLeftIn10 {
+    animation-name: ms-fadeIn, ms-slideRightIn10;
+    animation-duration: 0.367s;
+    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
+    animation-fill-mode: both;
+  }
 }
 
-[dir='ltr'] .ms-slideLeftIn20 {
-  animation-name: ms-fadeIn, ms-slideLeftIn20;
-  animation-duration: 0.367s;
-  animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  [dir='ltr'] .ms-slideLeftIn20 {
+    animation-name: ms-fadeIn, ms-slideLeftIn20;
+    animation-duration: 0.367s;
+    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
+    animation-fill-mode: both;
+  }
 }
 
-[dir='rtl'] .ms-slideLeftIn20 {
-  animation-name: ms-fadeIn, ms-slideRightIn20;
-  animation-duration: 0.367s;
-  animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  [dir='rtl'] .ms-slideLeftIn20 {
+    animation-name: ms-fadeIn, ms-slideRightIn20;
+    animation-duration: 0.367s;
+    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
+    animation-fill-mode: both;
+  }
 }
 
-[dir='ltr'] .ms-slideLeftIn40 {
-  animation-name: ms-fadeIn, ms-slideLeftIn40;
-  animation-duration: 0.367s;
-  animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  [dir='ltr'] .ms-slideLeftIn40 {
+    animation-name: ms-fadeIn, ms-slideLeftIn40;
+    animation-duration: 0.367s;
+    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
+    animation-fill-mode: both;
+  }
 }
 
-[dir='rtl'] .ms-slideLeftIn40 {
-  animation-name: ms-fadeIn, ms-slideRightIn40;
-  animation-duration: 0.367s;
-  animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  [dir='rtl'] .ms-slideLeftIn40 {
+    animation-name: ms-fadeIn, ms-slideRightIn40;
+    animation-duration: 0.367s;
+    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
+    animation-fill-mode: both;
+  }
 }
 
-[dir='ltr'] .ms-slideLeftIn400 {
-  animation-name: ms-fadeIn, ms-slideLeftIn400;
-  animation-duration: 0.367s;
-  animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  [dir='ltr'] .ms-slideLeftIn400 {
+    animation-name: ms-fadeIn, ms-slideLeftIn400;
+    animation-duration: 0.367s;
+    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
+    animation-fill-mode: both;
+  }
 }
 
-[dir='rtl'] .ms-slideLeftIn400 {
-  animation-name: ms-fadeIn, ms-slideRightIn400;
-  animation-duration: 0.367s;
-  animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  [dir='rtl'] .ms-slideLeftIn400 {
+    animation-name: ms-fadeIn, ms-slideRightIn400;
+    animation-duration: 0.367s;
+    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
+    animation-fill-mode: both;
+  }
 }
 
-[dir='ltr'] .ms-slideLeftOut40 {
-  animation-name: ms-fadeOut, ms-slideLeftOut40;
-  animation-duration: 0.167s;
-  animation-timing-function: cubic-bezier(0.1, 0.25, 0.75, 0.9);
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  [dir='ltr'] .ms-slideLeftOut40 {
+    animation-name: ms-fadeOut, ms-slideLeftOut40;
+    animation-duration: 0.167s;
+    animation-timing-function: cubic-bezier(0.1, 0.25, 0.75, 0.9);
+    animation-fill-mode: both;
+  }
 }
 
-[dir='rtl'] .ms-slideLeftOut40 {
-  animation-name: ms-fadeOut, ms-slideRightOut40;
-  animation-duration: 0.167s;
-  animation-timing-function: cubic-bezier(0.1, 0.25, 0.75, 0.9);
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  [dir='rtl'] .ms-slideLeftOut40 {
+    animation-name: ms-fadeOut, ms-slideRightOut40;
+    animation-duration: 0.167s;
+    animation-timing-function: cubic-bezier(0.1, 0.25, 0.75, 0.9);
+    animation-fill-mode: both;
+  }
 }
 
-[dir='ltr'] .ms-slideLeftOut400 {
-  animation-name: ms-fadeOut, ms-slideLeftOut400;
-  animation-duration: 0.167s;
-  animation-timing-function: cubic-bezier(0.1, 0.25, 0.75, 0.9);
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  [dir='ltr'] .ms-slideLeftOut400 {
+    animation-name: ms-fadeOut, ms-slideLeftOut400;
+    animation-duration: 0.167s;
+    animation-timing-function: cubic-bezier(0.1, 0.25, 0.75, 0.9);
+    animation-fill-mode: both;
+  }
 }
 
-[dir='rtl'] .ms-slideLeftOut400 {
-  animation-name: ms-fadeOut, ms-slideRightOut400;
-  animation-duration: 0.167s;
-  animation-timing-function: cubic-bezier(0.1, 0.25, 0.75, 0.9);
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  [dir='rtl'] .ms-slideLeftOut400 {
+    animation-name: ms-fadeOut, ms-slideRightOut400;
+    animation-duration: 0.167s;
+    animation-timing-function: cubic-bezier(0.1, 0.25, 0.75, 0.9);
+    animation-fill-mode: both;
+  }
 }
 
-.ms-slideUpIn10 {
-  animation-name: ms-fadeIn, ms-slideUpIn10;
-  animation-duration: 0.167s;
-  animation-timing-function: cubic-bezier(0.1, 0.25, 0.75, 0.9);
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  .ms-slideUpIn10 {
+    animation-name: ms-fadeIn, ms-slideUpIn10;
+    animation-duration: 0.167s;
+    animation-timing-function: cubic-bezier(0.1, 0.25, 0.75, 0.9);
+    animation-fill-mode: both;
+  }
 }
 
-.ms-slideUpIn20 {
-  animation-name: ms-fadeIn, ms-slideUpIn20;
-  animation-duration: 0.367s;
-  animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  .ms-slideUpIn20 {
+    animation-name: ms-fadeIn, ms-slideUpIn20;
+    animation-duration: 0.367s;
+    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
+    animation-fill-mode: both;
+  }
 }
 
-.ms-slideDownIn10 {
-  animation-name: ms-fadeIn, ms-slideDownIn10;
-  animation-duration: 0.167s;
-  animation-timing-function: cubic-bezier(0.1, 0.25, 0.75, 0.9);
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  .ms-slideDownIn10 {
+    animation-name: ms-fadeIn, ms-slideDownIn10;
+    animation-duration: 0.167s;
+    animation-timing-function: cubic-bezier(0.1, 0.25, 0.75, 0.9);
+    animation-fill-mode: both;
+  }
 }
 
-.ms-slideDownIn20 {
-  animation-name: ms-fadeIn, ms-slideDownIn20;
-  animation-duration: 0.367s;
-  animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  .ms-slideDownIn20 {
+    animation-name: ms-fadeIn, ms-slideDownIn20;
+    animation-duration: 0.367s;
+    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
+    animation-fill-mode: both;
+  }
 }
 
-.ms-slideUpOut10 {
-  animation-name: ms-fadeOut, ms-slideUpOut10;
-  animation-duration: 0.167s;
-  animation-timing-function: cubic-bezier(0.1, 0.25, 0.75, 0.9);
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  .ms-slideUpOut10 {
+    animation-name: ms-fadeOut, ms-slideUpOut10;
+    animation-duration: 0.167s;
+    animation-timing-function: cubic-bezier(0.1, 0.25, 0.75, 0.9);
+    animation-fill-mode: both;
+  }
 }
 
-.ms-slideUpOut20 {
-  animation-name: ms-fadeOut, ms-slideUpOut20;
-  animation-duration: 0.167s;
-  animation-timing-function: cubic-bezier(0.1, 0.25, 0.75, 0.9);
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  .ms-slideUpOut20 {
+    animation-name: ms-fadeOut, ms-slideUpOut20;
+    animation-duration: 0.167s;
+    animation-timing-function: cubic-bezier(0.1, 0.25, 0.75, 0.9);
+    animation-fill-mode: both;
+  }
 }
 
-.ms-slideDownOut10 {
-  animation-name: ms-fadeOut, ms-slideDownOut10;
-  animation-duration: 0.167s;
-  animation-timing-function: cubic-bezier(0.1, 0.25, 0.75, 0.9);
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  .ms-slideDownOut10 {
+    animation-name: ms-fadeOut, ms-slideDownOut10;
+    animation-duration: 0.167s;
+    animation-timing-function: cubic-bezier(0.1, 0.25, 0.75, 0.9);
+    animation-fill-mode: both;
+  }
 }
 
-.ms-slideDownOut20 {
-  animation-name: ms-fadeOut, ms-slideDownOut20;
-  animation-duration: 0.167s;
-  animation-timing-function: cubic-bezier(0.1, 0.25, 0.75, 0.9);
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  .ms-slideDownOut20 {
+    animation-name: ms-fadeOut, ms-slideDownOut20;
+    animation-duration: 0.167s;
+    animation-timing-function: cubic-bezier(0.1, 0.25, 0.75, 0.9);
+    animation-fill-mode: both;
+  }
 }
 
-.ms-scaleUpIn100 {
-  animation-name: ms-fadeIn, ms-scaleUp100;
-  animation-duration: 0.367s;
-  animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  .ms-scaleUpIn100 {
+    animation-name: ms-fadeIn, ms-scaleUp100;
+    animation-duration: 0.367s;
+    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
+    animation-fill-mode: both;
+  }
 }
 
-.ms-scaleUpOut103 {
-  animation-name: ms-fadeOut, ms-scaleUp103;
-  animation-duration: 0.167s;
-  animation-timing-function: cubic-bezier(0.1, 0.25, 0.75, 0.9);
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  .ms-scaleUpOut103 {
+    animation-name: ms-fadeOut, ms-scaleUp103;
+    animation-duration: 0.167s;
+    animation-timing-function: cubic-bezier(0.1, 0.25, 0.75, 0.9);
+    animation-fill-mode: both;
+  }
 }
 
-.ms-scaleDownOut98 {
-  animation-name: ms-fadeOut, ms-scaleDown98;
-  animation-duration: 0.167s;
-  animation-timing-function: cubic-bezier(0.1, 0.25, 0.75, 0.9);
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  .ms-scaleDownOut98 {
+    animation-name: ms-fadeOut, ms-scaleDown98;
+    animation-duration: 0.167s;
+    animation-timing-function: cubic-bezier(0.1, 0.25, 0.75, 0.9);
+    animation-fill-mode: both;
+  }
 }
 
-.ms-scaleDownIn100 {
-  animation-name: ms-fadeIn, ms-scaleDown100;
-  animation-duration: 0.367s;
-  animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  .ms-scaleDownIn100 {
+    animation-name: ms-fadeIn, ms-scaleDown100;
+    animation-duration: 0.367s;
+    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
+    animation-fill-mode: both;
+  }
 }
 
-.ms-fadeIn100 {
-  animation-duration: 0.167s;
-  animation-name: ms-fadeIn;
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  .ms-fadeIn100 {
+    animation-name: ms-fadeIn;
+    animation-duration: 0.167s;
+    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
+    animation-fill-mode: both;
+  }
 }
 
-.ms-fadeIn200 {
-  animation-duration: 0.267s;
-  animation-name: ms-fadeIn;
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  .ms-fadeIn200 {
+    animation-name: ms-fadeIn;
+    animation-duration: 0.267s;
+    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
+    animation-fill-mode: both;
+  }
 }
 
-.ms-fadeIn400 {
-  animation-duration: 0.367s;
-  animation-name: ms-fadeIn;
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  .ms-fadeIn400 {
+    animation-name: ms-fadeIn;
+    animation-duration: 0.367s;
+    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
+    animation-fill-mode: both;
+  }
 }
 
-.ms-fadeIn500 {
-  animation-duration: 0.467s;
-  animation-name: ms-fadeIn;
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  .ms-fadeIn500 {
+    animation-name: ms-fadeIn;
+    animation-duration: 0.467s;
+    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
+    animation-fill-mode: both;
+  }
 }
 
-.ms-fadeOut100 {
-  animation-duration: 0.1s;
-  animation-name: ms-fadeOut;
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  .ms-fadeOut100 {
+    animation-name: ms-fadeOut;
+    animation-duration: 0.1s;
+    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
+    animation-fill-mode: both;
+  }
 }
 
-.ms-fadeOut200 {
-  animation-duration: 0.167s;
-  animation-name: ms-fadeOut;
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  .ms-fadeOut200 {
+    animation-name: ms-fadeOut;
+    animation-duration: 0.167s;
+    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
+    animation-fill-mode: both;
+  }
 }
 
-.ms-fadeOut400 {
-  animation-duration: 0.367s;
-  animation-name: ms-fadeOut;
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  .ms-fadeOut400 {
+    animation-name: ms-fadeOut;
+    animation-duration: 0.367s;
+    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
+    animation-fill-mode: both;
+  }
 }
 
-.ms-fadeOut500 {
-  animation-duration: 0.467s;
-  animation-name: ms-fadeOut;
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  .ms-fadeOut500 {
+    animation-name: ms-fadeOut;
+    animation-duration: 0.467s;
+    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
+    animation-fill-mode: both;
+  }
 }
 
-.ms-expandCollapse100 {
-  transition: height 0.1s cubic-bezier(0.1, 0.25, 0.75, 0.9);
+@media (prefers-reduced-motion: no-preference) {
+  .ms-expandCollapse100 {
+    transition: height 0.1s cubic-bezier(0.1, 0.25, 0.75, 0.9);
+  }
 }
 
-.ms-expandCollapse200 {
-  transition: height 0.167s cubic-bezier(0.1, 0.25, 0.75, 0.9);
+@media (prefers-reduced-motion: no-preference) {
+  .ms-expandCollapse200 {
+    transition: height 0.167s cubic-bezier(0.1, 0.25, 0.75, 0.9);
+  }
 }
 
-.ms-expandCollapse400 {
-  transition: height 0.367s cubic-bezier(0.1, 0.25, 0.75, 0.9);
+@media (prefers-reduced-motion: no-preference) {
+  .ms-expandCollapse400 {
+    transition: height 0.367s cubic-bezier(0.1, 0.25, 0.75, 0.9);
+  }
 }
 
 .ms-delay100 {
@@ -609,32 +711,40 @@
   animation-delay: 0.267s;
 }
 
-[dir='ltr'] .ms-rotate90deg {
-  animation-name: ms-rotate90;
-  animation-duration: 0.1s;
-  animation-timing-function: cubic-bezier(0.1, 0.25, 0.75, 0.9);
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  [dir='ltr'] .ms-rotate90deg {
+    animation-name: ms-rotate90;
+    animation-duration: 0.1s;
+    animation-timing-function: cubic-bezier(0.1, 0.25, 0.75, 0.9);
+    animation-fill-mode: both;
+  }
 }
 
-[dir='rtl'] .ms-rotate90deg {
-  animation-name: ms-rotateN90;
-  animation-duration: 0.1s;
-  animation-timing-function: cubic-bezier(0.1, 0.25, 0.75, 0.9);
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  [dir='rtl'] .ms-rotate90deg {
+    animation-name: ms-rotateN90;
+    animation-duration: 0.1s;
+    animation-timing-function: cubic-bezier(0.1, 0.25, 0.75, 0.9);
+    animation-fill-mode: both;
+  }
 }
 
-[dir='ltr'] .ms-rotateN90deg {
-  animation-name: ms-rotateN90;
-  animation-duration: 0.1s;
-  animation-timing-function: cubic-bezier(0.1, 0.25, 0.75, 0.9);
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  [dir='ltr'] .ms-rotateN90deg {
+    animation-name: ms-rotateN90;
+    animation-duration: 0.1s;
+    animation-timing-function: cubic-bezier(0.1, 0.25, 0.75, 0.9);
+    animation-fill-mode: both;
+  }
 }
 
-[dir='rtl'] .ms-rotateN90deg {
-  animation-name: ms-rotate90;
-  animation-duration: 0.1s;
-  animation-timing-function: cubic-bezier(0.1, 0.25, 0.75, 0.9);
-  animation-fill-mode: both;
+@media (prefers-reduced-motion: no-preference) {
+  [dir='rtl'] .ms-rotateN90deg {
+    animation-name: ms-rotate90;
+    animation-duration: 0.1s;
+    animation-timing-function: cubic-bezier(0.1, 0.25, 0.75, 0.9);
+    animation-fill-mode: both;
+  }
 }
 
 .ms-BrandIcon--access.ms-BrandIcon--icon16 {
@@ -3563,7 +3673,7 @@
 */
 @font-face {
   font-family: 'FabricMDL2Icons';
-  src: url('https://static2.sharepointonline.com/files/fabric/assets/icons/fabricmdl2icons-2.55.woff2') format('woff2'), url('https://static2.sharepointonline.com/files/fabric/assets/icons/fabricmdl2icons-2.55.woff') format('woff'), url('https://static2.sharepointonline.com/files/fabric/assets/icons/fabricmdl2icons-2.55.ttf') format('truetype');
+  src: url('https://static2.sharepointonline.com/files/fabric/assets/icons/fabricmdl2icons-2.58.woff2') format('woff2'), url('https://static2.sharepointonline.com/files/fabric/assets/icons/fabricmdl2icons-2.58.woff') format('woff'), url('https://static2.sharepointonline.com/files/fabric/assets/icons/fabricmdl2icons-2.58.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -3677,6 +3787,10 @@
 
 .ms-Icon--Add::before {
   content: '';
+}
+
+.ms-Icon--AddBookmark::before {
+  content: '';
 }
 
 .ms-Icon--AddEvent::before {
@@ -3845,6 +3959,10 @@
 
 .ms-Icon--AnalyticsReport::before {
   content: '';
+}
+
+.ms-Icon--AnalyticsView::before {
+  content: '';
 }
 
 .ms-Icon--AnchorLock::before {
@@ -4107,6 +4225,10 @@
   content: '';
 }
 
+.ms-Icon--BlockedSite::before {
+  content: '';
+}
+
 .ms-Icon--BlockedSolid::before {
   content: '';
 }
@@ -4225,6 +4347,18 @@
 
 .ms-Icon--Broom::before {
   content: '';
+}
+
+.ms-Icon--BrowserScreenShot::before {
+  content: '';
+}
+
+.ms-Icon--BrowserTab::before {
+  content: '';
+}
+
+.ms-Icon--BrowserTabScreenshot::before {
+  content: '';
 }
 
 .ms-Icon--Brunch::before {
@@ -4567,6 +4701,10 @@
   content: '';
 }
 
+.ms-Icon--CertifiedDatabase::before {
+  content: '';
+}
+
 .ms-Icon--Chart::before {
   content: '';
 }
@@ -4809,6 +4947,10 @@
 
 .ms-Icon--ClearNight::before {
   content: '';
+}
+
+.ms-Icon--ClipboardSolid::before {
+  content: '';
 }
 
 .ms-Icon--Clock::before {
@@ -5219,6 +5361,10 @@
   content: '';
 }
 
+.ms-Icon--DesktopScreenshot::before {
+  content: '';
+}
+
 .ms-Icon--DeveloperTools::before {
   content: '';
 }
@@ -5325,6 +5471,10 @@
 
 .ms-Icon--DocumentSet::before {
   content: '';
+}
+
+.ms-Icon--DOM::before {
+  content: '';
 }
 
 .ms-Icon--DonutChart::before {
@@ -5441,6 +5591,10 @@
 
 .ms-Icon--DrillShow::before {
   content: '';
+}
+
+.ms-Icon--DrillThrough::before {
+  content: '';
 }
 
 .ms-Icon--DRM::before {
@@ -5685,6 +5839,10 @@
 
 .ms-Icon--ExploreContentSingle::before {
   content: '';
+}
+
+.ms-Icon--ExploreData::before {
+  content: '';
 }
 
 [dir='ltr'] .ms-Icon--Export::before {
@@ -5953,6 +6111,10 @@
 
 .ms-Icon--FileTypeSolution::before {
   content: '';
+}
+
+.ms-Icon--FileYML::before {
+  content: '';
 }
 
 .ms-Icon--Filter::before {
@@ -6303,6 +6465,10 @@
   content: '';
 }
 
+.ms-Icon--HandsFree::before {
+  content: '';
+}
+
 .ms-Icon--Handwriting::before {
   content: '';
 }
@@ -6433,10 +6599,6 @@
 
 .ms-Icon--HourGlass::before {
   content: '';
-}
-
-.ms-Icon--HumanResources::before {
-  content: '';
 }
 
 .ms-Icon--IconSetsFlag::before {
@@ -6739,6 +6901,10 @@
   content: '';
 }
 
+.ms-Icon--LookupEntities::before {
+  content: '';
+}
+
 .ms-Icon--LowerBrightness::before {
   content: '';
 }
@@ -6879,6 +7045,14 @@
   content: '';
 }
 
+.ms-Icon--MasterDatabase::before {
+  content: '';
+}
+
+.ms-Icon--MaximumValue::before {
+  content: '';
+}
+
 .ms-Icon--Medal::before {
   content: '';
 }
@@ -6945,6 +7119,10 @@
 
 .ms-Icon--MiniLink::before {
   content: '';
+}
+
+.ms-Icon--MinimumValue::before {
+  content: '';
 }
 
 .ms-Icon--MobileReport::before {
@@ -7485,6 +7663,14 @@
 
 .ms-Icon--Paste::before {
   content: '';
+}
+
+.ms-Icon--PasteAsCode::before {
+  content: '';
+}
+
+.ms-Icon--PasteAsText::before {
+  content: '';
 }
 
 .ms-Icon--Pause::before {
@@ -8307,6 +8493,10 @@
   content: '';
 }
 
+.ms-Icon--SearchBookmark::before {
+  content: '';
+}
+
 .ms-Icon--SearchCalendar::before {
   content: '';
 }
@@ -9119,6 +9309,10 @@
   content: '';
 }
 
+.ms-Icon--Toll::before {
+  content: '';
+}
+
 .ms-Icon--Touch::before {
   content: '';
 }
@@ -9141,6 +9335,18 @@
 
 .ms-Icon--Transition::before {
   content: '';
+}
+
+.ms-Icon--TransitionEffect::before {
+  content: '';
+}
+
+.ms-Icon--TransitionPop::before {
+  content: '';
+}
+
+.ms-Icon--TransitionPush::before {
+  content: '';
 }
 
 .ms-Icon--TriangleDown12::before {
@@ -9471,6 +9677,10 @@
   content: '';
 }
 
+.ms-Icon--VisualStudioIDELogo32::before {
+  content: '';
+}
+
 .ms-Icon--VisualStudioLogo::before {
   content: '';
 }
@@ -9665,6 +9875,10 @@
 
 .ms-Icon--ZoomOut::before {
   content: '';
+}
+
+.ms-Icon--HumanResources::before {
+  content: '';
 }
 
 .ms-Icon--StoreLogo::before {
