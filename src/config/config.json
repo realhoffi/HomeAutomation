@@ -1,58 +1,76 @@
 {
-    "devices": {
-        "sensors": [
-            {
-                "name": "Sensor Wohnzimmer",
-                "beschreibung": "Rund",
-                "ort": "Wohnzimmer",
-                "id": "158d0001c19abd",
-                "model": "lumi.sensor_ht",
-                "type": "sensor"
-            },
-            {
-                "name": "Sensor Schlafzimmer",
-                "beschreibung": "rund",
-                "ort": "Schlafzimmer",
-                "id": "158d0001c19ab8",
-                "type": "sensor",
-                "model": "lumi.sensor_ht"
-            },
-            {
-                "name": "Sensor Bad",
-                "beschreibung": "Eckig",
-                "ort": "Bad",
-                "id": "158d0001b962aa",
-                "type": "sensor",
-                "model": "lumi.weather"
-            },
-            {
-                "name": "Sensor Terasse",
-                "beschreibung": "Eckig",
-                "ort": "Terasse",
-                "id": "158d0001b9635d",
-                "type": "sensor",
-                "model": "lumi.weather"
-            }
-        ],
-        "lights": [
-            {
-                "name": "Lampe Bad",
-                "beschreibung": "",
-                "ort": "Badezimmer",
-                "id": "72779159",
-                "type": "light",
-                "model": "yeelink.light.color1"
-            }
-        ],
-        "gateways": [
-            {
-                "name": "Hauptgateway",
-                "beschreibung": "",
-                "ort": "Wohnzimmer",
-                "id": "73058750",
-                "model": "lumi.gateway.v3",
-                "address": "192.168.178.45"
-            }
-        ]
-    }
+  "devices": {
+    "sensors": [
+      {
+        "name": "Sensor Wohnzimmer",
+        "beschreibung": "Rund",
+        "ort": "Wohnzimmer",
+        "id": "158d0001c19abd",
+        "model": "lumi.sensor_ht",
+        "type": "sensor"
+      },
+      {
+        "name": "Sensor Schlafzimmer",
+        "beschreibung": "rund",
+        "ort": "Schlafzimmer",
+        "id": "158d0001c19ab8",
+        "type": "sensor",
+        "model": "lumi.sensor_ht"
+      },
+      {
+        "name": "Sensor Bad",
+        "beschreibung": "Eckig",
+        "ort": "Bad",
+        "id": "158d0001b962aa",
+        "type": "sensor",
+        "model": "lumi.weather"
+      },
+      {
+        "name": "Sensor Terasse",
+        "beschreibung": "Eckig",
+        "ort": "Terasse",
+        "id": "158d0001b9635d",
+        "type": "sensor",
+        "model": "lumi.weather"
+      }
+    ],
+    "robots": [
+      {
+        "name": "Staubsauger",
+        "beschreibung": "",
+        "ort": "Badezimmer",
+        "id": "74217308",
+        "type": "light",
+        "model": "yeelink.light.color1"
+      }
+    ],
+    "lights": [
+      {
+        "name": "Lampe Bad",
+        "beschreibung": "",
+        "ort": "Badezimmer",
+        "id": "72779159",
+        "type": "light",
+        "model": "yeelink.light.color1"
+      },
+      {
+        "name": "Lampe Bad neu",
+        "beschreibung": "",
+        "ort": "Badezimmer",
+        "id": "77079675",
+        "type": "light",
+        "model": "yeelink.light.color1"
+      }
+    ],
+    "gateways": [
+      {
+        "name": "Hauptgateway",
+        "beschreibung": "",
+        "ort": "Wohnzimmer",
+        "id": "73058750",
+        "model": "lumi.gateway.v3",
+        "address": "192.168.178.45"
+      }
+    ]
+  }
 }

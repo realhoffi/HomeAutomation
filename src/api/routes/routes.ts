@@ -47,9 +47,6 @@ export function registerRoutes(router: express.Router) {
       return sens.id === req.params.id;
     });
     if (sensor) {
-      console.log("batteryLevel: " + sensor.batteryLevel);
-      console.log("battery_level: " + sensor.battery_level);
-      console.log("voltage: " + sensor.voltage);
       sensor._parent
         .call("get_device_prop_exp", [
           ["lumi." + sensor.id, ...req.params.properties.split(";")]
@@ -61,6 +58,51 @@ export function registerRoutes(router: express.Router) {
           console.log(error);
           res.status(500).json({ info: "Error fetching Info" });
         });
+    } else {
+      res.status(500).json({ info: "sensor not found" });
+    }
+  });
+  router.route("/sensors/:id/info/read/:prop").get(function(req, res) {
+    let sensors: any[] = req.app.locals.xiaomi.sensors;
+    let sensor = sensors.find(sens => {
+      return sens.id === req.params.id;
+    });
+    if (sensor) {
+      let b = "";
+      if (req.params.prop == 1) {
+        // tslint:disable-next-line:quotemark
+        b = '{"cmd": "whois"}';
+      } else {
+        // tslint:disable-next-line:quotemark
+        b = '{"cmd": "get_id_list"}';
+      }
+      sensor._parent.devApi.send(b);
+      // console.log(sensor);
+      sensor._parent.devApi.send(
+        `{"cmd": "get_id_list", "sid": "${sensor.id}"}`
+      );
+      sensor._parent.devApi.send(`{"cmd": "read", "sid": "${sensor.id}"}`);
+      b = `{"cmd": "get_id_list", "sid": "${sensor.id}"}`;
+      sensor._parent.devApi.send(b);
+      // if (!sensor.devApi) {
+      //   console.log("NO DEV API");
+      //   return;
+      // }
+      //  sensor._parent.devApi.send(b);
+      // ._parent
+      //   .call(
+      //     "read"
+      //     //  [
+      //     //   ["lumi." + sensor.id, ...req.params.properties.split(";")]
+      //     // ]
+      //   )
+      //   .then(resultProperties => {
+      //     res.json({ id: req.params.id, properties: resultProperties });
+      //   })
+      //   .catch(error => {
+      //     console.log(error);
+      //     res.status(500).json({ info: "Error fetching Info" });
+      //   });
     } else {
       res.status(500).json({ info: "sensor not found" });
     }
@@ -354,6 +396,52 @@ export function registerRoutes(router: express.Router) {
       res.status(500).json({ error: "Gateway not found" });
     }
   });
+  router
+    .route("/gateways/:id/info/:method/:properties")
+    .get(function(req, res) {
+      let gateways: any[] = req.app.locals.xiaomi.gateways;
+      let gateway = gateways.find(gw => {
+        return gw.id === req.params.id;
+      });
+      if (gateway) {
+        gateway
+          .call(req.params.method, req.params.properties.split(";"))
+          .then(resultProperties => {
+            console.log("GWPROPS: " + JSON.stringify(resultProperties));
+            res.json({ id: req.params.id, properties: resultProperties });
+          })
+          .catch(() => {
+            res.status(500).json({ error: "prop not fetched" });
+          });
+      } else {
+        res.status(500).json({ error: "Gateway not found" });
+      }
+    });
+  router.route("/gateways/:id/devApi").get(function(req, res) {
+    let gateways: any[] = req.app.locals.xiaomi.gateways;
+    let gateway = gateways.find(gw => {
+      return gw.id === req.params.id;
+    });
+    if (gateway) {
+      console.log(gateway.id + "@@" + gateway.sid);
+      // tslint:disable-next-line:quotemark
+      let b = '{"cmd": "whois"}';
+      // tslint:disable-next-line:quotemark
+      b = '{"cmd": "get_id_list"}';
+      // b = '{"cmd": "read", "sid": "158d0001b962aa"}';
+      b = gateway.devApi.send(b);
+      // .then(resultProperties => {
+      //   console.log("GWPROPS: " + JSON.stringify(resultProperties));
+      //   res.json({ id: req.params.id, properties: resultProperties });
+      // })
+      // .catch(() => {
+      //   res.status(500).json({ error: "prop not fetched" });
+      // });
+    } else {
+      res.status(500).json({ error: "Gateway not found" });
+    }
+  });
+
   router.route("/gateways/:id/brightness/:value").post(function(req, res) {
     let gateways: any[] = req.app.locals.xiaomi.gateways;
     let gateway = gateways.find(gw => {

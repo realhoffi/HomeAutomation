@@ -122,23 +122,10 @@ server.listen(port, err => {
 const devices = miio.devices({
   cacheTime: 15 // 5 minutes. Default is 1800 seconds (30 minutes)
 });
-// setInterval(() => {
-//   // console.log("DEVICE DETECTION");
-//   // devices.start();
-// }, 30000);
-// console.log(devices);
+
 devices.on("available", reg => {
   console.log("Refresh Device");
   const device = reg.device;
-
-  device.on("propertyChanged", e =>
-    console.log("propertyChanged: " + e.property, e.oldValue, e.value)
-  );
-  // Some devices have custom events
-  device.on("action", e => console.log("Action performed:", e.id));
-
-  // console.log(reg);
-  // console.log("@@device.type: " + device.type);
 
   if (!device) {
     console.log(reg.id, "could not be connected to");
@@ -149,6 +136,15 @@ devices.on("available", reg => {
     console.log(reg.id, "hides its token. Leave function");
     return;
   }
+  device.on("propertyChanged", e =>
+    console.log("propertyChanged: " + e.property, e.oldValue, e.value)
+  );
+  // Some devices have custom events
+  device.on("action", e => console.log("Action performed:", e.id));
+
+  // console.log(reg);
+  // console.log("@@device.type: " + device.type);
+
   console.log("Detected Device: " + device.id + " (" + device.type + ")");
   // device.management.info().then(console.log);
 
@@ -179,6 +175,12 @@ devices.on("available", reg => {
       // device.defineProperty("batteryLevel");
       // device.defineProperty("battery_level");
       // device.defineProperty("voltage");
+      // device.defineProperty("voltage");
+      // device.loadProperties(["voltage"]).then(p => {
+      //   //  device.getProperties(Array[string]);
+      //   console.log(p);
+      // });
+
       indexOfElement = findIdInArray(app.locals.xiaomi.sensors, device.id);
       if (indexOfElement < 0) {
         console.log("Sensor existiert nicht");
@@ -255,4 +257,8 @@ devices.on("error", err => {
 
 // Token Lampe1
 // miio --update 72779159 --token 2ac2001076e0dc34df6c0f05a68f011e
-// 2ac2001076e0dc34df6c0f05a68f011e
+// miio --update 74217308 --token 4f5372474e4871387644464e6c30766d
+// miio --update 77079675 --token 11748859bcfa963c2fd0c9f86a8b54a8
+// Token Yeelight Bad (alt): 2ac2001076e0dc34df6c0f05a68f011e
+// Token Yeelight Bad (neu): 11748859bcfa963c2fd0c9f86a8b54a8
+// Token Roboter: 4f5372474e4871387644464e6c30766d

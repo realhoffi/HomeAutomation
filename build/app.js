@@ -937,10 +937,6 @@ var devices = miio.devices({
 devices.on("available", function (reg) {
     console.log("Refresh Device");
     var device = reg.device;
-    device.on("propertyChanged", function (e) {
-        return console.log("propertyChanged: " + e.property, e.oldValue, e.value);
-    });
-    device.on("action", function (e) { return console.log("Action performed:", e.id); });
     if (!device) {
         console.log(reg.id, "could not be connected to");
         return;
@@ -949,6 +945,10 @@ devices.on("available", function (reg) {
         console.log(reg.id, "hides its token. Leave function");
         return;
     }
+    device.on("propertyChanged", function (e) {
+        return console.log("propertyChanged: " + e.property, e.oldValue, e.value);
+    });
+    device.on("action", function (e) { return console.log("Action performed:", e.id); });
     console.log("Detected Device: " + device.id + " (" + device.type + ")");
     var indexOfElement = -1;
     switch (device.type) {
@@ -1140,9 +1140,6 @@ function registerRoutes(router) {
             return sens.id === req.params.id;
         });
         if (sensor) {
-            console.log("batteryLevel: " + sensor.batteryLevel);
-            console.log("battery_level: " + sensor.battery_level);
-            console.log("voltage: " + sensor.voltage);
             sensor._parent
                 .call("get_device_prop_exp", [
                 ["lumi." + sensor.id].concat(req.params.properties.split(";"))
@@ -1154,6 +1151,29 @@ function registerRoutes(router) {
                 console.log(error);
                 res.status(500).json({ info: "Error fetching Info" });
             });
+        }
+        else {
+            res.status(500).json({ info: "sensor not found" });
+        }
+    });
+    router.route("/sensors/:id/info/read/:prop").get(function (req, res) {
+        var sensors = req.app.locals.xiaomi.sensors;
+        var sensor = sensors.find(function (sens) {
+            return sens.id === req.params.id;
+        });
+        if (sensor) {
+            var b = "";
+            if (req.params.prop == 1) {
+                b = '{"cmd": "whois"}';
+            }
+            else {
+                b = '{"cmd": "get_id_list"}';
+            }
+            sensor._parent.devApi.send(b);
+            sensor._parent.devApi.send("{\"cmd\": \"get_id_list\", \"sid\": \"" + sensor.id + "\"}");
+            sensor._parent.devApi.send("{\"cmd\": \"read\", \"sid\": \"" + sensor.id + "\"}");
+            b = "{\"cmd\": \"get_id_list\", \"sid\": \"" + sensor.id + "\"}";
+            sensor._parent.devApi.send(b);
         }
         else {
             res.status(500).json({ info: "sensor not found" });
@@ -1215,7 +1235,7 @@ function registerRoutes(router) {
             });
         });
         var requests = yeelights.map(function (light) {
-            return light.call("get_prop", ["rgb", "ct", "name"]);
+            return light.call("get_prop", ["rgb", "ct", "name", "HUE"]);
         });
         Promise.all(requests)
             .then(function (resultProperties) {
@@ -1405,6 +1425,43 @@ function registerRoutes(router) {
                 .catch(function () {
                 res.status(500).json({ error: "prop not fetched" });
             });
+        }
+        else {
+            res.status(500).json({ error: "Gateway not found" });
+        }
+    });
+    router
+        .route("/gateways/:id/info/:method/:properties")
+        .get(function (req, res) {
+        var gateways = req.app.locals.xiaomi.gateways;
+        var gateway = gateways.find(function (gw) {
+            return gw.id === req.params.id;
+        });
+        if (gateway) {
+            gateway
+                .call(req.params.method, req.params.properties.split(";"))
+                .then(function (resultProperties) {
+                console.log("GWPROPS: " + JSON.stringify(resultProperties));
+                res.json({ id: req.params.id, properties: resultProperties });
+            })
+                .catch(function () {
+                res.status(500).json({ error: "prop not fetched" });
+            });
+        }
+        else {
+            res.status(500).json({ error: "Gateway not found" });
+        }
+    });
+    router.route("/gateways/:id/devApi").get(function (req, res) {
+        var gateways = req.app.locals.xiaomi.gateways;
+        var gateway = gateways.find(function (gw) {
+            return gw.id === req.params.id;
+        });
+        if (gateway) {
+            console.log(gateway.id + "@@" + gateway.sid);
+            var b = '{"cmd": "whois"}';
+            b = '{"cmd": "get_id_list"}';
+            b = gateway.devApi.send(b);
         }
         else {
             res.status(500).json({ error: "Gateway not found" });
@@ -6727,7 +6784,7 @@ module.exports = require("os");
 /*! all exports used */
 /***/ (function(module, exports) {
 
-module.exports = {"devices":{"sensors":[{"name":"Sensor Wohnzimmer","beschreibung":"Rund","ort":"Wohnzimmer","id":"158d0001c19abd","model":"lumi.sensor_ht","type":"sensor"},{"name":"Sensor Schlafzimmer","beschreibung":"rund","ort":"Schlafzimmer","id":"158d0001c19ab8","type":"sensor","model":"lumi.sensor_ht"},{"name":"Sensor Bad","beschreibung":"Eckig","ort":"Bad","id":"158d0001b962aa","type":"sensor","model":"lumi.weather"},{"name":"Sensor Terasse","beschreibung":"Eckig","ort":"Terasse","id":"158d0001b9635d","type":"sensor","model":"lumi.weather"}],"lights":[{"name":"Lampe Bad","beschreibung":"","ort":"Badezimmer","id":"72779159","type":"light","model":"yeelink.light.color1"}],"gateways":[{"name":"Hauptgateway","beschreibung":"","ort":"Wohnzimmer","id":"73058750","model":"lumi.gateway.v3","address":"192.168.178.45"}]}}
+module.exports = {"devices":{"sensors":[{"name":"Sensor Wohnzimmer","beschreibung":"Rund","ort":"Wohnzimmer","id":"158d0001c19abd","model":"lumi.sensor_ht","type":"sensor"},{"name":"Sensor Schlafzimmer","beschreibung":"rund","ort":"Schlafzimmer","id":"158d0001c19ab8","type":"sensor","model":"lumi.sensor_ht"},{"name":"Sensor Bad","beschreibung":"Eckig","ort":"Bad","id":"158d0001b962aa","type":"sensor","model":"lumi.weather"},{"name":"Sensor Terasse","beschreibung":"Eckig","ort":"Terasse","id":"158d0001b9635d","type":"sensor","model":"lumi.weather"}],"robots":[{"name":"Staubsauger","beschreibung":"","ort":"Badezimmer","id":"74217308","type":"light","model":"yeelink.light.color1"}],"lights":[{"name":"Lampe Bad","beschreibung":"","ort":"Badezimmer","id":"72779159","type":"light","model":"yeelink.light.color1"},{"name":"Lampe Bad neu","beschreibung":"","ort":"Badezimmer","id":"77079675","type":"light","model":"yeelink.light.color1"}],"gateways":[{"name":"Hauptgateway","beschreibung":"","ort":"Wohnzimmer","id":"73058750","model":"lumi.gateway.v3","address":"192.168.178.45"}]}}
 
 /***/ }),
 /* 47 */
