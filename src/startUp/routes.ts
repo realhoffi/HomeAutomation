@@ -1,21 +1,15 @@
+"use strict";
 import express from "express";
 import os = require("os");
-import {
-  ILightModel,
-  IRGBColor,
-  IBaseWeatherSensor,
-  IGatewayModel
-} from "../../interfaces/xiaomi";
-import { request } from "http";
-import LightController from "../controllers/LightController";
-import SensorController from "../controllers/SensorController";
-import GatewayController from "../controllers/GatewayController";
 
-const cfg = require("./../../config/config.json");
+import LightController from "../api/controllers/LightController";
+import SensorController from "../api/controllers/SensorController";
+import GatewayController from "../api/controllers/GatewayController";
+
 export function registerRoutes(router: express.Router) {
-  const n1 = new LightController(router);
-  const n2 = new SensorController(router);
-  const n3 = new GatewayController(router);
+  const c1 = new LightController(router);
+  const c2 = new SensorController(router);
+  const c3 = new GatewayController(router);
 
   // router.route("/gateways/:id/info/:properties").get(function(req, res) {
   //   let gateways: any[] = req.app.locals.xiaomi.gateways;

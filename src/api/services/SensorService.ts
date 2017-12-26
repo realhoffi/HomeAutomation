@@ -1,7 +1,7 @@
 "use strict";
 import { Application } from "express";
 import { IBaseWeatherSensor } from "../../interfaces/xiaomi";
-const cfg = require("./../../config/config.json");
+const cfg = require("../../../config/config.json");
 class SensorService {
   public getSensors(app: Application): IBaseWeatherSensor[] {
     let result: IBaseWeatherSensor[] = [];

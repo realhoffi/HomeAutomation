@@ -74,7 +74,7 @@
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Promise) {
-var es5 = __webpack_require__(/*! ./es5 */ 3);
+var es5 = __webpack_require__(/*! ./es5 */ 2);
 var canEvaluate = typeof navigator == "undefined";
 
 var errorObj = {e: {}};
@@ -467,7 +467,7 @@ module.exports = ret;
 
 "use strict";
 
-var es5 = __webpack_require__(/*! ./es5 */ 3);
+var es5 = __webpack_require__(/*! ./es5 */ 2);
 var Objectfreeze = es5.freeze;
 var util = __webpack_require__(/*! ./util */ 0);
 var inherits = util.inherits;
@@ -586,17 +586,6 @@ module.exports = {
 
 /***/ }),
 /* 2 */
-/*!********************************!*\
-  !*** ./src/config/config.json ***!
-  \********************************/
-/*! dynamic exports provided */
-/*! all exports used */
-/***/ (function(module, exports) {
-
-module.exports = {"devices":{"sensors":[{"name":"Sensor Wohnzimmer","beschreibung":"Rund","ort":"Wohnzimmer","id":"158d0001c19abd","model":"lumi.sensor_ht","type":"sensor"},{"name":"Sensor Schlafzimmer","beschreibung":"rund","ort":"Schlafzimmer","id":"158d0001c19ab8","type":"sensor","model":"lumi.sensor_ht"},{"name":"Sensor Bad","beschreibung":"Eckig","ort":"Bad","id":"158d0001b962aa","type":"sensor","model":"lumi.weather"},{"name":"Sensor Terasse","beschreibung":"Eckig","ort":"Terasse","id":"158d0001b9635d","type":"sensor","model":"lumi.weather"}],"robots":[{"name":"Staubsauger","beschreibung":"","ort":"Wohnzimmer","id":"74217308","type":"vacuum","model":"rockrobo.vacuum.v1","token":"7932627133756e393939483475574d58"}],"lights":[{"name":"Lampe Bad","beschreibung":"","ort":"Badezimmer","id":"72779159","type":"light","model":"yeelink.light.color1","token":""},{"name":"Lampe Bad neu","beschreibung":"","ort":"Badezimmer","id":"77079675","type":"light","model":"yeelink.light.color1","token":"623f34fc24bffabc06a1a1605b0858b4"}],"gateways":[{"name":"Hauptgateway","beschreibung":"","ort":"Wohnzimmer","id":"73058750","model":"lumi.gateway.v3","address":"192.168.178.45","token":"ff2e9a62f90e0fe5f365a744460616c7"}]}}
-
-/***/ }),
-/* 3 */
 /*!*************************************************!*\
   !*** ./node_modules/bluebird/js/release/es5.js ***!
   \*************************************************/
@@ -687,6 +676,17 @@ if (isES5) {
 
 
 /***/ }),
+/* 3 */
+/*!****************************!*\
+  !*** ./config/config.json ***!
+  \****************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports) {
+
+module.exports = {"devices":{"sensors":[{"name":"Sensor Wohnzimmer","beschreibung":"Rund","ort":"Wohnzimmer","id":"158d0001c19abd","model":"lumi.sensor_ht","type":"sensor"},{"name":"Sensor Schlafzimmer","beschreibung":"rund","ort":"Schlafzimmer","id":"158d0001c19ab8","type":"sensor","model":"lumi.sensor_ht"},{"name":"Sensor Bad","beschreibung":"Eckig","ort":"Bad","id":"158d0001b962aa","type":"sensor","model":"lumi.weather"},{"name":"Sensor Terasse","beschreibung":"Eckig","ort":"Terasse","id":"158d0001b9635d","type":"sensor","model":"lumi.weather"}],"robots":[{"name":"Staubsauger","beschreibung":"","ort":"Wohnzimmer","id":"74217308","type":"vacuum","model":"rockrobo.vacuum.v1","token":"7932627133756e393939483475574d58"}],"lights":[{"name":"Lampe Bad","beschreibung":"","ort":"Badezimmer","id":"72779159","type":"light","model":"yeelink.light.color1","token":""},{"name":"Lampe Bad neu","beschreibung":"","ort":"Badezimmer","id":"77079675","type":"light","model":"yeelink.light.color1","token":"623f34fc24bffabc06a1a1605b0858b4"}],"gateways":[{"name":"Hauptgateway","beschreibung":"","ort":"Wohnzimmer","id":"73058750","model":"lumi.gateway.v3","address":"192.168.178.45","token":"ff2e9a62f90e0fe5f365a744460616c7"}]}}
+
+/***/ }),
 /* 4 */
 /*!******************************************************!*\
   !*** ./node_modules/bluebird/js/release/bluebird.js ***!
@@ -723,7 +723,7 @@ module.exports = bluebird;
 
 module.exports = function(NEXT_FILTER) {
 var util = __webpack_require__(/*! ./util */ 0);
-var getKeys = __webpack_require__(/*! ./es5 */ 3).keys;
+var getKeys = __webpack_require__(/*! ./es5 */ 2).keys;
 var tryCatch = util.tryCatch;
 var errorObj = util.errorObj;
 
@@ -779,7 +779,7 @@ var util = __webpack_require__(/*! ./util */ 0);
 var maybeWrapAsError = util.maybeWrapAsError;
 var errors = __webpack_require__(/*! ./errors */ 1);
 var OperationalError = errors.OperationalError;
-var es5 = __webpack_require__(/*! ./es5 */ 3);
+var es5 = __webpack_require__(/*! ./es5 */ 2);
 
 function isUntypedError(obj) {
     return obj instanceof Error &&
@@ -856,11 +856,10 @@ var http = __webpack_require__(/*! http */ 10);
 var express = __webpack_require__(/*! express */ 11);
 var url = __webpack_require__(/*! url */ 12);
 var favicon = __webpack_require__(/*! serve-favicon */ 13);
-var routes_1 = __webpack_require__(/*! ../api/routes/routes */ 14);
-var bodyParser = __webpack_require__(/*! body-parser */ 53);
-var mongodb_1 = __webpack_require__(/*! mongodb */ 54);
-var client = mongodb_1.MongoClient;
-var miio = __webpack_require__(/*! miio */ 55);
+var routes_1 = __webpack_require__(/*! ../startUp/routes */ 14);
+var miio_1 = __webpack_require__(/*! ../startUp/miio */ 53);
+var bodyParser = __webpack_require__(/*! body-parser */ 55);
+var mongodb_1 = __webpack_require__(/*! mongodb */ 56);
 function normalizePort(val) {
     var port = parseInt(val, 10);
     if (isNaN(port)) {
@@ -878,23 +877,18 @@ function getUriFromRequest(request) {
         pathname: request.originalUrl
     });
 }
-function findIdInArray(targetArray, id) {
-    var returnValue = -1;
-    if (!targetArray) {
-        console.log("findIdInArray: exit, array is null");
-        return returnValue;
-    }
-    targetArray.forEach(function (item, index) {
-        if (item.id === id) {
-            returnValue = index;
-        }
-    });
-    console.log("findIdInArray: element at index: " + returnValue);
-    return returnValue;
-}
 var app = express();
 var port = normalizePort(Object({"NODE_ENV":"development"}).PORT || 8080);
 var env = "development" || "production";
+app.locals = {
+    database: undefined,
+    xiaomi: {
+        gateways: [],
+        yeelights: [],
+        sensors: [],
+        robots: []
+    }
+};
 app.set("port", port);
 app.use(favicon(path.join(__dirname, "icons", "favicon.ico")));
 app.use("/css", express.static(path.join(__dirname, "css")));
@@ -907,16 +901,9 @@ router.use(function (req, res, next) {
     console.log("Request on URL: " + uri);
     next();
 });
-routes_1.registerRoutes(router);
 app.use("/api", router);
-app.locals = {
-    xiaomi: {
-        gateways: [],
-        yeelights: [],
-        sensors: [],
-        robots: []
-    }
-};
+routes_1.registerRoutes(router);
+miio_1.registerDevices(app);
 app.get("/", function (request, response) {
     response.sendFile(path.join("views", "index.html"), { root: __dirname }, function (error) {
         app.locals.test += 1;
@@ -935,115 +922,30 @@ app.use(function (err, req, res, next) {
     res.status(500);
     res.render("error", { error: err });
 });
-app.listen(3000);
+console.log("Tryconnect to Database: " + "mongodb://localhost:27017");
+mongodb_1.MongoClient.connect("mongodb://localhost:27017", function (err, database) {
+    if (err) {
+        throw err;
+    }
+    console.log("Success connected to database:" + database);
+    console.log("Read Database: " + "homeautomation");
+    app.locals.database = database.db("homeautomation");
+    var note = { text: "req.body.body", title: "req.body.title" };
+    app.locals.database.collection("test").insert(note, function (err, result) {
+        if (err) {
+            console.log({ error: "An error has occurred" });
+        }
+        else {
+            console.log(result.ops[0]);
+        }
+    });
+});
 var server = http.createServer(app);
 server.listen(port, function (err) {
     if (err) {
         return console.error(err);
     }
     console.info("Server running on http://localhost:" + port + " [" + env + "]");
-});
-var devices = miio.devices({
-    cacheTime: 15
-});
-devices.on("available", function (reg) {
-    console.log("Refresh Device");
-    var device = reg.device;
-    if (!device) {
-        console.log(reg.id, "could not be connected to");
-        return;
-    }
-    if (!reg.token && device.type !== "sensor") {
-        console.log(reg.id, "hides its token. Leave function");
-        return;
-    }
-    console.log("@@ Detected Device: " + device.id + " (" + device.type + ") @@");
-    device.on("propertyChanged", function (e) {
-        return console.log("propertyChanged: " + e.property, e.oldValue, e.value);
-    });
-    device.on("action", function (e) { return console.log("Action performed:", e.id); });
-    var indexOfElement = -1;
-    switch (device.type) {
-        case "vacuum":
-            indexOfElement = findIdInArray(app.locals.xiaomi.robots, device.id);
-            if (indexOfElement < 0) {
-                console.log("Robot existiert nicht");
-                app.locals.xiaomi.robots.push(device);
-            }
-            else {
-                console.log("Robot existiert", device.id);
-                app.locals.xiaomi.robots[indexOfElement] = device;
-            }
-            break;
-        case "light":
-            indexOfElement = findIdInArray(app.locals.xiaomi.yeelights, device.id);
-            if (indexOfElement < 0) {
-                console.log("Licht existiert nicht");
-                app.locals.xiaomi.yeelights.push(device);
-            }
-            else {
-                console.log("Licht existiert", device.id);
-                app.locals.xiaomi.yeelights[indexOfElement] = device;
-            }
-            break;
-        case "gateway":
-            indexOfElement = findIdInArray(app.locals.xiaomi.gateways, device.id);
-            if (indexOfElement < 0) {
-                console.log("Gateway existiert nicht");
-                app.locals.xiaomi.gateways.push(device);
-            }
-            else {
-                console.log("Gateway existiert", reg.id);
-                app.locals.xiaomi.gateways[indexOfElement] = device;
-            }
-            break;
-        case "sensor":
-            indexOfElement = findIdInArray(app.locals.xiaomi.sensors, device.id);
-            if (indexOfElement < 0) {
-                console.log("Sensor existiert nicht");
-                app.locals.xiaomi.sensors.push(device);
-            }
-            else {
-                console.log("Sensor existiert", device.id);
-                app.locals.xiaomi.sensors[indexOfElement] = device;
-            }
-            break;
-        default:
-            "Found no Type: " + device.type;
-    }
-});
-devices.on("unavailable", function (reg) {
-    if (!reg.device) {
-        console.log("Device " + reg.id + " not available");
-        return;
-    }
-    var device = reg.device;
-    console.log("Device " + device.id + " not available. Remove from Collection");
-    var indexOfElement = findIdInArray(app.locals.xiaomi.sensors, device.id);
-    if (indexOfElement < 0) {
-        indexOfElement = findIdInArray(app.locals.xiaomi.gateways, device.id);
-    }
-    else {
-        app.locals.xiaomi.sensors.splice(indexOfElement, 1);
-        return;
-    }
-    if (indexOfElement < 0) {
-        indexOfElement = findIdInArray(app.locals.xiaomi.yeelights, device.id);
-    }
-    else {
-        app.locals.xiaomi.gateways.splice(indexOfElement, 1);
-        return;
-    }
-    if (indexOfElement < 0) {
-        return;
-    }
-    else {
-        app.locals.xiaomi.yeelights.splice(indexOfElement, 1);
-    }
-    console.log("Device mit Id " + device.id + " entfernt");
-});
-devices.on("error", function (err) {
-    console.log("Something went wrong connecting to device", err);
 });
 
 
@@ -1104,9 +1006,9 @@ module.exports = require("serve-favicon");
 
 /***/ }),
 /* 14 */
-/*!**********************************!*\
-  !*** ./src/api/routes/routes.ts ***!
-  \**********************************/
+/*!*******************************!*\
+  !*** ./src/startUp/routes.ts ***!
+  \*******************************/
 /*! dynamic exports provided */
 /*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
@@ -1115,14 +1017,13 @@ module.exports = require("serve-favicon");
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var os = __webpack_require__(/*! os */ 15);
-var LightController_1 = __webpack_require__(/*! ../controllers/LightController */ 16);
-var SensorController_1 = __webpack_require__(/*! ../controllers/SensorController */ 49);
-var GatewayController_1 = __webpack_require__(/*! ../controllers/GatewayController */ 51);
-var cfg = __webpack_require__(/*! ./../../config/config.json */ 2);
+var LightController_1 = __webpack_require__(/*! ../api/controllers/LightController */ 16);
+var SensorController_1 = __webpack_require__(/*! ../api/controllers/SensorController */ 49);
+var GatewayController_1 = __webpack_require__(/*! ../api/controllers/GatewayController */ 51);
 function registerRoutes(router) {
-    var n1 = new LightController_1.default(router);
-    var n2 = new SensorController_1.default(router);
-    var n3 = new GatewayController_1.default(router);
+    var c1 = new LightController_1.default(router);
+    var c2 = new SensorController_1.default(router);
+    var c3 = new GatewayController_1.default(router);
     router.route("/robots").get(function (req, res) {
         var robots = req.app.locals.xiaomi.robots;
         var robotsState = [];
@@ -1179,7 +1080,7 @@ module.exports = require("os");
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var LightService_1 = __webpack_require__(/*! ../services/LightService */ 17);
-var cfg = __webpack_require__(/*! ./../../config/config.json */ 2);
+var cfg = __webpack_require__(/*! ../../../config/config.json */ 3);
 var LightController = (function () {
     function LightController(router) {
         this.router = router;
@@ -1270,7 +1171,7 @@ exports.default = LightController;
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Promise) {
 Object.defineProperty(exports, "__esModule", { value: true });
-var cfg = __webpack_require__(/*! ./../../config/config.json */ 2);
+var cfg = __webpack_require__(/*! ../../../config/config.json */ 3);
 var LightService = (function () {
     function LightService() {
     }
@@ -1518,7 +1419,7 @@ if (util.isNode) {
 }
 util.notEnumerableProp(Promise, "_getDomain", getDomain);
 
-var es5 = __webpack_require__(/*! ./es5 */ 3);
+var es5 = __webpack_require__(/*! ./es5 */ 2);
 var Async = __webpack_require__(/*! ./async */ 19);
 var async = new Async();
 es5.defineProperty(Promise, "_async", {value: async});
@@ -6006,7 +5907,7 @@ module.exports = function(
     Promise, PromiseArray, tryConvertToPromise, apiRejection) {
 var util = __webpack_require__(/*! ./util */ 0);
 var isObject = util.isObject;
-var es5 = __webpack_require__(/*! ./es5 */ 3);
+var es5 = __webpack_require__(/*! ./es5 */ 2);
 var Es6Map;
 if (typeof Map === "function") Es6Map = Map;
 
@@ -6704,7 +6605,7 @@ module.exports = require("int-to-rgb");
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var SensorService_1 = __webpack_require__(/*! ../services/SensorService */ 50);
-var cfg = __webpack_require__(/*! ./../../config/config.json */ 2);
+var cfg = __webpack_require__(/*! ../../../config/config.json */ 3);
 var SensorController = (function () {
     function SensorController(router) {
         this.router = router;
@@ -6744,7 +6645,7 @@ exports.default = SensorController;
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Promise) {
 Object.defineProperty(exports, "__esModule", { value: true });
-var cfg = __webpack_require__(/*! ./../../config/config.json */ 2);
+var cfg = __webpack_require__(/*! ../../../config/config.json */ 3);
 var SensorService = (function () {
     function SensorService() {
     }
@@ -6818,7 +6719,7 @@ exports.SensorServiceInstance = new SensorService();
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var GatewayService_1 = __webpack_require__(/*! ../services/GatewayService */ 52);
-var cfg = __webpack_require__(/*! ./../../config/config.json */ 2);
+var cfg = __webpack_require__(/*! ../../../config/config.json */ 3);
 var GatewayController = (function () {
     function GatewayController(router) {
         this.router = router;
@@ -6893,7 +6794,7 @@ exports.default = GatewayController;
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Promise) {
 Object.defineProperty(exports, "__esModule", { value: true });
-var cfg = __webpack_require__(/*! ./../../config/config.json */ 2);
+var cfg = __webpack_require__(/*! ../../../config/config.json */ 3);
 var GatewayService = (function () {
     function GatewayService() {
     }
@@ -7059,6 +6960,151 @@ exports.GatewayServiceInstance = new GatewayService();
 
 /***/ }),
 /* 53 */
+/*!*****************************!*\
+  !*** ./src/startUp/miio.ts ***!
+  \*****************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var miio = __webpack_require__(/*! miio */ 54);
+function findIdInArray(targetArray, id) {
+    var returnValue = -1;
+    if (!targetArray) {
+        console.log("findIdInArray: exit, array is null");
+        return returnValue;
+    }
+    targetArray.forEach(function (item, index) {
+        if (item.id === id) {
+            returnValue = index;
+        }
+    });
+    console.log("findIdInArray: element at index: " + returnValue);
+    return returnValue;
+}
+function registerDevices(app) {
+    var devices = miio.devices({
+        cacheTime: 15
+    });
+    devices.on("available", function (reg) {
+        console.log("Refresh Device");
+        var device = reg.device;
+        if (!device) {
+            console.log(reg.id, "could not be connected to");
+            return;
+        }
+        if (!reg.token && device.type !== "sensor") {
+            console.log(reg.id, "hides its token. Leave function");
+            return;
+        }
+        console.log("@@ Detected Device: " + device.id + " (" + device.type + ") @@");
+        device.on("propertyChanged", function (e) {
+            return console.log("propertyChanged: " + e.property, e.oldValue, e.value);
+        });
+        device.on("action", function (e) { return console.log("Action performed:", e.id); });
+        var indexOfElement = -1;
+        switch (device.type) {
+            case "vacuum":
+                indexOfElement = findIdInArray(app.locals.xiaomi.robots, device.id);
+                if (indexOfElement < 0) {
+                    console.log("Robot existiert nicht");
+                    app.locals.xiaomi.robots.push(device);
+                }
+                else {
+                    console.log("Robot existiert", device.id);
+                    app.locals.xiaomi.robots[indexOfElement] = device;
+                }
+                break;
+            case "light":
+                indexOfElement = findIdInArray(app.locals.xiaomi.yeelights, device.id);
+                if (indexOfElement < 0) {
+                    console.log("Licht existiert nicht");
+                    app.locals.xiaomi.yeelights.push(device);
+                }
+                else {
+                    console.log("Licht existiert", device.id);
+                    app.locals.xiaomi.yeelights[indexOfElement] = device;
+                }
+                break;
+            case "gateway":
+                indexOfElement = findIdInArray(app.locals.xiaomi.gateways, device.id);
+                if (indexOfElement < 0) {
+                    console.log("Gateway existiert nicht");
+                    app.locals.xiaomi.gateways.push(device);
+                }
+                else {
+                    console.log("Gateway existiert", reg.id);
+                    app.locals.xiaomi.gateways[indexOfElement] = device;
+                }
+                break;
+            case "sensor":
+                indexOfElement = findIdInArray(app.locals.xiaomi.sensors, device.id);
+                if (indexOfElement < 0) {
+                    console.log("Sensor existiert nicht");
+                    app.locals.xiaomi.sensors.push(device);
+                }
+                else {
+                    console.log("Sensor existiert", device.id);
+                    app.locals.xiaomi.sensors[indexOfElement] = device;
+                }
+                break;
+            default:
+                "Found no Type: " + device.type;
+        }
+    });
+    devices.on("unavailable", function (reg) {
+        if (!reg.device) {
+            console.log("Device " + reg.id + " not available");
+            return;
+        }
+        var device = reg.device;
+        console.log("Device " + device.id + " not available. Remove from Collection");
+        var indexOfElement = findIdInArray(app.locals.xiaomi.sensors, device.id);
+        if (indexOfElement < 0) {
+            indexOfElement = findIdInArray(app.locals.xiaomi.gateways, device.id);
+        }
+        else {
+            app.locals.xiaomi.sensors.splice(indexOfElement, 1);
+            return;
+        }
+        if (indexOfElement < 0) {
+            indexOfElement = findIdInArray(app.locals.xiaomi.yeelights, device.id);
+        }
+        else {
+            app.locals.xiaomi.gateways.splice(indexOfElement, 1);
+            return;
+        }
+        if (indexOfElement < 0) {
+            return;
+        }
+        else {
+            app.locals.xiaomi.yeelights.splice(indexOfElement, 1);
+        }
+        console.log("Device mit Id " + device.id + " entfernt");
+    });
+    devices.on("error", function (err) {
+        console.log("Something went wrong connecting to device", err);
+    });
+}
+exports.registerDevices = registerDevices;
+
+
+/***/ }),
+/* 54 */
+/*!***********************!*\
+  !*** external "miio" ***!
+  \***********************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports) {
+
+module.exports = require("miio");
+
+/***/ }),
+/* 55 */
 /*!******************************!*\
   !*** external "body-parser" ***!
   \******************************/
@@ -7069,7 +7115,7 @@ exports.GatewayServiceInstance = new GatewayService();
 module.exports = require("body-parser");
 
 /***/ }),
-/* 54 */
+/* 56 */
 /*!**************************!*\
   !*** external "mongodb" ***!
   \**************************/
@@ -7078,17 +7124,6 @@ module.exports = require("body-parser");
 /***/ (function(module, exports) {
 
 module.exports = require("mongodb");
-
-/***/ }),
-/* 55 */
-/*!***********************!*\
-  !*** external "miio" ***!
-  \***********************/
-/*! dynamic exports provided */
-/*! all exports used */
-/***/ (function(module, exports) {
-
-module.exports = require("miio");
 
 /***/ })
 /******/ ]);

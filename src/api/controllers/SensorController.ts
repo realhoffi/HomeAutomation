@@ -3,7 +3,7 @@ import express from "express";
 import * as SensorService from "../services/SensorService";
 import { IBaseWeatherSensor } from "../../interfaces/xiaomi";
 import { SensorServiceInstance } from "../services/SensorService";
-const cfg = require("./../../config/config.json");
+const cfg = require("../../../config/config.json");
 class SensorController {
   router: express.Router;
   constructor(router: express.Router) {

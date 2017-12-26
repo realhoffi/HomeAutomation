@@ -2,7 +2,7 @@
 import express from "express";
 import { LightServiceInstance } from "../services/LightService";
 import { ILightModel } from "../../interfaces/xiaomi";
-const cfg = require("./../../config/config.json");
+const cfg = require("../../../config/config.json");
 class LightController {
   router: express.Router;
   constructor(router: express.Router) {
@@ -27,7 +27,6 @@ class LightController {
     );
     this.router.post("/lights/:id/color/:value", this.setColor.bind(this));
   }
-
   getLights(req: express.Request, res: express.Response) {
     let result = LightServiceInstance.getLights(req.app);
     res.json({ lights: result });

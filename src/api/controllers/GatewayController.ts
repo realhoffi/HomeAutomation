@@ -2,7 +2,7 @@
 import express from "express";
 import { GatewayServiceInstance } from "../services/GatewayService";
 import { IGatewayModel, IRGBColor } from "../../interfaces/xiaomi";
-const cfg = require("./../../config/config.json");
+const cfg = require("../../../config/config.json");
 
 class GatewayController {
   router: express.Router;

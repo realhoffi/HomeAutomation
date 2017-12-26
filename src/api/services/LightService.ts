@@ -2,7 +2,7 @@
 import { ILightModel } from "../../interfaces/xiaomi";
 import { Application } from "express";
 
-const cfg = require("./../../config/config.json");
+const cfg = require("../../../config/config.json");
 class LightService {
   getLights(app: Application): ILightModel[] {
     let result: ILightModel[] = [];
