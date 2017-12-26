@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { Application as YeelightApplication } from "../../../projects/yeelight/components/pages/application";
 import { Application as VacuumApplication } from "../../../projects/vacuumRoboter/components/pages/application";
-import { Application as AldiApplication } from "../../../projects/aldi/components/pages/Application";
+import { Application as AldiApplication } from "../../../projects/aldi/components/pages/application";
 import { Application as SensorApplication } from "../../../projects/xiaomi/components/pages/sensors";
 import { Application as GatewayApplication } from "../../../projects/xiaomi/components/pages/gateways";
 

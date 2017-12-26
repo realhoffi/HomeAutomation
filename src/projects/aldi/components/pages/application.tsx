@@ -16,7 +16,7 @@ import {
   Callout
 } from "office-ui-fabric-react";
 import { Modal } from "office-ui-fabric-react/lib/Modal";
-import { ManageRoute } from "./ManageRoute";
+import { ManageRoute } from "./manageRoute";
 import { PageType } from "../../../../enums/enums";
 import { SyntheticEvent, MouseEventHandler } from "react";
 import { CalloutContent } from "office-ui-fabric-react/lib/components/Callout/CalloutContent";
