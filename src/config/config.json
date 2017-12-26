@@ -1,0 +1,80 @@
+{
+  "devices": {
+    "sensors": [
+      {
+        "name": "Sensor Wohnzimmer",
+        "beschreibung": "Rund",
+        "ort": "Wohnzimmer",
+        "id": "158d0001c19abd",
+        "model": "lumi.sensor_ht",
+        "type": "sensor"
+      },
+      {
+        "name": "Sensor Schlafzimmer",
+        "beschreibung": "rund",
+        "ort": "Schlafzimmer",
+        "id": "158d0001c19ab8",
+        "type": "sensor",
+        "model": "lumi.sensor_ht"
+      },
+      {
+        "name": "Sensor Bad",
+        "beschreibung": "Eckig",
+        "ort": "Bad",
+        "id": "158d0001b962aa",
+        "type": "sensor",
+        "model": "lumi.weather"
+      },
+      {
+        "name": "Sensor Terasse",
+        "beschreibung": "Eckig",
+        "ort": "Terasse",
+        "id": "158d0001b9635d",
+        "type": "sensor",
+        "model": "lumi.weather"
+      }
+    ],
+    "robots": [
+      {
+        "name": "Staubsauger",
+        "beschreibung": "",
+        "ort": "Wohnzimmer",
+        "id": "74217308",
+        "type": "vacuum",
+        "model": "rockrobo.vacuum.v1",
+        "token": "7932627133756e393939483475574d58"
+      }
+    ],
+    "lights": [
+      {
+        "name": "Lampe Bad",
+        "beschreibung": "",
+        "ort": "Badezimmer",
+        "id": "72779159",
+        "type": "light",
+        "model": "yeelink.light.color1",
+        "token": ""
+      },
+      {
+        "name": "Lampe Bad neu",
+        "beschreibung": "",
+        "ort": "Badezimmer",
+        "id": "77079675",
+        "type": "light",
+        "model": "yeelink.light.color1",
+        "token": "623f34fc24bffabc06a1a1605b0858b4"
+      }
+    ],
+    "gateways": [
+      {
+        "name": "Hauptgateway",
+        "beschreibung": "",
+        "ort": "Wohnzimmer",
+        "id": "73058750",
+        "model": "lumi.gateway.v3",
+        "address": "192.168.178.45",
+        "token": "ff2e9a62f90e0fe5f365a744460616c7"
+      }
+    ]
+  }
+}
