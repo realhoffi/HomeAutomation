@@ -6,7 +6,7 @@ import {
   IRGBColor,
   IBaseWeatherSensor,
   IGatewayModel
-} from "../../../../models/xiaomi";
+} from "../../../../interfaces/xiaomi";
 import { BaseLight } from "../../../../global/components/simple/BaseLight";
 import { BaseWeatherSensor } from "../../../../global/components/simple/BaseWeatherSensor";
 import { setInterval } from "timers";

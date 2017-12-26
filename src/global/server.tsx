@@ -3,7 +3,7 @@ import { Server } from "http";
 import * as http from "http";
 import express = require("express");
 import * as React from "react";
-import debug = require("debug");
+// import debug = require("debug");
 import url = require("url");
 import fs = require("fs");
 import { StaticRouter } from "react-router-dom";
@@ -11,8 +11,11 @@ import favicon = require("serve-favicon");
 import { registerRoutes } from "../api/routes/routes";
 import bodyParser = require("body-parser");
 import { Request } from "express";
+import { MongoClient } from "mongodb";
 
-import Aqara = require("lumi-aqara");
+const client = MongoClient;
+// import Aqara = require("lumi-aqara");
+// const MongoClient = require("mongodb").MongoClient;
 
 const miio = require("miio");
 
@@ -51,7 +54,7 @@ function findIdInArray(targetArray: any[], id): number {
 }
 
 const app = express();
-const log = debug("serverjs");
+// const log = debug("serverjs");
 const port = normalizePort(process.env.PORT || 8080);
 const env = process.env.NODE_ENV || "production";
 
@@ -65,7 +68,6 @@ app.use(bodyParser.json());
 
 // REGISTER OUR ROUTES -------------------------------
 let router = express.Router();
-
 router.use(function(req, res, next) {
   let uri = getUriFromRequest(req);
   console.log("Request on URL: " + uri);
@@ -79,7 +81,8 @@ app.locals = {
   xiaomi: {
     gateways: [],
     yeelights: [],
-    sensors: []
+    sensors: [],
+    robots: []
   }
 };
 
@@ -126,7 +129,7 @@ const devices = miio.devices({
 devices.on("available", reg => {
   console.log("Refresh Device");
   const device = reg.device;
-
+  // console.log(reg);
   if (!device) {
     console.log(reg.id, "could not be connected to");
     return;
@@ -136,6 +139,8 @@ devices.on("available", reg => {
     console.log(reg.id, "hides its token. Leave function");
     return;
   }
+  console.log("@@ Detected Device: " + device.id + " (" + device.type + ") @@");
+
   device.on("propertyChanged", e =>
     console.log("propertyChanged: " + e.property, e.oldValue, e.value)
   );
@@ -145,11 +150,21 @@ devices.on("available", reg => {
   // console.log(reg);
   // console.log("@@device.type: " + device.type);
 
-  console.log("Detected Device: " + device.id + " (" + device.type + ")");
+  // device.discover().then(info => console.log(info));
   // device.management.info().then(console.log);
 
   let indexOfElement = -1;
   switch (device.type) {
+    case "vacuum":
+      indexOfElement = findIdInArray(app.locals.xiaomi.robots, device.id);
+      if (indexOfElement < 0) {
+        console.log("Robot existiert nicht");
+        app.locals.xiaomi.robots.push(device);
+      } else {
+        console.log("Robot existiert", device.id);
+        app.locals.xiaomi.robots[indexOfElement] = device;
+      }
+      break;
     case "light":
       indexOfElement = findIdInArray(app.locals.xiaomi.yeelights, device.id);
       if (indexOfElement < 0) {
@@ -235,6 +250,19 @@ devices.on("error", err => {
 });
 
 // const device = miio.createDevice({
+//   address: "192.168.178.47",
+//   token: "414375516b425130423230383676396d",
+//   model: "rockrobo.vacuum.v1"
+// });
+// device
+//   .monitor(60000)
+//   .then(r => {
+//     console.log("wuuuuuuuuuuuuuu Init Dv: " + r);
+//   })
+//   .catch(error => {
+//     console.error("FEHLER: !" + error);
+//   });
+// const device = miio.createDevice({
 //     address: "192.168.178.46",
 //     token: "2ac2001076e0dc34df6c0f05a68f011e",
 //     model: "yeelink.light.color1"
@@ -255,10 +283,6 @@ devices.on("error", err => {
 //     .catch((e) => { console.error(e); });
 // PW LAND : E2DFC915F00C49B4  192.168.178.45
 
-// Token Lampe1
-// miio --update 72779159 --token 2ac2001076e0dc34df6c0f05a68f011e
-// miio --update 74217308 --token 4f5372474e4871387644464e6c30766d
-// miio --update 77079675 --token 11748859bcfa963c2fd0c9f86a8b54a8
-// Token Yeelight Bad (alt): 2ac2001076e0dc34df6c0f05a68f011e
-// Token Yeelight Bad (neu): 11748859bcfa963c2fd0c9f86a8b54a8
-// Token Roboter: 4f5372474e4871387644464e6c30766d
+// miio --update 72779159 --token 1d875d510c9dd2c28e19abc2c3fed89b
+// miio --update 74217308 --token 7932627133756e393939483475574d58
+// miio --update 77079675 --token 623f34fc24bffabc06a1a1605b0858b4

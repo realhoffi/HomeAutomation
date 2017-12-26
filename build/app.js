@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 6);
+/******/ 	return __webpack_require__(__webpack_require__.s = 7);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -74,7 +74,7 @@
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Promise) {
-var es5 = __webpack_require__(/*! ./es5 */ 2);
+var es5 = __webpack_require__(/*! ./es5 */ 3);
 var canEvaluate = typeof navigator == "undefined";
 
 var errorObj = {e: {}};
@@ -454,7 +454,7 @@ if (ret.isNode) ret.toFastProperties(process);
 try {throw new Error(); } catch (e) {ret.lastLineError = e;}
 module.exports = ret;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 3)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 4)))
 
 /***/ }),
 /* 1 */
@@ -467,7 +467,7 @@ module.exports = ret;
 
 "use strict";
 
-var es5 = __webpack_require__(/*! ./es5 */ 2);
+var es5 = __webpack_require__(/*! ./es5 */ 3);
 var Objectfreeze = es5.freeze;
 var util = __webpack_require__(/*! ./util */ 0);
 var inherits = util.inherits;
@@ -586,6 +586,17 @@ module.exports = {
 
 /***/ }),
 /* 2 */
+/*!********************************!*\
+  !*** ./src/config/config.json ***!
+  \********************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports) {
+
+module.exports = {"devices":{"sensors":[{"name":"Sensor Wohnzimmer","beschreibung":"Rund","ort":"Wohnzimmer","id":"158d0001c19abd","model":"lumi.sensor_ht","type":"sensor"},{"name":"Sensor Schlafzimmer","beschreibung":"rund","ort":"Schlafzimmer","id":"158d0001c19ab8","type":"sensor","model":"lumi.sensor_ht"},{"name":"Sensor Bad","beschreibung":"Eckig","ort":"Bad","id":"158d0001b962aa","type":"sensor","model":"lumi.weather"},{"name":"Sensor Terasse","beschreibung":"Eckig","ort":"Terasse","id":"158d0001b9635d","type":"sensor","model":"lumi.weather"}],"robots":[{"name":"Staubsauger","beschreibung":"","ort":"Wohnzimmer","id":"74217308","type":"vacuum","model":"rockrobo.vacuum.v1","token":"7932627133756e393939483475574d58"}],"lights":[{"name":"Lampe Bad","beschreibung":"","ort":"Badezimmer","id":"72779159","type":"light","model":"yeelink.light.color1","token":""},{"name":"Lampe Bad neu","beschreibung":"","ort":"Badezimmer","id":"77079675","type":"light","model":"yeelink.light.color1","token":"623f34fc24bffabc06a1a1605b0858b4"}],"gateways":[{"name":"Hauptgateway","beschreibung":"","ort":"Wohnzimmer","id":"73058750","model":"lumi.gateway.v3","address":"192.168.178.45","token":"ff2e9a62f90e0fe5f365a744460616c7"}]}}
+
+/***/ }),
+/* 3 */
 /*!*************************************************!*\
   !*** ./node_modules/bluebird/js/release/es5.js ***!
   \*************************************************/
@@ -676,7 +687,7 @@ if (isES5) {
 
 
 /***/ }),
-/* 3 */
+/* 4 */
 /*!******************************************************!*\
   !*** ./node_modules/bluebird/js/release/bluebird.js ***!
   \******************************************************/
@@ -693,14 +704,14 @@ function noConflict() {
     catch (e) {}
     return bluebird;
 }
-var bluebird = __webpack_require__(/*! ./promise */ 15)();
+var bluebird = __webpack_require__(/*! ./promise */ 18)();
 bluebird.noConflict = noConflict;
 module.exports = bluebird;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 3)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 4)))
 
 /***/ }),
-/* 4 */
+/* 5 */
 /*!**********************************************************!*\
   !*** ./node_modules/bluebird/js/release/catch_filter.js ***!
   \**********************************************************/
@@ -712,7 +723,7 @@ module.exports = bluebird;
 
 module.exports = function(NEXT_FILTER) {
 var util = __webpack_require__(/*! ./util */ 0);
-var getKeys = __webpack_require__(/*! ./es5 */ 2).keys;
+var getKeys = __webpack_require__(/*! ./es5 */ 3).keys;
 var tryCatch = util.tryCatch;
 var errorObj = util.errorObj;
 
@@ -754,7 +765,7 @@ return catchFilter;
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /*!******************************************************!*\
   !*** ./node_modules/bluebird/js/release/nodeback.js ***!
   \******************************************************/
@@ -768,7 +779,7 @@ var util = __webpack_require__(/*! ./util */ 0);
 var maybeWrapAsError = util.maybeWrapAsError;
 var errors = __webpack_require__(/*! ./errors */ 1);
 var OperationalError = errors.OperationalError;
-var es5 = __webpack_require__(/*! ./es5 */ 2);
+var es5 = __webpack_require__(/*! ./es5 */ 3);
 
 function isUntypedError(obj) {
     return obj instanceof Error &&
@@ -817,7 +828,7 @@ module.exports = nodebackForPromise;
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /*!*************************************!*\
   !*** multi ./src/global/server.tsx ***!
   \*************************************/
@@ -825,11 +836,11 @@ module.exports = nodebackForPromise;
 /*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! ./src/global/server.tsx */7);
+module.exports = __webpack_require__(/*! ./src/global/server.tsx */8);
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /*!*******************************!*\
   !*** ./src/global/server.tsx ***!
   \*******************************/
@@ -840,15 +851,16 @@ module.exports = __webpack_require__(/*! ./src/global/server.tsx */7);
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var path = __webpack_require__(/*! path */ 8);
-var http = __webpack_require__(/*! http */ 9);
-var express = __webpack_require__(/*! express */ 10);
-var debug = __webpack_require__(/*! debug */ 11);
+var path = __webpack_require__(/*! path */ 9);
+var http = __webpack_require__(/*! http */ 10);
+var express = __webpack_require__(/*! express */ 11);
 var url = __webpack_require__(/*! url */ 12);
 var favicon = __webpack_require__(/*! serve-favicon */ 13);
 var routes_1 = __webpack_require__(/*! ../api/routes/routes */ 14);
-var bodyParser = __webpack_require__(/*! body-parser */ 48);
-var miio = __webpack_require__(/*! miio */ 49);
+var bodyParser = __webpack_require__(/*! body-parser */ 53);
+var mongodb_1 = __webpack_require__(/*! mongodb */ 54);
+var client = mongodb_1.MongoClient;
+var miio = __webpack_require__(/*! miio */ 55);
 function normalizePort(val) {
     var port = parseInt(val, 10);
     if (isNaN(port)) {
@@ -881,7 +893,6 @@ function findIdInArray(targetArray, id) {
     return returnValue;
 }
 var app = express();
-var log = debug("serverjs");
 var port = normalizePort(Object({"NODE_ENV":"development"}).PORT || 8080);
 var env = "development" || "production";
 app.set("port", port);
@@ -902,7 +913,8 @@ app.locals = {
     xiaomi: {
         gateways: [],
         yeelights: [],
-        sensors: []
+        sensors: [],
+        robots: []
     }
 };
 app.get("/", function (request, response) {
@@ -945,13 +957,24 @@ devices.on("available", function (reg) {
         console.log(reg.id, "hides its token. Leave function");
         return;
     }
+    console.log("@@ Detected Device: " + device.id + " (" + device.type + ") @@");
     device.on("propertyChanged", function (e) {
         return console.log("propertyChanged: " + e.property, e.oldValue, e.value);
     });
     device.on("action", function (e) { return console.log("Action performed:", e.id); });
-    console.log("Detected Device: " + device.id + " (" + device.type + ")");
     var indexOfElement = -1;
     switch (device.type) {
+        case "vacuum":
+            indexOfElement = findIdInArray(app.locals.xiaomi.robots, device.id);
+            if (indexOfElement < 0) {
+                console.log("Robot existiert nicht");
+                app.locals.xiaomi.robots.push(device);
+            }
+            else {
+                console.log("Robot existiert", device.id);
+                app.locals.xiaomi.robots[indexOfElement] = device;
+            }
+            break;
         case "light":
             indexOfElement = findIdInArray(app.locals.xiaomi.yeelights, device.id);
             if (indexOfElement < 0) {
@@ -1025,7 +1048,7 @@ devices.on("error", function (err) {
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /*!***********************!*\
   !*** external "path" ***!
   \***********************/
@@ -1036,7 +1059,7 @@ devices.on("error", function (err) {
 module.exports = require("path");
 
 /***/ }),
-/* 9 */
+/* 10 */
 /*!***********************!*\
   !*** external "http" ***!
   \***********************/
@@ -1047,7 +1070,7 @@ module.exports = require("path");
 module.exports = require("http");
 
 /***/ }),
-/* 10 */
+/* 11 */
 /*!**************************!*\
   !*** external "express" ***!
   \**************************/
@@ -1056,17 +1079,6 @@ module.exports = require("http");
 /***/ (function(module, exports) {
 
 module.exports = require("express");
-
-/***/ }),
-/* 11 */
-/*!************************!*\
-  !*** external "debug" ***!
-  \************************/
-/*! dynamic exports provided */
-/*! all exports used */
-/***/ (function(module, exports) {
-
-module.exports = require("debug");
 
 /***/ }),
 /* 12 */
@@ -1100,450 +1112,31 @@ module.exports = require("serve-favicon");
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(Promise) {
+
 Object.defineProperty(exports, "__esModule", { value: true });
-var os = __webpack_require__(/*! os */ 45);
-var cfg = __webpack_require__(/*! ./../../config/config.json */ 46);
+var os = __webpack_require__(/*! os */ 15);
+var LightController_1 = __webpack_require__(/*! ../controllers/LightController */ 16);
+var SensorController_1 = __webpack_require__(/*! ../controllers/SensorController */ 49);
+var GatewayController_1 = __webpack_require__(/*! ../controllers/GatewayController */ 51);
+var cfg = __webpack_require__(/*! ./../../config/config.json */ 2);
 function registerRoutes(router) {
-    router.route("/sensors").get(function (req, res) {
-        var result = [];
-        var sensors = req.app.locals.xiaomi.sensors;
-        if (!sensors || sensors.length < 1) {
-            res.json({ sensors: result });
-            return;
-        }
-        if (sensors && sensors.length > 0) {
-            result = sensors.map(function (sensor, index) {
-                return {
-                    name: "",
-                    hasPressure: sensor.hasCapability("pressure"),
-                    id: sensor.id,
-                    ip: sensor.ip,
-                    humidity: sensor.humidity || -1,
-                    pressure: sensor.hasCapability("pressure") ? sensor.pressure : -1,
-                    temperature: sensor.temperature || -1
-                };
-            });
-        }
-        cfg.devices.sensors.forEach(function (sensor) {
-            result.forEach(function (sens) {
-                if (sens.id === sensor.id) {
-                    sens.name = sensor.name;
-                }
+    var n1 = new LightController_1.default(router);
+    var n2 = new SensorController_1.default(router);
+    var n3 = new GatewayController_1.default(router);
+    router.route("/robots").get(function (req, res) {
+        var robots = req.app.locals.xiaomi.robots;
+        var robotsState = [];
+        robots.forEach(function (rob) {
+            robotsState.push({
+                battery: rob.battery,
+                in_cleaning: rob.in_cleaning,
+                fan_power: rob.fan_power,
+                clean_area: rob.clean_area,
+                clean_time: rob.clean_time,
+                state: rob.state
             });
         });
-        res.json({ sensors: result });
-    });
-    router.route("/sensors/:id/info/:properties").get(function (req, res) {
-        var sensors = req.app.locals.xiaomi.sensors;
-        var sensor = sensors.find(function (sens) {
-            return sens.id === req.params.id;
-        });
-        if (sensor) {
-            sensor._parent
-                .call("get_device_prop_exp", [
-                ["lumi." + sensor.id].concat(req.params.properties.split(";"))
-            ])
-                .then(function (resultProperties) {
-                res.json({ id: req.params.id, properties: resultProperties });
-            })
-                .catch(function (error) {
-                console.log(error);
-                res.status(500).json({ info: "Error fetching Info" });
-            });
-        }
-        else {
-            res.status(500).json({ info: "sensor not found" });
-        }
-    });
-    router.route("/sensors/:id/info/read/:prop").get(function (req, res) {
-        var sensors = req.app.locals.xiaomi.sensors;
-        var sensor = sensors.find(function (sens) {
-            return sens.id === req.params.id;
-        });
-        if (sensor) {
-            var b = "";
-            if (req.params.prop == 1) {
-                b = '{"cmd": "whois"}';
-            }
-            else {
-                b = '{"cmd": "get_id_list"}';
-            }
-            sensor._parent.devApi.send(b);
-            sensor._parent.devApi.send("{\"cmd\": \"get_id_list\", \"sid\": \"" + sensor.id + "\"}");
-            sensor._parent.devApi.send("{\"cmd\": \"read\", \"sid\": \"" + sensor.id + "\"}");
-            b = "{\"cmd\": \"get_id_list\", \"sid\": \"" + sensor.id + "\"}";
-            sensor._parent.devApi.send(b);
-        }
-        else {
-            res.status(500).json({ info: "sensor not found" });
-        }
-    });
-    router.route("/lights").get(function (req, res) {
-        var result = [];
-        var yeelights = req.app.locals.xiaomi.yeelights;
-        if (!yeelights || yeelights.length < 1) {
-            res.json({ lights: result });
-            res.end();
-            return;
-        }
-        result = yeelights.map(function (light, index) {
-            return {
-                name: "",
-                power: light.power,
-                id: light.id,
-                intensity: light.intensity,
-                brightness: light.brightness,
-                colorTemperature: light.colorTemperature,
-                ip: light.address,
-                rgb: light.rgb || { b: 0, g: 0, r: 0 }
-            };
-        });
-        cfg.devices.lights.forEach(function (light) {
-            result.forEach(function (lightModel) {
-                if (lightModel.id === light.id) {
-                    lightModel.name = light.name;
-                }
-            });
-        });
-        res.json({ lights: result });
-    });
-    router.route("/lights/details").get(function (req, res) {
-        var result = [];
-        var yeelights = req.app.locals.xiaomi.yeelights;
-        if (!yeelights || yeelights.length < 1) {
-            res.json({ lights: result });
-            return;
-        }
-        result = yeelights.map(function (light, index) {
-            return {
-                name: "",
-                power: light.power,
-                id: light.id,
-                intensity: light.intensity,
-                brightness: light.brightness,
-                colorTemperature: light.colorTemperature,
-                ip: light.address,
-                rgb: light.rgb || { b: 0, g: 0, r: 0 }
-            };
-        });
-        cfg.devices.lights.forEach(function (light) {
-            result.forEach(function (lightModel) {
-                if (lightModel.id === light.id) {
-                    lightModel.name = light.name;
-                }
-            });
-        });
-        var requests = yeelights.map(function (light) {
-            return light.call("get_prop", ["rgb", "ct", "name", "HUE"]);
-        });
-        Promise.all(requests)
-            .then(function (resultProperties) {
-            resultProperties.forEach(function (properties, index) {
-                console.log("PROPERTIES: " + properties);
-                var intToRGB = __webpack_require__(/*! int-to-rgb */ 47);
-                var rgbInt = parseInt(properties[0]);
-                var colors = intToRGB(rgbInt);
-                result[index].rgb = {
-                    b: colors.blue,
-                    g: colors.green,
-                    r: colors.red
-                };
-                result[index].colorTemperature = properties[1];
-            });
-            res.json({ lights: result });
-        })
-            .catch(function () {
-            res.status(500).json({ error: "error" });
-        });
-    });
-    router.route("/lights/:id/info/:properties").get(function (req, res) {
-        var yeelights = req.app.locals.xiaomi.yeelights;
-        var light = yeelights.find(function (gw) {
-            return gw.id === req.params.id;
-        });
-        if (light) {
-            light
-                .call("get_prop", req.params.properties.split(";"))
-                .then(function (resultProperties) {
-                res.json({ id: req.params.id, properties: resultProperties });
-            })
-                .catch(function () {
-                res.status(500).json({ info: "Error fetching Info" });
-            });
-        }
-        else {
-            res.status(500).json({ info: "Light not found" });
-        }
-    });
-    router.route("/lights/:id/power").post(function (req, res) {
-        var yeelights = req.app.locals.xiaomi.yeelights;
-        var light = yeelights.find(function (gw) {
-            return gw.id === req.params.id;
-        });
-        if (light) {
-            light
-                .setPower(!light.power)
-                .then(function (newValue, b) {
-                res.json({ power: newValue });
-            })
-                .catch(function () {
-                res.status(500).json({ power: "error" });
-            });
-        }
-        else {
-            res.status(500).json({ power: "Light not found" });
-        }
-    });
-    router.route("/lights/:id/brightness/:value").post(function (req, res) {
-        var yeelights = req.app.locals.xiaomi.yeelights;
-        var light = yeelights.find(function (gw) {
-            return gw.id === req.params.id;
-        });
-        if (light) {
-            console.log("found light: " + req.params.id + " @@ brightness: " + req.params.value);
-            var bright_1 = parseInt(req.params.value);
-            light
-                .setBrightness(bright_1)
-                .then(function () {
-                console.log("Light brightness: " + bright_1);
-                res.json({ brightness: req.params.value });
-            })
-                .catch(function () {
-                res.status(500).json({ brightness: "error" });
-            });
-        }
-        else {
-            res.status(500).json({ brightness: "Light not found" });
-        }
-    });
-    router.route("/lights/:id/temperature/:value").post(function (req, res) {
-        var yeelights = req.app.locals.xiaomi.yeelights;
-        var light = yeelights.find(function (gw) {
-            return gw.id === req.params.id;
-        });
-        if (light) {
-            var parsedValue = parseInt(req.params.value);
-            if (parsedValue < 1700 || parsedValue > 6500) {
-                res.status(500).json({ error: "value must between 1700 and 6500" });
-            }
-            light
-                .call("set_ct_abx", [parsedValue, "smooth", 100])
-                .then(function (a) {
-                console.log("set ct!" + a);
-                res.json({ set_ct_abx: req.params.value });
-            })
-                .catch(function () {
-                res.status(500).json({ set_ct_abx: "error" });
-            });
-        }
-        else {
-            res.status(500).json({ set_ct_abx: "error" });
-        }
-    });
-    router.route("/lights/:id/color/:value").post(function (req, res) {
-        var yeelights = req.app.locals.xiaomi.yeelights;
-        var light = yeelights.find(function (gw) {
-            return gw.id === req.params.id;
-        });
-        if (!light) {
-            res.status(500).json({ rgb: "light not found" });
-            return;
-        }
-        var parsedValue = parseInt(req.params.value);
-        if (isNaN(parsedValue)) {
-            res.status(500).json({ error: "value must between 1700 and 6500" });
-        }
-        light
-            .call("set_rgb", [parsedValue, "smooth", 500])
-            .then(function (newValue) {
-            res.json({ rgb: newValue });
-        })
-            .catch(function () {
-            res.status(500).json({ rgb: "error" });
-        });
-    });
-    router.route("/gateways").get(function (req, res) {
-        var result = [];
-        var gateways = req.app.locals.xiaomi.gateways;
-        if (!gateways || gateways.length < 1) {
-            res.json({ gateways: result });
-            return;
-        }
-        result = gateways.map(function (gw) {
-            return {
-                illuminance: gw.illuminance,
-                id: gw.id,
-                ip: gw.ip,
-                power: gw.brightness > 0,
-                rgb: gw.color || { b: 0, r: 0, g: 0 },
-                name: "",
-                brightness: gw.brightness
-            };
-        });
-        cfg.devices.gateways.forEach(function (gw) {
-            result.forEach(function (gwModel) {
-                if (gwModel.id === gw.id) {
-                    gwModel.name = gw.name;
-                }
-            });
-        });
-        var requests = gateways.map(function (gw) {
-            return gw.call("get_prop", ["rgb"]);
-        });
-        Promise.all(requests)
-            .then(function (resultProperties) {
-            resultProperties.forEach(function (properties, index) {
-                var buf = Buffer.alloc(4);
-                buf.writeUInt32BE(properties[0], 0);
-                result[index].rgb = {
-                    b: buf.readUInt8(3),
-                    g: buf.readUInt8(2),
-                    r: buf.readUInt8(1)
-                };
-                result[index].brightness = buf.readUInt8(0);
-            });
-            res.json({ gateways: result });
-        })
-            .catch(function (err) {
-            console.log("Error:" + JSON.stringify(err));
-            res.status(500).json({ error: "error" });
-        });
-    });
-    router.route("/gateways/:id/info/:properties").get(function (req, res) {
-        var gateways = req.app.locals.xiaomi.gateways;
-        var gateway = gateways.find(function (gw) {
-            return gw.id === req.params.id;
-        });
-        if (gateway) {
-            gateway
-                .call("get_prop", req.params.properties.split(";"))
-                .then(function (resultProperties) {
-                console.log("GWPROPS: " + JSON.stringify(resultProperties));
-                res.json({ id: req.params.id, properties: resultProperties });
-            })
-                .catch(function () {
-                res.status(500).json({ error: "prop not fetched" });
-            });
-        }
-        else {
-            res.status(500).json({ error: "Gateway not found" });
-        }
-    });
-    router
-        .route("/gateways/:id/info/:method/:properties")
-        .get(function (req, res) {
-        var gateways = req.app.locals.xiaomi.gateways;
-        var gateway = gateways.find(function (gw) {
-            return gw.id === req.params.id;
-        });
-        if (gateway) {
-            gateway
-                .call(req.params.method, req.params.properties.split(";"))
-                .then(function (resultProperties) {
-                console.log("GWPROPS: " + JSON.stringify(resultProperties));
-                res.json({ id: req.params.id, properties: resultProperties });
-            })
-                .catch(function () {
-                res.status(500).json({ error: "prop not fetched" });
-            });
-        }
-        else {
-            res.status(500).json({ error: "Gateway not found" });
-        }
-    });
-    router.route("/gateways/:id/devApi").get(function (req, res) {
-        var gateways = req.app.locals.xiaomi.gateways;
-        var gateway = gateways.find(function (gw) {
-            return gw.id === req.params.id;
-        });
-        if (gateway) {
-            console.log(gateway.id + "@@" + gateway.sid);
-            var b = '{"cmd": "whois"}';
-            b = '{"cmd": "get_id_list"}';
-            b = gateway.devApi.send(b);
-        }
-        else {
-            res.status(500).json({ error: "Gateway not found" });
-        }
-    });
-    router.route("/gateways/:id/brightness/:value").post(function (req, res) {
-        var gateways = req.app.locals.xiaomi.gateways;
-        var gateway = gateways.find(function (gw) {
-            return gw.id === req.params["id"];
-        });
-        if (gateway) {
-            var newBrightness = req.params.value;
-            var color = gateway.rgb;
-            var bright = gateway.brightness;
-            var brightness = Math.max(0, Math.min(100, Math.round(newBrightness)));
-            var rgb = (brightness << 24) |
-                (color.red << 16) |
-                (color.green << 8) |
-                color.blue;
-            gateway
-                .call("set_rgb", [rgb], { refresh: true })
-                .then(function (newValue) {
-                res.json({ rgb: newValue });
-            })
-                .catch(function () {
-                res.status(500).json({ error: "brightness not set" });
-            });
-        }
-        else {
-            res.status(500).json({ brightness: "error! can not set brightness" });
-        }
-    });
-    router.route("/gateways/:id/color").post(function (req, res) {
-        var gateways = req.app.locals.xiaomi.gateways;
-        var gateway = gateways.find(function (gw) {
-            return gw.id === req.params["id"];
-        });
-        var color = req.body.color;
-        console.log("Color: " + JSON.stringify(color));
-        if (gateway && color) {
-            console.log("found gw: " + req.params.id);
-            var brightness = Math.max(0, Math.min(100, Math.round(gateway.brightness)));
-            var rgb = (brightness << 24) | (color.r << 16) | (color.g << 8) | color.b;
-            console.log("new color: " + rgb);
-            gateway
-                .call("set_rgb", [rgb], { refresh: true })
-                .then(function (newValue) {
-                res.json({ rgb: newValue });
-            })
-                .catch(function () {
-                res.status(500).json({ error: "color not set" });
-            });
-        }
-    });
-    router.route("/gateways/:id/power").post(function (req, res) {
-        var gateways = req.app.locals.xiaomi.gateways;
-        var gateway = gateways.find(function (gw) {
-            return gw.id === req.params["id"];
-        });
-        if (gateway) {
-            var color = gateway.rgb;
-            var bright = gateway.brightness;
-            var brightness = Math.max(0, Math.min(100, Math.round(gateway.brightness > 0 ? 0 : 100)));
-            var rgb = (brightness << 24) |
-                (color.red << 16) |
-                (color.green << 8) |
-                color.blue;
-            console.log("RGB::: " + rgb);
-            gateway
-                .call("set_rgb", [rgb], { refresh: true })
-                .then(function (newValue) {
-                res.json({ power: gateway.brightness > 0 });
-            })
-                .catch(function () {
-                res.json({ error: "brightness not set" });
-            });
-        }
-        else {
-            res.status(500).json({
-                error: "Kein Gateway mit ID " + req.params["id"] + " gefunden"
-            });
-        }
+        res.json({ robots: robotsState });
     });
     router.route("/system").get(function (req, res) {
         res.json({
@@ -1561,10 +1154,333 @@ function registerRoutes(router) {
 }
 exports.registerRoutes = registerRoutes;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 3)))
 
 /***/ }),
 /* 15 */
+/*!*********************!*\
+  !*** external "os" ***!
+  \*********************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports) {
+
+module.exports = require("os");
+
+/***/ }),
+/* 16 */
+/*!************************************************!*\
+  !*** ./src/api/controllers/LightController.ts ***!
+  \************************************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var LightService_1 = __webpack_require__(/*! ../services/LightService */ 17);
+var cfg = __webpack_require__(/*! ./../../config/config.json */ 2);
+var LightController = (function () {
+    function LightController(router) {
+        this.router = router;
+        this.registerRoutes();
+    }
+    LightController.prototype.registerRoutes = function () {
+        this.router.get("/lights", this.getLights.bind(this));
+        this.router.get("/lights/details", this.getLightDetails.bind(this));
+        this.router.get("/lights/:id/info/:properties", this.getLightProperties.bind(this));
+        this.router.post("/lights/:id/power", this.setPower.bind(this));
+        this.router.post("/lights/:id/brightness/:value", this.setBrightness.bind(this));
+        this.router.post("/lights/:id/temperature/:value", this.setTemperature.bind(this));
+        this.router.post("/lights/:id/color/:value", this.setColor.bind(this));
+    };
+    LightController.prototype.getLights = function (req, res) {
+        var result = LightService_1.LightServiceInstance.getLights(req.app);
+        res.json({ lights: result });
+    };
+    LightController.prototype.getLightDetails = function (req, res) {
+        return LightService_1.LightServiceInstance.getLightDetails(req.app)
+            .then(function (lights) {
+            console.log("-.-: " + JSON.stringify(lights));
+            res.json({ lights: lights });
+        })
+            .catch(function (error) {
+            res.status(500).json({ error: error });
+        });
+    };
+    LightController.prototype.getLightProperties = function (req, res) {
+        return LightService_1.LightServiceInstance.getLightProperties(req.app, req.params.id, req.params.properties.split(";"))
+            .then(function (result) {
+            res.json(result);
+        })
+            .catch(function (error) {
+            res.status(500).json(error);
+        });
+    };
+    LightController.prototype.setPower = function (req, res) {
+        return LightService_1.LightServiceInstance.setPower(req.app, req.params.id)
+            .then(function (result) {
+            res.json(result);
+        })
+            .catch(function (error) {
+            res.status(500).json(error);
+        });
+    };
+    LightController.prototype.setBrightness = function (req, res) {
+        return LightService_1.LightServiceInstance.setBrightness(req.app, req.params.id, req.params.value)
+            .then(function (result) {
+            res.json(result);
+        })
+            .catch(function (error) {
+            res.status(500).json(error);
+        });
+    };
+    LightController.prototype.setTemperature = function (req, res) {
+        return LightService_1.LightServiceInstance.setTemperature(req.app, req.params.id, req.params.value)
+            .then(function (result) {
+            res.json(result);
+        })
+            .catch(function (error) {
+            res.status(500).json(error);
+        });
+    };
+    LightController.prototype.setColor = function (req, res) {
+        return LightService_1.LightServiceInstance.setColor(req.app, req.params.id, req.params.value)
+            .then(function (result) {
+            res.json(result);
+        })
+            .catch(function (error) {
+            res.status(500).json(error);
+        });
+    };
+    return LightController;
+}());
+exports.default = LightController;
+
+
+/***/ }),
+/* 17 */
+/*!******************************************!*\
+  !*** ./src/api/services/LightService.ts ***!
+  \******************************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(Promise) {
+Object.defineProperty(exports, "__esModule", { value: true });
+var cfg = __webpack_require__(/*! ./../../config/config.json */ 2);
+var LightService = (function () {
+    function LightService() {
+    }
+    LightService.prototype.getLights = function (app) {
+        var result = [];
+        var yeelights = app.locals.xiaomi.yeelights;
+        if (!yeelights || yeelights.length < 1) {
+            return result;
+        }
+        result = yeelights.map(function (light, index) {
+            return {
+                name: "",
+                power: light.power,
+                id: light.id,
+                intensity: light.intensity,
+                brightness: light.brightness,
+                colorTemperature: light.colorTemperature,
+                ip: light.address,
+                rgb: light.rgb || { b: 0, g: 0, r: 0 }
+            };
+        });
+        cfg.devices.lights.forEach(function (light) {
+            result.forEach(function (lightModel) {
+                if (lightModel.id === light.id) {
+                    lightModel.name = light.name;
+                }
+            });
+        });
+        return result;
+    };
+    LightService.prototype.getLightDetails = function (app) {
+        return new Promise(function (resolve, reject) {
+            var result = [];
+            var yeelights = app.locals.xiaomi.yeelights;
+            console.log("step 0:" + yeelights.length);
+            if (!yeelights || yeelights.length < 1) {
+                resolve(result);
+                return;
+            }
+            console.log("step 1");
+            result = yeelights.map(function (light, index) {
+                return {
+                    name: "",
+                    power: light.power,
+                    id: light.id,
+                    intensity: light.intensity,
+                    brightness: light.brightness,
+                    colorTemperature: light.colorTemperature,
+                    ip: light.address,
+                    rgb: light.rgb || { b: 0, g: 0, r: 0 }
+                };
+            });
+            cfg.devices.lights.forEach(function (light) {
+                result.forEach(function (lightModel) {
+                    if (lightModel.id === light.id) {
+                        lightModel.name = light.name;
+                    }
+                });
+            });
+            console.log("step 2");
+            var requests = yeelights.map(function (light) {
+                return light.call("get_prop", ["rgb", "ct", "name", "HUE"]);
+            });
+            Promise.all(requests)
+                .then(function (resultProperties) {
+                resultProperties.forEach(function (properties, index) {
+                    console.log("PROPERTIES: " + properties);
+                    var intToRGB = __webpack_require__(/*! int-to-rgb */ 48);
+                    var rgbInt = parseInt(properties[0]);
+                    var colors = intToRGB(rgbInt);
+                    result[index].rgb = {
+                        b: colors.blue,
+                        g: colors.green,
+                        r: colors.red
+                    };
+                    result[index].colorTemperature = properties[1];
+                });
+                resolve(result);
+            })
+                .catch(function (error) {
+                reject({ message: "error query 'get_prop'", error: error });
+            });
+        });
+    };
+    LightService.prototype.getLightProperties = function (app, lightId, properties) {
+        return new Promise(function (resolve, reject) {
+            var yeelights = app.locals.xiaomi.yeelights;
+            var light = yeelights.find(function (gw) {
+                return gw.id === lightId;
+            });
+            if (light) {
+                light
+                    .call("get_prop", properties)
+                    .then(function (resultProperties) {
+                    resolve({ id: lightId, properties: resultProperties });
+                })
+                    .catch(function () {
+                    reject({ info: "Error fetching Info" });
+                });
+            }
+            else {
+                reject({ info: "Light not found" });
+            }
+        });
+    };
+    LightService.prototype.setPower = function (app, lightId) {
+        return new Promise(function (resolve, reject) {
+            var yeelights = app.locals.xiaomi.yeelights;
+            var light = yeelights.find(function (gw) {
+                return gw.id === lightId;
+            });
+            if (!light) {
+                reject({ power: "Light not found" });
+                return;
+            }
+            light
+                .setPower(!light.power)
+                .then(function (newValue) {
+                resolve({ power: newValue });
+            })
+                .catch(function (error) {
+                reject({
+                    message: "can not set power",
+                    response: error,
+                    power: "error"
+                });
+            });
+        });
+    };
+    LightService.prototype.setBrightness = function (app, lightId, value) {
+        return new Promise(function (resolve, reject) {
+            var yeelights = app.locals.xiaomi.yeelights;
+            var light = yeelights.find(function (gw) {
+                return gw.id === lightId;
+            });
+            if (!light) {
+                reject({ brightness: "Light not found" });
+                return;
+            }
+            console.log("found light: " + lightId + " @@ brightness: " + value);
+            var bright = parseInt(value);
+            light
+                .setBrightness(bright)
+                .then(function (newValue) {
+                console.log("Light brightness: " + bright);
+                resolve({ brightness: newValue });
+            })
+                .catch(function () {
+                reject({ brightness: "error" });
+            });
+        });
+    };
+    LightService.prototype.setTemperature = function (app, lightId, value) {
+        return new Promise(function (resolve, reject) {
+            var yeelights = app.locals.xiaomi.yeelights;
+            var light = yeelights.find(function (gw) {
+                return gw.id === lightId;
+            });
+            if (!light) {
+                reject({ set_ct_abx: "light not found" });
+                return;
+            }
+            var parsedValue = parseInt(value);
+            if (parsedValue < 1700 || parsedValue > 6500) {
+                reject({ error: "value must between 1700 and 6500" });
+                return;
+            }
+            light
+                .call("set_ct_abx", [parsedValue, "smooth", 100])
+                .then(function (newValue) {
+                console.log("set ct!" + newValue);
+                resolve({ set_ct_abx: newValue });
+            })
+                .catch(function () {
+                reject({ set_ct_abx: "error" });
+            });
+        });
+    };
+    LightService.prototype.setColor = function (app, lightId, value) {
+        return new Promise(function (resolve, reject) {
+            var yeelights = app.locals.xiaomi.yeelights;
+            var light = yeelights.find(function (gw) {
+                return gw.id === lightId;
+            });
+            if (!light) {
+                reject({ rgb: "light not found" });
+                return;
+            }
+            var parsedValue = parseInt(value);
+            if (isNaN(parsedValue)) {
+                reject({ error: "can not parse color temperature" });
+            }
+            light
+                .call("set_rgb", [parsedValue, "smooth", 200])
+                .then(function (newValue) {
+                resolve({ rgb: newValue });
+            })
+                .catch(function () {
+                reject({ rgb: "error" });
+            });
+        });
+    };
+    return LightService;
+}());
+exports.LightServiceInstance = new LightService();
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 4)))
+
+/***/ }),
+/* 18 */
 /*!*****************************************************!*\
   !*** ./node_modules/bluebird/js/release/promise.js ***!
   \*****************************************************/
@@ -1602,8 +1518,8 @@ if (util.isNode) {
 }
 util.notEnumerableProp(Promise, "_getDomain", getDomain);
 
-var es5 = __webpack_require__(/*! ./es5 */ 2);
-var Async = __webpack_require__(/*! ./async */ 16);
+var es5 = __webpack_require__(/*! ./es5 */ 3);
+var Async = __webpack_require__(/*! ./async */ 19);
 var async = new Async();
 es5.defineProperty(Promise, "_async", {value: async});
 var errors = __webpack_require__(/*! ./errors */ 1);
@@ -1617,19 +1533,19 @@ Promise.AggregateError = errors.AggregateError;
 var INTERNAL = function(){};
 var APPLY = {};
 var NEXT_FILTER = {};
-var tryConvertToPromise = __webpack_require__(/*! ./thenables */ 19)(Promise, INTERNAL);
+var tryConvertToPromise = __webpack_require__(/*! ./thenables */ 22)(Promise, INTERNAL);
 var PromiseArray =
-    __webpack_require__(/*! ./promise_array */ 20)(Promise, INTERNAL,
+    __webpack_require__(/*! ./promise_array */ 23)(Promise, INTERNAL,
                                tryConvertToPromise, apiRejection, Proxyable);
-var Context = __webpack_require__(/*! ./context */ 21)(Promise);
+var Context = __webpack_require__(/*! ./context */ 24)(Promise);
  /*jshint unused:false*/
 var createContext = Context.create;
-var debug = __webpack_require__(/*! ./debuggability */ 22)(Promise, Context);
+var debug = __webpack_require__(/*! ./debuggability */ 25)(Promise, Context);
 var CapturedTrace = debug.CapturedTrace;
 var PassThroughHandlerContext =
-    __webpack_require__(/*! ./finally */ 23)(Promise, tryConvertToPromise, NEXT_FILTER);
-var catchFilter = __webpack_require__(/*! ./catch_filter */ 4)(NEXT_FILTER);
-var nodebackForPromise = __webpack_require__(/*! ./nodeback */ 5);
+    __webpack_require__(/*! ./finally */ 26)(Promise, tryConvertToPromise, NEXT_FILTER);
+var catchFilter = __webpack_require__(/*! ./catch_filter */ 5)(NEXT_FILTER);
+var nodebackForPromise = __webpack_require__(/*! ./nodeback */ 6);
 var errorObj = util.errorObj;
 var tryCatch = util.tryCatch;
 function check(self, executor) {
@@ -2299,31 +2215,31 @@ util.notEnumerableProp(Promise,
                        "_makeSelfResolutionError",
                        makeSelfResolutionError);
 
-__webpack_require__(/*! ./method */ 24)(Promise, INTERNAL, tryConvertToPromise, apiRejection,
+__webpack_require__(/*! ./method */ 27)(Promise, INTERNAL, tryConvertToPromise, apiRejection,
     debug);
-__webpack_require__(/*! ./bind */ 25)(Promise, INTERNAL, tryConvertToPromise, debug);
-__webpack_require__(/*! ./cancel */ 26)(Promise, PromiseArray, apiRejection, debug);
-__webpack_require__(/*! ./direct_resolve */ 27)(Promise);
-__webpack_require__(/*! ./synchronous_inspection */ 28)(Promise);
-__webpack_require__(/*! ./join */ 29)(
+__webpack_require__(/*! ./bind */ 28)(Promise, INTERNAL, tryConvertToPromise, debug);
+__webpack_require__(/*! ./cancel */ 29)(Promise, PromiseArray, apiRejection, debug);
+__webpack_require__(/*! ./direct_resolve */ 30)(Promise);
+__webpack_require__(/*! ./synchronous_inspection */ 31)(Promise);
+__webpack_require__(/*! ./join */ 32)(
     Promise, PromiseArray, tryConvertToPromise, INTERNAL, async, getDomain);
 Promise.Promise = Promise;
 Promise.version = "3.5.1";
-__webpack_require__(/*! ./map.js */ 30)(Promise, PromiseArray, apiRejection, tryConvertToPromise, INTERNAL, debug);
-__webpack_require__(/*! ./call_get.js */ 31)(Promise);
-__webpack_require__(/*! ./using.js */ 32)(Promise, apiRejection, tryConvertToPromise, createContext, INTERNAL, debug);
-__webpack_require__(/*! ./timers.js */ 33)(Promise, INTERNAL, debug);
-__webpack_require__(/*! ./generators.js */ 34)(Promise, apiRejection, INTERNAL, tryConvertToPromise, Proxyable, debug);
-__webpack_require__(/*! ./nodeify.js */ 35)(Promise);
-__webpack_require__(/*! ./promisify.js */ 36)(Promise, INTERNAL);
-__webpack_require__(/*! ./props.js */ 37)(Promise, PromiseArray, tryConvertToPromise, apiRejection);
-__webpack_require__(/*! ./race.js */ 38)(Promise, INTERNAL, tryConvertToPromise, apiRejection);
-__webpack_require__(/*! ./reduce.js */ 39)(Promise, PromiseArray, apiRejection, tryConvertToPromise, INTERNAL, debug);
-__webpack_require__(/*! ./settle.js */ 40)(Promise, PromiseArray, debug);
-__webpack_require__(/*! ./some.js */ 41)(Promise, PromiseArray, apiRejection);
-__webpack_require__(/*! ./filter.js */ 42)(Promise, INTERNAL);
-__webpack_require__(/*! ./each.js */ 43)(Promise, INTERNAL);
-__webpack_require__(/*! ./any.js */ 44)(Promise);
+__webpack_require__(/*! ./map.js */ 33)(Promise, PromiseArray, apiRejection, tryConvertToPromise, INTERNAL, debug);
+__webpack_require__(/*! ./call_get.js */ 34)(Promise);
+__webpack_require__(/*! ./using.js */ 35)(Promise, apiRejection, tryConvertToPromise, createContext, INTERNAL, debug);
+__webpack_require__(/*! ./timers.js */ 36)(Promise, INTERNAL, debug);
+__webpack_require__(/*! ./generators.js */ 37)(Promise, apiRejection, INTERNAL, tryConvertToPromise, Proxyable, debug);
+__webpack_require__(/*! ./nodeify.js */ 38)(Promise);
+__webpack_require__(/*! ./promisify.js */ 39)(Promise, INTERNAL);
+__webpack_require__(/*! ./props.js */ 40)(Promise, PromiseArray, tryConvertToPromise, apiRejection);
+__webpack_require__(/*! ./race.js */ 41)(Promise, INTERNAL, tryConvertToPromise, apiRejection);
+__webpack_require__(/*! ./reduce.js */ 42)(Promise, PromiseArray, apiRejection, tryConvertToPromise, INTERNAL, debug);
+__webpack_require__(/*! ./settle.js */ 43)(Promise, PromiseArray, debug);
+__webpack_require__(/*! ./some.js */ 44)(Promise, PromiseArray, apiRejection);
+__webpack_require__(/*! ./filter.js */ 45)(Promise, INTERNAL);
+__webpack_require__(/*! ./each.js */ 46)(Promise, INTERNAL);
+__webpack_require__(/*! ./any.js */ 47)(Promise);
                                                          
     util.toFastProperties(Promise);                                          
     util.toFastProperties(Promise.prototype);                                
@@ -2351,7 +2267,7 @@ __webpack_require__(/*! ./any.js */ 44)(Promise);
 
 
 /***/ }),
-/* 16 */
+/* 19 */
 /*!***************************************************!*\
   !*** ./node_modules/bluebird/js/release/async.js ***!
   \***************************************************/
@@ -2363,8 +2279,8 @@ __webpack_require__(/*! ./any.js */ 44)(Promise);
 
 var firstLineError;
 try {throw new Error(); } catch (e) {firstLineError = e;}
-var schedule = __webpack_require__(/*! ./schedule */ 17);
-var Queue = __webpack_require__(/*! ./queue */ 18);
+var schedule = __webpack_require__(/*! ./schedule */ 20);
+var Queue = __webpack_require__(/*! ./queue */ 21);
 var util = __webpack_require__(/*! ./util */ 0);
 
 function Async() {
@@ -2524,7 +2440,7 @@ module.exports.firstLineError = firstLineError;
 
 
 /***/ }),
-/* 17 */
+/* 20 */
 /*!******************************************************!*\
   !*** ./node_modules/bluebird/js/release/schedule.js ***!
   \******************************************************/
@@ -2597,7 +2513,7 @@ module.exports = schedule;
 
 
 /***/ }),
-/* 18 */
+/* 21 */
 /*!***************************************************!*\
   !*** ./node_modules/bluebird/js/release/queue.js ***!
   \***************************************************/
@@ -2682,7 +2598,7 @@ module.exports = Queue;
 
 
 /***/ }),
-/* 19 */
+/* 22 */
 /*!*******************************************************!*\
   !*** ./node_modules/bluebird/js/release/thenables.js ***!
   \*******************************************************/
@@ -2780,7 +2696,7 @@ return tryConvertToPromise;
 
 
 /***/ }),
-/* 20 */
+/* 23 */
 /*!***********************************************************!*\
   !*** ./node_modules/bluebird/js/release/promise_array.js ***!
   \***********************************************************/
@@ -2977,7 +2893,7 @@ return PromiseArray;
 
 
 /***/ }),
-/* 21 */
+/* 24 */
 /*!*****************************************************!*\
   !*** ./node_modules/bluebird/js/release/context.js ***!
   \*****************************************************/
@@ -3058,7 +2974,7 @@ return Context;
 
 
 /***/ }),
-/* 22 */
+/* 25 */
 /*!***********************************************************!*\
   !*** ./node_modules/bluebird/js/release/debuggability.js ***!
   \***********************************************************/
@@ -3989,7 +3905,7 @@ return {
 
 
 /***/ }),
-/* 23 */
+/* 26 */
 /*!*****************************************************!*\
   !*** ./node_modules/bluebird/js/release/finally.js ***!
   \*****************************************************/
@@ -4003,7 +3919,7 @@ module.exports = function(Promise, tryConvertToPromise, NEXT_FILTER) {
 var util = __webpack_require__(/*! ./util */ 0);
 var CancellationError = Promise.CancellationError;
 var errorObj = util.errorObj;
-var catchFilter = __webpack_require__(/*! ./catch_filter */ 4)(NEXT_FILTER);
+var catchFilter = __webpack_require__(/*! ./catch_filter */ 5)(NEXT_FILTER);
 
 function PassThroughHandlerContext(promise, type, handler) {
     this.promise = promise;
@@ -4147,7 +4063,7 @@ return PassThroughHandlerContext;
 
 
 /***/ }),
-/* 24 */
+/* 27 */
 /*!****************************************************!*\
   !*** ./node_modules/bluebird/js/release/method.js ***!
   \****************************************************/
@@ -4214,7 +4130,7 @@ Promise.prototype._resolveFromSyncValue = function (value) {
 
 
 /***/ }),
-/* 25 */
+/* 28 */
 /*!**************************************************!*\
   !*** ./node_modules/bluebird/js/release/bind.js ***!
   \**************************************************/
@@ -4293,7 +4209,7 @@ Promise.bind = function (thisArg, value) {
 
 
 /***/ }),
-/* 26 */
+/* 29 */
 /*!****************************************************!*\
   !*** ./node_modules/bluebird/js/release/cancel.js ***!
   \****************************************************/
@@ -4434,7 +4350,7 @@ Promise.prototype._resultCancelled = function() {
 
 
 /***/ }),
-/* 27 */
+/* 30 */
 /*!************************************************************!*\
   !*** ./node_modules/bluebird/js/release/direct_resolve.js ***!
   \************************************************************/
@@ -4492,7 +4408,7 @@ Promise.prototype.catchReturn = function (value) {
 
 
 /***/ }),
-/* 28 */
+/* 31 */
 /*!********************************************************************!*\
   !*** ./node_modules/bluebird/js/release/synchronous_inspection.js ***!
   \********************************************************************/
@@ -4607,7 +4523,7 @@ Promise.PromiseInspection = PromiseInspection;
 
 
 /***/ }),
-/* 29 */
+/* 32 */
 /*!**************************************************!*\
   !*** ./node_modules/bluebird/js/release/join.js ***!
   \**************************************************/
@@ -4787,7 +4703,7 @@ Promise.join = function () {
 
 
 /***/ }),
-/* 30 */
+/* 33 */
 /*!*************************************************!*\
   !*** ./node_modules/bluebird/js/release/map.js ***!
   \*************************************************/
@@ -4967,7 +4883,7 @@ Promise.map = function (promises, fn, options, _filter) {
 
 
 /***/ }),
-/* 31 */
+/* 34 */
 /*!******************************************************!*\
   !*** ./node_modules/bluebird/js/release/call_get.js ***!
   \******************************************************/
@@ -5102,7 +5018,7 @@ Promise.prototype.get = function (propertyName) {
 
 
 /***/ }),
-/* 32 */
+/* 35 */
 /*!***************************************************!*\
   !*** ./node_modules/bluebird/js/release/using.js ***!
   \***************************************************/
@@ -5340,7 +5256,7 @@ module.exports = function (Promise, apiRejection, tryConvertToPromise,
 
 
 /***/ }),
-/* 33 */
+/* 36 */
 /*!****************************************************!*\
   !*** ./node_modules/bluebird/js/release/timers.js ***!
   \****************************************************/
@@ -5445,7 +5361,7 @@ Promise.prototype.timeout = function (ms, message) {
 
 
 /***/ }),
-/* 34 */
+/* 37 */
 /*!********************************************************!*\
   !*** ./node_modules/bluebird/js/release/generators.js ***!
   \********************************************************/
@@ -5680,7 +5596,7 @@ Promise.spawn = function (generatorFunction) {
 
 
 /***/ }),
-/* 35 */
+/* 38 */
 /*!*****************************************************!*\
   !*** ./node_modules/bluebird/js/release/nodeify.js ***!
   \*****************************************************/
@@ -5750,7 +5666,7 @@ Promise.prototype.asCallback = Promise.prototype.nodeify = function (nodeback,
 
 
 /***/ }),
-/* 36 */
+/* 39 */
 /*!*******************************************************!*\
   !*** ./node_modules/bluebird/js/release/promisify.js ***!
   \*******************************************************/
@@ -5763,7 +5679,7 @@ Promise.prototype.asCallback = Promise.prototype.nodeify = function (nodeback,
 module.exports = function(Promise, INTERNAL) {
 var THIS = {};
 var util = __webpack_require__(/*! ./util */ 0);
-var nodebackForPromise = __webpack_require__(/*! ./nodeback */ 5);
+var nodebackForPromise = __webpack_require__(/*! ./nodeback */ 6);
 var withAppended = util.withAppended;
 var maybeWrapAsError = util.maybeWrapAsError;
 var canEvaluate = util.canEvaluate;
@@ -6076,7 +5992,7 @@ Promise.promisifyAll = function (target, options) {
 
 
 /***/ }),
-/* 37 */
+/* 40 */
 /*!***************************************************!*\
   !*** ./node_modules/bluebird/js/release/props.js ***!
   \***************************************************/
@@ -6090,7 +6006,7 @@ module.exports = function(
     Promise, PromiseArray, tryConvertToPromise, apiRejection) {
 var util = __webpack_require__(/*! ./util */ 0);
 var isObject = util.isObject;
-var es5 = __webpack_require__(/*! ./es5 */ 2);
+var es5 = __webpack_require__(/*! ./es5 */ 3);
 var Es6Map;
 if (typeof Map === "function") Es6Map = Map;
 
@@ -6206,7 +6122,7 @@ Promise.props = function (promises) {
 
 
 /***/ }),
-/* 38 */
+/* 41 */
 /*!**************************************************!*\
   !*** ./node_modules/bluebird/js/release/race.js ***!
   \**************************************************/
@@ -6267,7 +6183,7 @@ Promise.prototype.race = function () {
 
 
 /***/ }),
-/* 39 */
+/* 42 */
 /*!****************************************************!*\
   !*** ./node_modules/bluebird/js/release/reduce.js ***!
   \****************************************************/
@@ -6451,7 +6367,7 @@ function gotValue(value) {
 
 
 /***/ }),
-/* 40 */
+/* 43 */
 /*!****************************************************!*\
   !*** ./node_modules/bluebird/js/release/settle.js ***!
   \****************************************************/
@@ -6506,7 +6422,7 @@ Promise.prototype.settle = function () {
 
 
 /***/ }),
-/* 41 */
+/* 44 */
 /*!**************************************************!*\
   !*** ./node_modules/bluebird/js/release/some.js ***!
   \**************************************************/
@@ -6666,7 +6582,7 @@ Promise._SomePromiseArray = SomePromiseArray;
 
 
 /***/ }),
-/* 42 */
+/* 45 */
 /*!****************************************************!*\
   !*** ./node_modules/bluebird/js/release/filter.js ***!
   \****************************************************/
@@ -6690,7 +6606,7 @@ Promise.filter = function (promises, fn, options) {
 
 
 /***/ }),
-/* 43 */
+/* 46 */
 /*!**************************************************!*\
   !*** ./node_modules/bluebird/js/release/each.js ***!
   \**************************************************/
@@ -6732,7 +6648,7 @@ Promise.mapSeries = PromiseMapSeries;
 
 
 /***/ }),
-/* 44 */
+/* 47 */
 /*!*************************************************!*\
   !*** ./node_modules/bluebird/js/release/any.js ***!
   \*************************************************/
@@ -6765,29 +6681,7 @@ Promise.prototype.any = function () {
 
 
 /***/ }),
-/* 45 */
-/*!*********************!*\
-  !*** external "os" ***!
-  \*********************/
-/*! dynamic exports provided */
-/*! all exports used */
-/***/ (function(module, exports) {
-
-module.exports = require("os");
-
-/***/ }),
-/* 46 */
-/*!********************************!*\
-  !*** ./src/config/config.json ***!
-  \********************************/
-/*! dynamic exports provided */
-/*! all exports used */
-/***/ (function(module, exports) {
-
-module.exports = {"devices":{"sensors":[{"name":"Sensor Wohnzimmer","beschreibung":"Rund","ort":"Wohnzimmer","id":"158d0001c19abd","model":"lumi.sensor_ht","type":"sensor"},{"name":"Sensor Schlafzimmer","beschreibung":"rund","ort":"Schlafzimmer","id":"158d0001c19ab8","type":"sensor","model":"lumi.sensor_ht"},{"name":"Sensor Bad","beschreibung":"Eckig","ort":"Bad","id":"158d0001b962aa","type":"sensor","model":"lumi.weather"},{"name":"Sensor Terasse","beschreibung":"Eckig","ort":"Terasse","id":"158d0001b9635d","type":"sensor","model":"lumi.weather"}],"robots":[{"name":"Staubsauger","beschreibung":"","ort":"Badezimmer","id":"74217308","type":"light","model":"yeelink.light.color1"}],"lights":[{"name":"Lampe Bad","beschreibung":"","ort":"Badezimmer","id":"72779159","type":"light","model":"yeelink.light.color1"},{"name":"Lampe Bad neu","beschreibung":"","ort":"Badezimmer","id":"77079675","type":"light","model":"yeelink.light.color1"}],"gateways":[{"name":"Hauptgateway","beschreibung":"","ort":"Wohnzimmer","id":"73058750","model":"lumi.gateway.v3","address":"192.168.178.45"}]}}
-
-/***/ }),
-/* 47 */
+/* 48 */
 /*!*****************************!*\
   !*** external "int-to-rgb" ***!
   \*****************************/
@@ -6798,7 +6692,373 @@ module.exports = {"devices":{"sensors":[{"name":"Sensor Wohnzimmer","beschreibun
 module.exports = require("int-to-rgb");
 
 /***/ }),
-/* 48 */
+/* 49 */
+/*!*************************************************!*\
+  !*** ./src/api/controllers/SensorController.ts ***!
+  \*************************************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var SensorService_1 = __webpack_require__(/*! ../services/SensorService */ 50);
+var cfg = __webpack_require__(/*! ./../../config/config.json */ 2);
+var SensorController = (function () {
+    function SensorController(router) {
+        this.router = router;
+        this.registerRoutes();
+    }
+    SensorController.prototype.registerRoutes = function () {
+        this.router.get("/sensors", this.getSensors.bind(this));
+        this.router.get("/sensors/:id/info/:properties", this.getProperties.bind(this));
+    };
+    SensorController.prototype.getSensors = function (req, res) {
+        var result = SensorService_1.SensorServiceInstance.getSensors(req.app);
+        res.json({ sensors: result });
+    };
+    SensorController.prototype.getProperties = function (req, res) {
+        var result = SensorService_1.SensorServiceInstance.getSensorProperties(req.app, req.params.id, req.params.properties.split(";"))
+            .then(function (result) {
+            res.status(200).json(result);
+        })
+            .catch(function (error) {
+            res.status(500).json(error);
+        });
+    };
+    return SensorController;
+}());
+exports.default = SensorController;
+
+
+/***/ }),
+/* 50 */
+/*!*******************************************!*\
+  !*** ./src/api/services/SensorService.ts ***!
+  \*******************************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(Promise) {
+Object.defineProperty(exports, "__esModule", { value: true });
+var cfg = __webpack_require__(/*! ./../../config/config.json */ 2);
+var SensorService = (function () {
+    function SensorService() {
+    }
+    SensorService.prototype.getSensors = function (app) {
+        var result = [];
+        var sensors = app.locals.xiaomi.sensors;
+        if (!sensors || sensors.length < 1) {
+            return result;
+        }
+        if (sensors && sensors.length > 0) {
+            result = sensors.map(function (sensor, index) {
+                return {
+                    name: "",
+                    hasPressure: sensor.hasCapability("pressure"),
+                    id: sensor.id,
+                    ip: sensor.ip,
+                    humidity: sensor.humidity || -1,
+                    pressure: sensor.hasCapability("pressure") ? sensor.pressure : -1,
+                    temperature: sensor.temperature || -1
+                };
+            });
+        }
+        cfg.devices.sensors.forEach(function (sensor) {
+            result.forEach(function (sens) {
+                if (sens.id === sensor.id) {
+                    sens.name = sensor.name;
+                }
+            });
+        });
+        return result;
+    };
+    SensorService.prototype.getSensorProperties = function (app, sensorId, properties) {
+        return new Promise(function (resolve, reject) {
+            var sensors = app.locals.xiaomi.sensors;
+            var sensor = sensors.find(function (sens) {
+                return sens.id === sensorId;
+            });
+            if (!sensor) {
+                reject({ message: "sensor not found" });
+            }
+            sensor._parent
+                .call("get_device_prop_exp", [["lumi." + sensor.id].concat(properties)])
+                .then(function (resultProperties) {
+                resolve({ id: sensorId, properties: resultProperties });
+            })
+                .catch(function (error) {
+                console.log(error);
+                reject({
+                    message: "error on query sensor method 'get_device_prop_exp'. Msg: " +
+                        error
+                });
+            });
+        });
+    };
+    return SensorService;
+}());
+exports.SensorServiceInstance = new SensorService();
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 4)))
+
+/***/ }),
+/* 51 */
+/*!**************************************************!*\
+  !*** ./src/api/controllers/GatewayController.ts ***!
+  \**************************************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var GatewayService_1 = __webpack_require__(/*! ../services/GatewayService */ 52);
+var cfg = __webpack_require__(/*! ./../../config/config.json */ 2);
+var GatewayController = (function () {
+    function GatewayController(router) {
+        this.router = router;
+        this.registerRoutes();
+    }
+    GatewayController.prototype.registerRoutes = function () {
+        this.router.get("/gateways", this.getGateways.bind(this));
+        this.router.get("/gateways/:id/info/:properties", this.getGatewayProperties.bind(this));
+        this.router.post("/gateways/:id/brightness/:value", this.setBrightness.bind(this));
+        this.router.post("/gateways/:id/color", this.setColor.bind(this));
+        this.router.post("/gateways/:id/power", this.setPower.bind(this));
+    };
+    GatewayController.prototype.getGateways = function (req, res) {
+        return GatewayService_1.GatewayServiceInstance.getGateways(req.app)
+            .then(function (result) {
+            res.json(result);
+        })
+            .catch(function (error) {
+            res.status(500).json(error);
+        });
+    };
+    GatewayController.prototype.getGatewayProperties = function (req, res) {
+        return GatewayService_1.GatewayServiceInstance.getGatewayProperties(req.app, req.params.id, req.params.properties.split(";"))
+            .then(function (result) {
+            res.json(result);
+        })
+            .catch(function (error) {
+            res.status(500).json(error);
+        });
+    };
+    GatewayController.prototype.setPower = function (req, res) {
+        return GatewayService_1.GatewayServiceInstance.setPower(req.app, req.params.id)
+            .then(function (result) {
+            res.json(result);
+        })
+            .catch(function (error) {
+            res.status(500).json(error);
+        });
+    };
+    GatewayController.prototype.setBrightness = function (req, res) {
+        return GatewayService_1.GatewayServiceInstance.setBrightness(req.app, req.params.id, req.params.value)
+            .then(function (result) {
+            res.json(result);
+        })
+            .catch(function (error) {
+            res.status(500).json(error);
+        });
+    };
+    GatewayController.prototype.setColor = function (req, res) {
+        return GatewayService_1.GatewayServiceInstance.setColor(req.app, req.params.id, req.body.color)
+            .then(function (result) {
+            res.json(result);
+        })
+            .catch(function (error) {
+            res.status(500).json(error);
+        });
+    };
+    return GatewayController;
+}());
+exports.default = GatewayController;
+
+
+/***/ }),
+/* 52 */
+/*!********************************************!*\
+  !*** ./src/api/services/GatewayService.ts ***!
+  \********************************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(Promise) {
+Object.defineProperty(exports, "__esModule", { value: true });
+var cfg = __webpack_require__(/*! ./../../config/config.json */ 2);
+var GatewayService = (function () {
+    function GatewayService() {
+    }
+    GatewayService.prototype.getGateways = function (app) {
+        return new Promise(function (resolve, reject) {
+            var result = [];
+            var gateways = app.locals.xiaomi.gateways;
+            if (!gateways || gateways.length < 1) {
+                reject({ gateways: result });
+                return;
+            }
+            result = gateways.map(function (gw) {
+                return {
+                    illuminance: gw.illuminance,
+                    id: gw.id,
+                    ip: gw.ip,
+                    power: gw.brightness > 0,
+                    rgb: gw.color || { b: 0, r: 0, g: 0 },
+                    name: "",
+                    brightness: gw.brightness
+                };
+            });
+            cfg.devices.gateways.forEach(function (gw) {
+                result.forEach(function (gwModel) {
+                    if (gwModel.id === gw.id) {
+                        gwModel.name = gw.name;
+                    }
+                });
+            });
+            var requests = gateways.map(function (gw) {
+                return gw.call("get_prop", ["rgb"]);
+            });
+            Promise.all(requests)
+                .then(function (resultProperties) {
+                resultProperties.forEach(function (properties, index) {
+                    var buf = Buffer.alloc(4);
+                    buf.writeUInt32BE(properties[0], 0);
+                    result[index].rgb = {
+                        b: buf.readUInt8(3),
+                        g: buf.readUInt8(2),
+                        r: buf.readUInt8(1)
+                    };
+                    result[index].brightness = buf.readUInt8(0);
+                });
+                resolve({ gateways: result });
+            })
+                .catch(function (err) {
+                console.log("Error:" + JSON.stringify(err));
+                reject({ error: "error" });
+            });
+        });
+    };
+    GatewayService.prototype.getGatewayProperties = function (app, gatewayId, properties) {
+        return new Promise(function (resolve, reject) {
+            var gateways = app.locals.xiaomi.gateways;
+            var gateway = gateways.find(function (gw) {
+                return gw.id === gatewayId;
+            });
+            if (gateway) {
+                gateway
+                    .call("get_prop", properties)
+                    .then(function (resultProperties) {
+                    console.log("GWPROPS: " + JSON.stringify(resultProperties));
+                    resolve({ id: gatewayId, properties: resultProperties });
+                })
+                    .catch(function () {
+                    reject({ error: "prop not fetched" });
+                });
+            }
+            else {
+                reject({ error: "Gateway not found" });
+            }
+        });
+    };
+    GatewayService.prototype.setPower = function (app, gatewayId) {
+        return new Promise(function (resolve, reject) {
+            var gateways = app.locals.xiaomi.gateways;
+            var gateway = gateways.find(function (gw) {
+                return gw.id === gatewayId;
+            });
+            if (gateway) {
+                var color = gateway.rgb;
+                var bright = gateway.brightness;
+                var brightness = Math.max(0, Math.min(100, Math.round(gateway.brightness > 0 ? 0 : 100)));
+                var rgb = (brightness << 24) |
+                    (color.red << 16) |
+                    (color.green << 8) |
+                    color.blue;
+                console.log("RGB::: " + rgb);
+                gateway
+                    .call("set_rgb", [rgb], { refresh: true })
+                    .then(function (newValue) {
+                    resolve({ power: gateway.brightness > 0 });
+                })
+                    .catch(function () {
+                    reject({ error: "brightness not set" });
+                });
+            }
+            else {
+                reject({
+                    error: "Kein Gateway mit ID " + gatewayId + " gefunden"
+                });
+            }
+        });
+    };
+    GatewayService.prototype.setBrightness = function (app, gatewayId, value) {
+        return new Promise(function (resolve, reject) {
+            var gateways = app.locals.xiaomi.gateways;
+            var gateway = gateways.find(function (gw) {
+                return gw.id === gatewayId;
+            });
+            if (gateway) {
+                var newBrightness = value;
+                var color = gateway.rgb;
+                var bright = gateway.brightness;
+                var brightness = Math.max(0, Math.min(100, Math.round(newBrightness)));
+                var rgb = (brightness << 24) |
+                    (color.red << 16) |
+                    (color.green << 8) |
+                    color.blue;
+                gateway
+                    .call("set_rgb", [rgb], { refresh: true })
+                    .then(function (newValue) {
+                    resolve({ rgb: newValue });
+                })
+                    .catch(function () {
+                    reject({ error: "brightness not set" });
+                });
+            }
+            else {
+                reject({ brightness: "error! can not set brightness" });
+            }
+        });
+    };
+    GatewayService.prototype.setColor = function (app, gatewayId, colorValue) {
+        return new Promise(function (resolve, reject) {
+            var gateways = app.locals.xiaomi.gateways;
+            var gateway = gateways.find(function (gw) {
+                return gw.id === gatewayId;
+            });
+            var color = colorValue;
+            console.log("Color: " + JSON.stringify(color));
+            if (gateway && color) {
+                var brightness = Math.max(0, Math.min(100, Math.round(gateway.brightness)));
+                var rgb = (brightness << 24) | (color.r << 16) | (color.g << 8) | color.b;
+                console.log("new color: " + rgb);
+                gateway
+                    .call("set_rgb", [rgb], { refresh: true })
+                    .then(function (newValue) {
+                    resolve({ rgb: newValue });
+                })
+                    .catch(function () {
+                    reject({ error: "color not set" });
+                });
+            }
+        });
+    };
+    return GatewayService;
+}());
+exports.GatewayServiceInstance = new GatewayService();
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 4)))
+
+/***/ }),
+/* 53 */
 /*!******************************!*\
   !*** external "body-parser" ***!
   \******************************/
@@ -6809,7 +7069,18 @@ module.exports = require("int-to-rgb");
 module.exports = require("body-parser");
 
 /***/ }),
-/* 49 */
+/* 54 */
+/*!**************************!*\
+  !*** external "mongodb" ***!
+  \**************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports) {
+
+module.exports = require("mongodb");
+
+/***/ }),
+/* 55 */
 /*!***********************!*\
   !*** external "miio" ***!
   \***********************/

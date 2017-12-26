@@ -1,17 +1,8 @@
 import * as React from "react";
-import { Toggle, Label } from "office-ui-fabric-react";
+import { Label } from "office-ui-fabric-react";
 import Axios from "axios";
-import {
-  ILightModel,
-  IRGBColor,
-  IBaseWeatherSensor,
-  IGatewayModel
-} from "../../../../models/xiaomi";
-import { BaseLight } from "../../../../global/components/simple/BaseLight";
-import { BaseWeatherSensor } from "../../../../global/components/simple/BaseWeatherSensor";
 import { setInterval } from "timers";
 import { Fragment } from "react";
-const intToRGB = require("int-to-rgb");
 export interface IApplicationProps {}
 export interface IApplicationState {
   isInitialized: boolean;

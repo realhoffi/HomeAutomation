@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Toggle, Slider, Label } from "office-ui-fabric-react";
 import Axios from "axios";
-import { ILightModel, IRGBColor } from "../../../../models/xiaomi";
+import { ILightModel, IRGBColor } from "../../../../interfaces/xiaomi";
 import { Panel } from "../../../../global/components/simple/Panel";
 // const fc = require("./../../../config/config");
 export interface IYeelightProps {

@@ -53,16 +53,21 @@ var Panel = (function (_super) {
     };
     Panel.prototype.render = function () {
         var c = this.props.className || "";
-        return React.createElement("div", { className: c },
+        return (React.createElement("div", { className: c },
             React.createElement("div", { className: "custom-border-settings ms-borderColor-neutralLighter" },
                 React.createElement("div", { className: "ms-bgColor-neutralLighter custom-panel-header" },
-                    React.createElement(Button_1.IconButton, { disabled: false, style: { width: "40px", height: "36px" }, checked: false, iconProps: { iconName: this.props.canToggleContentHidden ? (this.state.isContentVisible ? "ChevronUp" : "ChevronDownMed") : "blank" }, title: "Emoji", ariaLabel: "Emoji", onClick: this.linkClicked }),
-                    React.createElement("div", { onClick: this.linkClicked, style: { cursor: "pointer", width: this.props.headerControls ? "75%" : "100%" } },
+                    React.createElement(Button_1.IconButton, { disabled: false, style: { width: "40px", height: "36px" }, checked: false, iconProps: {
+                            iconName: this.props.canToggleContentHidden
+                                ? this.state.isContentVisible ? "ChevronUp" : "ChevronDownMed"
+                                : "blank"
+                        }, title: "Emoji", ariaLabel: "Emoji", onClick: this.linkClicked }),
+                    React.createElement("div", { onClick: this.linkClicked, style: {
+                            cursor: "pointer",
+                            width: this.props.headerControls ? "75%" : "100%"
+                        } },
                         React.createElement("span", { className: "ms-font-xl ms-fontColor-themePrimary" }, this.props.headerText)),
-                    this.props.headerControls &&
-                        this.props.headerControls),
-                this.state.isContentVisible &&
-                    React.createElement("div", { style: { padding: "10px", paddingTop: "15px" } }, this.props.children)));
+                    this.props.headerControls && this.props.headerControls),
+                this.state.isContentVisible && (React.createElement("div", { style: { padding: "10px", paddingTop: "15px" } }, this.props.children)))));
     };
     Panel.defaultProps = {
         headerText: "Kein Text",
@@ -78,37 +83,7 @@ exports.Panel = Panel;
 
 /***/ }),
 
-/***/ 111:
-/*!******************************************!*\
-  !*** ./node_modules/int-to-rgb/index.js ***!
-  \******************************************/
-/*! dynamic exports provided */
-/*! all exports used */
-/***/ (function(module, exports) {
-
-var errorMessage = 'Must provide an integer between 0 and 16777215';
-
-
-module.exports = function(int) {
-  if (typeof int !== 'number') throw new Error(errorMessage);
-  if (Math.floor(int) !== int) throw new Error(errorMessage);
-  if (int < 0 || int > 16777215) throw new Error(errorMessage);
-
-  var red = int >> 16;
-  var green = int - (red << 16) >> 8;
-  var blue = int - (red << 16) - (green << 8);
-
-  return {
-    red: red,
-    green: green,
-    blue: blue
-  }
-}
-
-
-/***/ }),
-
-/***/ 133:
+/***/ 132:
 /*!********************************************!*\
   !*** ./node_modules/axios/lib/defaults.js ***!
   \********************************************/
@@ -214,6 +189,36 @@ module.exports = defaults;
 
 /***/ }),
 
+/***/ 163:
+/*!******************************************!*\
+  !*** ./node_modules/int-to-rgb/index.js ***!
+  \******************************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports) {
+
+var errorMessage = 'Must provide an integer between 0 and 16777215';
+
+
+module.exports = function(int) {
+  if (typeof int !== 'number') throw new Error(errorMessage);
+  if (Math.floor(int) !== int) throw new Error(errorMessage);
+  if (int < 0 || int > 16777215) throw new Error(errorMessage);
+
+  var red = int >> 16;
+  var green = int - (red << 16) >> 8;
+  var blue = int - (red << 16) - (green << 8);
+
+  return {
+    red: red,
+    green: green,
+    blue: blue
+  }
+}
+
+
+/***/ }),
+
 /***/ 204:
 /*!****************************************************************!*\
   !*** ./src/projects/yeelight/components/pages/application.tsx ***!
@@ -248,7 +253,7 @@ var axios_1 = __webpack_require__(/*! axios */ 94);
 var timers_1 = __webpack_require__(/*! timers */ 78);
 var Yeelight_1 = __webpack_require__(/*! ../simple/Yeelight */ 376);
 var react_1 = __webpack_require__(/*! react */ 1);
-var intToRGB = __webpack_require__(/*! int-to-rgb */ 111);
+var intToRGB = __webpack_require__(/*! int-to-rgb */ 163);
 var Application = (function (_super) {
     __extends(Application, _super);
     function Application(props) {
@@ -982,7 +987,7 @@ var React = __webpack_require__(/*! react */ 1);
 var axios_1 = __webpack_require__(/*! axios */ 94);
 var BaseWeatherSensor_1 = __webpack_require__(/*! ../../../../global/components/simple/BaseWeatherSensor */ 656);
 var timers_1 = __webpack_require__(/*! timers */ 78);
-var intToRGB = __webpack_require__(/*! int-to-rgb */ 111);
+var intToRGB = __webpack_require__(/*! int-to-rgb */ 163);
 var Application = (function (_super) {
     __extends(Application, _super);
     function Application(props) {
@@ -1020,15 +1025,15 @@ var Application = (function (_super) {
         if (!this.state.isInitialized) {
             return false;
         }
-        return React.createElement("div", { className: "ms-Grid-row" },
+        return (React.createElement("div", { className: "ms-Grid-row" },
             React.createElement("div", { className: "ms-Grid-col ms-sm12" },
-                (!this.state.sensors || this.state.sensors.length < 1) &&
-                    React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, "Keine Sensoren gefunden"),
-                React.createElement("div", { className: "ms-Grid-row" }, (this.state.sensors && this.state.sensors.length > 0) &&
+                (!this.state.sensors || this.state.sensors.length < 1) && (React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, "Keine Sensoren gefunden")),
+                React.createElement("div", { className: "ms-Grid-row" }, this.state.sensors &&
+                    this.state.sensors.length > 0 &&
                     this.state.sensors.map(function (sensor, index) {
-                        return React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-lg6 ms-xl3", key: "sensor_container_" + index },
-                            React.createElement(BaseWeatherSensor_1.BaseWeatherSensor, { id: index, sensorInformations: sensor }));
-                    }))));
+                        return (React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-lg6 ms-xl3", key: "sensor_container_" + index },
+                            React.createElement(BaseWeatherSensor_1.BaseWeatherSensor, { id: index, sensorInformations: sensor })));
+                    })))));
     };
     return Application;
 }(React.Component));
@@ -1062,7 +1067,7 @@ var React = __webpack_require__(/*! react */ 1);
 var axios_1 = __webpack_require__(/*! axios */ 94);
 var BaseLight_1 = __webpack_require__(/*! ../../../../global/components/simple/BaseLight */ 657);
 var timers_1 = __webpack_require__(/*! timers */ 78);
-var intToRGB = __webpack_require__(/*! int-to-rgb */ 111);
+var intToRGB = __webpack_require__(/*! int-to-rgb */ 163);
 var Application = (function (_super) {
     __extends(Application, _super);
     function Application(props) {
@@ -1090,13 +1095,15 @@ var Application = (function (_super) {
     };
     Application.prototype.loadDevices = function () {
         var _this = this;
-        return axios_1.default.get("/api/gateways").then(function (results) {
+        return axios_1.default.get("/api/gateways")
+            .then(function (results) {
             if (_this.isMountedFinished === true) {
                 var gws = results.data["gateways"];
                 var gwLights = gws.map(_this.mapGatewayToLightModel);
                 _this.setState({ gateways: gws, gatewayLights: gwLights });
             }
-        }).catch(function (error) { });
+        })
+            .catch(function (error) { });
     };
     Application.prototype.mapGatewayToLightModel = function (gwModel) {
         return {
@@ -1115,30 +1122,34 @@ var Application = (function (_super) {
             return false;
         }
         console.log("Yewelight render");
-        return React.createElement("div", { className: "ms-Grid-row" },
+        return (React.createElement("div", { className: "ms-Grid-row" },
             React.createElement("div", { className: "ms-Grid-col ms-sm12" },
-                (!this.state.gatewayLights || this.state.gatewayLights.length < 1) &&
-                    React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, "Keine Gateways gefunden"),
-                React.createElement("div", { className: "ms-Grid-row" }, (this.state.gatewayLights && this.state.gatewayLights.length > 0) &&
+                (!this.state.gatewayLights ||
+                    this.state.gatewayLights.length < 1) && (React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, "Keine Gateways gefunden")),
+                React.createElement("div", { className: "ms-Grid-row" }, this.state.gatewayLights &&
+                    this.state.gatewayLights.length > 0 &&
                     this.state.gatewayLights.map(function (gw, index) {
-                        return React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-lg6 ms-xl3", key: "gwr_" + index },
+                        return (React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-lg6 ms-xl3", key: "gwr_" + index },
                             React.createElement(BaseLight_1.BaseLight, { lightInformation: gw, id: index, onBrightnessChanged: function (lightInformation, brightness) {
-                                    axios_1.default.post("/api/gateways/" + lightInformation.id + "/brightness/" + brightness)
-                                        .then(_this.loadDevices);
+                                    axios_1.default.post("/api/gateways/" +
+                                        lightInformation.id +
+                                        "/brightness/" +
+                                        brightness).then(_this.loadDevices);
                                 }, onColorChanged: function (lightInformation, color) {
-                                    axios_1.default.post("/api/gateways/" + lightInformation.id + "/color", { color: color })
-                                        .then(_this.loadDevices);
+                                    axios_1.default.post("/api/gateways/" + lightInformation.id + "/color", { color: color }).then(_this.loadDevices);
                                 }, onColorSchemaChanged: function (lightInformation, color, brightness) {
                                     axios_1.default.post("/api/gateways/" + lightInformation.id + "/color", { color: color })
                                         .then(function () {
-                                        return axios_1.default.post("/api/gateways/" + lightInformation.id + "/brightness/" + brightness);
+                                        return axios_1.default.post("/api/gateways/" +
+                                            lightInformation.id +
+                                            "/brightness/" +
+                                            brightness);
                                     })
                                         .then(_this.loadDevices);
                                 }, onPowerChanged: function (lightInformation) {
-                                    axios_1.default.post("/api/gateways/" + lightInformation.id + "/power")
-                                        .then(_this.loadDevices);
-                                } }));
-                    }))));
+                                    axios_1.default.post("/api/gateways/" + lightInformation.id + "/power").then(_this.loadDevices);
+                                } })));
+                    })))));
     };
     return Application;
 }(React.Component));
@@ -1173,7 +1184,6 @@ var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */
 var axios_1 = __webpack_require__(/*! axios */ 94);
 var timers_1 = __webpack_require__(/*! timers */ 78);
 var react_1 = __webpack_require__(/*! react */ 1);
-var intToRGB = __webpack_require__(/*! int-to-rgb */ 111);
 var SystemInfo = (function (_super) {
     __extends(SystemInfo, _super);
     function SystemInfo(props) {
@@ -1253,9 +1263,9 @@ exports.SystemInfo = SystemInfo;
 /***/ }),
 
 /***/ 281:
-/*!***************************!*\
-  !*** ./src/data/enums.ts ***!
-  \***************************/
+/*!****************************!*\
+  !*** ./src/enums/enums.ts ***!
+  \****************************/
 /*! dynamic exports provided */
 /*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
@@ -1531,7 +1541,7 @@ var application_1 = __webpack_require__(/*! ../../../projects/yeelight/component
 var sensors_1 = __webpack_require__(/*! ../../../projects/xiaomi/components/pages/sensors */ 278);
 var gateways_1 = __webpack_require__(/*! ../../../projects/xiaomi/components/pages/gateways */ 279);
 var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 35);
-var PivotItem_1 = __webpack_require__(/*! office-ui-fabric-react/lib/components/Pivot/PivotItem */ 162);
+var PivotItem_1 = __webpack_require__(/*! office-ui-fabric-react/lib/components/Pivot/PivotItem */ 161);
 var systeminfo_1 = __webpack_require__(/*! ../../../projects/system/components/pages/systeminfo */ 280);
 var Application = (function (_super) {
     __extends(Application, _super);
@@ -1579,7 +1589,7 @@ exports.Application = Application;
 var utils = __webpack_require__(/*! ./utils */ 26);
 var bind = __webpack_require__(/*! ./helpers/bind */ 205);
 var Axios = __webpack_require__(/*! ./core/Axios */ 360);
-var defaults = __webpack_require__(/*! ./defaults */ 133);
+var defaults = __webpack_require__(/*! ./defaults */ 132);
 
 /**
  * Create an instance of Axios
@@ -1675,7 +1685,7 @@ function isSlowBuffer (obj) {
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Promise) {
 
-var defaults = __webpack_require__(/*! ./../defaults */ 133);
+var defaults = __webpack_require__(/*! ./../defaults */ 132);
 var utils = __webpack_require__(/*! ./../utils */ 26);
 var InterceptorManager = __webpack_require__(/*! ./InterceptorManager */ 369);
 var dispatchRequest = __webpack_require__(/*! ./dispatchRequest */ 370);
@@ -2277,7 +2287,7 @@ module.exports = InterceptorManager;
 var utils = __webpack_require__(/*! ./../utils */ 26);
 var transformData = __webpack_require__(/*! ./transformData */ 371);
 var isCancel = __webpack_require__(/*! ../cancel/isCancel */ 208);
-var defaults = __webpack_require__(/*! ../defaults */ 133);
+var defaults = __webpack_require__(/*! ../defaults */ 132);
 var isAbsoluteURL = __webpack_require__(/*! ./../helpers/isAbsoluteURL */ 372);
 var combineURLs = __webpack_require__(/*! ./../helpers/combineURLs */ 373);
 
@@ -2757,7 +2767,7 @@ var BaseWeatherSensor = (function (_super) {
     }
     BaseWeatherSensor.prototype.render = function () {
         console.log("BaseWeatherSensor render");
-        return React.createElement("div", { className: "ms-Grid-row", key: "sensor" + this.props.id },
+        return (React.createElement("div", { className: "ms-Grid-row", key: "sensor" + this.props.id },
             React.createElement("div", { className: "ms-Grid-col ms-sm12" },
                 React.createElement(Panel_1.Panel, { headerText: this.props.sensorInformations.name, className: "custom-padding-bottom-10px" },
                     React.createElement("div", { className: "ms-Grid-row" },
@@ -2768,9 +2778,8 @@ var BaseWeatherSensor = (function (_super) {
                             React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" },
                                 this.props.sensorInformations.humidity,
                                 React.createElement("i", { className: "ms-Icon ms-Icon--Precipitation", "aria-hidden": "true" }))),
-                        this.props.sensorInformations.hasPressure &&
-                            React.createElement("div", { className: "ms-Grid-col ms-sm6" },
-                                React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, this.props.sensorInformations.pressure))))));
+                        this.props.sensorInformations.hasPressure && (React.createElement("div", { className: "ms-Grid-col ms-sm6" },
+                            React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, this.props.sensorInformations.pressure))))))));
     };
     return BaseWeatherSensor;
 }(React.Component));
@@ -3611,13 +3620,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
 var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 35);
 var ManageRoute_1 = __webpack_require__(/*! ./ManageRoute */ 663);
-var enums_1 = __webpack_require__(/*! ../../../../data/enums */ 281);
+var enums_1 = __webpack_require__(/*! ../../../../enums/enums */ 281);
 var ToolTip_1 = __webpack_require__(/*! ../../../../global/components/simple/ToolTip */ 667);
 var Application = (function (_super) {
     __extends(Application, _super);
     function Application(props) {
         var _this = _super.call(this, props) || this;
-        _this.state = { modalContent: undefined, showModal: false, isCalloutVisible: false, callOutContent: undefined };
+        _this.state = {
+            modalContent: undefined,
+            showModal: false,
+            isCalloutVisible: false,
+            callOutContent: undefined
+        };
         _this.addRouteClick = _this.addRouteClick.bind(_this);
         _this.closeModal = _this.closeModal.bind(_this);
         _this.showCallOut = _this.showCallOut.bind(_this);
@@ -3628,7 +3642,7 @@ var Application = (function (_super) {
         document.title = "Aldi Hauptseite";
     };
     Application.prototype.addRouteClick = function () {
-        var c = React.createElement(ManageRoute_1.ManageRoute, { onExitPage: this.closeModal, pageType: enums_1.PageType.Add });
+        var c = (React.createElement(ManageRoute_1.ManageRoute, { onExitPage: this.closeModal, pageType: enums_1.PageType.Add }));
         this.setState({ showModal: true, modalContent: c });
         this.hideCallOut();
     };
@@ -3641,12 +3655,19 @@ var Application = (function (_super) {
             return;
         }
         this.targetCallOutElement = event.target;
-        var title = this.targetCallOutElement.hasAttribute("data-info-title") ? this.targetCallOutElement.getAttribute("data-info-title") : "";
-        var description = this.targetCallOutElement.hasAttribute("data-info-desc") ? this.targetCallOutElement.getAttribute("data-info-desc") : "";
+        var title = this.targetCallOutElement.hasAttribute("data-info-title")
+            ? this.targetCallOutElement.getAttribute("data-info-title")
+            : "";
+        var description = this.targetCallOutElement.hasAttribute("data-info-desc")
+            ? this.targetCallOutElement.getAttribute("data-info-desc")
+            : "";
         if (!title && !description) {
             return;
         }
-        this.setState({ isCalloutVisible: true, callOutContent: React.createElement(ToolTip_1.ToolTip, { Title: title, Description: description }) });
+        this.setState({
+            isCalloutVisible: true,
+            callOutContent: React.createElement(ToolTip_1.ToolTip, { Title: title, Description: description })
+        });
         return false;
     };
     Application.prototype.hideCallOut = function () {
@@ -3656,21 +3677,19 @@ var Application = (function (_super) {
         return false;
     };
     Application.prototype.render = function () {
-        return React.createElement("div", { className: "ms-Grid-row" },
-            (this.state.modalContent && this.state.showModal) &&
-                React.createElement("div", { className: "ms-Grid-col ms-sm12" }, this.state.modalContent),
-            (this.state.showModal === false) &&
-                React.createElement("div", { className: "ms-Grid-col ms-sm12" },
-                    React.createElement("div", { className: "ms-Grid-row" },
-                        React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-lg4" },
-                            React.createElement("div", { className: "custom-cmd-button" },
-                                React.createElement(office_ui_fabric_react_1.CommandBarButton, { "data-info-title": "Route erfassen", "data-info-desc": "Erstellt eine neue Route für Aldi", iconProps: { iconName: "Add" }, text: "Route erfassen", onClick: this.addRouteClick, onMouseEnter: this.showCallOut, onMouseLeave: this.hideCallOut }))),
-                        React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-lg4" },
-                            React.createElement("div", { className: "custom-cmd-button" },
-                                React.createElement(office_ui_fabric_react_1.CommandBarButton, { iconProps: { iconName: "Add" }, text: "Filialen erfassen" }))))),
-            this.state.isCalloutVisible &&
-                React.createElement("div", null,
-                    React.createElement(office_ui_fabric_react_1.Callout, { role: "alertdialog", ariaLabelledBy: "callout-label-2", className: "ms-CalloutExample-callout", gapSpace: 0, target: this.targetCallOutElement, onDismiss: this.hideCallOut, setInitialFocus: true }, this.state.callOutContent)));
+        return (React.createElement("div", { className: "ms-Grid-row" },
+            this.state.modalContent &&
+                this.state.showModal && (React.createElement("div", { className: "ms-Grid-col ms-sm12" }, this.state.modalContent)),
+            this.state.showModal === false && (React.createElement("div", { className: "ms-Grid-col ms-sm12" },
+                React.createElement("div", { className: "ms-Grid-row" },
+                    React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-lg4" },
+                        React.createElement("div", { className: "custom-cmd-button" },
+                            React.createElement(office_ui_fabric_react_1.CommandBarButton, { "data-info-title": "Route erfassen", "data-info-desc": "Erstellt eine neue Route für Aldi", iconProps: { iconName: "Add" }, text: "Route erfassen", onClick: this.addRouteClick, onMouseEnter: this.showCallOut, onMouseLeave: this.hideCallOut }))),
+                    React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-lg4" },
+                        React.createElement("div", { className: "custom-cmd-button" },
+                            React.createElement(office_ui_fabric_react_1.CommandBarButton, { iconProps: { iconName: "Add" }, text: "Filialen erfassen" })))))),
+            this.state.isCalloutVisible && (React.createElement("div", null,
+                React.createElement(office_ui_fabric_react_1.Callout, { role: "alertdialog", ariaLabelledBy: "callout-label-2", className: "ms-CalloutExample-callout", gapSpace: 0, target: this.targetCallOutElement, onDismiss: this.hideCallOut, setInitialFocus: true }, this.state.callOutContent)))));
     };
     return Application;
 }(React.Component));
@@ -3710,7 +3729,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
 var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 35);
-var enums_1 = __webpack_require__(/*! ../../../../data/enums */ 281);
+var enums_1 = __webpack_require__(/*! ../../../../enums/enums */ 281);
 var basePage_1 = __webpack_require__(/*! ../../../../global/components/container/basePage */ 282);
 var ButtonRow_1 = __webpack_require__(/*! ../../../../global/components/simple/ButtonRow */ 664);
 var Panel_1 = __webpack_require__(/*! ../../../../global/components/simple/Panel */ 110);
@@ -3720,7 +3739,12 @@ var ManageRoute = (function (_super) {
     __extends(ManageRoute, _super);
     function ManageRoute(props) {
         var _this = _super.call(this, props) || this;
-        _this.state = { filialen: [], routenfahrten: [], ausgaben: [], googleMapsLink: "" };
+        _this.state = {
+            filialen: [],
+            routenfahrten: [],
+            ausgaben: [],
+            googleMapsLink: ""
+        };
         _this.cancelClick = _this.cancelClick.bind(_this);
         _this.saveClick = _this.saveClick.bind(_this);
         return _this;
@@ -3755,13 +3779,13 @@ var ManageRoute = (function (_super) {
             return React.createElement("option", { value: "" }, "Bitte Fahrdaten anlegen");
         }
         return this.state.routenfahrten.map(function (fahrt, index) {
-            return React.createElement("option", { value: index, key: "fahrt_opt_" + index }, date_1.getGermanDateString(fahrt));
+            return (React.createElement("option", { value: index, key: "fahrt_opt_" + index }, date_1.getGermanDateString(fahrt)));
         });
     };
     ManageRoute.prototype.render = function () {
         var _this = this;
         console.log("render ManageRoute");
-        return React.createElement(basePage_1.BasePage, { IncludeFabricElement: false, Body: React.createElement("div", { className: "ms-Grid" },
+        return (React.createElement(basePage_1.BasePage, { IncludeFabricElement: false, Body: React.createElement("div", { className: "ms-Grid" },
                 React.createElement("div", { className: "ms-Grid-row" },
                     React.createElement("div", { className: "ms-Grid-col ms-sm12" },
                         React.createElement(Panel_1.Panel, { headerText: "Routeninformationen", className: "custom-padding-bottom-10px" },
@@ -3780,10 +3804,12 @@ var ManageRoute = (function (_super) {
                                     ns.ausgaben.push({ title: "", value: 0 });
                                     _this.setState(ns);
                                 } }) },
-                            (!this.state.ausgaben || this.state.ausgaben.length < 1) &&
-                                React.createElement("div", { className: "ms-font-xl ms-fontColor-themePrimary" }, "Es wurden bisher keine Ausgaben erfasst"),
+                            (!this.state.ausgaben || this.state.ausgaben.length < 1) && (React.createElement("div", { className: "ms-font-xl ms-fontColor-themePrimary" }, "Es wurden bisher keine Ausgaben erfasst")),
                             this.state.ausgaben.map(function (ausgabenWert, index) {
-                                return React.createElement(Panel_1.Panel, { key: "ausgabe_" + index, headerText: "Ausgabe " + (index + 1), className: "custom-padding-bottom-10px", headerControls: React.createElement(office_ui_fabric_react_1.ActionButton, { "data-info-title": "Ausgabe " + (index + 1), "data-info-desc": "Ausgabe " + (index + 1), iconProps: { iconName: "Delete", className: "img-font-size-large" }, onClick: function () {
+                                return (React.createElement(Panel_1.Panel, { key: "ausgabe_" + index, headerText: "Ausgabe " + (index + 1), className: "custom-padding-bottom-10px", headerControls: React.createElement(office_ui_fabric_react_1.ActionButton, { "data-info-title": "Ausgabe " + (index + 1), "data-info-desc": "Ausgabe " + (index + 1), iconProps: {
+                                            iconName: "Delete",
+                                            className: "img-font-size-large"
+                                        }, onClick: function () {
                                             var ns = __assign({}, _this.state);
                                             ns.ausgaben.splice(index, 1);
                                             _this.setState(ns);
@@ -3791,18 +3817,20 @@ var ManageRoute = (function (_super) {
                                     React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-lg6 " },
                                         React.createElement(office_ui_fabric_react_1.TextField, { placeholder: "Ausgabenbeschreibung", required: true, label: "Beschreibung der Ausgabe", value: ausgabenWert.title })),
                                     React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-lg6" },
-                                        React.createElement(NumberTextField_1.NumberTextField, { placeholder: "Ausgaben in Euro", label: "Wert der Ausgabe", required: true, numberValue: ausgabenWert.value, suffix: " Euro" }))));
+                                        React.createElement(NumberTextField_1.NumberTextField, { placeholder: "Ausgaben in Euro", label: "Wert der Ausgabe", required: true, numberValue: ausgabenWert.value, suffix: " Euro" })))));
                             })))),
                 React.createElement("div", { className: "ms-Grid-row" },
                     React.createElement("div", { className: "ms-Grid-col ms-sm12" },
                         React.createElement(Panel_1.Panel, { headerText: "Routenfahr-Daten verwalten", className: "custom-padding-bottom-10px", headerControls: React.createElement(office_ui_fabric_react_1.ActionButton, { "data-automation-id": "Add Routenfahrt", iconProps: { iconName: "Add" }, onClick: function () {
-                                    var fahrten = _this.state.routenfahrten.concat([new Date()]);
+                                    var fahrten = _this.state.routenfahrten.concat([
+                                        new Date()
+                                    ]);
                                     _this.setState({ routenfahrten: fahrten });
                                 } }) },
-                            (!this.state.routenfahrten || this.state.routenfahrten.length < 1) &&
-                                React.createElement("div", { className: "ms-font-xl ms-fontColor-themePrimary" }, "Es wurden bisher keine Fahrdaten erfasst"),
+                            (!this.state.routenfahrten ||
+                                this.state.routenfahrten.length < 1) && (React.createElement("div", { className: "ms-font-xl ms-fontColor-themePrimary" }, "Es wurden bisher keine Fahrdaten erfasst")),
                             this.state.routenfahrten.map(function (fahrt, index) {
-                                return React.createElement("div", { className: "ms-Grid-row", key: "route_" + index },
+                                return (React.createElement("div", { className: "ms-Grid-row", key: "route_" + index },
                                     React.createElement("div", { className: "ms-Grid-col ms-sm2 ms-md1 ms-lg1" },
                                         React.createElement(office_ui_fabric_react_1.Label, { className: "ms-fontSize-l ms-textAlignCenter" }, index + 1)),
                                     React.createElement("div", { className: "ms-Grid-col ms-sm8 ms-md8 ms-lg6" },
@@ -3812,23 +3840,33 @@ var ManageRoute = (function (_super) {
                                                 _this.setState(ns);
                                             } })),
                                     React.createElement("div", { className: "ms-Grid-col ms-sm2 ms-md2 ms-lg1" },
-                                        React.createElement(office_ui_fabric_react_1.ActionButton, { "data-info-title": "Fahrdatum entfernen", "data-info-desc": "Löscht das Fahrdatum", iconProps: { iconName: "Delete", className: "img-font-size-large" }, onClick: function () {
+                                        React.createElement(office_ui_fabric_react_1.ActionButton, { "data-info-title": "Fahrdatum entfernen", "data-info-desc": "Löscht das Fahrdatum", iconProps: {
+                                                iconName: "Delete",
+                                                className: "img-font-size-large"
+                                            }, onClick: function () {
                                                 var ns = __assign({}, _this.state);
                                                 ns.routenfahrten.splice(index, 1);
                                                 _this.setState(ns);
-                                            } })));
+                                            } }))));
                             })))),
                 React.createElement("div", { className: "ms-Grid-row" },
                     React.createElement("div", { className: "ms-Grid-col ms-sm12" },
                         React.createElement(Panel_1.Panel, { headerText: "Fahrten verwalten", className: "custom-padding-bottom-10px", headerControls: React.createElement(office_ui_fabric_react_1.ActionButton, { "data-automation-id": "Add Ausgabe", iconProps: { iconName: "Add" }, onClick: function () {
                                     var ns = __assign({}, _this.state);
-                                    ns.filialen.push({ Ausgaben: 0, Einnahmen: 0, Ort: "", Pkz: 0, Plz: 0, Straße: "", Testnummer: 0 });
+                                    ns.filialen.push({
+                                        Ausgaben: 0,
+                                        Einnahmen: 0,
+                                        Ort: "",
+                                        Pkz: 0,
+                                        Plz: 0,
+                                        Straße: "",
+                                        Testnummer: 0
+                                    });
                                     _this.setState(ns);
                                 } }) },
-                            (!this.state.filialen || this.state.filialen.length < 1) &&
-                                React.createElement("div", { className: "ms-font-xl ms-fontColor-themePrimary" }, "Es wurden bisher keine Filialen erfasst"),
+                            (!this.state.filialen || this.state.filialen.length < 1) && (React.createElement("div", { className: "ms-font-xl ms-fontColor-themePrimary" }, "Es wurden bisher keine Filialen erfasst")),
                             this.state.filialen.map(function (filiale, index) {
-                                return React.createElement("div", { className: "ms-Grid-row", key: "fahrt_" + index },
+                                return (React.createElement("div", { className: "ms-Grid-row", key: "fahrt_" + index },
                                     React.createElement("div", { className: "ms-Grid-col ms-sm12" },
                                         React.createElement(Panel_1.Panel, { headerText: "Fahrt " + (index + 1), headerControls: React.createElement(office_ui_fabric_react_1.ActionButton, { "data-info-title": "Filiale entfernen", "data-info-desc": "Löscht die Filiale", iconProps: { iconName: "Delete" }, onClick: function () {
                                                     var ns = __assign({}, _this.state);
@@ -3851,11 +3889,21 @@ var ManageRoute = (function (_super) {
                                                 React.createElement("div", { className: "ms-Grid-col ms-sm6 ms-md6 ms-lg6" },
                                                     React.createElement(NumberTextField_1.NumberTextField, { placeholder: "Einnahmen", label: "Einnahmen", numberValue: filiale.Einnahmen, suffix: " €" })),
                                                 React.createElement("div", { className: "ms-Grid-col ms-sm6 ms-md6 ms-lg6" },
-                                                    React.createElement(NumberTextField_1.NumberTextField, { placeholder: "Ausgaben", label: "Ausgaben", numberValue: filiale.Ausgaben, suffix: " €" }))))));
+                                                    React.createElement(NumberTextField_1.NumberTextField, { placeholder: "Ausgaben", label: "Ausgaben", numberValue: filiale.Ausgaben, suffix: " €" })))))));
                             })))),
                 React.createElement("div", { className: "ms-Grid-row" },
                     React.createElement("div", { className: "ms-Grid-col ms-sm12" },
-                        React.createElement(ButtonRow_1.ButtonRow, { saveButtonProps: { checked: false, disabled: false, text: "Speichern", onClickFunc: this.saveClick }, cancelButtonProps: { checked: true, disabled: false, text: "Abbrechen", onClickFunc: this.cancelClick } })))), Header: React.createElement("div", { className: "ms-font-xxl ms-textAlignCenter" }, "Route verwalten") });
+                        React.createElement(ButtonRow_1.ButtonRow, { saveButtonProps: {
+                                checked: false,
+                                disabled: false,
+                                text: "Speichern",
+                                onClickFunc: this.saveClick
+                            }, cancelButtonProps: {
+                                checked: true,
+                                disabled: false,
+                                text: "Abbrechen",
+                                onClickFunc: this.cancelClick
+                            } })))), Header: React.createElement("div", { className: "ms-font-xxl ms-textAlignCenter" }, "Route verwalten") }));
     };
     return ManageRoute;
 }(React.Component));
@@ -3893,10 +3941,10 @@ var ButtonRow = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     ButtonRow.prototype.render = function () {
-        return React.createElement("div", { className: "ms-Grid-row" },
+        return (React.createElement("div", { className: "ms-Grid-row" },
             React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-textAlignRight" },
                 React.createElement(office_ui_fabric_react_1.ActionButton, { "data-automation-id": "save", key: "save_btn_" + Date.now(), iconProps: { iconName: "Save" }, disabled: this.props.saveButtonProps.disabled, checked: this.props.saveButtonProps.checked, onClick: this.props.saveButtonProps.onClickFunc }, this.props.saveButtonProps.text),
-                React.createElement(office_ui_fabric_react_1.ActionButton, { "data-automation-id": "cancel", key: "cancel_btn_" + Date.now(), iconProps: { iconName: "Cancel" }, disabled: this.props.cancelButtonProps.disabled, checked: this.props.cancelButtonProps.checked, onClick: this.props.cancelButtonProps.onClickFunc }, this.props.cancelButtonProps.text)));
+                React.createElement(office_ui_fabric_react_1.ActionButton, { "data-automation-id": "cancel", key: "cancel_btn_" + Date.now(), iconProps: { iconName: "Cancel" }, disabled: this.props.cancelButtonProps.disabled, checked: this.props.cancelButtonProps.checked, onClick: this.props.cancelButtonProps.onClickFunc }, this.props.cancelButtonProps.text))));
     };
     return ButtonRow;
 }(React.PureComponent));
