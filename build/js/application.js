@@ -1464,7 +1464,7 @@ var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ 73);
 var application_1 = __webpack_require__(/*! ./application */ 356);
 var application_2 = __webpack_require__(/*! ../../../projects/yeelight/components/pages/application */ 204);
 var application_3 = __webpack_require__(/*! ../../../projects/vacuumRoboter/components/pages/application */ 658);
-var Application_1 = __webpack_require__(/*! ../../../projects/aldi/components/pages/Application */ 662);
+var application_4 = __webpack_require__(/*! ../../../projects/aldi/components/pages/application */ 662);
 var sensors_1 = __webpack_require__(/*! ../../../projects/xiaomi/components/pages/sensors */ 278);
 var gateways_1 = __webpack_require__(/*! ../../../projects/xiaomi/components/pages/gateways */ 279);
 var NotFoundPage_1 = __webpack_require__(/*! ../../components/simple/NotFoundPage */ 668);
@@ -1482,12 +1482,12 @@ var GlobalApplication = (function (_super) {
     };
     GlobalApplication.prototype.render = function () {
         console.log("render Application");
-        return React.createElement(basePage_1.BasePage, { IncludeFabricElement: true, Body: React.createElement(react_router_dom_1.Switch, null,
+        return (React.createElement(basePage_1.BasePage, { IncludeFabricElement: true, Body: React.createElement(react_router_dom_1.Switch, null,
                 React.createElement(Routing_1.RedirectWithStatus, { status: 302, from: "/courses", to: "/aldi" }),
                 React.createElement(react_router_dom_1.Route, { exact: true, path: "/", component: application_1.Application, key: "r1" }),
                 React.createElement(react_router_dom_1.Route, { path: "/system", component: systeminfo_1.SystemInfo, key: "r8" }),
                 React.createElement(react_router_dom_1.Route, { path: "/light", component: application_2.Application, key: "r2" }),
-                React.createElement(react_router_dom_1.Route, { path: "/aldi", component: Application_1.Application, key: "r3" }),
+                React.createElement(react_router_dom_1.Route, { path: "/aldi", component: application_4.Application, key: "r3" }),
                 React.createElement(react_router_dom_1.Route, { path: "/vacuum", component: application_3.Application, key: "r4" }),
                 React.createElement(react_router_dom_1.Route, { path: "/sensors", component: sensors_1.Application, key: "r6" }),
                 React.createElement(react_router_dom_1.Route, { path: "/gateways", component: gateways_1.Application, key: "r7" }),
@@ -1506,7 +1506,7 @@ var GlobalApplication = (function (_super) {
                     React.createElement("li", null,
                         React.createElement(react_router_dom_1.Link, { to: "/aldi", replace: true }, "Aldi")),
                     React.createElement("li", null,
-                        React.createElement(react_router_dom_1.Link, { to: "/vacuum", replace: true }, "Vacuum")))) });
+                        React.createElement(react_router_dom_1.Link, { to: "/vacuum", replace: true }, "Vacuum")))) }));
     };
     return GlobalApplication;
 }(React.Component));
@@ -3598,7 +3598,7 @@ function plural(ms, n, name) {
 
 /***/ 662:
 /*!************************************************************!*\
-  !*** ./src/projects/aldi/components/pages/Application.tsx ***!
+  !*** ./src/projects/aldi/components/pages/application.tsx ***!
   \************************************************************/
 /*! dynamic exports provided */
 /*! all exports used */
@@ -3619,7 +3619,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
 var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 35);
-var ManageRoute_1 = __webpack_require__(/*! ./ManageRoute */ 663);
+var manageRoute_1 = __webpack_require__(/*! ./manageRoute */ 663);
 var enums_1 = __webpack_require__(/*! ../../../../enums/enums */ 281);
 var ToolTip_1 = __webpack_require__(/*! ../../../../global/components/simple/ToolTip */ 667);
 var Application = (function (_super) {
@@ -3642,7 +3642,7 @@ var Application = (function (_super) {
         document.title = "Aldi Hauptseite";
     };
     Application.prototype.addRouteClick = function () {
-        var c = (React.createElement(ManageRoute_1.ManageRoute, { onExitPage: this.closeModal, pageType: enums_1.PageType.Add }));
+        var c = (React.createElement(manageRoute_1.ManageRoute, { onExitPage: this.closeModal, pageType: enums_1.PageType.Add }));
         this.setState({ showModal: true, modalContent: c });
         this.hideCallOut();
     };
@@ -3700,7 +3700,7 @@ exports.Application = Application;
 
 /***/ 663:
 /*!************************************************************!*\
-  !*** ./src/projects/aldi/components/pages/ManageRoute.tsx ***!
+  !*** ./src/projects/aldi/components/pages/manageRoute.tsx ***!
   \************************************************************/
 /*! dynamic exports provided */
 /*! all exports used */

@@ -1,5 +1,6 @@
 "use strict";
 import express from "express";
+import { SensorServiceInstance } from "../api/services/SensorService";
 const miio = require("miio");
 
 function findIdInArray(targetArray: any[], id): number {
@@ -40,9 +41,31 @@ export function registerDevices(app: express.Application) {
       "@@ Detected Device: " + device.id + " (" + device.type + ") @@"
     );
 
-    device.on("propertyChanged", e =>
-      console.log("propertyChanged: " + e.property, e.oldValue, e.value)
-    );
+    device.on("propertyChanged", e => {
+      console.log(
+        "@@ Detected Device propertyChanged: " +
+          device.id +
+          " (" +
+          device.type +
+          ") @@"
+      );
+      console.log(
+        "propertyChanged: " + e.property,
+        e.oldValue,
+        e.value,
+        JSON.stringify(e)
+      );
+      if (device.type !== "sensor") {
+        return;
+      }
+      SensorServiceInstance.logData(app, device.id)
+        .then(() => {
+          console.log("OK INSERT");
+        })
+        .catch(() => {
+          console.log("ERROR INSERTING");
+        });
+    });
     // Some devices have custom events
     device.on("action", e => console.log("Action performed:", e.id));
 

@@ -101,7 +101,7 @@ MongoClient.connect(MONGO_DB_CONNECTION_STRING, function(err, database) {
   console.log("Read Database: " + MONGO_DB_DATABASE_STRING);
 
   app.locals.database = database.db(MONGO_DB_DATABASE_STRING);
-  const note = { text: "req.body.body", title: "req.body.title" };
+  const note = { message: "Start Application", timestamp: Date.now() };
   // db
   //   .collections()
   //   .then(result => {
