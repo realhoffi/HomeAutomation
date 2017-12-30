@@ -153,7 +153,7 @@ var Application = (function (_super) {
     function Application(props) {
         var _this = _super.call(this, props) || this;
         _this.isMountedFinished = false;
-        _this.state = { lights: [], isInitialized: false };
+        _this.state = { lights: [], isInitialized: false, intervalId: undefined };
         _this.colorChangedOnLight = _this.colorChangedOnLight.bind(_this);
         _this.powerChangedOnLight = _this.powerChangedOnLight.bind(_this);
         _this.colorSchemaChangedOnLight = _this.colorSchemaChangedOnLight.bind(_this);
@@ -172,20 +172,22 @@ var Application = (function (_super) {
                 _this.setState({ isInitialized: true });
             }
         });
-        this.ival = timers_1.setInterval(this.loadDevices, 30000);
+        var interval = timers_1.setInterval(this.loadDevices, 30000);
+        this.setState({ intervalId: interval["_id"] });
         this.isMountedFinished = true;
     };
     Application.prototype.componentWillUnmount = function () {
-        clearInterval(this.ival);
+        clearInterval(this.state.intervalId);
         this.isMountedFinished = false;
     };
     Application.prototype.loadDevices = function () {
         var _this = this;
+        if (!this.isMountedFinished) {
+            Promise.resolve();
+        }
         return axios_1.default.get("/api/lights/details")
             .then(function (results) {
-            if (_this.isMountedFinished === true) {
-                _this.setState({ lights: results.data["lights"] });
-            }
+            _this.setState({ lights: results.data["lights"] });
         })
             .catch(function (error) { });
     };
@@ -237,7 +239,7 @@ var Application = (function (_super) {
 }(React.Component));
 exports.Application = Application;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 38)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 24)))
 
 /***/ }),
 
@@ -250,7 +252,7 @@ exports.Application = Application;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function(Promise) {
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -272,7 +274,7 @@ var Application = (function (_super) {
     function Application(props) {
         var _this = _super.call(this, props) || this;
         _this.isMountedFinished = false;
-        _this.state = { sensors: [], isInitialized: false };
+        _this.state = { sensors: [], isInitialized: false, intervalId: undefined };
         _this.loadDevices = _this.loadDevices.bind(_this);
         return _this;
     }
@@ -285,19 +287,21 @@ var Application = (function (_super) {
                 _this.setState({ isInitialized: true });
             }
         });
-        this.ival = timers_1.setInterval(this.loadDevices, 30000);
+        var interval = timers_1.setInterval(this.loadDevices, 30000);
+        this.setState({ intervalId: interval["_id"] });
         this.isMountedFinished = true;
     };
     Application.prototype.componentWillUnmount = function () {
-        clearInterval(this.ival);
+        clearInterval(this.state.intervalId);
         this.isMountedFinished = false;
     };
     Application.prototype.loadDevices = function () {
         var _this = this;
+        if (!this.isMountedFinished) {
+            Promise.resolve();
+        }
         return axios_1.default.get("/api/sensors").then(function (result) {
-            if (_this.isMountedFinished === true) {
-                _this.setState({ sensors: result.data["sensors"] });
-            }
+            _this.setState({ sensors: result.data["sensors"] });
         });
     };
     Application.prototype.render = function () {
@@ -318,6 +322,7 @@ var Application = (function (_super) {
 }(React.Component));
 exports.Application = Application;
 
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 24)))
 
 /***/ }),
 
@@ -369,7 +374,7 @@ exports.addDays = addDays;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function(Promise) {
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -391,7 +396,12 @@ var Application = (function (_super) {
     function Application(props) {
         var _this = _super.call(this, props) || this;
         _this.isMountedFinished = false;
-        _this.state = { gateways: [], gatewayLights: [], isInitialized: false };
+        _this.state = {
+            gateways: [],
+            gatewayLights: [],
+            isInitialized: false,
+            intervalId: undefined
+        };
         _this.loadDevices = _this.loadDevices.bind(_this);
         return _this;
     }
@@ -404,22 +414,24 @@ var Application = (function (_super) {
                 _this.setState({ isInitialized: true });
             }
         });
-        this.ival = timers_1.setInterval(this.loadDevices, 30000);
+        var interval = timers_1.setInterval(this.loadDevices, 30000);
+        this.setState({ intervalId: interval["_id"] });
         this.isMountedFinished = true;
     };
     Application.prototype.componentWillUnmount = function () {
-        clearInterval(this.ival);
+        clearInterval(this.state.intervalId);
         this.isMountedFinished = false;
     };
     Application.prototype.loadDevices = function () {
         var _this = this;
+        if (!this.isMountedFinished) {
+            Promise.resolve();
+        }
         return axios_1.default.get("/api/gateways")
             .then(function (results) {
-            if (_this.isMountedFinished === true) {
-                var gws = results.data["gateways"];
-                var gwLights = gws.map(_this.mapGatewayToLightModel);
-                _this.setState({ gateways: gws, gatewayLights: gwLights });
-            }
+            var gws = results.data["gateways"];
+            var gwLights = gws.map(_this.mapGatewayToLightModel);
+            _this.setState({ gateways: gws, gatewayLights: gwLights });
         })
             .catch(function (error) { });
     };
@@ -473,6 +485,7 @@ var Application = (function (_super) {
 }(React.Component));
 exports.Application = Application;
 
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 24)))
 
 /***/ }),
 
@@ -485,7 +498,7 @@ exports.Application = Application;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function(Promise) {
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -498,7 +511,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
-var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 29);
+var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 30);
 var axios_1 = __webpack_require__(/*! axios */ 71);
 var timers_1 = __webpack_require__(/*! timers */ 85);
 var react_1 = __webpack_require__(/*! react */ 1);
@@ -507,7 +520,11 @@ var SystemInfo = (function (_super) {
     function SystemInfo(props) {
         var _this = _super.call(this, props) || this;
         _this.isMountedFinished = false;
-        _this.state = { systemInformation: undefined, isInitialized: false };
+        _this.state = {
+            systemInformation: undefined,
+            isInitialized: false,
+            intervalId: undefined
+        };
         _this.loadDevices = _this.loadDevices.bind(_this);
         return _this;
     }
@@ -520,19 +537,21 @@ var SystemInfo = (function (_super) {
                 _this.setState({ isInitialized: true });
             }
         });
-        this.ival = timers_1.setInterval(this.loadDevices, 10000);
+        var interval = timers_1.setInterval(this.loadDevices, 10000);
+        this.setState({ intervalId: interval["_id"] });
         this.isMountedFinished = true;
     };
     SystemInfo.prototype.componentWillUnmount = function () {
-        clearInterval(this.ival);
+        clearInterval(this.state.intervalId);
         this.isMountedFinished = false;
     };
     SystemInfo.prototype.loadDevices = function () {
         var _this = this;
+        if (!this.isMountedFinished) {
+            Promise.resolve();
+        }
         return axios_1.default.get("/api/system").then(function (result) {
-            if (_this.isMountedFinished === true) {
-                _this.setState({ systemInformation: result.data["system"] });
-            }
+            _this.setState({ systemInformation: result.data["system"] });
         });
     };
     SystemInfo.prototype.convertRamToMBString = function (ram) {
@@ -577,6 +596,7 @@ var SystemInfo = (function (_super) {
 }(React.Component));
 exports.SystemInfo = SystemInfo;
 
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 24)))
 
 /***/ }),
 
@@ -623,7 +643,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
-var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 29);
+var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 30);
 var BasePage = (function (_super) {
     __extends(BasePage, _super);
     function BasePage(props) {
@@ -858,7 +878,7 @@ var React = __webpack_require__(/*! react */ 1);
 var application_1 = __webpack_require__(/*! ../../../projects/yeelight/components/pages/application */ 231);
 var sensors_1 = __webpack_require__(/*! ../../../projects/xiaomi/components/pages/sensors */ 305);
 var gateways_1 = __webpack_require__(/*! ../../../projects/xiaomi/components/pages/gateways */ 328);
-var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 29);
+var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 30);
 var PivotItem_1 = __webpack_require__(/*! office-ui-fabric-react/lib/components/Pivot/PivotItem */ 180);
 var systeminfo_1 = __webpack_require__(/*! ../../../projects/system/components/pages/systeminfo */ 329);
 var Application = (function (_super) {
@@ -923,7 +943,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
-var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 29);
+var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 30);
 var Panel_1 = __webpack_require__(/*! ../../../../global/components/simple/Panel */ 120);
 var Yeelight = (function (_super) {
     __extends(Yeelight, _super);
@@ -1081,7 +1101,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
-var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 29);
+var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 30);
 var Panel_1 = __webpack_require__(/*! ../../../global/components/simple/Panel */ 120);
 var react_1 = __webpack_require__(/*! react */ 1);
 var BaseWeatherSensorChart_1 = __webpack_require__(/*! ./BaseWeatherSensorChart */ 709);
@@ -1146,7 +1166,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
-var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 29);
+var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 30);
 var axios_1 = __webpack_require__(/*! axios */ 71);
 var react_chartjs_2_1 = __webpack_require__(/*! react-chartjs-2 */ 306);
 var date_1 = __webpack_require__(/*! ../../../helper/date */ 327);
@@ -1366,7 +1386,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
-var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 29);
+var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 30);
 var Panel_1 = __webpack_require__(/*! ../../../global/components/simple/Panel */ 120);
 var BaseLight = (function (_super) {
     __extends(BaseLight, _super);
@@ -1556,7 +1576,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
-var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 29);
+var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 30);
 var manageRoute_1 = __webpack_require__(/*! ./manageRoute */ 848);
 var enums_1 = __webpack_require__(/*! ../../../../enums/enums */ 330);
 var ToolTip_1 = __webpack_require__(/*! ../../../../global/components/simple/ToolTip */ 851);
@@ -1666,7 +1686,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
-var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 29);
+var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 30);
 var enums_1 = __webpack_require__(/*! ../../../../enums/enums */ 330);
 var basePage_1 = __webpack_require__(/*! ../../../../global/components/container/basePage */ 331);
 var ButtonRow_1 = __webpack_require__(/*! ../../../../global/components/simple/ButtonRow */ 849);
@@ -1872,7 +1892,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
-var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 29);
+var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 30);
 var ButtonRow = (function (_super) {
     __extends(ButtonRow, _super);
     function ButtonRow() {
@@ -1913,7 +1933,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
-var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 29);
+var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 30);
 var NumberTextField = (function (_super) {
     __extends(NumberTextField, _super);
     function NumberTextField(props) {
