@@ -56,14 +56,15 @@ export function registerDevices(app: express.Application) {
         JSON.stringify(e)
       );
       if (device.type !== "sensor") {
+        console.log("Exit, no Sensor!");
         return;
       }
       SensorServiceInstance.logData(app, device.id)
         .then(() => {
           console.log("OK INSERT");
         })
-        .catch(() => {
-          console.log("ERROR INSERTING");
+        .catch(error => {
+          console.log("ERROR INSERTING @@ ", error);
         });
     });
     // Some devices have custom events

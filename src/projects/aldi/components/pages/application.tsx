@@ -8,7 +8,6 @@ export interface IApplicationState {
   isCalloutVisible: boolean;
   callOutContent: JSX.Element;
 }
-import debug = require("debug");
 import {
   CommandBarButton,
   BaseButton,

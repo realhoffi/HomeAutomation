@@ -20,7 +20,12 @@ var vendor = [
   "bluebird",
   "office-ui-fabric-react",
   "react-router",
-  "react-router-dom"
+  "react-router-dom",
+  "moment",
+  "chart.js",
+  "react-chartjs-2",
+  "axios",
+  "@uifabric/icons"
 ];
 fs
   .readdirSync("node_modules")
@@ -54,6 +59,7 @@ module.exports = [
       chunkFilename: "js/[name].js"
     },
     plugins: [
+      new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /de.js/),
       new webpack.ProvidePlugin({
         Promise: "bluebird"
       }),
@@ -187,6 +193,11 @@ module.exports = [
         VERSION: JSON.stringify(1.0),
         MONGO_DB_CONNECTION_STRING: JSON.stringify("mongodb://localhost:27017"),
         MONGO_DB_DATABASE_STRING: JSON.stringify("homeautomation"),
+        MONGO_DB_SENSOR_COLLECTION_STRING: JSON.stringify("sensors"),
+        MONGO_DB_APPLICATION_COLLECTION_STRING: JSON.stringify("application"),
+        MONGO_DB_CONFIGURATION_COLLECTION_STRING: JSON.stringify(
+          "configuration"
+        ),
         "process.env": {
           NODE_ENV: JSON.stringify(currentStage)
         }
