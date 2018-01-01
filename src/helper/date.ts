@@ -16,10 +16,15 @@ export function addDays(
   let calculatedDate = new Date(dateToAdd);
   calculatedDate.setDate(calculatedDate.getDate() + daysToAdd);
   if (setHrsMinSecMiSecToZero) {
-    calculatedDate.setMinutes(0);
-    calculatedDate.setHours(0);
-    calculatedDate.setSeconds(0);
-    calculatedDate.setMilliseconds(0);
+    calculatedDate = setDatePropertiesToZero(calculatedDate);
   }
+  return calculatedDate;
+}
+export function setDatePropertiesToZero(dateToSet: Date): Date {
+  let calculatedDate = new Date(dateToSet);
+  calculatedDate.setMinutes(0);
+  calculatedDate.setHours(0);
+  calculatedDate.setSeconds(0);
+  calculatedDate.setMilliseconds(0);
   return calculatedDate;
 }

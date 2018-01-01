@@ -906,7 +906,7 @@ var SensorService = (function () {
                 return;
             }
             var data = {
-                insertTime: Date.now(),
+                timestamp: Date.now(),
                 id: sensor.id,
                 ip: sensor.ip,
                 humidity: sensor.humidity || -1,
@@ -942,6 +942,48 @@ var SensorService = (function () {
                 .find(query)
                 .toArray()
                 .then(function (resultItems) {
+                resolve({ items: resultItems });
+            })
+                .catch(function () {
+                reject({ message: "not inserted" });
+            });
+        });
+    };
+    SensorService.prototype.getSensorDataBetweenDates = function (app, sensorId, startDateTicks, endDateTicks) {
+        return new Promise(function (resolve, reject) {
+            var sensors = app.locals.xiaomi.sensors;
+            var from = parseInt(startDateTicks);
+            var to = parseInt(endDateTicks);
+            if (isNaN(from) || isNaN(to)) {
+                reject({ message: "Parameter 'from' oder 'to' ist keine number!" });
+            }
+            var query = {
+                id: sensorId
+            };
+            var ts = [];
+            if (!isNaN(from) && from !== -1) {
+                ts.push({ $gte: from });
+            }
+            if (!isNaN(to) && to !== -1) {
+                ts.push({ $lte: to });
+            }
+            if (ts.length > 0) {
+                var objTs_1 = {};
+                ts.forEach(function (element) {
+                    Object.keys(element).forEach(function (key) {
+                        objTs_1[key] = element[key];
+                    });
+                });
+                query["timestamp"] = objTs_1;
+            }
+            console.log("Query Sensor Data: ", query);
+            var db = app.locals.database;
+            db
+                .collection("sensors")
+                .find(query)
+                .toArray()
+                .then(function (resultItems) {
+                console.log("Query result count: " + resultItems.length);
                 resolve({ items: resultItems });
             })
                 .catch(function () {
@@ -6730,6 +6772,7 @@ var SensorController = (function () {
         this.router.get("/sensors", this.getSensors.bind(this));
         this.router.get("/sensors/:id/info/:properties", this.getProperties.bind(this));
         this.router.get("/sensors/:id/data/", this.getLoggedSensorData.bind(this));
+        this.router.get("/sensors/:id/between/:t1/:t2", this.getLoggedSensorDataBetweenDates.bind(this));
     };
     SensorController.prototype.getSensors = function (req, res) {
         var result = SensorService_1.SensorServiceInstance.getSensors(req.app);
@@ -6746,6 +6789,15 @@ var SensorController = (function () {
     };
     SensorController.prototype.getLoggedSensorData = function (req, res) {
         var result = SensorService_1.SensorServiceInstance.getSensorData(req.app, req.params.id)
+            .then(function (result) {
+            res.status(200).json(result);
+        })
+            .catch(function (error) {
+            res.status(500).json(error);
+        });
+    };
+    SensorController.prototype.getLoggedSensorDataBetweenDates = function (req, res) {
+        var result = SensorService_1.SensorServiceInstance.getSensorDataBetweenDates(req.app, req.params.id, req.params.t1, req.params.t2)
             .then(function (result) {
             res.status(200).json(result);
         })

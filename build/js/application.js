@@ -353,14 +353,20 @@ function addDays(dateToAdd, daysToAdd, setHrsMinSecMiSecToZero) {
     var calculatedDate = new Date(dateToAdd);
     calculatedDate.setDate(calculatedDate.getDate() + daysToAdd);
     if (setHrsMinSecMiSecToZero) {
-        calculatedDate.setMinutes(0);
-        calculatedDate.setHours(0);
-        calculatedDate.setSeconds(0);
-        calculatedDate.setMilliseconds(0);
+        calculatedDate = setDatePropertiesToZero(calculatedDate);
     }
     return calculatedDate;
 }
 exports.addDays = addDays;
+function setDatePropertiesToZero(dateToSet) {
+    var calculatedDate = new Date(dateToSet);
+    calculatedDate.setMinutes(0);
+    calculatedDate.setHours(0);
+    calculatedDate.setSeconds(0);
+    calculatedDate.setMilliseconds(0);
+    return calculatedDate;
+}
+exports.setDatePropertiesToZero = setDatePropertiesToZero;
 
 
 /***/ }),
@@ -1153,7 +1159,7 @@ exports.BaseWeatherSensor = BaseWeatherSensor;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function(Promise) {
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -1172,9 +1178,9 @@ var react_chartjs_2_1 = __webpack_require__(/*! react-chartjs-2 */ 306);
 var date_1 = __webpack_require__(/*! ../../../helper/date */ 327);
 var options = [
     React.createElement("option", { value: "1", key: "k1" }, "Heute"),
-    React.createElement("option", { value: "2", key: "k2" }, "Letzte Woche"),
-    React.createElement("option", { value: "3", key: "k3" }, "Alle"),
-    React.createElement("option", { value: "4", key: "k4" }, "Letzten 2 Tage")
+    React.createElement("option", { value: "2", key: "k2" }, "Letzten 2 Tage"),
+    React.createElement("option", { value: "3", key: "k3" }, "Letzte Woche"),
+    React.createElement("option", { value: "4", key: "k4" }, "Alle")
 ];
 var BaseWeatherSensorChart = (function (_super) {
     __extends(BaseWeatherSensorChart, _super);
@@ -1182,52 +1188,19 @@ var BaseWeatherSensorChart = (function (_super) {
         var _this = _super.call(this, props) || this;
         _this.state = {
             sensorData: undefined,
-            temporarySensorData: undefined,
             isError: false,
+            isLoadingSensorData: true,
             selectedRange: "1"
         };
         _this.dateRangeSelectionChanged = _this.dateRangeSelectionChanged.bind(_this);
         return _this;
     }
-    BaseWeatherSensorChart.prototype.filterDataBySelectedDateRange = function (itemArray, selectedRange) {
-        var items = [];
-        itemArray.forEach(function (row) {
-            if (!row.timestamp && !row.insertTime)
-                return;
-            var itemCreationDate = new Date(row.timestam || row.insertTime);
-            var itemCreationDateString = date_1.getGermanDateString(itemCreationDate);
-            var calculatedDate = new Date();
-            switch (selectedRange) {
-                case "1":
-                    if (date_1.getGermanDateString(new Date()) === itemCreationDateString) {
-                        items.push(row);
-                    }
-                    break;
-                case "2":
-                    calculatedDate = date_1.addDays(calculatedDate, -7, true);
-                    if (itemCreationDate.getTime() >= calculatedDate.getTime()) {
-                        items.push(row);
-                    }
-                    break;
-                case "3":
-                    items.push(row);
-                    break;
-                case "4":
-                    calculatedDate = date_1.addDays(calculatedDate, -2, true);
-                    if (itemCreationDate.getTime() >= calculatedDate.getTime()) {
-                        items.push(row);
-                    }
-                    break;
-                default:
-                    console.log("getDataBySelectedDateRange", "value not found...", selectedRange);
-            }
-        });
-        return items;
-    };
-    BaseWeatherSensorChart.prototype.getChartData = function (defaultData, selectedRange) {
+    BaseWeatherSensorChart.prototype.getChartData = function (defaultData) {
         var dataRows = defaultData;
-        dataRows = this.filterDataBySelectedDateRange(dataRows, selectedRange);
-        var data = { datasets: [], labels: [] };
+        var data = {
+            datasets: [],
+            labels: []
+        };
         data.datasets.push({ label: "Temperatur", data: [] });
         data.datasets.push({ label: "Luftfeuchtigkeit", data: [] });
         if (this.props.sensorInformations.hasPressure) {
@@ -1238,9 +1211,9 @@ var BaseWeatherSensorChart = (function (_super) {
         var humidityValues = [];
         var pressureValues = [];
         dataRows.forEach(function (row) {
-            if (!row.timestamp && !row.insertTime)
+            if (!row.timestamp)
                 return;
-            labels.push(date_1.getGermanDateString(new Date(row.timestam || row.insertTime)));
+            labels.push(date_1.getGermanDateString(new Date(row.timestamp)));
             tempValues.push(row.temperature);
             humidityValues.push(row.humidity);
             pressureValues.push(row.pressure);
@@ -1260,8 +1233,8 @@ var BaseWeatherSensorChart = (function (_super) {
                 pointHoverBorderColor: "rgba(220,220,220,1)",
                 lineTension: 0.3,
                 pointHoverBorderWidth: 2,
-                pointRadius: 2,
-                pointHitRadius: 10,
+                pointRadius: 1,
+                pointHitRadius: 3,
                 fill: false
             },
             {
@@ -1277,8 +1250,8 @@ var BaseWeatherSensorChart = (function (_super) {
                 pointHoverBorderColor: "rgba(220,220,220,1)",
                 lineTension: 0.3,
                 pointHoverBorderWidth: 2,
-                pointRadius: 2,
-                pointHitRadius: 10,
+                pointRadius: 1,
+                pointHitRadius: 3,
                 fill: false
             }
         ];
@@ -1296,40 +1269,98 @@ var BaseWeatherSensorChart = (function (_super) {
                 pointHoverBorderColor: "rgba(220,220,220,1)",
                 lineTension: 0.3,
                 pointHoverBorderWidth: 2,
-                pointRadius: 2,
-                pointHitRadius: 10,
+                pointRadius: 1,
+                pointHitRadius: 3,
                 fill: false
             });
         }
         return data;
     };
-    BaseWeatherSensorChart.prototype.componentDidMount = function () {
+    BaseWeatherSensorChart.prototype.querySensorDataByDateRange = function (from, to) {
+        return axios_1.default.get("/api/sensors/" +
+            this.props.sensorInformations.id +
+            "/between/" +
+            from +
+            "/" +
+            to);
+    };
+    BaseWeatherSensorChart.prototype.queryAllSensorData = function () {
+        return axios_1.default.get("/api/sensors/" + this.props.sensorInformations.id + "/data");
+    };
+    BaseWeatherSensorChart.prototype.getDateTickRangeBySelection = function (selectedOption) {
+        var from = -1;
+        var to = -1;
+        switch (selectedOption) {
+            case "1":
+                from = date_1.setDatePropertiesToZero(new Date()).getTime();
+                to = Date.now();
+                break;
+            case "2":
+                from = date_1.addDays(new Date(), -2, true).getTime();
+                to = Date.now();
+                break;
+            case "3":
+                from = date_1.addDays(new Date(), -7, true).getTime();
+                to = Date.now();
+                break;
+            case "4":
+                break;
+            default:
+                console.log("getDateTickRangeBySelection", "value not found...", selectedOption);
+        }
+        return {
+            from: from,
+            to: to
+        };
+    };
+    BaseWeatherSensorChart.prototype.queryLiveDate = function (selectedOption) {
         var _this = this;
-        axios_1.default.get("/api/sensors/" + this.props.sensorInformations.id + "/data")
-            .then(function (dataResult) {
-            if (!dataResult.data) {
-                return;
-            }
-            if (!dataResult.data.items || dataResult.data.items.lenght === 0) {
-                return;
-            }
-            var dataRows = _this.getChartData(dataResult.data.items, _this.state.selectedRange);
+        return new Promise(function (resolve, reject) {
+            var dateRange = _this.getDateTickRangeBySelection(selectedOption);
+            _this.querySensorDataByDateRange(dateRange.from, dateRange.to)
+                .then(function (dataResult) {
+                if (!dataResult.data) {
+                    resolve([]);
+                }
+                if (!dataResult.data.items || dataResult.data.items.lenght === 0) {
+                    resolve([]);
+                }
+                var dataRows = _this.getChartData(dataResult.data.items);
+                resolve(dataRows);
+            })
+                .catch(function (error) {
+                reject(error);
+            });
+        });
+    };
+    BaseWeatherSensorChart.prototype.doSensorQueryNow = function () {
+        var _this = this;
+        this.queryLiveDate(this.state.selectedRange)
+            .then(function (result) {
             _this.setState({
-                sensorData: dataResult.data.items,
-                temporarySensorData: dataRows
+                sensorData: result,
+                isLoadingSensorData: false
             });
         })
             .catch(function (error) {
-            _this.setState({ isError: true });
+            _this.setState({
+                isError: true,
+                isLoadingSensorData: false
+            });
         });
     };
+    BaseWeatherSensorChart.prototype.componentDidMount = function () {
+        this.doSensorQueryNow();
+    };
     BaseWeatherSensorChart.prototype.dateRangeSelectionChanged = function (event) {
+        var _this = this;
         var index = event.target.selectedIndex;
         var selectedOptionValue = event.target.options[index].value;
-        var items = this.getChartData(this.state.sensorData, selectedOptionValue);
         this.setState({
-            selectedRange: selectedOptionValue,
-            temporarySensorData: items
+            isLoadingSensorData: true,
+            selectedRange: selectedOptionValue
+        }, function () {
+            _this.doSensorQueryNow();
         });
     };
     BaseWeatherSensorChart.prototype.render = function () {
@@ -1340,6 +1371,18 @@ var BaseWeatherSensorChart = (function (_super) {
             return (this.state.isError && (React.createElement("div", { className: "ms-Grid-row" },
                 React.createElement("div", { className: "ms-Grid-col ms-sm12" }, "Es ist ein Fehler aufgetreten..."))));
         }
+        var sensorDataContent = null;
+        if (this.state.isLoadingSensorData) {
+            sensorDataContent = (React.createElement(office_ui_fabric_react_1.Spinner, { size: office_ui_fabric_react_1.SpinnerSize.large, label: "Lade Sensor-Daten..." }));
+        }
+        else {
+            if (!this.state.sensorData) {
+                sensorDataContent = "Keine Daten vorhanden...";
+            }
+            else {
+                sensorDataContent = React.createElement(react_chartjs_2_1.Line, { data: this.state.sensorData });
+            }
+        }
         return (React.createElement("div", { className: "ms-Grid-row" },
             React.createElement("div", { className: "ms-Grid-col ms-sm12" },
                 React.createElement("div", { className: "ms-Grid-row" },
@@ -1347,12 +1390,13 @@ var BaseWeatherSensorChart = (function (_super) {
                         React.createElement(office_ui_fabric_react_1.Label, null, "Zeitraum"),
                         React.createElement("select", { onChange: this.dateRangeSelectionChanged, value: this.state.selectedRange }, options))),
                 React.createElement("div", { className: "ms-Grid-row" },
-                    React.createElement("div", { className: "ms-Grid-col ms-sm12" }, !this.state.sensorData ? ("Keine Daten vorhanden...") : (React.createElement(react_chartjs_2_1.Line, { data: this.state.temporarySensorData })))))));
+                    React.createElement("div", { className: "ms-Grid-col ms-sm12" }, sensorDataContent)))));
     };
     return BaseWeatherSensorChart;
 }(React.Component));
 exports.BaseWeatherSensorChart = BaseWeatherSensorChart;
 
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 24)))
 
 /***/ }),
 
@@ -1701,7 +1745,7 @@ var ManageRoute = (function (_super) {
             filialen: [],
             routenfahrten: [],
             ausgaben: [],
-            googleMapsLink: ""
+            links: []
         };
         _this.cancelClick = _this.cancelClick.bind(_this);
         _this.saveClick = _this.saveClick.bind(_this);
@@ -1746,15 +1790,31 @@ var ManageRoute = (function (_super) {
         return (React.createElement(basePage_1.BasePage, { IncludeFabricElement: false, Body: React.createElement("div", { className: "ms-Grid" },
                 React.createElement("div", { className: "ms-Grid-row" },
                     React.createElement("div", { className: "ms-Grid-col ms-sm12" },
-                        React.createElement(Panel_1.Panel, { headerText: "Routeninformationen", className: "custom-padding-bottom-10px" },
-                            React.createElement("div", { className: "ms-Grid-row" },
+                        React.createElement(Panel_1.Panel, { headerText: "Routeninformationen", className: "custom-padding-bottom-10px", headerControls: React.createElement(office_ui_fabric_react_1.ActionButton, { "data-automation-id": "Add Link", iconProps: { iconName: "Add" }, onClick: function () {
+                                    var ns = __assign({}, _this.state);
+                                    ns.links.push("");
+                                    _this.setState(ns);
+                                } }) }, this.state.links.map(function (link, index) {
+                            return (React.createElement("div", { className: "ms-Grid-row", key: "link_" + index },
                                 React.createElement("div", { className: "ms-Grid-col ms-sm2 ms-lg1" },
                                     React.createElement(office_ui_fabric_react_1.Label, null,
-                                        React.createElement(office_ui_fabric_react_1.Link, { href: this.state.googleMapsLink, disabled: !this.state.googleMapsLink, target: "_blank" }, "Maps"))),
-                                React.createElement("div", { className: "ms-Grid-col ms-sm10" },
-                                    React.createElement(office_ui_fabric_react_1.TextField, { placeholder: "Link zu Google Maps", value: this.state.googleMapsLink, onChanged: function (text) {
-                                            _this.setState({ googleMapsLink: text });
-                                        } })))))),
+                                        React.createElement(office_ui_fabric_react_1.Link, { href: link, disabled: !link, target: "_blank" }, "Link " + (index + 1)))),
+                                React.createElement("div", { className: "ms-Grid-col ms-sm8 ms-lg-10" },
+                                    React.createElement(office_ui_fabric_react_1.TextField, { placeholder: "Link eingeben", value: link, onChanged: function (text) {
+                                            var newState = __assign({}, _this.state);
+                                            newState.links[index] = text;
+                                            _this.setState(newState);
+                                        } })),
+                                React.createElement("div", { className: "ms-Grid-col ms-sm2 ms-lg1" },
+                                    React.createElement(office_ui_fabric_react_1.ActionButton, { "data-info-title": "Link entfernen", "data-info-desc": "Löscht den Link", iconProps: {
+                                            iconName: "Delete",
+                                            className: "img-font-size-large"
+                                        }, onClick: function () {
+                                            var ns = __assign({}, _this.state);
+                                            ns.links.splice(index, 1);
+                                            _this.setState(ns);
+                                        } }))));
+                        })))),
                 React.createElement("div", { className: "ms-Grid-row" },
                     React.createElement("div", { className: "ms-Grid-col ms-sm12" },
                         React.createElement(Panel_1.Panel, { headerText: "Ausgaben", className: "custom-padding-bottom-10px", headerControls: React.createElement(office_ui_fabric_react_1.ActionButton, { "data-automation-id": "Add Ausgabe", iconProps: { iconName: "Add" }, onClick: function () {
@@ -1772,7 +1832,7 @@ var ManageRoute = (function (_super) {
                                             ns.ausgaben.splice(index, 1);
                                             _this.setState(ns);
                                         } }) }, React.createElement("div", { className: "ms-Grid-row" },
-                                    React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-lg6 " },
+                                    React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-lg6" },
                                         React.createElement(office_ui_fabric_react_1.TextField, { placeholder: "Ausgabenbeschreibung", required: true, label: "Beschreibung der Ausgabe", value: ausgabenWert.title })),
                                     React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-lg6" },
                                         React.createElement(NumberTextField_1.NumberTextField, { placeholder: "Ausgaben in Euro", label: "Wert der Ausgabe", required: true, numberValue: ausgabenWert.value, suffix: " Euro" })))));

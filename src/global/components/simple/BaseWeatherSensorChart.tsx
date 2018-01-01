@@ -1,25 +1,37 @@
 import * as React from "react";
-import { Toggle, Slider, Label, Icon } from "office-ui-fabric-react";
+import {
+  Toggle,
+  Slider,
+  Label,
+  Icon,
+  Spinner,
+  SpinnerSize
+} from "office-ui-fabric-react";
 import { IBaseWeatherSensor } from "../../../interfaces/xiaomi";
 import { Panel } from "../../../global/components/simple/Panel";
 import Axios from "axios";
 import { Fragment } from "react";
 import { Line, ChartData } from "react-chartjs-2";
 import * as chartjs from "chart.js";
-import { getGermanDateString, addDays } from "../../../helper/date";
+import {
+  getGermanDateString,
+  addDays,
+  setDatePropertiesToZero
+} from "../../../helper/date";
+import { ChartOptions } from "chart.js";
 
 const options = [
   <option value="1" key={"k1"}>
     Heute
   </option>,
   <option value="2" key={"k2"}>
-    Letzte Woche
+    Letzten 2 Tage
   </option>,
   <option value="3" key={"k3"}>
-    Alle
+    Letzte Woche
   </option>,
   <option value="4" key={"k4"}>
-    Letzten 2 Tage
+    Alle
   </option>
 ];
 
@@ -27,9 +39,9 @@ export interface IBaseWeatherSensorChartProps {
   sensorInformations: IBaseWeatherSensor;
 }
 export interface IBaseWeatherSensorChartState {
-  sensorData: any[];
-  temporarySensorData: ChartData<chartjs.ChartData>;
+  sensorData: ChartData<chartjs.ChartData>;
   isError: boolean;
+  isLoadingSensorData: boolean;
   selectedRange: string;
 }
 export class BaseWeatherSensorChart extends React.Component<
@@ -40,58 +52,20 @@ export class BaseWeatherSensorChart extends React.Component<
     super(props);
     this.state = {
       sensorData: undefined,
-      temporarySensorData: undefined,
       isError: false,
+      isLoadingSensorData: true,
       selectedRange: "1"
     };
     this.dateRangeSelectionChanged = this.dateRangeSelectionChanged.bind(this);
   }
-  filterDataBySelectedDateRange(itemArray: any[], selectedRange: string) {
-    let items = [];
-
-    itemArray.forEach(row => {
-      if (!row.timestamp && !row.insertTime) return;
-
-      let itemCreationDate = new Date(row.timestam || row.insertTime);
-      let itemCreationDateString = getGermanDateString(itemCreationDate);
-
-      let calculatedDate = new Date();
-      switch (selectedRange) {
-        case "1":
-          if (getGermanDateString(new Date()) === itemCreationDateString) {
-            items.push(row);
-          }
-          break;
-        case "2":
-          calculatedDate = addDays(calculatedDate, -7, true);
-          if (itemCreationDate.getTime() >= calculatedDate.getTime()) {
-            items.push(row);
-          }
-          break;
-        case "3":
-          items.push(row);
-          break;
-        case "4":
-          calculatedDate = addDays(calculatedDate, -2, true);
-          if (itemCreationDate.getTime() >= calculatedDate.getTime()) {
-            items.push(row);
-          }
-          break;
-        default:
-          console.log(
-            "getDataBySelectedDateRange",
-            "value not found...",
-            selectedRange
-          );
-      }
-    });
-    return items;
-  }
-
-  getChartData(defaultData: any[], selectedRange: string): chartjs.ChartData {
+  getChartData(defaultData: any[]): chartjs.ChartData {
     let dataRows: any[] = defaultData;
-    dataRows = this.filterDataBySelectedDateRange(dataRows, selectedRange);
-    let data: chartjs.ChartData = { datasets: [], labels: [] };
+    // dataRows = this.filterDataBySelectedDateRange(dataRows, selectedRange);
+    let data: chartjs.ChartData = {
+      datasets: [],
+      labels: []
+    };
+
     data.datasets.push({ label: "Temperatur", data: [] });
     data.datasets.push({ label: "Luftfeuchtigkeit", data: [] });
     if (this.props.sensorInformations.hasPressure) {
@@ -103,11 +77,9 @@ export class BaseWeatherSensorChart extends React.Component<
     let pressureValues = [];
 
     dataRows.forEach(row => {
-      if (!row.timestamp && !row.insertTime) return;
+      if (!row.timestamp) return;
 
-      labels.push(
-        getGermanDateString(new Date(row.timestam || row.insertTime))
-      );
+      labels.push(getGermanDateString(new Date(row.timestamp)));
       tempValues.push(row.temperature);
       humidityValues.push(row.humidity);
       pressureValues.push(row.pressure);
@@ -127,8 +99,8 @@ export class BaseWeatherSensorChart extends React.Component<
         pointHoverBorderColor: "rgba(220,220,220,1)",
         lineTension: 0.3,
         pointHoverBorderWidth: 2,
-        pointRadius: 2,
-        pointHitRadius: 10,
+        pointRadius: 1,
+        pointHitRadius: 3,
         fill: false
       },
       {
@@ -144,8 +116,8 @@ export class BaseWeatherSensorChart extends React.Component<
         pointHoverBorderColor: "rgba(220,220,220,1)",
         lineTension: 0.3,
         pointHoverBorderWidth: 2,
-        pointRadius: 2,
-        pointHitRadius: 10,
+        pointRadius: 1,
+        pointHitRadius: 3,
         fill: false
       }
     ];
@@ -163,44 +135,108 @@ export class BaseWeatherSensorChart extends React.Component<
         pointHoverBorderColor: "rgba(220,220,220,1)",
         lineTension: 0.3,
         pointHoverBorderWidth: 2,
-        pointRadius: 2,
-        pointHitRadius: 10,
+        pointRadius: 1,
+        pointHitRadius: 3,
         fill: false
       });
     }
     return data;
   }
-  componentDidMount() {
-    Axios.get("/api/sensors/" + this.props.sensorInformations.id + "/data")
-      .then(dataResult => {
-        if (!dataResult.data) {
-          return;
-        }
-        if (!dataResult.data.items || dataResult.data.items.lenght === 0) {
-          return;
-        }
-        let dataRows = this.getChartData(
-          dataResult.data.items,
-          this.state.selectedRange
+  querySensorDataByDateRange(from: number, to: number) {
+    return Axios.get(
+      "/api/sensors/" +
+        this.props.sensorInformations.id +
+        "/between/" +
+        from +
+        "/" +
+        to
+    );
+  }
+  queryAllSensorData() {
+    return Axios.get(
+      "/api/sensors/" + this.props.sensorInformations.id + "/data"
+    );
+  }
+  getDateTickRangeBySelection(selectedOption: string) {
+    let from = -1;
+    let to = -1;
+    switch (selectedOption) {
+      case "1":
+        from = setDatePropertiesToZero(new Date()).getTime();
+        to = Date.now();
+        break;
+      case "2":
+        from = addDays(new Date(), -2, true).getTime();
+        to = Date.now();
+        break;
+      case "3":
+        from = addDays(new Date(), -7, true).getTime();
+        to = Date.now();
+        break;
+      case "4":
+        break;
+      default:
+        console.log(
+          "getDateTickRangeBySelection",
+          "value not found...",
+          selectedOption
         );
+    }
+    return {
+      from: from,
+      to: to
+    };
+  }
+  queryLiveDate(selectedOption: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let dateRange = this.getDateTickRangeBySelection(selectedOption);
+      this.querySensorDataByDateRange(dateRange.from, dateRange.to)
+        .then(dataResult => {
+          if (!dataResult.data) {
+            resolve([]);
+          }
+          if (!dataResult.data.items || dataResult.data.items.lenght === 0) {
+            resolve([]);
+          }
+          let dataRows = this.getChartData(dataResult.data.items);
+          resolve(dataRows);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
+  doSensorQueryNow() {
+    this.queryLiveDate(this.state.selectedRange)
+      .then(result => {
         this.setState({
-          sensorData: dataResult.data.items,
-          temporarySensorData: dataRows
+          sensorData: result,
+          isLoadingSensorData: false
         });
       })
       .catch(error => {
-        this.setState({ isError: true });
+        this.setState({
+          isError: true,
+          isLoadingSensorData: false
+        });
       });
   }
+  componentDidMount() {
+    this.doSensorQueryNow();
+  }
+
   dateRangeSelectionChanged(event) {
-    // debugger;
     let index = event.target.selectedIndex;
     let selectedOptionValue = event.target.options[index].value;
-    let items = this.getChartData(this.state.sensorData, selectedOptionValue);
-    this.setState({
-      selectedRange: selectedOptionValue,
-      temporarySensorData: items
-    });
+    this.setState(
+      {
+        isLoadingSensorData: true,
+        selectedRange: selectedOptionValue
+      },
+      () => {
+        this.doSensorQueryNow();
+      }
+    );
   }
   render() {
     console.log("BaseWeatherSensorChart render");
@@ -215,6 +251,18 @@ export class BaseWeatherSensorChart extends React.Component<
           </div>
         )
       );
+    }
+    let sensorDataContent = null;
+    if (this.state.isLoadingSensorData) {
+      sensorDataContent = (
+        <Spinner size={SpinnerSize.large} label="Lade Sensor-Daten..." />
+      );
+    } else {
+      if (!this.state.sensorData) {
+        sensorDataContent = "Keine Daten vorhanden...";
+      } else {
+        sensorDataContent = <Line data={this.state.sensorData} />;
+      }
     }
     return (
       <div className="ms-Grid-row">
@@ -231,13 +279,7 @@ export class BaseWeatherSensorChart extends React.Component<
             </div>
           </div>
           <div className="ms-Grid-row">
-            <div className="ms-Grid-col ms-sm12">
-              {!this.state.sensorData ? (
-                "Keine Daten vorhanden..."
-              ) : (
-                <Line data={this.state.temporarySensorData} />
-              )}
-            </div>
+            <div className="ms-Grid-col ms-sm12">{sensorDataContent}</div>
           </div>
         </div>
       </div>

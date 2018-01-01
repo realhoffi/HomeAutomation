@@ -38,7 +38,7 @@ export interface IManageRouteState {
   routenfahrten: Date[];
   filialen: IFilialenModel[];
   ausgaben: IAusgabe[];
-  googleMapsLink: string;
+  links: string[];
 }
 export class ManageRoute extends React.Component<
   IManageRouteProps,
@@ -51,7 +51,7 @@ export class ManageRoute extends React.Component<
       filialen: [],
       routenfahrten: [],
       ausgaben: [],
-      googleMapsLink: ""
+      links: []
     };
 
     this.cancelClick = this.cancelClick.bind(this);
@@ -106,29 +106,57 @@ export class ManageRoute extends React.Component<
                 <Panel
                   headerText="Routeninformationen"
                   className="custom-padding-bottom-10px"
+                  headerControls={
+                    <ActionButton
+                      data-automation-id="Add Link"
+                      iconProps={{ iconName: "Add" }}
+                      onClick={() => {
+                        let ns = { ...this.state };
+                        ns.links.push("");
+                        this.setState(ns);
+                      }}
+                    />
+                  }
                 >
-                  <div className="ms-Grid-row">
-                    <div className="ms-Grid-col ms-sm2 ms-lg1">
-                      <Label>
-                        <Link
-                          href={this.state.googleMapsLink}
-                          disabled={!this.state.googleMapsLink}
-                          target="_blank"
-                        >
-                          Maps
-                        </Link>
-                      </Label>
-                    </div>
-                    <div className="ms-Grid-col ms-sm10">
-                      <TextField
-                        placeholder="Link zu Google Maps"
-                        value={this.state.googleMapsLink}
-                        onChanged={(text: string) => {
-                          this.setState({ googleMapsLink: text });
-                        }}
-                      />
-                    </div>
-                  </div>
+                  {this.state.links.map((link, index) => {
+                    return (
+                      <div className="ms-Grid-row" key={"link_" + index}>
+                        <div className="ms-Grid-col ms-sm2 ms-lg1">
+                          <Label>
+                            <Link href={link} disabled={!link} target="_blank">
+                              {"Link " + (index + 1)}
+                            </Link>
+                          </Label>
+                        </div>
+                        <div className="ms-Grid-col ms-sm8 ms-lg-10">
+                          <TextField
+                            placeholder="Link eingeben"
+                            value={link}
+                            onChanged={(text: string) => {
+                              let newState = { ...this.state };
+                              newState.links[index] = text;
+                              this.setState(newState);
+                            }}
+                          />
+                        </div>
+                        <div className="ms-Grid-col ms-sm2 ms-lg1">
+                          <ActionButton
+                            data-info-title="Link entfernen"
+                            data-info-desc="Löscht den Link"
+                            iconProps={{
+                              iconName: "Delete",
+                              className: "img-font-size-large"
+                            }}
+                            onClick={() => {
+                              let ns = { ...this.state };
+                              ns.links.splice(index, 1);
+                              this.setState(ns);
+                            }}
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
                 </Panel>
               </div>
             </div>
@@ -178,7 +206,7 @@ export class ManageRoute extends React.Component<
                       >
                         {
                           <div className="ms-Grid-row">
-                            <div className="ms-Grid-col ms-sm12 ms-lg6 ">
+                            <div className="ms-Grid-col ms-sm12 ms-lg6">
                               <TextField
                                 placeholder="Ausgabenbeschreibung"
                                 required={true}

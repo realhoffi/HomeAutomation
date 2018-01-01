@@ -14,6 +14,8 @@ https://closebrace.com/tutorials/2017-03-02/the-dead-simple-step-by-step-guide-f
 
 https://docs.mongodb.com/compass/current/connect/
 
-Step 1: C:\Program Files\MongoDB\Server\3.6\bin
+Step 1: cd 'C:\Program Files\MongoDB\Server\3.6\bin'
 Step 2: .\mongo.exe homeautomation
 Step 3: rename database: db.adminCommand( { renameCollection: "homeautomation.test", to: "homeautomation.sensors" } )
+
+db.getCollection('sensors').updateMany( {}, { $rename: { "insertTime": "timestamp" } } )

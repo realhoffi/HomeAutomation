@@ -73,7 +73,7 @@ class SensorService {
         return;
       }
       let data = {
-        insertTime: Date.now(),
+        timestamp: Date.now(),
         id: sensor.id,
         ip: sensor.ip,
         humidity: sensor.humidity || -1,
@@ -114,6 +114,56 @@ class SensorService {
         .find(query)
         .toArray()
         .then(resultItems => {
+          resolve({ items: resultItems });
+        })
+        .catch(() => {
+          reject({ message: "not inserted" });
+        });
+    });
+  }
+  public getSensorDataBetweenDates(
+    app: Application,
+    sensorId: string,
+    startDateTicks: string,
+    endDateTicks: string
+  ) {
+    return new Promise((resolve, reject) => {
+      let sensors: any[] = app.locals.xiaomi.sensors;
+
+      let from = parseInt(startDateTicks);
+      let to = parseInt(endDateTicks);
+      if (isNaN(from) || isNaN(to)) {
+        reject({ message: "Parameter 'from' oder 'to' ist keine number!" });
+      }
+      let query = {
+        id: sensorId
+        //  timestamp: { $gte: from, $lte: to }
+      };
+      let ts = [];
+      if (!isNaN(from) && from !== -1) {
+        ts.push({ $gte: from });
+      }
+      if (!isNaN(to) && to !== -1) {
+        ts.push({ $lte: to });
+      }
+      if (ts.length > 0) {
+        let objTs = {};
+        ts.forEach(element => {
+          Object.keys(element).forEach(key => {
+            objTs[key] = element[key];
+          });
+        });
+        query["timestamp"] = objTs;
+      }
+      console.log("Query Sensor Data: ", query);
+      let db = app.locals.database as Db;
+
+      db
+        .collection(MONGO_DB_SENSOR_COLLECTION_STRING)
+        .find(query)
+        .toArray()
+        .then(resultItems => {
+          console.log("Query result count: " + resultItems.length);
           resolve({ items: resultItems });
         })
         .catch(() => {
