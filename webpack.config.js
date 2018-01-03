@@ -198,6 +198,8 @@ module.exports = [
         MONGO_DB_CONFIGURATION_COLLECTION_STRING: JSON.stringify(
           "configuration"
         ),
+        MONGO_DB_FILIALEN_COLLECTION_STRING: JSON.stringify("filialen"),
+        MONGO_DB_ROUTEN_COLLECTION_STRING: JSON.stringify("routen"),
         "process.env": {
           NODE_ENV: JSON.stringify(currentStage)
         }

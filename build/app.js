@@ -74,7 +74,7 @@
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Promise) {
-var es5 = __webpack_require__(/*! ./es5 */ 3);
+var es5 = __webpack_require__(/*! ./es5 */ 4);
 var canEvaluate = typeof navigator == "undefined";
 
 var errorObj = {e: {}};
@@ -454,7 +454,7 @@ if (ret.isNode) ret.toFastProperties(process);
 try {throw new Error(); } catch (e) {ret.lastLineError = e;}
 module.exports = ret;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 2)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 3)))
 
 /***/ }),
 /* 1 */
@@ -467,7 +467,7 @@ module.exports = ret;
 
 "use strict";
 
-var es5 = __webpack_require__(/*! ./es5 */ 3);
+var es5 = __webpack_require__(/*! ./es5 */ 4);
 var Objectfreeze = es5.freeze;
 var util = __webpack_require__(/*! ./util */ 0);
 var inherits = util.inherits;
@@ -586,6 +586,17 @@ module.exports = {
 
 /***/ }),
 /* 2 */
+/*!****************************!*\
+  !*** ./config/config.json ***!
+  \****************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports) {
+
+module.exports = {"devices":{"sensors":[{"name":"Sensor Wohnzimmer","beschreibung":"Rund","ort":"Wohnzimmer","id":"158d0001c19abd","model":"lumi.sensor_ht","type":"sensor"},{"name":"Sensor Schlafzimmer","beschreibung":"rund","ort":"Schlafzimmer","id":"158d0001c19ab8","type":"sensor","model":"lumi.sensor_ht"},{"name":"Sensor Bad","beschreibung":"Eckig","ort":"Bad","id":"158d0001b962aa","type":"sensor","model":"lumi.weather"},{"name":"Sensor Terasse","beschreibung":"Eckig","ort":"Terasse","id":"158d0001b9635d","type":"sensor","model":"lumi.weather"}],"robots":[{"name":"Staubsauger","beschreibung":"","ort":"Wohnzimmer","id":"74217308","type":"vacuum","model":"rockrobo.vacuum.v1","token":"7932627133756e393939483475574d58"}],"lights":[{"name":"Lampe Bad","beschreibung":"","ort":"Badezimmer","id":"72779159","type":"light","model":"yeelink.light.color1","token":""},{"name":"Lampe Bad neu","beschreibung":"","ort":"Badezimmer","id":"77079675","type":"light","model":"yeelink.light.color1","token":"623f34fc24bffabc06a1a1605b0858b4"}],"gateways":[{"name":"Hauptgateway","beschreibung":"","ort":"Wohnzimmer","id":"73058750","model":"lumi.gateway.v3","address":"192.168.178.45","token":"ff2e9a62f90e0fe5f365a744460616c7"}]}}
+
+/***/ }),
+/* 3 */
 /*!******************************************************!*\
   !*** ./node_modules/bluebird/js/release/bluebird.js ***!
   \******************************************************/
@@ -606,10 +617,10 @@ var bluebird = __webpack_require__(/*! ./promise */ 19)();
 bluebird.noConflict = noConflict;
 module.exports = bluebird;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 2)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 3)))
 
 /***/ }),
-/* 3 */
+/* 4 */
 /*!*************************************************!*\
   !*** ./node_modules/bluebird/js/release/es5.js ***!
   \*************************************************/
@@ -700,17 +711,6 @@ if (isES5) {
 
 
 /***/ }),
-/* 4 */
-/*!****************************!*\
-  !*** ./config/config.json ***!
-  \****************************/
-/*! dynamic exports provided */
-/*! all exports used */
-/***/ (function(module, exports) {
-
-module.exports = {"devices":{"sensors":[{"name":"Sensor Wohnzimmer","beschreibung":"Rund","ort":"Wohnzimmer","id":"158d0001c19abd","model":"lumi.sensor_ht","type":"sensor"},{"name":"Sensor Schlafzimmer","beschreibung":"rund","ort":"Schlafzimmer","id":"158d0001c19ab8","type":"sensor","model":"lumi.sensor_ht"},{"name":"Sensor Bad","beschreibung":"Eckig","ort":"Bad","id":"158d0001b962aa","type":"sensor","model":"lumi.weather"},{"name":"Sensor Terasse","beschreibung":"Eckig","ort":"Terasse","id":"158d0001b9635d","type":"sensor","model":"lumi.weather"}],"robots":[{"name":"Staubsauger","beschreibung":"","ort":"Wohnzimmer","id":"74217308","type":"vacuum","model":"rockrobo.vacuum.v1","token":"7932627133756e393939483475574d58"}],"lights":[{"name":"Lampe Bad","beschreibung":"","ort":"Badezimmer","id":"72779159","type":"light","model":"yeelink.light.color1","token":""},{"name":"Lampe Bad neu","beschreibung":"","ort":"Badezimmer","id":"77079675","type":"light","model":"yeelink.light.color1","token":"623f34fc24bffabc06a1a1605b0858b4"}],"gateways":[{"name":"Hauptgateway","beschreibung":"","ort":"Wohnzimmer","id":"73058750","model":"lumi.gateway.v3","address":"192.168.178.45","token":"ff2e9a62f90e0fe5f365a744460616c7"}]}}
-
-/***/ }),
 /* 5 */
 /*!**********************************************************!*\
   !*** ./node_modules/bluebird/js/release/catch_filter.js ***!
@@ -723,7 +723,7 @@ module.exports = {"devices":{"sensors":[{"name":"Sensor Wohnzimmer","beschreibun
 
 module.exports = function(NEXT_FILTER) {
 var util = __webpack_require__(/*! ./util */ 0);
-var getKeys = __webpack_require__(/*! ./es5 */ 3).keys;
+var getKeys = __webpack_require__(/*! ./es5 */ 4).keys;
 var tryCatch = util.tryCatch;
 var errorObj = util.errorObj;
 
@@ -779,7 +779,7 @@ var util = __webpack_require__(/*! ./util */ 0);
 var maybeWrapAsError = util.maybeWrapAsError;
 var errors = __webpack_require__(/*! ./errors */ 1);
 var OperationalError = errors.OperationalError;
-var es5 = __webpack_require__(/*! ./es5 */ 3);
+var es5 = __webpack_require__(/*! ./es5 */ 4);
 
 function isUntypedError(obj) {
     return obj instanceof Error &&
@@ -839,7 +839,7 @@ module.exports = nodebackForPromise;
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Promise) {
 Object.defineProperty(exports, "__esModule", { value: true });
-var cfg = __webpack_require__(/*! ../../../config/config.json */ 4);
+var cfg = __webpack_require__(/*! ../../../config/config.json */ 2);
 var SensorService = (function () {
     function SensorService() {
     }
@@ -995,7 +995,7 @@ var SensorService = (function () {
 }());
 exports.SensorServiceInstance = new SensorService();
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 2)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 3)))
 
 /***/ }),
 /* 8 */
@@ -1027,9 +1027,9 @@ var express = __webpack_require__(/*! express */ 12);
 var url = __webpack_require__(/*! url */ 13);
 var favicon = __webpack_require__(/*! serve-favicon */ 14);
 var routes_1 = __webpack_require__(/*! ../startUp/routes */ 15);
-var miio_1 = __webpack_require__(/*! ../startUp/miio */ 53);
-var bodyParser = __webpack_require__(/*! body-parser */ 55);
-var database_1 = __webpack_require__(/*! ../startUp/database */ 56);
+var miio_1 = __webpack_require__(/*! ../startUp/miio */ 56);
+var bodyParser = __webpack_require__(/*! body-parser */ 58);
+var database_1 = __webpack_require__(/*! ../startUp/database */ 59);
 function normalizePort(val) {
     var port = parseInt(val, 10);
     if (isNaN(port)) {
@@ -1177,10 +1177,12 @@ var os = __webpack_require__(/*! os */ 16);
 var LightController_1 = __webpack_require__(/*! ../api/controllers/LightController */ 17);
 var SensorController_1 = __webpack_require__(/*! ../api/controllers/SensorController */ 50);
 var GatewayController_1 = __webpack_require__(/*! ../api/controllers/GatewayController */ 51);
+var AldiController_1 = __webpack_require__(/*! ../api/controllers/AldiController */ 53);
 function registerRoutes(router) {
     var c1 = new LightController_1.default(router);
     var c2 = new SensorController_1.default(router);
     var c3 = new GatewayController_1.default(router);
+    var c4 = new AldiController_1.default(router);
     router.route("/robots").get(function (req, res) {
         var robots = req.app.locals.xiaomi.robots;
         var robotsState = [];
@@ -1237,7 +1239,7 @@ module.exports = require("os");
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var LightService_1 = __webpack_require__(/*! ../services/LightService */ 18);
-var cfg = __webpack_require__(/*! ../../../config/config.json */ 4);
+var cfg = __webpack_require__(/*! ../../../config/config.json */ 2);
 var LightController = (function () {
     function LightController(router) {
         this.router = router;
@@ -1328,7 +1330,7 @@ exports.default = LightController;
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Promise) {
 Object.defineProperty(exports, "__esModule", { value: true });
-var cfg = __webpack_require__(/*! ../../../config/config.json */ 4);
+var cfg = __webpack_require__(/*! ../../../config/config.json */ 2);
 var LightService = (function () {
     function LightService() {
     }
@@ -1535,7 +1537,7 @@ var LightService = (function () {
 }());
 exports.LightServiceInstance = new LightService();
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 2)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 3)))
 
 /***/ }),
 /* 19 */
@@ -1576,7 +1578,7 @@ if (util.isNode) {
 }
 util.notEnumerableProp(Promise, "_getDomain", getDomain);
 
-var es5 = __webpack_require__(/*! ./es5 */ 3);
+var es5 = __webpack_require__(/*! ./es5 */ 4);
 var Async = __webpack_require__(/*! ./async */ 20);
 var async = new Async();
 es5.defineProperty(Promise, "_async", {value: async});
@@ -6064,7 +6066,7 @@ module.exports = function(
     Promise, PromiseArray, tryConvertToPromise, apiRejection) {
 var util = __webpack_require__(/*! ./util */ 0);
 var isObject = util.isObject;
-var es5 = __webpack_require__(/*! ./es5 */ 3);
+var es5 = __webpack_require__(/*! ./es5 */ 4);
 var Es6Map;
 if (typeof Map === "function") Es6Map = Map;
 
@@ -6762,7 +6764,7 @@ module.exports = require("int-to-rgb");
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var SensorService_1 = __webpack_require__(/*! ../services/SensorService */ 7);
-var cfg = __webpack_require__(/*! ../../../config/config.json */ 4);
+var cfg = __webpack_require__(/*! ../../../config/config.json */ 2);
 var SensorController = (function () {
     function SensorController(router) {
         this.router = router;
@@ -6823,7 +6825,7 @@ exports.default = SensorController;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var GatewayService_1 = __webpack_require__(/*! ../services/GatewayService */ 52);
-var cfg = __webpack_require__(/*! ../../../config/config.json */ 4);
+var cfg = __webpack_require__(/*! ../../../config/config.json */ 2);
 var GatewayController = (function () {
     function GatewayController(router) {
         this.router = router;
@@ -6898,7 +6900,7 @@ exports.default = GatewayController;
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Promise) {
 Object.defineProperty(exports, "__esModule", { value: true });
-var cfg = __webpack_require__(/*! ../../../config/config.json */ 4);
+var cfg = __webpack_require__(/*! ../../../config/config.json */ 2);
 var GatewayService = (function () {
     function GatewayService() {
     }
@@ -7060,10 +7062,217 @@ var GatewayService = (function () {
 }());
 exports.GatewayServiceInstance = new GatewayService();
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 2)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 3)))
 
 /***/ }),
 /* 53 */
+/*!***********************************************!*\
+  !*** ./src/api/controllers/AldiController.ts ***!
+  \***********************************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var AldiService_1 = __webpack_require__(/*! ../services/AldiService */ 54);
+var cfg = __webpack_require__(/*! ../../../config/config.json */ 2);
+var AldiController = (function () {
+    function AldiController(router) {
+        this.router = router;
+        this.registerRoutes();
+    }
+    AldiController.prototype.registerRoutes = function () {
+        this.router.get("/routen", this.getRoutes.bind(this));
+        this.router.get("/filialen", this.getFilialen.bind(this));
+        this.router.post("/filialen", this.addFiliale.bind(this));
+        this.router.post("/routen", this.addRoute.bind(this));
+        this.router.delete("/routen/:routeId", this.deleteRoute.bind(this));
+    };
+    AldiController.prototype.getRoutes = function (req, res) {
+        var result = AldiService_1.AldiServiceInstance.getRouten(req.app)
+            .then(function (result) {
+            res.status(200).json(result);
+        })
+            .catch(function (error) {
+            res.status(500).json(error);
+        });
+    };
+    AldiController.prototype.getFilialen = function (req, res) {
+        var result = AldiService_1.AldiServiceInstance.getFilialen(req.app)
+            .then(function (result) {
+            res.status(200).json(result);
+        })
+            .catch(function (error) {
+            res.status(500).json(error);
+        });
+    };
+    AldiController.prototype.addRoute = function (req, res) {
+        console.log(JSON.stringify(req.body.route));
+        var result = AldiService_1.AldiServiceInstance.addRoute(req.app, req.body.route)
+            .then(function (result) {
+            res.status(200).json(result);
+        })
+            .catch(function (error) {
+            res.status(500).json(error);
+        });
+    };
+    AldiController.prototype.deleteRoute = function (req, res) {
+        console.log(JSON.stringify(req.params.routeId));
+        var result = AldiService_1.AldiServiceInstance.deleteRoute(req.app, req.params.routeId)
+            .then(function (result) {
+            res.status(200).json(result);
+        })
+            .catch(function (error) {
+            res.status(500).json(error);
+        });
+    };
+    AldiController.prototype.addFiliale = function (req, res) {
+        var result = AldiService_1.AldiServiceInstance.addFiliale(req.app, req.body.filiale)
+            .then(function (result) {
+            res.status(200).json(result);
+        })
+            .catch(function (error) {
+            res.status(500).json(error);
+        });
+    };
+    return AldiController;
+}());
+exports.default = AldiController;
+
+
+/***/ }),
+/* 54 */
+/*!*****************************************!*\
+  !*** ./src/api/services/AldiService.ts ***!
+  \*****************************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(Promise) {
+Object.defineProperty(exports, "__esModule", { value: true });
+var bson_1 = __webpack_require__(/*! bson */ 55);
+var cfg = __webpack_require__(/*! ../../../config/config.json */ 2);
+var AldiService = (function () {
+    function AldiService() {
+    }
+    AldiService.prototype.getFilialen = function (app) {
+        return new Promise(function (resolve, reject) {
+            app.locals.database
+                .collection("filialen")
+                .find({})
+                .toArray()
+                .then(function (result) {
+                resolve(result);
+            })
+                .catch(function (error) {
+                console.log("error inserting", JSON.stringify(error));
+                reject({ message: "error query filialen" });
+            });
+        });
+    };
+    AldiService.prototype.getRouten = function (app) {
+        return new Promise(function (resolve, reject) {
+            var db = app.locals.database;
+            db
+                .collection("routen")
+                .find({})
+                .toArray()
+                .then(function (result) {
+                resolve(result);
+            })
+                .catch(function (error) {
+                console.log("error inserting", JSON.stringify(error));
+                reject({ message: "error query routen" });
+            });
+        });
+    };
+    AldiService.prototype.addFiliale = function (app, filiale) {
+        return new Promise(function (resolve, reject) {
+            filiale.created = Date.now();
+            filiale.modified = Date.now();
+            var db = app.locals.database;
+            db
+                .collection("filialen")
+                .insert(filiale)
+                .then(function (result) {
+                resolve({
+                    message: "filiale inserted",
+                    insertedCount: result.insertedCount,
+                    insertedObjects: result.ops,
+                    insertedId: result.insertedId
+                });
+            })
+                .catch(function (error) {
+                console.log("error inserting", JSON.stringify(error));
+                reject({ message: "not inserted" });
+            });
+        });
+    };
+    AldiService.prototype.addRoute = function (app, route) {
+        return new Promise(function (resolve, reject) {
+            var db = app.locals.database;
+            route.created = Date.now();
+            route.modified = Date.now();
+            db
+                .collection("routen")
+                .insert(route)
+                .then(function (result) {
+                resolve({
+                    message: "route inserted",
+                    insertedCount: result.insertedCount,
+                    insertedObjects: result.ops,
+                    insertedId: result.insertedId
+                });
+            })
+                .catch(function (error) {
+                console.log("error inserting", JSON.stringify(error));
+                reject({ message: "not inserted" });
+            });
+        });
+    };
+    AldiService.prototype.deleteRoute = function (app, routeId) {
+        return new Promise(function (resolve, reject) {
+            var objectId = new bson_1.ObjectId(routeId);
+            var db = app.locals.database;
+            db
+                .collection("routen")
+                .deleteOne({ _id: objectId })
+                .then(function (result) {
+                console.log("deleted");
+                resolve({
+                    message: "route deleted",
+                    deletedCount: result.deletedCount
+                });
+            })
+                .catch(function (error) {
+                console.log("error deleting", JSON.stringify(error));
+                reject({ message: "not deleted" });
+            });
+        });
+    };
+    return AldiService;
+}());
+exports.AldiServiceInstance = new AldiService();
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 3)))
+
+/***/ }),
+/* 55 */
+/*!***********************!*\
+  !*** external "bson" ***!
+  \***********************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports) {
+
+module.exports = require("bson");
+
+/***/ }),
+/* 56 */
 /*!*****************************!*\
   !*** ./src/startUp/miio.ts ***!
   \*****************************/
@@ -7075,7 +7284,7 @@ exports.GatewayServiceInstance = new GatewayService();
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var SensorService_1 = __webpack_require__(/*! ../api/services/SensorService */ 7);
-var miio = __webpack_require__(/*! miio */ 54);
+var miio = __webpack_require__(/*! miio */ 57);
 function findIdInArray(targetArray, id) {
     var returnValue = -1;
     if (!targetArray) {
@@ -7214,7 +7423,7 @@ exports.registerDevices = registerDevices;
 
 
 /***/ }),
-/* 54 */
+/* 57 */
 /*!***********************!*\
   !*** external "miio" ***!
   \***********************/
@@ -7225,7 +7434,7 @@ exports.registerDevices = registerDevices;
 module.exports = require("miio");
 
 /***/ }),
-/* 55 */
+/* 58 */
 /*!******************************!*\
   !*** external "body-parser" ***!
   \******************************/
@@ -7236,7 +7445,7 @@ module.exports = require("miio");
 module.exports = require("body-parser");
 
 /***/ }),
-/* 56 */
+/* 59 */
 /*!*********************************!*\
   !*** ./src/startUp/database.ts ***!
   \*********************************/
@@ -7247,7 +7456,7 @@ module.exports = require("body-parser");
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Promise) {
 Object.defineProperty(exports, "__esModule", { value: true });
-var mongodb_1 = __webpack_require__(/*! mongodb */ 57);
+var mongodb_1 = __webpack_require__(/*! mongodb */ 60);
 function initializeDatabase(app) {
     return new Promise(function (resolve, reject) {
         console.log("Try connect to Database", "mongodb://localhost:27017");
@@ -7275,10 +7484,10 @@ function initializeDatabase(app) {
 }
 exports.initializeDatabase = initializeDatabase;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 2)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 3)))
 
 /***/ }),
-/* 57 */
+/* 60 */
 /*!**************************!*\
   !*** external "mongodb" ***!
   \**************************/

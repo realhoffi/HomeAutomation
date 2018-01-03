@@ -10,20 +10,41 @@ import { NotFoundPage } from "../../components/simple/NotFoundPage";
 import { RedirectWithStatus } from "../simple/Routing";
 import { BasePage } from "../container/basePage";
 import { SystemInfo } from "../../../projects/system/components/pages/systeminfo";
+import { Nav, INavLink } from "office-ui-fabric-react";
 
-export interface IGlobalApplicationProps {
-  requestUrl: string;
+export interface IGlobalApplicationProps {}
+export interface IGlobalApplicationState {
+  selectedNavKey: string;
 }
 export class GlobalApplication extends React.Component<
   IGlobalApplicationProps,
-  {}
+  IGlobalApplicationState
 > {
   constructor(props) {
     super(props);
+    this.state = { selectedNavKey: "#" };
+    this.routeChanged = this.routeChanged.bind(this);
   }
   componentDidMount() {
     document.title = "Web-Application by Florian Hoffmann";
     console.log("componentDidMount Application");
+
+    window.addEventListener("hashchange", this.routeChanged);
+  }
+  routeChanged() {
+    console.log("route changed");
+    let navKey = document.location.hash
+      ? "#" + document.location.hash.replace("#/", "")
+      : "#";
+    if (this.state.selectedNavKey === navKey) {
+      return;
+    }
+    this.setState({
+      selectedNavKey: navKey
+    });
+  }
+  componentWillUnmount() {
+    window.removeEventListener("hashchange", this.routeChanged);
   }
   render() {
     console.log("render Application");
@@ -45,7 +66,27 @@ export class GlobalApplication extends React.Component<
         }
         Navigation={
           <div>
-            <ul>
+            <Nav
+              selectedKey={this.state.selectedNavKey}
+              groups={[
+                {
+                  name: "Navigation",
+                  links: [
+                    { key: "#", name: "root", url: "#" },
+                    {
+                      key: "#system",
+                      name: "System-Informationen",
+                      url: "#system"
+                    },
+                    { key: "#light", name: "Yeelight", url: "#light" },
+                    { key: "#sensors", name: "Sensoren", url: "#sensors" },
+                    { key: "#gateways", name: "Gateways", url: "#gateways" },
+                    { key: "#aldi", name: "Aldi", url: "#aldi" }
+                  ]
+                }
+              ]}
+            />
+            {/* <ul>
               <li>
                 <Link to={"/"} replace={true}>
                   Übersicht
@@ -81,7 +122,7 @@ export class GlobalApplication extends React.Component<
                   Vacuum
                 </Link>
               </li>
-            </ul>
+            </ul> */}
           </div>
         }
       />
