@@ -14,11 +14,13 @@ export class NumberTextField extends React.Component<
     super(props);
     this.valueChanged = this.valueChanged.bind(this);
   }
-  private valueChanged(value: any) {
-    let v = isNaN(value) ? 0 : parseInt(value);
-    this.props.onChanged(v);
+  private valueChanged(value: string) {
+    let v = value.replace(",", ".");
+    let n = parseFloat(v);
+    n = isNaN(n) ? 0 : n;
+    this.props.onChanged(n);
     if (this.props.numberValueChanged) {
-      this.props.numberValueChanged(v);
+      this.props.numberValueChanged(n);
     }
   }
 

@@ -7089,6 +7089,9 @@ var AldiController = (function () {
         this.router.post("/filialen", this.addFiliale.bind(this));
         this.router.post("/routen", this.addRoute.bind(this));
         this.router.delete("/routen/:routeId", this.deleteRoute.bind(this));
+        this.router.delete("/filialen/:filialId", this.deleteFiliale.bind(this));
+        this.router.get("/filialen/:filialId", this.getFiliale.bind(this));
+        this.router.put("/filialen/:filialId", this.updateFiliale.bind(this));
     };
     AldiController.prototype.getRoutes = function (req, res) {
         var result = AldiService_1.AldiServiceInstance.getRouten(req.app)
@@ -7137,6 +7140,38 @@ var AldiController = (function () {
             res.status(500).json(error);
         });
     };
+    AldiController.prototype.deleteFiliale = function (req, res) {
+        console.log("filialId", JSON.stringify(req.params.filialId));
+        var result = AldiService_1.AldiServiceInstance.deleteFiliale(req.app, req.params.filialId)
+            .then(function (result) {
+            res.status(200).json(result);
+        })
+            .catch(function (error) {
+            res.status(500).json(error);
+        });
+    };
+    AldiController.prototype.getFiliale = function (req, res) {
+        console.log("filialId", JSON.stringify(req.params.filialId));
+        var result = AldiService_1.AldiServiceInstance.getFiliale(req.app, req.params.filialId)
+            .then(function (result) {
+            res.status(200).json(result);
+        })
+            .catch(function (error) {
+            res.status(500).json(error);
+        });
+    };
+    AldiController.prototype.updateFiliale = function (req, res) {
+        console.log("updateFiliale");
+        console.log("filialId", JSON.stringify(req.params.filialId));
+        console.log("filiale", JSON.stringify(req.body.filiale));
+        var result = AldiService_1.AldiServiceInstance.updateFiliale(req.app, req.params.filialId, req.body.filiale)
+            .then(function (result) {
+            res.status(200).json(result);
+        })
+            .catch(function (error) {
+            res.status(500).json(error);
+        });
+    };
     return AldiController;
 }());
 exports.default = AldiController;
@@ -7153,6 +7188,14 @@ exports.default = AldiController;
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Promise) {
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var bson_1 = __webpack_require__(/*! bson */ 55);
 var cfg = __webpack_require__(/*! ../../../config/config.json */ 2);
@@ -7171,6 +7214,27 @@ var AldiService = (function () {
                 .catch(function (error) {
                 console.log("error inserting", JSON.stringify(error));
                 reject({ message: "error query filialen" });
+            });
+        });
+    };
+    AldiService.prototype.getFiliale = function (app, filialId) {
+        return new Promise(function (resolve, reject) {
+            var objectId = new bson_1.ObjectId(filialId);
+            console.log(objectId + "@" + JSON.stringify(objectId) + "@");
+            var db = app.locals.database;
+            db
+                .collection("filialen")
+                .findOne({ _id: objectId })
+                .then(function (result) {
+                console.log("filiale found");
+                resolve({
+                    message: "filiale found",
+                    filiale: result
+                });
+            })
+                .catch(function (error) {
+                console.log("error finding filiale", JSON.stringify(error));
+                reject({ message: "not found" });
             });
         });
     };
@@ -7250,6 +7314,55 @@ var AldiService = (function () {
             })
                 .catch(function (error) {
                 console.log("error deleting", JSON.stringify(error));
+                reject({ message: "not deleted" });
+            });
+        });
+    };
+    AldiService.prototype.deleteFiliale = function (app, filialId) {
+        return new Promise(function (resolve, reject) {
+            var objectId = new bson_1.ObjectId(filialId);
+            console.log(objectId + "@" + JSON.stringify(objectId) + "@");
+            var db = app.locals.database;
+            db
+                .collection("filialen")
+                .deleteOne({ _id: objectId })
+                .then(function (result) {
+                console.log("deleted filiale");
+                resolve({
+                    message: "filiale deleted",
+                    deletedCount: result.deletedCount
+                });
+            })
+                .catch(function (error) {
+                console.log("error deleting", JSON.stringify(error));
+                reject({ message: "not deleted" });
+            });
+        });
+    };
+    AldiService.prototype.updateFiliale = function (app, filialId, filiale) {
+        return new Promise(function (resolve, reject) {
+            var objectId = new bson_1.ObjectId(filialId);
+            var b = __assign({}, filiale);
+            delete b._id;
+            console.log("B:" + JSON.stringify(b) + "@");
+            var db = app.locals.database;
+            db
+                .collection("filialen")
+                .updateOne({ _id: objectId }, {
+                $set: b
+            }, { upsert: true })
+                .then(function (result) {
+                console.log("edited filiale");
+                resolve({
+                    message: "filiale edited",
+                    modifiedCount: result.modifiedCount,
+                    matchedCount: result.matchedCount,
+                    upsertedCount: result.upsertedCount,
+                    upsertedId: result.upsertedId
+                });
+            })
+                .catch(function (error) {
+                console.log("error editing", JSON.stringify(error));
                 reject({ message: "not deleted" });
             });
         });

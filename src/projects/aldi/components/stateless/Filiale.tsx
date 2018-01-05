@@ -7,6 +7,7 @@ import { Panel } from "../../../../global/components/simple/Panel";
 import { getGermanDateString } from "../../../../helper/date";
 
 export interface IFilialeProps {
+  enableDeleteBtn: boolean;
   filiale: IFilialeViewModel;
   fahrdaten: Date[];
   id: string;
@@ -66,110 +67,108 @@ export class Filiale extends React.Component<IFilialeProps, {}> {
   render() {
     console.log("render Filiale");
     return (
-      <div className="ms-Grid-row">
+      <div className="ms-Grid-row" key={"filiale_" + this.props.id}>
         <div className="ms-Grid-col ms-sm12">
-          <div className="ms-Grid-row" key={"filiale_" + this.props.id}>
-            <div className="ms-Grid-col ms-sm12">
-              <Panel
-                headerText={this.props.title}
-                headerControls={
-                  <ActionButton
-                    data-info-title="Filiale entfernen"
-                    data-info-desc="Löscht die Filiale"
-                    iconProps={{ iconName: "Delete" }}
-                    onClick={this.deleteClicked}
-                  />
-                }
-              >
-                <div className="ms-Grid-row">
-                  <div className="ms-Grid-col ms-sm12 ms-md5">
-                    <div>
-                      <Label>Routenfahrdatum</Label>
-                      <select
-                        className="custom-ddl-control"
-                        onChange={this.fahrDatumChanged}
-                        value={this.props.filiale.fahrdatum}
-                      >
-                        {this.props.fahrdaten.map((fahrtDatum, index) => {
-                          return (
-                            <option
-                              key={"fahrt__" + index}
-                              value={fahrtDatum.getTime()}
-                            >
-                              {getGermanDateString(fahrtDatum)}
-                            </option>
-                          );
-                        })}
-                      </select>
-                    </div>
-                  </div>
-                  <div className="ms-Grid-col ms-sm9 ms-md5">
-                    <NumberTextField
-                      required={true}
-                      placeholder="Testnummer"
-                      label="Testnummer"
-                      numberValue={this.props.filiale.testnummer}
-                      onChanged={this.testnummerChanged}
-                    />
-                  </div>
-                  <div className="ms-Grid-col ms-sm3 ms-md2">
-                    <NumberTextField
-                      required={true}
-                      placeholder="Prüfkennziffer"
-                      label="Pkz."
-                      numberValue={this.props.filiale.pkz}
-                      onChanged={this.pkzChanged}
-                    />
-                  </div>
-                  <div className="ms-Grid-col ms-sm12 ms-lg5">
-                    <TextField
-                      required={true}
-                      placeholder="Straße"
-                      label="Straße"
-                      value={this.props.filiale.strasse}
-                      onChanged={this.strasseChanged}
-                    />
-                  </div>
-                  <div className="ms-Grid-col ms-sm3 ms-md3 ms-lg2">
-                    <NumberTextField
-                      required={true}
-                      placeholder="Plz"
-                      label="Plz"
-                      numberValue={this.props.filiale.plz}
-                      onChanged={this.plzChanged}
-                    />
-                  </div>
-                  <div className="ms-Grid-col ms-sm9 ms-md9 ms-lg5">
-                    <TextField
-                      required={true}
-                      placeholder="Ort"
-                      label="Ort"
-                      value={this.props.filiale.ort}
-                      onChanged={this.ortChanged}
-                    />
-                  </div>
-                  <div className="ms-Grid-col ms-sm6 ms-md6 ms-lg6">
-                    <NumberTextField
-                      placeholder="Einnahmen"
-                      label="Einnahmen"
-                      numberValue={this.props.filiale.einnahmen}
-                      onChanged={this.einnahmenChanged}
-                      suffix=" €"
-                    />
-                  </div>
-                  <div className="ms-Grid-col ms-sm6 ms-md6 ms-lg6">
-                    <NumberTextField
-                      placeholder="Ausgaben"
-                      label="Ausgaben"
-                      numberValue={this.props.filiale.ausgaben}
-                      onChanged={this.ausgabenChanged}
-                      suffix=" €"
-                    />
-                  </div>
+          <Panel
+            headerText={this.props.title}
+            headerControls={
+              this.props.enableDeleteBtn ? (
+                <ActionButton
+                  data-info-title="Filiale entfernen"
+                  data-info-desc="Löscht die Filiale"
+                  iconProps={{ iconName: "Delete" }}
+                  onClick={this.deleteClicked}
+                />
+              ) : null
+            }
+          >
+            <div className="ms-Grid-row">
+              <div className="ms-Grid-col ms-sm12 ms-md5">
+                <div>
+                  <Label>Routenfahrdatum</Label>
+                  <select
+                    className="custom-ddl-control"
+                    onChange={this.fahrDatumChanged}
+                    value={this.props.filiale.fahrdatum || undefined}
+                  >
+                    {this.props.fahrdaten.map((fahrtDatum, index) => {
+                      return (
+                        <option
+                          key={"fahrt__" + index}
+                          value={fahrtDatum.getTime()}
+                        >
+                          {getGermanDateString(fahrtDatum)}
+                        </option>
+                      );
+                    })}
+                  </select>
                 </div>
-              </Panel>
+              </div>
+              <div className="ms-Grid-col ms-sm9 ms-md5">
+                <NumberTextField
+                  required={true}
+                  placeholder="Testnummer"
+                  label="Testnummer"
+                  numberValue={this.props.filiale.testnummer}
+                  onChanged={this.testnummerChanged}
+                />
+              </div>
+              <div className="ms-Grid-col ms-sm3 ms-md2">
+                <NumberTextField
+                  required={true}
+                  placeholder="Prüfkennziffer"
+                  label="Pkz."
+                  numberValue={this.props.filiale.pkz}
+                  onChanged={this.pkzChanged}
+                />
+              </div>
+              <div className="ms-Grid-col ms-sm12 ms-lg5">
+                <TextField
+                  required={true}
+                  placeholder="Straße"
+                  label="Straße"
+                  value={this.props.filiale.strasse}
+                  onChanged={this.strasseChanged}
+                />
+              </div>
+              <div className="ms-Grid-col ms-sm3 ms-md3 ms-lg2">
+                <NumberTextField
+                  required={true}
+                  placeholder="Plz"
+                  label="Plz"
+                  numberValue={this.props.filiale.plz}
+                  onChanged={this.plzChanged}
+                />
+              </div>
+              <div className="ms-Grid-col ms-sm9 ms-md9 ms-lg5">
+                <TextField
+                  required={true}
+                  placeholder="Ort"
+                  label="Ort"
+                  value={this.props.filiale.ort}
+                  onChanged={this.ortChanged}
+                />
+              </div>
+              <div className="ms-Grid-col ms-sm6 ms-md6 ms-lg6">
+                <NumberTextField
+                  placeholder="Einnahmen"
+                  label="Einnahmen"
+                  numberValue={this.props.filiale.einnahmen}
+                  onChanged={this.einnahmenChanged}
+                  suffix=" €"
+                />
+              </div>
+              <div className="ms-Grid-col ms-sm6 ms-md6 ms-lg6">
+                <NumberTextField
+                  placeholder="Ausgaben"
+                  label="Ausgaben"
+                  numberValue={this.props.filiale.ausgaben}
+                  onChanged={this.ausgabenChanged}
+                  suffix=" €"
+                />
+              </div>
             </div>
-          </div>
+          </Panel>
         </div>
       </div>
     );

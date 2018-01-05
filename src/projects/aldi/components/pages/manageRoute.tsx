@@ -235,6 +235,7 @@ export class ManageRoute extends React.Component<
   private addFiliale() {
     let ns = { ...this.state };
     ns.filialen.push({
+      index: ns.filialen.length + 1,
       ausgaben: 0,
       einnahmen: 0,
       ort: "",
@@ -344,7 +345,9 @@ export class ManageRoute extends React.Component<
   }
 
   private addRoutenfahrt() {
-    let fahrten = this.state.routenfahrten.concat([new Date()]);
+    let fahrten = this.state.routenfahrten.concat([
+      setDatePropertiesToZero(new Date())
+    ]);
     this.setState({
       routenfahrten: fahrten
     });
@@ -502,6 +505,7 @@ export class ManageRoute extends React.Component<
                         onPlzChanged={this.plzChanged}
                         onStrasseChanged={this.strasseChanged}
                         onTestnummerChanged={this.testnummerChanged}
+                        enableDeleteBtn={true}
                       />
                     );
                   })}

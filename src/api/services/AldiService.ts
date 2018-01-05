@@ -26,6 +26,29 @@ class AldiService {
       // };
     });
   }
+  public getFiliale(app: Application, filialId: string) {
+    return new Promise((resolve, reject) => {
+      let objectId = new ObjectId(filialId);
+      console.log(objectId + "@" + JSON.stringify(objectId) + "@");
+      let db = app.locals.database as Db;
+      db
+        .collection(MONGO_DB_FILIALEN_COLLECTION_STRING)
+        .findOne({ _id: objectId })
+        .then(result => {
+          console.log("filiale found");
+          resolve({
+            message: "filiale found",
+            filiale: result
+          });
+        })
+        .catch(error => {
+          console.log("error finding filiale", JSON.stringify(error));
+          reject({ message: "not found" });
+        });
+
+      // };
+    });
+  }
   public getRouten(app: Application) {
     return new Promise((resolve, reject) => {
       let db = app.locals.database as Db;
@@ -113,6 +136,65 @@ class AldiService {
         });
 
       // };
+    });
+  }
+  public deleteFiliale(app: Application, filialId: string) {
+    return new Promise((resolve, reject) => {
+      let objectId = new ObjectId(filialId);
+      console.log(objectId + "@" + JSON.stringify(objectId) + "@");
+      let db = app.locals.database as Db;
+      db
+        .collection(MONGO_DB_FILIALEN_COLLECTION_STRING)
+        .deleteOne({ _id: objectId })
+        .then(result => {
+          console.log("deleted filiale");
+          resolve({
+            message: "filiale deleted",
+            deletedCount: result.deletedCount
+          });
+        })
+        .catch(error => {
+          console.log("error deleting", JSON.stringify(error));
+          reject({ message: "not deleted" });
+        });
+
+      // };
+    });
+  }
+  public updateFiliale(
+    app: Application,
+    filialId: string,
+    filiale: IFilialeModel
+  ) {
+    return new Promise((resolve, reject) => {
+      let objectId = new ObjectId(filialId);
+      let b: any = { ...filiale };
+      delete b._id;
+      console.log("B:" + JSON.stringify(b) + "@");
+      let db = app.locals.database as Db;
+      db
+        .collection(MONGO_DB_FILIALEN_COLLECTION_STRING)
+        .updateOne(
+          { _id: objectId },
+          {
+            $set: b
+          },
+          { upsert: true }
+        )
+        .then(result => {
+          console.log("edited filiale");
+          resolve({
+            message: "filiale edited",
+            modifiedCount: result.modifiedCount,
+            matchedCount: result.matchedCount,
+            upsertedCount: result.upsertedCount,
+            upsertedId: result.upsertedId
+          });
+        })
+        .catch(error => {
+          console.log("error editing", JSON.stringify(error));
+          reject({ message: "not deleted" });
+        });
     });
   }
 }

@@ -46,6 +46,7 @@ export interface IFilialeViewModel extends IDefaultDbEntryModel {
   testnummer: number;
   einnahmen: number;
   ausgaben: number;
+  index: number;
 }
 export interface IRouteViewModel extends IRouteModel {
   filialen: IFilialeViewModel;

@@ -23,14 +23,14 @@ export interface IRoutenuebersichtProps {
     propertyName: string,
     descending: boolean
   ): IRouteViewModel[];
-  deleteRoute(route: IRouteViewModel): void;
-  editRoute(route: IRouteViewModel): void;
+  onDeleteRouteClicked(route: IRouteViewModel[]): Promise<any>;
+  selectionChanged(route: IRouteViewModel[]): void;
+  onEditRouteClick(route: IRouteViewModel): void;
 }
 export interface IRoutenuebersichtState {
   columns: IColumn[];
-  items: IRouteViewModel[];
   showContextMenue: boolean;
-  selectedItem: IRouteViewModel;
+  selectedItems: IRouteViewModel[];
 }
 export class Routenuebersicht extends React.Component<
   IRoutenuebersichtProps,
@@ -41,7 +41,9 @@ export class Routenuebersicht extends React.Component<
   constructor(props) {
     super(props);
 
-    this._selection = new Selection({});
+    this.selectionHasChanged = this.selectionHasChanged.bind(this);
+
+    this.selectionHasChanged = this.selectionHasChanged.bind(this);
     this.onColumnClick = this.onColumnClick.bind(this);
     this.renderContext = this.renderContext.bind(this);
     this.showMoreClicked = this.showMoreClicked.bind(this);
@@ -57,18 +59,63 @@ export class Routenuebersicht extends React.Component<
     });
     this.state = {
       columns: cols,
-      items: this.props.items,
       showContextMenue: false,
-      selectedItem: undefined
+      selectedItems: undefined
     };
+    this._selection = new Selection({
+      onSelectionChanged: this.selectionHasChanged
+    });
+  }
+  componentDidUpdate(
+    prevProps: Readonly<IRoutenuebersichtProps>,
+    prevState: Readonly<IRoutenuebersichtState>,
+    prevContext: any
+  ) {
+    if (JSON.stringify(this.props.items) !== JSON.stringify(prevProps.items)) {
+      // console.log("update items");
+      // let s = this._selection.getSelection();
+      // console.log("selection count: " + s.length);
+      this._selection.getItems().forEach((e, i) => {
+        this._selection.setIndexSelected(i, false, false);
+      });
+      this._selection.setItems(this.props.items as any, true);
+      this._selection.setAllSelected(false);
+      console.log("isAllSelected", this._selection.isAllSelected());
+      if (this._selection.isAllSelected()) {
+        this._selection.toggleAllSelected();
+        this._selection.setAllSelected(false);
+      }
+      this.setState({ selectedItems: undefined, showContextMenue: false });
+      //  this._selection.setAllSelected(false);
+      // this._selection.getItems().forEach(item => {
+      //   // debugger;
+      //   let n = "";
+      // });
+    } else {
+      console.log("NO update items");
+    }
+  }
+  private selectionHasChanged() {
+    console.log("selectionHasChanged");
+    console.log("count: " + this._selection.getSelectedCount());
+    this.props.selectionChanged(
+      this._selection.getSelection() as IRouteViewModel[]
+    );
   }
   private deleteRoute() {
-    this.props.deleteRoute(this.state.selectedItem);
-    this.setState({ selectedItem: undefined, showContextMenue: false });
+    this.props
+      .onDeleteRouteClicked(this.state.selectedItems)
+      .then(() => {
+        this._selection.setAllSelected(false);
+        this.setState({ selectedItems: undefined, showContextMenue: false });
+      })
+      .catch(() => {
+        alert("Es ist ein Fehler beim Löschen der Route aufgetreten");
+      });
   }
   private editRoute() {
-    this.props.editRoute(this.state.selectedItem);
-    this.setState({ selectedItem: undefined, showContextMenue: false });
+    this.props.onEditRouteClick(this.state.selectedItems[0]);
+    this.setState({ selectedItems: undefined, showContextMenue: false });
   }
   private closeContextualMenue() {
     this.setState({ showContextMenue: false });
@@ -78,7 +125,7 @@ export class Routenuebersicht extends React.Component<
 
     this.setState({
       showContextMenue: true,
-      selectedItem: this._selection.getSelection()[0] as IRouteViewModel
+      selectedItems: this._selection.getSelection() as IRouteViewModel[]
     });
   }
   private renderContext() {
@@ -95,8 +142,8 @@ export class Routenuebersicht extends React.Component<
     );
   }
   private onColumnClick(ev: React.MouseEvent<HTMLElement>, column: IColumn) {
-    const { columns, items } = this.state;
-    let newItems: IRouteViewModel[] = items.slice();
+    const { columns } = this.state;
+    let newItems: IRouteViewModel[] = [];
     let newColumns: IColumn[] = columns.slice();
     let currColumn: IColumn = newColumns.filter(
       (currCol: IColumn, idx: number) => {
@@ -112,33 +159,30 @@ export class Routenuebersicht extends React.Component<
         newCol.isSortedDescending = true;
       }
     });
-    newItems = this.props.sortByPropertyName(
-      currColumn.fieldName,
-      currColumn.isSortedDescending
-    );
+    // newItems = this.props.sortByPropertyName(
+    //   currColumn.fieldName,
+    //   currColumn.isSortedDescending
+    // );
     this.setState({
-      columns: newColumns,
-      items: newItems
+      columns: newColumns
     });
   }
   render() {
     console.log("render Routenuebersicht");
     return (
       <Fragment>
-        <MarqueeSelection selection={this._selection} isEnabled={false}>
-          <DetailsList
-            selectionMode={SelectionMode.none}
-            items={this.props.items}
-            compact={false}
-            columns={this.state.columns}
-            setKey="set"
-            layoutMode={DetailsListLayoutMode.justified}
-            isHeaderVisible={true}
-            selection={this._selection}
-            selectionPreservedOnEmptyClick={true}
-            enterModalSelectionOnTouch={true}
-          />
-        </MarqueeSelection>
+        <DetailsList
+          selectionMode={SelectionMode.multiple}
+          items={this.props.items}
+          compact={false}
+          columns={this.state.columns}
+          setKey="set"
+          layoutMode={DetailsListLayoutMode.justified}
+          isHeaderVisible={true}
+          selection={this._selection}
+          selectionPreservedOnEmptyClick={true}
+          enterModalSelectionOnTouch={true}
+        />
         {this.state.showContextMenue && (
           <ContextualMenu
             directionalHint={DirectionalHint.rightCenter}
