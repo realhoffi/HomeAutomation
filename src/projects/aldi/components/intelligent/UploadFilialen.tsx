@@ -37,7 +37,7 @@ interface IUploadReport {
 export interface IUploadFilialenProps {
   routes: IRouteModel[];
   uploadFinished(): void;
-  cancelClick(): void;
+  cancelBtnClick(): void;
 }
 export class UploadFilialen extends React.Component<IUploadFilialenProps, {}> {
   textareaElement: HTMLTextAreaElement = undefined;
@@ -45,6 +45,7 @@ export class UploadFilialen extends React.Component<IUploadFilialenProps, {}> {
   constructor(props) {
     super(props);
 
+    this.cancelBtnClick = this.cancelBtnClick.bind(this);
     this.uploadClick = this.uploadClick.bind(this);
     this.setTextareaElement = this.setTextareaElement.bind(this);
     this.setSelectRouteElement = this.setSelectRouteElement.bind(this);
@@ -119,6 +120,9 @@ export class UploadFilialen extends React.Component<IUploadFilialenProps, {}> {
     });
     return ret;
   }
+  private cancelBtnClick() {
+    this.props.cancelBtnClick();
+  }
   private uploadClick() {
     let filialen = this.createFilialen(
       this.textareaElement ? this.textareaElement.value : ""
@@ -126,7 +130,7 @@ export class UploadFilialen extends React.Component<IUploadFilialenProps, {}> {
     this.saveFilialen(filialen.import)
       .then(r => {
         if (r.length === filialen.importCount) {
-          alert("OK");
+          // alert("OK");
           this.props.uploadFinished();
         } else {
           alert("NIX OK");
@@ -186,7 +190,7 @@ export class UploadFilialen extends React.Component<IUploadFilialenProps, {}> {
                 text: "Abbrechen",
                 disabled: false,
                 checked: false,
-                onClickFunc: this.props.cancelClick
+                onClickFunc: this.cancelBtnClick
               }}
             />
           </div>

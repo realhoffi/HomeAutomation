@@ -22,20 +22,22 @@ export class GlobalApplication extends React.Component<
 > {
   constructor(props) {
     super(props);
-    this.state = { selectedNavKey: "#" };
+    this.state = { selectedNavKey: this.getRouteIdFromHash() };
     this.routeChanged = this.routeChanged.bind(this);
+  }
+  private getRouteIdFromHash(): string {
+    return document.location.hash
+      ? "#" + document.location.hash.replace("#/", "")
+      : "#";
   }
   componentDidMount() {
     document.title = "Web-Application by Florian Hoffmann";
     console.log("componentDidMount Application");
-
     window.addEventListener("hashchange", this.routeChanged);
   }
   routeChanged() {
     console.log("route changed");
-    let navKey = document.location.hash
-      ? "#" + document.location.hash.replace("#/", "")
-      : "#";
+    let navKey = this.getRouteIdFromHash();
     if (this.state.selectedNavKey === navKey) {
       return;
     }

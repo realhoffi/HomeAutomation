@@ -1,5 +1,5 @@
 import * as React from "react";
-
+import Axios from "axios";
 import {
   TextField,
   DetailsList,
@@ -11,27 +11,31 @@ import {
   IconButton,
   ContextualMenu,
   ContextualMenuItemType,
-  DirectionalHint
+  DirectionalHint,
+  IContextualMenuItem
 } from "office-ui-fabric-react";
-import { IFilialeViewModel } from "../../../../interfaces/aldi";
+import { IFilialeViewModel, IFilialeModel } from "../../../../interfaces/aldi";
 import { filialOverviewColumns } from "../../configuration/routenColumns";
 import { Fragment } from "react";
+import { BaseUebersicht } from "../../../../global/components/simple/BaseUebersicht";
+import { sortArrayByProperty } from "../../../../helper/sorting";
+import { promise_all_custom } from "../../../../helper/promise";
 
+interface IPromiseFilialeResult {
+  rawItems: IFilialeModel[];
+  transformedItems: IFilialeViewModel[];
+}
 export interface IFilialuebersichtProps {
-  items: IFilialeViewModel[];
-  sortByPropertyName(
-    propertyName: string,
-    descending: boolean
-  ): IFilialeViewModel[];
-  onDeleteFilialeClicked(route: IFilialeViewModel[]): Promise<any>;
-  selectionChanged(route: IFilialeViewModel[]): void;
   onEditFilialeClick(route: IFilialeViewModel): void;
+  commandbarItems: IContextualMenuItem[];
 }
 export interface IFilialuebersichtState {
   columns: IColumn[];
   items: IFilialeViewModel[];
-  showContextMenue: boolean;
+  rawItems: IFilialeModel[];
   selectedItems: IFilialeViewModel[];
+  isLoading: boolean;
+  commandbarItems: IContextualMenuItem[];
 }
 export class Filialuebersicht extends React.Component<
   IFilialuebersichtProps,
@@ -43,166 +47,211 @@ export class Filialuebersicht extends React.Component<
     super(props);
 
     this.selectionHasChanged = this.selectionHasChanged.bind(this);
-
-    this.selectionHasChanged = this.selectionHasChanged.bind(this);
-    this.onColumnClick = this.onColumnClick.bind(this);
-    this.renderContext = this.renderContext.bind(this);
-    this.showMoreClicked = this.showMoreClicked.bind(this);
-    this.closeContextualMenue = this.closeContextualMenue.bind(this);
+    this.deleteAllFilialenClicked = this.deleteAllFilialenClicked.bind(this);
+    this.deleteFilialeClicked = this.deleteFilialeClicked.bind(this);
+    this.sortItems = this.sortItems.bind(this);
     this.deleteFiliale = this.deleteFiliale.bind(this);
+    this.deleteFilialen = this.deleteFilialen.bind(this);
     this.editFiliale = this.editFiliale.bind(this);
-    let cols = filialOverviewColumns.map(col => {
-      col.onColumnClick = this.onColumnClick;
-      if (col.fieldName === "ctx") {
-        col.onRender = this.renderContext;
-      }
-      return col;
+    // let cols = filialOverviewColumns.map(col => {
+    //   col.onColumnClick = this.onColumnClick;
+    //   // if (col.fieldName === "ctx") {
+    //   //   col.onRender = this.renderContext;
+    //   // }
+    //   return col;
+    // });
+
+    let commardbarItems: IContextualMenuItem[] = [].concat(
+      this.props.commandbarItems
+    );
+    if (!commardbarItems) {
+      commardbarItems = [];
+    }
+    commardbarItems.push({
+      key: "delete",
+      name: "Delete Selected",
+      icon: "delete",
+      disabled: true,
+      onClick: this.deleteAllFilialenClicked
     });
     this.state = {
-      columns: cols,
-      items: this.props.items,
-      showContextMenue: false,
-      selectedItems: undefined
+      isLoading: true,
+      columns: [], // cols,
+      items: [],
+      rawItems: [],
+      selectedItems: [],
+      commandbarItems: commardbarItems
     };
-    this._selection = new Selection({
-      onSelectionChanged: this.selectionHasChanged
+  }
+  componentDidMount() {
+    this.loadFilialen()
+      .then((data: IPromiseFilialeResult) => {
+        this.setState({
+          rawItems: data.rawItems,
+          items: data.transformedItems,
+          isLoading: false
+        });
+        return null;
+      })
+      .catch(error => {
+        alert("Fehler loadFilialen");
+      });
+  }
+  private selectionHasChanged(selectedItems: IFilialeViewModel[]) {
+    let newState = { ...this.state };
+    newState.selectedItems = selectedItems;
+    newState.commandbarItems.forEach(item => {
+      if (item.key === "delete") {
+        item.disabled = !selectedItems || selectedItems.length < 0;
+      }
+    });
+    this.setState(newState);
+  }
+  private getFilialViewModelByRouteModel(items: IFilialeModel[]) {
+    return items.map((item: IFilialeModel, index) => {
+      return {
+        index: index + 1,
+        _id: item._id,
+        created: item.created,
+        einnahmen: item.einnahmen,
+        ausgaben: item.ausgaben,
+        modified: item.modified,
+        timestamp: item.timestamp,
+        fahrdatum: -1,
+        ort: item.ort,
+        pkz: item.pkz,
+        plz: item.plz,
+        strasse: item.strasse,
+        testnummer: item.testnummer
+      } as IFilialeViewModel;
     });
   }
-  componentDidUpdate(
-    prevProps: Readonly<IFilialuebersichtProps>,
-    prevState: Readonly<IFilialuebersichtState>,
-    prevContext: any
-  ) {
-    if (JSON.stringify(this.props.items) !== JSON.stringify(prevProps.items)) {
-      this._selection.getItems().forEach((e, i) => {
-        this._selection.setIndexSelected(i, false, false);
+  private loadFilialen(): Promise<IPromiseFilialeResult> {
+    return new Promise((resolve, reject) => {
+      this.loadFilialenRequest()
+        .then((data: IFilialeModel[]) => {
+          let items: IFilialeViewModel[] = this.getFilialViewModelByRouteModel(
+            data
+          );
+          resolve({
+            rawItems: data || [],
+            transformedItems: items || []
+          });
+        })
+        .catch(() => {
+          alert("Fehler beim Laden der Filialen");
+        });
+    });
+  }
+  private deleteFilialen(filialElements: IFilialeViewModel[]) {
+    return new Promise((resolve, reject) => {
+      let promises = [];
+      filialElements.forEach(filiale => {
+        promises.push(this.deleteFilialeElementRequest(filiale));
       });
-      this._selection.setItems(this.props.items as any, true);
-      this.setState({ selectedItems: undefined, showContextMenue: false });
+      promise_all_custom(promises)
+        .then(() => {
+          resolve();
+        })
+        .catch(() => {
+          alert("Grober Fehler!");
+          reject();
+        });
+    });
+  }
+  private loadFilialenRequest() {
+    return new Promise((resolve, reject) => {
+      Axios.get("/api/filialen")
+        .then(results => {
+          resolve(results.data);
+        })
+        .catch(() => {
+          reject();
+        });
+    });
+  }
+  private deleteFilialeElementRequest(route: IFilialeViewModel) {
+    return Axios.delete("/api/filialen/" + route._id);
+  }
+  private deleteFiliale(selectedItems: IFilialeViewModel[]) {
+    return new Promise((resolve, reject) => {
+      if (
+        !selectedItems ||
+        selectedItems.length === 0 ||
+        selectedItems.length > 1
+      ) {
+        resolve();
+        return null;
+      }
+      return this.deleteFilialen(selectedItems)
+        .then(() => {
+          return this.loadFilialen();
+        })
+        .then((data: IPromiseFilialeResult) => {
+          this.setState(
+            {
+              rawItems: data.rawItems,
+              items: data.transformedItems,
+              isLoading: false
+            },
+            () => {
+              resolve();
+              return null;
+            }
+          );
+        })
+        .catch(error => {
+          alert("Fehler deleteFiliale");
+          reject();
+          return null;
+        });
+    });
+  }
+  private editFiliale(selectedFiliale: IFilialeViewModel) {
+    if (selectedFiliale) {
+      this.props.onEditFilialeClick(selectedFiliale);
     }
   }
-  private selectionHasChanged() {
-    console.log("selectionHasChanged");
-    this.props.selectionChanged(
-      this._selection.getSelection() as IFilialeViewModel[]
-    );
-    this.forceUpdate();
+  private sortItems(propertyName: string, descending: boolean) {
+    return sortArrayByProperty(this.state.items, propertyName, descending);
   }
-  private deleteFiliale() {
-    this.props
-      .onDeleteFilialeClicked(this.state.selectedItems)
-      .then(() => {
-        this._selection.setAllSelected(false);
-        this.setState({ selectedItems: undefined, showContextMenue: false });
-      })
-      .catch(() => {
-        alert("Es ist ein Fehler beim Löschen der Filiale aufgetreten");
+  private deleteFilialeClicked(selectedItems: IFilialeViewModel[]) {
+    return this.deleteFiliale(selectedItems);
+  }
+  private deleteAllFilialenClicked() {
+    return this.setState({ isLoading: true }, () => {
+      this.deleteFilialen(this.state.selectedItems).then(() => {
+        this.loadFilialen()
+          .then((data: IPromiseFilialeResult) => {
+            this.setState({
+              rawItems: data.rawItems,
+              items: data.transformedItems,
+              isLoading: false
+            });
+            return null;
+          })
+          .catch(error => {
+            alert("Fehler loadFilialen");
+          });
       });
-  }
-  private editFiliale() {
-    this.props.onEditFilialeClick(this.state.selectedItems[0]);
-    this.setState({ selectedItems: undefined, showContextMenue: false });
-  }
-  private closeContextualMenue() {
-    this.setState({ showContextMenue: false });
-  }
-  private showMoreClicked(event) {
-    this._target = event.target;
-
-    this.setState({
-      showContextMenue: true,
-      selectedItems: this._selection.getSelection() as IFilialeViewModel[]
-    });
-  }
-  private renderContext() {
-    return (
-      <div className="ms-font-xl ms-fontColor-themePrimary">
-        <IconButton
-          checked={false}
-          iconProps={{ iconName: "More" }}
-          title="More"
-          ariaLabel="More"
-          onClick={this.showMoreClicked}
-        />
-      </div>
-    );
-  }
-  private onColumnClick(ev: React.MouseEvent<HTMLElement>, column: IColumn) {
-    const { columns, items } = this.state;
-    // let newItems: IFilialeViewModel[] = items.slice();
-    let newColumns: IColumn[] = columns.slice();
-    let currColumn: IColumn = newColumns.filter(
-      (currCol: IColumn, idx: number) => {
-        return column.key === currCol.key;
-      }
-    )[0];
-    newColumns.forEach((newCol: IColumn) => {
-      if (newCol === currColumn) {
-        currColumn.isSortedDescending = !currColumn.isSortedDescending;
-        currColumn.isSorted = true;
-      } else {
-        newCol.isSorted = false;
-        newCol.isSortedDescending = true;
-      }
-    });
-    //  newItems =
-    this.props.sortByPropertyName(
-      currColumn.fieldName,
-      currColumn.isSortedDescending
-    );
-    this.setState({
-      columns: newColumns
-      // items: newItems
     });
   }
   render() {
     console.log("render Filialuebersicht");
     return (
-      <Fragment>
-        <DetailsList
-          selectionMode={SelectionMode.multiple}
-          items={this.props.items}
-          compact={false}
-          columns={this.state.columns}
-          setKey="set"
-          layoutMode={DetailsListLayoutMode.justified}
-          isHeaderVisible={true}
-          selection={this._selection}
-          selectionPreservedOnEmptyClick={true}
-          enterModalSelectionOnTouch={true}
-        />
-        {this.state.showContextMenue && (
-          <ContextualMenu
-            directionalHint={DirectionalHint.rightCenter}
-            isBeakVisible={true}
-            gapSpace={10}
-            beakWidth={20}
-            directionalHintFixed={true}
-            target={this._target}
-            items={[
-              {
-                name: "Bearbeiten",
-                key: "edit",
-                icon: "edit",
-                itemType: ContextualMenuItemType.Normal,
-                onClick: this.editFiliale
-              },
-              {
-                key: "divider_1",
-                itemType: ContextualMenuItemType.Divider
-              },
-              {
-                name: "Löschen",
-                key: "delete",
-                icon: "Delete",
-                itemType: ContextualMenuItemType.Normal,
-                onClick: this.deleteFiliale
-              }
-            ]}
-            onDismiss={this.closeContextualMenue}
-          />
-        )}
-      </Fragment>
+      <BaseUebersicht
+        onDeleteItemClicked={this.deleteFilialeClicked}
+        columns={[]}
+        items={this.state.items}
+        onEditItemClick={this.editFiliale}
+        onItemSelectionChanged={this.selectionHasChanged}
+        sortByPropertyName={this.sortItems}
+        isLoading={this.state.isLoading}
+        loadingText="Filialen werden geladen"
+        useCommandbar={true}
+        enableSearchBox={false}
+        commandbarItems={this.state.commandbarItems}
+      />
     );
   }
 }

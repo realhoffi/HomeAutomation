@@ -49,6 +49,7 @@ export class Filiale extends React.Component<IFilialProps, IFilialState> {
     this.onTestnummerChanged = this.onTestnummerChanged.bind(this);
 
     this.saveClicked = this.saveClicked.bind(this);
+    this.cancelClicked = this.cancelClicked.bind(this);
   }
 
   componentDidMount() {
@@ -110,6 +111,9 @@ export class Filiale extends React.Component<IFilialProps, IFilialState> {
       .catch(() => {
         alert("Fehler beim Laden");
       });
+  }
+  private cancelClicked() {
+    this.props.cancel_clicked();
   }
   private saveClicked() {
     let f = "";
@@ -221,7 +225,7 @@ export class Filiale extends React.Component<IFilialProps, IFilialState> {
                 text: "Abbrechen",
                 disabled: false,
                 checked: false,
-                onClickFunc: this.props.cancel_clicked
+                onClickFunc: this.cancelClicked
               }}
             />
           </div>

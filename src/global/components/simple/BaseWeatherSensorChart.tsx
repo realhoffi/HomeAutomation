@@ -16,7 +16,8 @@ import * as chartjs from "chart.js";
 import {
   getGermanDateString,
   addDays,
-  setDatePropertiesToZero
+  setDatePropertiesToZero,
+  getGermanDateTimeString
 } from "../../../helper/date";
 import { ChartOptions } from "chart.js";
 
@@ -39,6 +40,8 @@ export interface IBaseWeatherSensorChartProps {
   sensorInformations: IBaseWeatherSensor;
 }
 export interface IBaseWeatherSensorChartState {
+  options: chartjs.ChartOptions;
+  rawSensorData: number[];
   sensorData: ChartData<chartjs.ChartData>;
   isError: boolean;
   isLoadingSensorData: boolean;
@@ -52,11 +55,14 @@ export class BaseWeatherSensorChart extends React.Component<
     super(props);
     this.state = {
       sensorData: undefined,
+      rawSensorData: [],
       isError: false,
       isLoadingSensorData: true,
-      selectedRange: "1"
+      selectedRange: "1",
+      options: undefined
     };
     this.dateRangeSelectionChanged = this.dateRangeSelectionChanged.bind(this);
+    this.getTooltipTitle = this.getTooltipTitle.bind(this);
   }
   getChartData(defaultData: any[]): chartjs.ChartData {
     let dataRows: any[] = defaultData;
@@ -78,11 +84,17 @@ export class BaseWeatherSensorChart extends React.Component<
 
     dataRows.forEach(row => {
       if (!row.timestamp) return;
-
-      labels.push(getGermanDateString(new Date(row.timestamp)));
-      tempValues.push(row.temperature);
-      humidityValues.push(row.humidity);
-      pressureValues.push(row.pressure);
+      labels.push(row.timestamp);
+      // labels.push(getGermanDateString(new Date(row.timestamp)));
+      if (row.temperature && row.temperature < 100) {
+        tempValues.push(row.temperature);
+      }
+      if (row.humidity && row.humidity >= 0) {
+        humidityValues.push(row.humidity);
+      }
+      if (row.pressure && row.pressure >= 0) {
+        pressureValues.push(row.pressure);
+      }
     });
     data.labels = labels;
     data.datasets = [
@@ -187,7 +199,7 @@ export class BaseWeatherSensorChart extends React.Component<
       to: to
     };
   }
-  queryLiveDate(selectedOption: string): Promise<any> {
+  queryLiveDate(selectedOption: string): Promise<any[]> {
     return new Promise((resolve, reject) => {
       let dateRange = this.getDateTickRangeBySelection(selectedOption);
       this.querySensorDataByDateRange(dateRange.from, dateRange.to)
@@ -198,19 +210,60 @@ export class BaseWeatherSensorChart extends React.Component<
           if (!dataResult.data.items || dataResult.data.items.lenght === 0) {
             resolve([]);
           }
-          let dataRows = this.getChartData(dataResult.data.items);
-          resolve(dataRows);
+
+          resolve(dataResult.data.items);
         })
         .catch(error => {
           reject(error);
         });
     });
   }
+  getTooltipTitle(tooltipItem, data) {
+    let returnValue = undefined;
+    if (
+      this.state.rawSensorData &&
+      this.state.rawSensorData.length >= tooltipItem[0].index
+    ) {
+      let sensorTimeStamp: any = this.state.rawSensorData[tooltipItem[0].index];
+      if (sensorTimeStamp) {
+        let timestamp = sensorTimeStamp.timestamp;
+        returnValue = getGermanDateTimeString(new Date(timestamp));
+      }
+    }
+    if (!returnValue) {
+      returnValue = data.labels[tooltipItem[0].index];
+    }
+    return returnValue;
+  }
   doSensorQueryNow() {
     this.queryLiveDate(this.state.selectedRange)
       .then(result => {
+        let chartData = this.getChartData(result);
+        let options: chartjs.ChartOptions = { tooltips: {} };
+
+        options.tooltips.callbacks = {
+          title: this.getTooltipTitle
+          //  function() {
+
+          //   // data.labels[tooltipItem[0].index];
+          // }
+          // label: function(tooltipItem, data) {
+          //   let amount =
+          //     data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+          //   return "huhu";
+          // }
+          // footer: function(tooltipItem, data) { return 'Total: 100 planos.'; }
+        };
+        if (chartData && chartData.labels && chartData.labels.length > 0) {
+          chartData.labels = chartData.labels.map(label => {
+            label = getGermanDateString(new Date(parseFloat(label.toString())));
+            return label;
+          });
+        }
         this.setState({
-          sensorData: result,
+          rawSensorData: result,
+          options: options,
+          sensorData: chartData,
           isLoadingSensorData: false
         });
       })
@@ -261,7 +314,9 @@ export class BaseWeatherSensorChart extends React.Component<
       if (!this.state.sensorData) {
         sensorDataContent = "Keine Daten vorhanden...";
       } else {
-        sensorDataContent = <Line data={this.state.sensorData} />;
+        sensorDataContent = (
+          <Line data={this.state.sensorData} options={this.state.options} />
+        );
       }
     }
     return (

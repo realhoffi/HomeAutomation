@@ -104,7 +104,7 @@ export class Filiale extends React.Component<IFilialeProps, {}> {
                   </select>
                 </div>
               </div>
-              <div className="ms-Grid-col ms-sm9 ms-md5">
+              <div className="ms-Grid-col ms-sm8 ms-md4">
                 <NumberTextField
                   required={true}
                   placeholder="Testnummer"
@@ -113,7 +113,7 @@ export class Filiale extends React.Component<IFilialeProps, {}> {
                   onChanged={this.testnummerChanged}
                 />
               </div>
-              <div className="ms-Grid-col ms-sm3 ms-md2">
+              <div className="ms-Grid-col ms-sm4 ms-md3">
                 <NumberTextField
                   required={true}
                   placeholder="Prüfkennziffer"
@@ -131,7 +131,7 @@ export class Filiale extends React.Component<IFilialeProps, {}> {
                   onChanged={this.strasseChanged}
                 />
               </div>
-              <div className="ms-Grid-col ms-sm3 ms-md3 ms-lg2">
+              <div className="ms-Grid-col ms-sm4 ms-md3 ms-lg2">
                 <NumberTextField
                   required={true}
                   placeholder="Plz"
@@ -140,7 +140,7 @@ export class Filiale extends React.Component<IFilialeProps, {}> {
                   onChanged={this.plzChanged}
                 />
               </div>
-              <div className="ms-Grid-col ms-sm9 ms-md9 ms-lg5">
+              <div className="ms-Grid-col ms-sm8 ms-md9 ms-lg5">
                 <TextField
                   required={true}
                   placeholder="Ort"

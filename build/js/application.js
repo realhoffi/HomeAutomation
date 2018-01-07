@@ -41,37 +41,7 @@ exports.ButtonRow = ButtonRow;
 
 /***/ }),
 
-/***/ 184:
-/*!******************************************!*\
-  !*** ./node_modules/int-to-rgb/index.js ***!
-  \******************************************/
-/*! dynamic exports provided */
-/*! all exports used */
-/***/ (function(module, exports) {
-
-var errorMessage = 'Must provide an integer between 0 and 16777215';
-
-
-module.exports = function(int) {
-  if (typeof int !== 'number') throw new Error(errorMessage);
-  if (Math.floor(int) !== int) throw new Error(errorMessage);
-  if (int < 0 || int > 16777215) throw new Error(errorMessage);
-
-  var red = int >> 16;
-  var green = int - (red << 16) >> 8;
-  var blue = int - (red << 16) - (green << 8);
-
-  return {
-    red: red,
-    green: green,
-    blue: blue
-  }
-}
-
-
-/***/ }),
-
-/***/ 193:
+/***/ 132:
 /*!*******************************!*\
   !*** ./src/helper/promise.ts ***!
   \*******************************/
@@ -118,6 +88,36 @@ exports.promise_all_custom = promise_all_custom;
 
 /***/ }),
 
+/***/ 185:
+/*!******************************************!*\
+  !*** ./node_modules/int-to-rgb/index.js ***!
+  \******************************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports) {
+
+var errorMessage = 'Must provide an integer between 0 and 16777215';
+
+
+module.exports = function(int) {
+  if (typeof int !== 'number') throw new Error(errorMessage);
+  if (Math.floor(int) !== int) throw new Error(errorMessage);
+  if (int < 0 || int > 16777215) throw new Error(errorMessage);
+
+  var red = int >> 16;
+  var green = int - (red << 16) >> 8;
+  var blue = int - (red << 16) - (green << 8);
+
+  return {
+    red: red,
+    green: green,
+    blue: blue
+  }
+}
+
+
+/***/ }),
+
 /***/ 234:
 /*!****************************************************************!*\
   !*** ./src/projects/yeelight/components/pages/application.tsx ***!
@@ -148,11 +148,11 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
-var axios_1 = __webpack_require__(/*! axios */ 35);
+var axios_1 = __webpack_require__(/*! axios */ 30);
 var timers_1 = __webpack_require__(/*! timers */ 87);
 var Yeelight_1 = __webpack_require__(/*! ../simple/Yeelight */ 433);
 var react_1 = __webpack_require__(/*! react */ 1);
-var intToRGB = __webpack_require__(/*! int-to-rgb */ 184);
+var intToRGB = __webpack_require__(/*! int-to-rgb */ 185);
 var Application = (function (_super) {
     __extends(Application, _super);
     function Application(props) {
@@ -270,10 +270,10 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
-var axios_1 = __webpack_require__(/*! axios */ 35);
+var axios_1 = __webpack_require__(/*! axios */ 30);
 var BaseWeatherSensor_1 = __webpack_require__(/*! ../../../../global/components/simple/BaseWeatherSensor */ 715);
 var timers_1 = __webpack_require__(/*! timers */ 87);
-var intToRGB = __webpack_require__(/*! int-to-rgb */ 184);
+var intToRGB = __webpack_require__(/*! int-to-rgb */ 185);
 var Application = (function (_super) {
     __extends(Application, _super);
     function Application(props) {
@@ -353,10 +353,10 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
-var axios_1 = __webpack_require__(/*! axios */ 35);
+var axios_1 = __webpack_require__(/*! axios */ 30);
 var BaseLight_1 = __webpack_require__(/*! ../../../../global/components/simple/BaseLight */ 852);
 var timers_1 = __webpack_require__(/*! timers */ 87);
-var intToRGB = __webpack_require__(/*! int-to-rgb */ 184);
+var intToRGB = __webpack_require__(/*! int-to-rgb */ 185);
 var Application = (function (_super) {
     __extends(Application, _super);
     function Application(props) {
@@ -478,7 +478,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
 var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
-var axios_1 = __webpack_require__(/*! axios */ 35);
+var axios_1 = __webpack_require__(/*! axios */ 30);
 var timers_1 = __webpack_require__(/*! timers */ 87);
 var react_1 = __webpack_require__(/*! react */ 1);
 var SystemInfo = (function (_super) {
@@ -776,15 +776,15 @@ var Filiale = (function (_super) {
                                 React.createElement("select", { className: "custom-ddl-control", onChange: this.fahrDatumChanged, value: this.props.filiale.fahrdatum || undefined }, this.props.fahrdaten.map(function (fahrtDatum, index) {
                                     return (React.createElement("option", { key: "fahrt__" + index, value: fahrtDatum.getTime() }, date_1.getGermanDateString(fahrtDatum)));
                                 })))),
-                        React.createElement("div", { className: "ms-Grid-col ms-sm9 ms-md5" },
+                        React.createElement("div", { className: "ms-Grid-col ms-sm8 ms-md4" },
                             React.createElement(NumberTextField_1.NumberTextField, { required: true, placeholder: "Testnummer", label: "Testnummer", numberValue: this.props.filiale.testnummer, onChanged: this.testnummerChanged })),
-                        React.createElement("div", { className: "ms-Grid-col ms-sm3 ms-md2" },
+                        React.createElement("div", { className: "ms-Grid-col ms-sm4 ms-md3" },
                             React.createElement(NumberTextField_1.NumberTextField, { required: true, placeholder: "Prüfkennziffer", label: "Pkz.", numberValue: this.props.filiale.pkz, onChanged: this.pkzChanged })),
                         React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-lg5" },
                             React.createElement(office_ui_fabric_react_1.TextField, { required: true, placeholder: "Straße", label: "Straße", value: this.props.filiale.strasse, onChanged: this.strasseChanged })),
-                        React.createElement("div", { className: "ms-Grid-col ms-sm3 ms-md3 ms-lg2" },
+                        React.createElement("div", { className: "ms-Grid-col ms-sm4 ms-md3 ms-lg2" },
                             React.createElement(NumberTextField_1.NumberTextField, { required: true, placeholder: "Plz", label: "Plz", numberValue: this.props.filiale.plz, onChanged: this.plzChanged })),
-                        React.createElement("div", { className: "ms-Grid-col ms-sm9 ms-md9 ms-lg5" },
+                        React.createElement("div", { className: "ms-Grid-col ms-sm8 ms-md9 ms-lg5" },
                             React.createElement(office_ui_fabric_react_1.TextField, { required: true, placeholder: "Ort", label: "Ort", value: this.props.filiale.ort, onChanged: this.ortChanged })),
                         React.createElement("div", { className: "ms-Grid-col ms-sm6 ms-md6 ms-lg6" },
                             React.createElement(NumberTextField_1.NumberTextField, { placeholder: "Einnahmen", label: "Einnahmen", numberValue: this.props.filiale.einnahmen, onChanged: this.einnahmenChanged, suffix: " €" })),
@@ -1212,7 +1212,7 @@ var application_3 = __webpack_require__(/*! ../../../projects/vacuumRoboter/comp
 var application_4 = __webpack_require__(/*! ../../../projects/aldi/components/pages/application */ 854);
 var sensors_1 = __webpack_require__(/*! ../../../projects/xiaomi/components/pages/sensors */ 308);
 var gateways_1 = __webpack_require__(/*! ../../../projects/xiaomi/components/pages/gateways */ 330);
-var NotFoundPage_1 = __webpack_require__(/*! ../../components/simple/NotFoundPage */ 868);
+var NotFoundPage_1 = __webpack_require__(/*! ../../components/simple/NotFoundPage */ 870);
 var Routing_1 = __webpack_require__(/*! ../simple/Routing */ 339);
 var basePage_1 = __webpack_require__(/*! ../container/basePage */ 333);
 var systeminfo_1 = __webpack_require__(/*! ../../../projects/system/components/pages/systeminfo */ 331);
@@ -1221,10 +1221,15 @@ var GlobalApplication = (function (_super) {
     __extends(GlobalApplication, _super);
     function GlobalApplication(props) {
         var _this = _super.call(this, props) || this;
-        _this.state = { selectedNavKey: "#" };
+        _this.state = { selectedNavKey: _this.getRouteIdFromHash() };
         _this.routeChanged = _this.routeChanged.bind(_this);
         return _this;
     }
+    GlobalApplication.prototype.getRouteIdFromHash = function () {
+        return document.location.hash
+            ? "#" + document.location.hash.replace("#/", "")
+            : "#";
+    };
     GlobalApplication.prototype.componentDidMount = function () {
         document.title = "Web-Application by Florian Hoffmann";
         console.log("componentDidMount Application");
@@ -1232,9 +1237,7 @@ var GlobalApplication = (function (_super) {
     };
     GlobalApplication.prototype.routeChanged = function () {
         console.log("route changed");
-        var navKey = document.location.hash
-            ? "#" + document.location.hash.replace("#/", "")
-            : "#";
+        var navKey = this.getRouteIdFromHash();
         if (this.state.selectedNavKey === navKey) {
             return;
         }
@@ -1308,7 +1311,7 @@ var application_1 = __webpack_require__(/*! ../../../projects/yeelight/component
 var sensors_1 = __webpack_require__(/*! ../../../projects/xiaomi/components/pages/sensors */ 308);
 var gateways_1 = __webpack_require__(/*! ../../../projects/xiaomi/components/pages/gateways */ 330);
 var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
-var PivotItem_1 = __webpack_require__(/*! office-ui-fabric-react/lib/components/Pivot/PivotItem */ 182);
+var PivotItem_1 = __webpack_require__(/*! office-ui-fabric-react/lib/components/Pivot/PivotItem */ 183);
 var systeminfo_1 = __webpack_require__(/*! ../../../projects/system/components/pages/systeminfo */ 331);
 var Application = (function (_super) {
     __extends(Application, _super);
@@ -1679,7 +1682,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
 var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
-var axios_1 = __webpack_require__(/*! axios */ 35);
+var axios_1 = __webpack_require__(/*! axios */ 30);
 var react_chartjs_2_1 = __webpack_require__(/*! react-chartjs-2 */ 309);
 var date_1 = __webpack_require__(/*! ../../../helper/date */ 78);
 var options = [
@@ -1694,11 +1697,14 @@ var BaseWeatherSensorChart = (function (_super) {
         var _this = _super.call(this, props) || this;
         _this.state = {
             sensorData: undefined,
+            rawSensorData: [],
             isError: false,
             isLoadingSensorData: true,
-            selectedRange: "1"
+            selectedRange: "1",
+            options: undefined
         };
         _this.dateRangeSelectionChanged = _this.dateRangeSelectionChanged.bind(_this);
+        _this.getTooltipTitle = _this.getTooltipTitle.bind(_this);
         return _this;
     }
     BaseWeatherSensorChart.prototype.getChartData = function (defaultData) {
@@ -1719,10 +1725,16 @@ var BaseWeatherSensorChart = (function (_super) {
         dataRows.forEach(function (row) {
             if (!row.timestamp)
                 return;
-            labels.push(date_1.getGermanDateString(new Date(row.timestamp)));
-            tempValues.push(row.temperature);
-            humidityValues.push(row.humidity);
-            pressureValues.push(row.pressure);
+            labels.push(row.timestamp);
+            if (row.temperature && row.temperature < 100) {
+                tempValues.push(row.temperature);
+            }
+            if (row.humidity && row.humidity >= 0) {
+                humidityValues.push(row.humidity);
+            }
+            if (row.pressure && row.pressure >= 0) {
+                pressureValues.push(row.pressure);
+            }
         });
         data.labels = labels;
         data.datasets = [
@@ -1831,20 +1843,47 @@ var BaseWeatherSensorChart = (function (_super) {
                 if (!dataResult.data.items || dataResult.data.items.lenght === 0) {
                     resolve([]);
                 }
-                var dataRows = _this.getChartData(dataResult.data.items);
-                resolve(dataRows);
+                resolve(dataResult.data.items);
             })
                 .catch(function (error) {
                 reject(error);
             });
         });
     };
+    BaseWeatherSensorChart.prototype.getTooltipTitle = function (tooltipItem, data) {
+        var returnValue = undefined;
+        if (this.state.rawSensorData &&
+            this.state.rawSensorData.length >= tooltipItem[0].index) {
+            var sensorTimeStamp = this.state.rawSensorData[tooltipItem[0].index];
+            if (sensorTimeStamp) {
+                var timestamp = sensorTimeStamp.timestamp;
+                returnValue = date_1.getGermanDateTimeString(new Date(timestamp));
+            }
+        }
+        if (!returnValue) {
+            returnValue = data.labels[tooltipItem[0].index];
+        }
+        return returnValue;
+    };
     BaseWeatherSensorChart.prototype.doSensorQueryNow = function () {
         var _this = this;
         this.queryLiveDate(this.state.selectedRange)
             .then(function (result) {
+            var chartData = _this.getChartData(result);
+            var options = { tooltips: {} };
+            options.tooltips.callbacks = {
+                title: _this.getTooltipTitle
+            };
+            if (chartData && chartData.labels && chartData.labels.length > 0) {
+                chartData.labels = chartData.labels.map(function (label) {
+                    label = date_1.getGermanDateString(new Date(parseFloat(label.toString())));
+                    return label;
+                });
+            }
             _this.setState({
-                sensorData: result,
+                rawSensorData: result,
+                options: options,
+                sensorData: chartData,
                 isLoadingSensorData: false
             });
         })
@@ -1886,7 +1925,7 @@ var BaseWeatherSensorChart = (function (_super) {
                 sensorDataContent = "Keine Daten vorhanden...";
             }
             else {
-                sensorDataContent = React.createElement(react_chartjs_2_1.Line, { data: this.state.sensorData });
+                sensorDataContent = (React.createElement(react_chartjs_2_1.Line, { data: this.state.sensorData, options: this.state.options }));
             }
         }
         return (React.createElement("div", { className: "ms-Grid-row" },
@@ -2193,7 +2232,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
-var axios_1 = __webpack_require__(/*! axios */ 35);
+var axios_1 = __webpack_require__(/*! axios */ 30);
 var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
 var manageRoute_1 = __webpack_require__(/*! ./manageRoute */ 855);
 var enums_1 = __webpack_require__(/*! ../../../../enums/enums */ 332);
@@ -2202,10 +2241,10 @@ var ToolTip_1 = __webpack_require__(/*! ../../../../global/components/simple/Too
 var Routenuebersicht_1 = __webpack_require__(/*! ../intelligent/Routenuebersicht */ 863);
 var UploadRoutes_1 = __webpack_require__(/*! ../intelligent/UploadRoutes */ 864);
 var UploadFilialen_1 = __webpack_require__(/*! ../intelligent/UploadFilialen */ 865);
-var promise_1 = __webpack_require__(/*! ../../../../helper/promise */ 193);
+var promise_1 = __webpack_require__(/*! ../../../../helper/promise */ 132);
 var Filialuebersicht_1 = __webpack_require__(/*! ../intelligent/Filialuebersicht */ 866);
 var Panel_1 = __webpack_require__(/*! ../../../../global/components/simple/Panel */ 61);
-var Filiale_1 = __webpack_require__(/*! ../intelligent/Filiale */ 867);
+var Filiale_1 = __webpack_require__(/*! ../intelligent/Filiale */ 869);
 var Application = (function (_super) {
     __extends(Application, _super);
     function Application(props) {
@@ -2269,7 +2308,7 @@ var Application = (function (_super) {
     Application.prototype.componentDidMount = function () {
         var _this = this;
         document.title = "Aldi Hauptseite";
-        var promises = [this.reloadRouten(), this.reloadFilialen()];
+        var promises = [this.reloadRouten()];
         promise_1.promise_all_custom(promises)
             .then(function (results) {
             if (!results) {
@@ -2277,8 +2316,7 @@ var Application = (function (_super) {
                 return;
             }
             _this.setState({
-                routen: results[0].data || [],
-                filialen: results[1].data || []
+                routen: results[0].data || []
             });
             results.forEach(function (r, index) {
                 if (r.isError) {
@@ -2380,7 +2418,7 @@ var Application = (function (_super) {
     Application.prototype.showUploadFilialenClick = function () {
         this.setState({
             showModal: true,
-            modalContent: (React.createElement(UploadFilialen_1.UploadFilialen, { uploadFinished: this.uploadFilialen, cancelClick: this.closeModal, routes: this.state.routen }))
+            modalContent: (React.createElement(UploadFilialen_1.UploadFilialen, { uploadFinished: this.uploadFilialen, cancelBtnClick: this.closeModal, routes: this.state.routen }))
         });
     };
     Application.prototype.reloadFilialen = function () {
@@ -2614,7 +2652,20 @@ var Application = (function (_super) {
             React.createElement("div", { className: "ms-Grid-row" },
                 React.createElement("div", { className: "ms-Grid-col ms-sm12" },
                     React.createElement(Panel_1.Panel, { headerText: "Filialübersicht", className: "custom-padding-bottom-10px" },
-                        React.createElement(Filialuebersicht_1.Filialuebersicht, { items: this.state.filialen, sortByPropertyName: this.sortFilialenByPropertyName, onDeleteFilialeClicked: this.deleteFilialen, onEditFilialeClick: this.editFiliale, selectionChanged: this.filialeSelectionChanged }))))));
+                        React.createElement(Filialuebersicht_1.Filialuebersicht, { onEditFilialeClick: this.editFiliale, commandbarItems: [
+                                {
+                                    key: "newItem",
+                                    name: "New",
+                                    icon: "Add",
+                                    disabled: true
+                                },
+                                {
+                                    key: "import",
+                                    name: "Import",
+                                    icon: "import",
+                                    onClick: this.showUploadFilialenClick
+                                }
+                            ] }))))));
     };
     return Application;
 }(React.Component));
@@ -2665,7 +2716,7 @@ var Ausgabe_1 = __webpack_require__(/*! ../stateless/Ausgabe */ 857);
 var Filiale_1 = __webpack_require__(/*! ../stateless/Filiale */ 335);
 var Routenfahrt_1 = __webpack_require__(/*! ../stateless/Routenfahrt */ 858);
 var uuid_1 = __webpack_require__(/*! uuid */ 859);
-var axios_1 = __webpack_require__(/*! axios */ 35);
+var axios_1 = __webpack_require__(/*! axios */ 30);
 var ManageRoute = (function (_super) {
     __extends(ManageRoute, _super);
     function ManageRoute(props) {
@@ -3471,19 +3522,7 @@ var Routenuebersicht = (function (_super) {
         return _this;
     }
     Routenuebersicht.prototype.componentDidUpdate = function (prevProps, prevState, prevContext) {
-        var _this = this;
         if (JSON.stringify(this.props.items) !== JSON.stringify(prevProps.items)) {
-            this._selection.getItems().forEach(function (e, i) {
-                _this._selection.setIndexSelected(i, false, false);
-            });
-            this._selection.setItems(this.props.items, true);
-            this._selection.setAllSelected(false);
-            console.log("isAllSelected", this._selection.isAllSelected());
-            if (this._selection.isAllSelected()) {
-                this._selection.toggleAllSelected();
-                this._selection.setAllSelected(false);
-            }
-            this.setState({ selectedItems: undefined, showContextMenue: false });
         }
         else {
             console.log("NO update items");
@@ -3548,7 +3587,7 @@ var Routenuebersicht = (function (_super) {
     Routenuebersicht.prototype.render = function () {
         console.log("render Routenuebersicht");
         return (React.createElement(react_1.Fragment, null,
-            React.createElement(office_ui_fabric_react_1.DetailsList, { selectionMode: office_ui_fabric_react_1.SelectionMode.multiple, items: this.props.items, compact: false, columns: this.state.columns, setKey: "set", layoutMode: office_ui_fabric_react_1.DetailsListLayoutMode.justified, isHeaderVisible: true, selection: this._selection, selectionPreservedOnEmptyClick: true, enterModalSelectionOnTouch: true }),
+            React.createElement(office_ui_fabric_react_1.DetailsList, { selectionMode: office_ui_fabric_react_1.SelectionMode.multiple, items: this.props.items, compact: false, columns: this.state.columns, setKey: "set", layoutMode: office_ui_fabric_react_1.DetailsListLayoutMode.justified, isHeaderVisible: true, selection: this._selection, selectionPreservedOnEmptyClick: false, enterModalSelectionOnTouch: false }),
             this.state.showContextMenue && (React.createElement(office_ui_fabric_react_1.ContextualMenu, { directionalHint: 12, isBeakVisible: true, gapSpace: 10, beakWidth: 20, directionalHintFixed: true, target: this._target, items: [
                     {
                         name: "Bearbeiten",
@@ -3598,7 +3637,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
-var axios_1 = __webpack_require__(/*! axios */ 35);
+var axios_1 = __webpack_require__(/*! axios */ 30);
 var react_1 = __webpack_require__(/*! react */ 1);
 var ButtonRow_1 = __webpack_require__(/*! ../../../../global/components/simple/ButtonRow */ 131);
 var UploadRoutes = (function (_super) {
@@ -3708,18 +3747,19 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
-var axios_1 = __webpack_require__(/*! axios */ 35);
+var axios_1 = __webpack_require__(/*! axios */ 30);
 var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
 var react_1 = __webpack_require__(/*! react */ 1);
 var ButtonRow_1 = __webpack_require__(/*! ../../../../global/components/simple/ButtonRow */ 131);
 var date_1 = __webpack_require__(/*! ../../../../helper/date */ 78);
-var promise_1 = __webpack_require__(/*! ../../../../helper/promise */ 193);
+var promise_1 = __webpack_require__(/*! ../../../../helper/promise */ 132);
 var UploadFilialen = (function (_super) {
     __extends(UploadFilialen, _super);
     function UploadFilialen(props) {
         var _this = _super.call(this, props) || this;
         _this.textareaElement = undefined;
         _this.selectRouteElement = undefined;
+        _this.cancelBtnClick = _this.cancelBtnClick.bind(_this);
         _this.uploadClick = _this.uploadClick.bind(_this);
         _this.setTextareaElement = _this.setTextareaElement.bind(_this);
         _this.setSelectRouteElement = _this.setSelectRouteElement.bind(_this);
@@ -3788,13 +3828,15 @@ var UploadFilialen = (function (_super) {
         });
         return ret;
     };
+    UploadFilialen.prototype.cancelBtnClick = function () {
+        this.props.cancelBtnClick();
+    };
     UploadFilialen.prototype.uploadClick = function () {
         var _this = this;
         var filialen = this.createFilialen(this.textareaElement ? this.textareaElement.value : "");
         this.saveFilialen(filialen.import)
             .then(function (r) {
             if (r.length === filialen.importCount) {
-                alert("OK");
                 _this.props.uploadFinished();
             }
             else {
@@ -3836,7 +3878,7 @@ var UploadFilialen = (function (_super) {
                             text: "Abbrechen",
                             disabled: false,
                             checked: false,
-                            onClickFunc: this.props.cancelClick
+                            onClickFunc: this.cancelBtnClick
                         } })))));
     };
     return UploadFilialen;
@@ -3850,6 +3892,235 @@ exports.UploadFilialen = UploadFilialen;
 /*!***********************************************************************!*\
   !*** ./src/projects/aldi/components/intelligent/Filialuebersicht.tsx ***!
   \***********************************************************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(Promise) {
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ 1);
+var axios_1 = __webpack_require__(/*! axios */ 30);
+var BaseUebersicht_1 = __webpack_require__(/*! ../../../../global/components/simple/BaseUebersicht */ 867);
+var sorting_1 = __webpack_require__(/*! ../../../../helper/sorting */ 868);
+var promise_1 = __webpack_require__(/*! ../../../../helper/promise */ 132);
+var Filialuebersicht = (function (_super) {
+    __extends(Filialuebersicht, _super);
+    function Filialuebersicht(props) {
+        var _this = _super.call(this, props) || this;
+        _this.selectionHasChanged = _this.selectionHasChanged.bind(_this);
+        _this.deleteAllFilialenClicked = _this.deleteAllFilialenClicked.bind(_this);
+        _this.deleteFilialeClicked = _this.deleteFilialeClicked.bind(_this);
+        _this.sortItems = _this.sortItems.bind(_this);
+        _this.deleteFiliale = _this.deleteFiliale.bind(_this);
+        _this.deleteFilialen = _this.deleteFilialen.bind(_this);
+        _this.editFiliale = _this.editFiliale.bind(_this);
+        var commardbarItems = [].concat(_this.props.commandbarItems);
+        if (!commardbarItems) {
+            commardbarItems = [];
+        }
+        commardbarItems.push({
+            key: "delete",
+            name: "Delete Selected",
+            icon: "delete",
+            disabled: true,
+            onClick: _this.deleteAllFilialenClicked
+        });
+        _this.state = {
+            isLoading: true,
+            columns: [],
+            items: [],
+            rawItems: [],
+            selectedItems: [],
+            commandbarItems: commardbarItems
+        };
+        return _this;
+    }
+    Filialuebersicht.prototype.componentDidMount = function () {
+        var _this = this;
+        this.loadFilialen()
+            .then(function (data) {
+            _this.setState({
+                rawItems: data.rawItems,
+                items: data.transformedItems,
+                isLoading: false
+            });
+            return null;
+        })
+            .catch(function (error) {
+            alert("Fehler loadFilialen");
+        });
+    };
+    Filialuebersicht.prototype.selectionHasChanged = function (selectedItems) {
+        var newState = __assign({}, this.state);
+        newState.selectedItems = selectedItems;
+        newState.commandbarItems.forEach(function (item) {
+            if (item.key === "delete") {
+                item.disabled = !selectedItems || selectedItems.length < 0;
+            }
+        });
+        this.setState(newState);
+    };
+    Filialuebersicht.prototype.getFilialViewModelByRouteModel = function (items) {
+        return items.map(function (item, index) {
+            return {
+                index: index + 1,
+                _id: item._id,
+                created: item.created,
+                einnahmen: item.einnahmen,
+                ausgaben: item.ausgaben,
+                modified: item.modified,
+                timestamp: item.timestamp,
+                fahrdatum: -1,
+                ort: item.ort,
+                pkz: item.pkz,
+                plz: item.plz,
+                strasse: item.strasse,
+                testnummer: item.testnummer
+            };
+        });
+    };
+    Filialuebersicht.prototype.loadFilialen = function () {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.loadFilialenRequest()
+                .then(function (data) {
+                var items = _this.getFilialViewModelByRouteModel(data);
+                resolve({
+                    rawItems: data || [],
+                    transformedItems: items || []
+                });
+            })
+                .catch(function () {
+                alert("Fehler beim Laden der Filialen");
+            });
+        });
+    };
+    Filialuebersicht.prototype.deleteFilialen = function (filialElements) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            var promises = [];
+            filialElements.forEach(function (filiale) {
+                promises.push(_this.deleteFilialeElementRequest(filiale));
+            });
+            promise_1.promise_all_custom(promises)
+                .then(function () {
+                resolve();
+            })
+                .catch(function () {
+                alert("Grober Fehler!");
+                reject();
+            });
+        });
+    };
+    Filialuebersicht.prototype.loadFilialenRequest = function () {
+        return new Promise(function (resolve, reject) {
+            axios_1.default.get("/api/filialen")
+                .then(function (results) {
+                resolve(results.data);
+            })
+                .catch(function () {
+                reject();
+            });
+        });
+    };
+    Filialuebersicht.prototype.deleteFilialeElementRequest = function (route) {
+        return axios_1.default.delete("/api/filialen/" + route._id);
+    };
+    Filialuebersicht.prototype.deleteFiliale = function (selectedItems) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            if (!selectedItems ||
+                selectedItems.length === 0 ||
+                selectedItems.length > 1) {
+                resolve();
+                return null;
+            }
+            return _this.deleteFilialen(selectedItems)
+                .then(function () {
+                return _this.loadFilialen();
+            })
+                .then(function (data) {
+                _this.setState({
+                    rawItems: data.rawItems,
+                    items: data.transformedItems,
+                    isLoading: false
+                }, function () {
+                    resolve();
+                    return null;
+                });
+            })
+                .catch(function (error) {
+                alert("Fehler deleteFiliale");
+                reject();
+                return null;
+            });
+        });
+    };
+    Filialuebersicht.prototype.editFiliale = function (selectedFiliale) {
+        if (selectedFiliale) {
+            this.props.onEditFilialeClick(selectedFiliale);
+        }
+    };
+    Filialuebersicht.prototype.sortItems = function (propertyName, descending) {
+        return sorting_1.sortArrayByProperty(this.state.items, propertyName, descending);
+    };
+    Filialuebersicht.prototype.deleteFilialeClicked = function (selectedItems) {
+        return this.deleteFiliale(selectedItems);
+    };
+    Filialuebersicht.prototype.deleteAllFilialenClicked = function () {
+        var _this = this;
+        return this.setState({ isLoading: true }, function () {
+            _this.deleteFilialen(_this.state.selectedItems).then(function () {
+                _this.loadFilialen()
+                    .then(function (data) {
+                    _this.setState({
+                        rawItems: data.rawItems,
+                        items: data.transformedItems,
+                        isLoading: false
+                    });
+                    return null;
+                })
+                    .catch(function (error) {
+                    alert("Fehler loadFilialen");
+                });
+            });
+        });
+    };
+    Filialuebersicht.prototype.render = function () {
+        console.log("render Filialuebersicht");
+        return (React.createElement(BaseUebersicht_1.BaseUebersicht, { onDeleteItemClicked: this.deleteFilialeClicked, columns: [], items: this.state.items, onEditItemClick: this.editFiliale, onItemSelectionChanged: this.selectionHasChanged, sortByPropertyName: this.sortItems, isLoading: this.state.isLoading, loadingText: "Filialen werden geladen", useCommandbar: true, enableSearchBox: false, commandbarItems: this.state.commandbarItems }));
+    };
+    return Filialuebersicht;
+}(React.Component));
+exports.Filialuebersicht = Filialuebersicht;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 18)))
+
+/***/ }),
+
+/***/ 867:
+/*!*********************************************************!*\
+  !*** ./src/global/components/simple/BaseUebersicht.tsx ***!
+  \*********************************************************/
 /*! dynamic exports provided */
 /*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
@@ -3869,13 +4140,12 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
 var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
-var routenColumns_1 = __webpack_require__(/*! ../../configuration/routenColumns */ 338);
 var react_1 = __webpack_require__(/*! react */ 1);
-var Filialuebersicht = (function (_super) {
-    __extends(Filialuebersicht, _super);
-    function Filialuebersicht(props) {
+var routenColumns_1 = __webpack_require__(/*! ../../../projects/aldi/configuration/routenColumns */ 338);
+var BaseUebersicht = (function (_super) {
+    __extends(BaseUebersicht, _super);
+    function BaseUebersicht(props) {
         var _this = _super.call(this, props) || this;
-        _this.selectionHasChanged = _this.selectionHasChanged.bind(_this);
         _this.selectionHasChanged = _this.selectionHasChanged.bind(_this);
         _this.onColumnClick = _this.onColumnClick.bind(_this);
         _this.renderContext = _this.renderContext.bind(_this);
@@ -3901,25 +4171,28 @@ var Filialuebersicht = (function (_super) {
         });
         return _this;
     }
-    Filialuebersicht.prototype.componentDidUpdate = function (prevProps, prevState, prevContext) {
+    BaseUebersicht.prototype.componentDidUpdate = function (prevProps, prevState, prevContext) {
         var _this = this;
         if (JSON.stringify(this.props.items) !== JSON.stringify(prevProps.items)) {
+            this._selection["_onSelectionChanged"] = undefined;
             this._selection.getItems().forEach(function (e, i) {
                 _this._selection.setIndexSelected(i, false, false);
             });
+            this._selection.setAllSelected(false);
+            this._selection["_onSelectionChanged"] = this.selectionHasChanged;
             this._selection.setItems(this.props.items, true);
             this.setState({ selectedItems: undefined, showContextMenue: false });
         }
     };
-    Filialuebersicht.prototype.selectionHasChanged = function () {
+    BaseUebersicht.prototype.selectionHasChanged = function () {
         console.log("selectionHasChanged");
-        this.props.selectionChanged(this._selection.getSelection());
+        this.props.onItemSelectionChanged(this._selection.getSelection());
         this.forceUpdate();
     };
-    Filialuebersicht.prototype.deleteFiliale = function () {
+    BaseUebersicht.prototype.deleteFiliale = function () {
         var _this = this;
         this.props
-            .onDeleteFilialeClicked(this.state.selectedItems)
+            .onDeleteItemClicked(this.state.selectedItems)
             .then(function () {
             _this._selection.setAllSelected(false);
             _this.setState({ selectedItems: undefined, showContextMenue: false });
@@ -3928,25 +4201,25 @@ var Filialuebersicht = (function (_super) {
             alert("Es ist ein Fehler beim Löschen der Filiale aufgetreten");
         });
     };
-    Filialuebersicht.prototype.editFiliale = function () {
-        this.props.onEditFilialeClick(this.state.selectedItems[0]);
+    BaseUebersicht.prototype.editFiliale = function () {
+        this.props.onEditItemClick(this.state.selectedItems[0]);
         this.setState({ selectedItems: undefined, showContextMenue: false });
     };
-    Filialuebersicht.prototype.closeContextualMenue = function () {
+    BaseUebersicht.prototype.closeContextualMenue = function () {
         this.setState({ showContextMenue: false });
     };
-    Filialuebersicht.prototype.showMoreClicked = function (event) {
+    BaseUebersicht.prototype.showMoreClicked = function (event) {
         this._target = event.target;
         this.setState({
             showContextMenue: true,
-            selectedItems: this._selection.getSelection()
+            selectedItems: this._selection.getSelection() || []
         });
     };
-    Filialuebersicht.prototype.renderContext = function () {
+    BaseUebersicht.prototype.renderContext = function () {
         return (React.createElement("div", { className: "ms-font-xl ms-fontColor-themePrimary" },
             React.createElement(office_ui_fabric_react_1.IconButton, { checked: false, iconProps: { iconName: "More" }, title: "More", ariaLabel: "More", onClick: this.showMoreClicked })));
     };
-    Filialuebersicht.prototype.onColumnClick = function (ev, column) {
+    BaseUebersicht.prototype.onColumnClick = function (ev, column) {
         var _a = this.state, columns = _a.columns, items = _a.items;
         var newColumns = columns.slice();
         var currColumn = newColumns.filter(function (currCol, idx) {
@@ -3967,10 +4240,18 @@ var Filialuebersicht = (function (_super) {
             columns: newColumns
         });
     };
-    Filialuebersicht.prototype.render = function () {
-        console.log("render Filialuebersicht");
+    BaseUebersicht.prototype.render = function () {
+        console.log("render BaseUebersicht");
+        if (this.props.isLoading) {
+            return React.createElement(office_ui_fabric_react_1.Spinner, { label: this.props.loadingText });
+        }
         return (React.createElement(react_1.Fragment, null,
-            React.createElement(office_ui_fabric_react_1.DetailsList, { selectionMode: office_ui_fabric_react_1.SelectionMode.multiple, items: this.props.items, compact: false, columns: this.state.columns, setKey: "set", layoutMode: office_ui_fabric_react_1.DetailsListLayoutMode.justified, isHeaderVisible: true, selection: this._selection, selectionPreservedOnEmptyClick: true, enterModalSelectionOnTouch: true }),
+            this.props.useCommandbar &&
+                this.props.commandbarItems &&
+                this.props.commandbarItems.length > 0 && (React.createElement("div", { className: "ms-Grid-row" },
+                React.createElement("div", { className: "ms-Grid-col ms-sm12" },
+                    React.createElement(office_ui_fabric_react_1.CommandBar, { isSearchBoxVisible: this.props.enableSearchBox, items: this.props.commandbarItems })))),
+            React.createElement(office_ui_fabric_react_1.DetailsList, { selectionMode: office_ui_fabric_react_1.SelectionMode.multiple, items: this.props.items, compact: false, columns: this.state.columns, setKey: "set", layoutMode: office_ui_fabric_react_1.DetailsListLayoutMode.justified, isHeaderVisible: true, selection: this._selection, selectionPreservedOnEmptyClick: false, enterModalSelectionOnTouch: false }),
             this.state.showContextMenue && (React.createElement(office_ui_fabric_react_1.ContextualMenu, { directionalHint: 12, isBeakVisible: true, gapSpace: 10, beakWidth: 20, directionalHintFixed: true, target: this._target, items: [
                     {
                         name: "Bearbeiten",
@@ -3992,14 +4273,54 @@ var Filialuebersicht = (function (_super) {
                     }
                 ], onDismiss: this.closeContextualMenue }))));
     };
-    return Filialuebersicht;
+    return BaseUebersicht;
 }(React.Component));
-exports.Filialuebersicht = Filialuebersicht;
+exports.BaseUebersicht = BaseUebersicht;
 
 
 /***/ }),
 
-/***/ 867:
+/***/ 868:
+/*!*******************************!*\
+  !*** ./src/helper/sorting.ts ***!
+  \*******************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+function sortElement(elementOne, elementTwo, propertyName, descending) {
+    if (descending === void 0) { descending = false; }
+    var r = 0;
+    if (!elementOne.hasOwnProperty(propertyName) ||
+        !elementTwo.hasOwnProperty(propertyName)) {
+    }
+    else if (elementOne[propertyName] < elementTwo[propertyName]) {
+        r = 1;
+    }
+    else if (elementOne[propertyName] > elementTwo[propertyName]) {
+        r = -1;
+    }
+    else {
+        r = 0;
+    }
+    return descending ? r * -1 : r;
+}
+exports.sortElement = sortElement;
+function sortArrayByProperty(arrayOfElements, propertyName, descending) {
+    if (descending === void 0) { descending = false; }
+    return arrayOfElements.sort(function (a, b) {
+        return sortElement(a, b, propertyName, descending);
+    });
+}
+exports.sortArrayByProperty = sortArrayByProperty;
+
+
+/***/ }),
+
+/***/ 869:
 /*!**************************************************************!*\
   !*** ./src/projects/aldi/components/intelligent/Filiale.tsx ***!
   \**************************************************************/
@@ -4029,9 +4350,9 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
-var axios_1 = __webpack_require__(/*! axios */ 35);
+var axios_1 = __webpack_require__(/*! axios */ 30);
 var Filiale_1 = __webpack_require__(/*! ../stateless/Filiale */ 335);
-var promise_1 = __webpack_require__(/*! ../../../../helper/promise */ 193);
+var promise_1 = __webpack_require__(/*! ../../../../helper/promise */ 132);
 var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
 var react_1 = __webpack_require__(/*! react */ 1);
 var ButtonRow_1 = __webpack_require__(/*! ../../../../global/components/simple/ButtonRow */ 131);
@@ -4056,6 +4377,7 @@ var Filiale = (function (_super) {
         _this.onStrasseChanged = _this.onStrasseChanged.bind(_this);
         _this.onTestnummerChanged = _this.onTestnummerChanged.bind(_this);
         _this.saveClicked = _this.saveClicked.bind(_this);
+        _this.cancelClicked = _this.cancelClicked.bind(_this);
         return _this;
     }
     Filiale.prototype.componentDidMount = function () {
@@ -4116,6 +4438,9 @@ var Filiale = (function (_super) {
             .catch(function () {
             alert("Fehler beim Laden");
         });
+    };
+    Filiale.prototype.cancelClicked = function () {
+        this.props.cancel_clicked();
     };
     Filiale.prototype.saveClicked = function () {
         var _this = this;
@@ -4208,7 +4533,7 @@ var Filiale = (function (_super) {
                             text: "Abbrechen",
                             disabled: false,
                             checked: false,
-                            onClickFunc: this.props.cancel_clicked
+                            onClickFunc: this.cancelClicked
                         } })))));
     };
     return Filiale;
@@ -4218,7 +4543,7 @@ exports.Filiale = Filiale;
 
 /***/ }),
 
-/***/ 868:
+/***/ 870:
 /*!*******************************************************!*\
   !*** ./src/global/components/simple/NotFoundPage.tsx ***!
   \*******************************************************/

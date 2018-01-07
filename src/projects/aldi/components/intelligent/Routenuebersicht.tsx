@@ -75,17 +75,17 @@ export class Routenuebersicht extends React.Component<
       // console.log("update items");
       // let s = this._selection.getSelection();
       // console.log("selection count: " + s.length);
-      this._selection.getItems().forEach((e, i) => {
-        this._selection.setIndexSelected(i, false, false);
-      });
-      this._selection.setItems(this.props.items as any, true);
-      this._selection.setAllSelected(false);
-      console.log("isAllSelected", this._selection.isAllSelected());
-      if (this._selection.isAllSelected()) {
-        this._selection.toggleAllSelected();
-        this._selection.setAllSelected(false);
-      }
-      this.setState({ selectedItems: undefined, showContextMenue: false });
+      // this._selection.getItems().forEach((e, i) => {
+      //   this._selection.setIndexSelected(i, false, false);
+      // });
+      // this._selection.setItems(this.props.items as any, true);
+      // this._selection.setAllSelected(false);
+      // console.log("isAllSelected", this._selection.isAllSelected());
+      // if (this._selection.isAllSelected()) {
+      //   this._selection.toggleAllSelected();
+      //   this._selection.setAllSelected(false);
+      // }
+      //  this.setState({ selectedItems: undefined, showContextMenue: false });
       //  this._selection.setAllSelected(false);
       // this._selection.getItems().forEach(item => {
       //   // debugger;
@@ -180,8 +180,8 @@ export class Routenuebersicht extends React.Component<
           layoutMode={DetailsListLayoutMode.justified}
           isHeaderVisible={true}
           selection={this._selection}
-          selectionPreservedOnEmptyClick={true}
-          enterModalSelectionOnTouch={true}
+          selectionPreservedOnEmptyClick={false}
+          enterModalSelectionOnTouch={false}
         />
         {this.state.showContextMenue && (
           <ContextualMenu

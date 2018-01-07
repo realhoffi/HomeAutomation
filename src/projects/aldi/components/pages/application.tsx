@@ -29,6 +29,7 @@ import {
 import { Filialuebersicht } from "../intelligent/Filialuebersicht";
 import { Panel } from "../../../../global/components/simple/Panel";
 import { Filiale } from "../intelligent/Filiale";
+// import { BaseUebersicht } from "../../../../global/components/simple/BaseUebersicht";
 
 export interface IApplicationProps {
   requestUrl: string;
@@ -61,7 +62,6 @@ export class Application extends React.Component<
       filialen: [],
       selectedFilialen: []
     };
-
     this.addRouteClick = this.addRouteClick.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.showCallOut = this.showCallOut.bind(this);
@@ -122,7 +122,7 @@ export class Application extends React.Component<
   }
   componentDidMount() {
     document.title = "Aldi Hauptseite";
-    let promises = [this.reloadRouten(), this.reloadFilialen()];
+    let promises = [this.reloadRouten()]; // , this.reloadFilialen()
 
     promise_all_custom(promises)
       .then(results => {
@@ -131,8 +131,8 @@ export class Application extends React.Component<
           return;
         }
         this.setState({
-          routen: results[0].data || [],
-          filialen: results[1].data || []
+          routen: results[0].data || []
+          //   filialen: results[1].data || []
         });
         results.forEach((r: ICustomPromiseResult, index) => {
           if (r.isError) {
@@ -240,7 +240,7 @@ export class Application extends React.Component<
       modalContent: (
         <UploadFilialen
           uploadFinished={this.uploadFilialen}
-          cancelClick={this.closeModal}
+          cancelBtnClick={this.closeModal}
           routes={this.state.routen}
         />
       )
@@ -517,11 +517,21 @@ export class Application extends React.Component<
               className="custom-padding-bottom-10px"
             >
               <Filialuebersicht
-                items={this.state.filialen}
-                sortByPropertyName={this.sortFilialenByPropertyName}
-                onDeleteFilialeClicked={this.deleteFilialen}
                 onEditFilialeClick={this.editFiliale}
-                selectionChanged={this.filialeSelectionChanged}
+                commandbarItems={[
+                  {
+                    key: "newItem",
+                    name: "New",
+                    icon: "Add",
+                    disabled: true
+                  },
+                  {
+                    key: "import",
+                    name: "Import",
+                    icon: "import",
+                    onClick: this.showUploadFilialenClick
+                  }
+                ]}
               />
             </Panel>
           </div>
