@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { Application as YeelightApplication } from "../../../projects/yeelight/components/pages/application";
 import { Application as VacuumApplication } from "../../../projects/vacuumRoboter/components/pages/application";
-import { Application as AldiApplication } from "../../../projects/aldi/components/pages/Application";
+import { Application as AldiApplication } from "../../../projects/aldi/components/pages/application";
 import { Application as SensorApplication } from "../../../projects/xiaomi/components/pages/sensors";
 import { Application as GatewayApplication } from "../../../projects/xiaomi/components/pages/gateways";
 
@@ -44,9 +44,9 @@ export class Application extends React.PureComponent<
               {this.state.SystemInformations}
             </div>
           </PivotItem> */}
-          <PivotItem linkText="Yeelights" itemIcon="Lightbulb">
+          <PivotItem linkText="Sensoren" itemIcon="CloudWeather">
             <div style={{ paddingTop: "15px" }}>
-              {this.state.YeelightInformations}
+              {this.state.SensorInformations}
             </div>
           </PivotItem>
           <PivotItem linkText="Gateways" itemIcon="Light">
@@ -54,9 +54,9 @@ export class Application extends React.PureComponent<
               {this.state.GatewayInformations}
             </div>
           </PivotItem>
-          <PivotItem linkText="Sensoren" itemIcon="CloudWeather">
+          <PivotItem linkText="Yeelights" itemIcon="Lightbulb">
             <div style={{ paddingTop: "15px" }}>
-              {this.state.SensorInformations}
+              {this.state.YeelightInformations}
             </div>
           </PivotItem>
         </Pivot>

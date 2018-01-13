@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 7);
+/******/ 	return __webpack_require__(__webpack_require__.s = 8);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -74,7 +74,7 @@
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Promise) {
-var es5 = __webpack_require__(/*! ./es5 */ 2);
+var es5 = __webpack_require__(/*! ./es5 */ 4);
 var canEvaluate = typeof navigator == "undefined";
 
 var errorObj = {e: {}};
@@ -454,10 +454,34 @@ if (ret.isNode) ret.toFastProperties(process);
 try {throw new Error(); } catch (e) {ret.lastLineError = e;}
 module.exports = ret;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 4)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 1)))
 
 /***/ }),
 /* 1 */
+/*!******************************************************!*\
+  !*** ./node_modules/bluebird/js/release/bluebird.js ***!
+  \******************************************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(Promise) {
+var old;
+if (typeof Promise !== "undefined") old = Promise;
+function noConflict() {
+    try { if (Promise === bluebird) Promise = old; }
+    catch (e) {}
+    return bluebird;
+}
+var bluebird = __webpack_require__(/*! ./promise */ 19)();
+bluebird.noConflict = noConflict;
+module.exports = bluebird;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 1)))
+
+/***/ }),
+/* 2 */
 /*!****************************************************!*\
   !*** ./node_modules/bluebird/js/release/errors.js ***!
   \****************************************************/
@@ -467,7 +491,7 @@ module.exports = ret;
 
 "use strict";
 
-var es5 = __webpack_require__(/*! ./es5 */ 2);
+var es5 = __webpack_require__(/*! ./es5 */ 4);
 var Objectfreeze = es5.freeze;
 var util = __webpack_require__(/*! ./util */ 0);
 var inherits = util.inherits;
@@ -585,7 +609,18 @@ module.exports = {
 
 
 /***/ }),
-/* 2 */
+/* 3 */
+/*!****************************!*\
+  !*** ./config/config.json ***!
+  \****************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports) {
+
+module.exports = {"devices":{"sensors":[{"name":"Sensor Wohnzimmer","beschreibung":"Rund","ort":"Wohnzimmer","id":"158d0001c19abd","model":"lumi.sensor_ht","type":"sensor"},{"name":"Sensor Schlafzimmer","beschreibung":"rund","ort":"Schlafzimmer","id":"158d0001c19ab8","type":"sensor","model":"lumi.sensor_ht"},{"name":"Sensor Bad","beschreibung":"Eckig","ort":"Bad","id":"158d0001b962aa","type":"sensor","model":"lumi.weather"},{"name":"Sensor Terasse","beschreibung":"Eckig","ort":"Terasse","id":"158d0001b9635d","type":"sensor","model":"lumi.weather"}],"robots":[{"name":"Staubsauger","beschreibung":"","ort":"Wohnzimmer","id":"74217308","type":"vacuum","model":"rockrobo.vacuum.v1","token":"7932627133756e393939483475574d58"}],"lights":[{"name":"Lampe Bad","beschreibung":"","ort":"Badezimmer","id":"72779159","type":"light","model":"yeelink.light.color1","token":""},{"name":"Lampe Bad neu","beschreibung":"","ort":"Badezimmer","id":"77079675","type":"light","model":"yeelink.light.color1","token":"623f34fc24bffabc06a1a1605b0858b4"}],"gateways":[{"name":"Hauptgateway","beschreibung":"","ort":"Wohnzimmer","id":"73058750","model":"lumi.gateway.v3","address":"192.168.178.45","token":"ff2e9a62f90e0fe5f365a744460616c7"}]}}
+
+/***/ }),
+/* 4 */
 /*!*************************************************!*\
   !*** ./node_modules/bluebird/js/release/es5.js ***!
   \*************************************************/
@@ -676,41 +711,6 @@ if (isES5) {
 
 
 /***/ }),
-/* 3 */
-/*!****************************!*\
-  !*** ./config/config.json ***!
-  \****************************/
-/*! dynamic exports provided */
-/*! all exports used */
-/***/ (function(module, exports) {
-
-module.exports = {"devices":{"sensors":[{"name":"Sensor Wohnzimmer","beschreibung":"Rund","ort":"Wohnzimmer","id":"158d0001c19abd","model":"lumi.sensor_ht","type":"sensor"},{"name":"Sensor Schlafzimmer","beschreibung":"rund","ort":"Schlafzimmer","id":"158d0001c19ab8","type":"sensor","model":"lumi.sensor_ht"},{"name":"Sensor Bad","beschreibung":"Eckig","ort":"Bad","id":"158d0001b962aa","type":"sensor","model":"lumi.weather"},{"name":"Sensor Terasse","beschreibung":"Eckig","ort":"Terasse","id":"158d0001b9635d","type":"sensor","model":"lumi.weather"}],"robots":[{"name":"Staubsauger","beschreibung":"","ort":"Wohnzimmer","id":"74217308","type":"vacuum","model":"rockrobo.vacuum.v1","token":"7932627133756e393939483475574d58"}],"lights":[{"name":"Lampe Bad","beschreibung":"","ort":"Badezimmer","id":"72779159","type":"light","model":"yeelink.light.color1","token":""},{"name":"Lampe Bad neu","beschreibung":"","ort":"Badezimmer","id":"77079675","type":"light","model":"yeelink.light.color1","token":"623f34fc24bffabc06a1a1605b0858b4"}],"gateways":[{"name":"Hauptgateway","beschreibung":"","ort":"Wohnzimmer","id":"73058750","model":"lumi.gateway.v3","address":"192.168.178.45","token":"ff2e9a62f90e0fe5f365a744460616c7"}]}}
-
-/***/ }),
-/* 4 */
-/*!******************************************************!*\
-  !*** ./node_modules/bluebird/js/release/bluebird.js ***!
-  \******************************************************/
-/*! dynamic exports provided */
-/*! all exports used */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(Promise) {
-var old;
-if (typeof Promise !== "undefined") old = Promise;
-function noConflict() {
-    try { if (Promise === bluebird) Promise = old; }
-    catch (e) {}
-    return bluebird;
-}
-var bluebird = __webpack_require__(/*! ./promise */ 18)();
-bluebird.noConflict = noConflict;
-module.exports = bluebird;
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 4)))
-
-/***/ }),
 /* 5 */
 /*!**********************************************************!*\
   !*** ./node_modules/bluebird/js/release/catch_filter.js ***!
@@ -723,7 +723,7 @@ module.exports = bluebird;
 
 module.exports = function(NEXT_FILTER) {
 var util = __webpack_require__(/*! ./util */ 0);
-var getKeys = __webpack_require__(/*! ./es5 */ 2).keys;
+var getKeys = __webpack_require__(/*! ./es5 */ 4).keys;
 var tryCatch = util.tryCatch;
 var errorObj = util.errorObj;
 
@@ -777,9 +777,9 @@ return catchFilter;
 
 var util = __webpack_require__(/*! ./util */ 0);
 var maybeWrapAsError = util.maybeWrapAsError;
-var errors = __webpack_require__(/*! ./errors */ 1);
+var errors = __webpack_require__(/*! ./errors */ 2);
 var OperationalError = errors.OperationalError;
-var es5 = __webpack_require__(/*! ./es5 */ 2);
+var es5 = __webpack_require__(/*! ./es5 */ 4);
 
 function isUntypedError(obj) {
     return obj instanceof Error &&
@@ -829,6 +829,176 @@ module.exports = nodebackForPromise;
 
 /***/ }),
 /* 7 */
+/*!*******************************************!*\
+  !*** ./src/api/services/SensorService.ts ***!
+  \*******************************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(Promise) {
+Object.defineProperty(exports, "__esModule", { value: true });
+var cfg = __webpack_require__(/*! ../../../config/config.json */ 3);
+var SensorService = (function () {
+    function SensorService() {
+    }
+    SensorService.prototype.getSensors = function (app) {
+        var result = [];
+        var sensors = app.locals.xiaomi.sensors;
+        if (!sensors || sensors.length < 1) {
+            return result;
+        }
+        if (sensors && sensors.length > 0) {
+            result = sensors.map(function (sensor, index) {
+                return {
+                    name: "",
+                    hasPressure: sensor.hasCapability("pressure"),
+                    id: sensor.id,
+                    ip: sensor.ip,
+                    humidity: sensor.humidity || -1,
+                    pressure: sensor.hasCapability("pressure") ? sensor.pressure : -1,
+                    temperature: sensor.temperature || -1
+                };
+            });
+        }
+        cfg.devices.sensors.forEach(function (sensor) {
+            result.forEach(function (sens) {
+                if (sens.id === sensor.id) {
+                    sens.name = sensor.name;
+                }
+            });
+        });
+        return result;
+    };
+    SensorService.prototype.getSensorProperties = function (app, sensorId, properties) {
+        return new Promise(function (resolve, reject) {
+            var sensors = app.locals.xiaomi.sensors;
+            var sensor = sensors.find(function (sens) {
+                return sens.id === sensorId;
+            });
+            if (!sensor) {
+                reject({ message: "sensor not found" });
+                return;
+            }
+            sensor._parent
+                .call("get_device_prop_exp", [["lumi." + sensor.id].concat(properties)])
+                .then(function (resultProperties) {
+                resolve({ id: sensorId, properties: resultProperties });
+            })
+                .catch(function (error) {
+                console.log(error);
+                reject({
+                    message: "error on query sensor method 'get_device_prop_exp'. Msg: " +
+                        error
+                });
+            });
+        });
+    };
+    SensorService.prototype.logData = function (app, sensorId) {
+        return new Promise(function (resolve, reject) {
+            var sensors = app.locals.xiaomi.sensors;
+            var sensor = sensors.find(function (sens) {
+                return sens.id === sensorId;
+            });
+            if (!sensor) {
+                reject({ message: "sensor not found" });
+                return;
+            }
+            var data = {
+                timestamp: Date.now(),
+                id: sensor.id,
+                ip: sensor.ip,
+                humidity: sensor.humidity || -1,
+                pressure: sensor.hasCapability("pressure") ? sensor.pressure : -1,
+                temperature: sensor.temperature || -1
+            };
+            console.log("add data now.", JSON.stringify(data));
+            app.locals.database
+                .collection("sensors")
+                .insert(data)
+                .then(function (result) {
+                resolve({ message: "inserted" });
+            })
+                .catch(function (error) {
+                console.log("error inserting", JSON.stringify(error));
+                reject({ message: "not inserted" });
+            });
+        });
+    };
+    SensorService.prototype.getSensorData = function (app, sensorId) {
+        return new Promise(function (resolve, reject) {
+            var sensors = app.locals.xiaomi.sensors;
+            var query = !sensorId || sensorId === "*" ? {} : { id: sensorId };
+            if (sensorId) {
+                var sensor = sensors.find(function (sens) {
+                    return sens.id === sensorId;
+                });
+            }
+            console.log("Query Sensor Data: ", query);
+            var db = app.locals.database;
+            db
+                .collection("sensors")
+                .find(query)
+                .toArray()
+                .then(function (resultItems) {
+                resolve({ items: resultItems });
+            })
+                .catch(function () {
+                reject({ message: "not inserted" });
+            });
+        });
+    };
+    SensorService.prototype.getSensorDataBetweenDates = function (app, sensorId, startDateTicks, endDateTicks) {
+        return new Promise(function (resolve, reject) {
+            var sensors = app.locals.xiaomi.sensors;
+            var from = parseInt(startDateTicks);
+            var to = parseInt(endDateTicks);
+            if (isNaN(from) || isNaN(to)) {
+                reject({ message: "Parameter 'from' oder 'to' ist keine number!" });
+            }
+            var query = {
+                id: sensorId
+            };
+            var ts = [];
+            if (!isNaN(from) && from !== -1) {
+                ts.push({ $gte: from });
+            }
+            if (!isNaN(to) && to !== -1) {
+                ts.push({ $lte: to });
+            }
+            if (ts.length > 0) {
+                var objTs_1 = {};
+                ts.forEach(function (element) {
+                    Object.keys(element).forEach(function (key) {
+                        objTs_1[key] = element[key];
+                    });
+                });
+                query["timestamp"] = objTs_1;
+            }
+            console.log("Query Sensor Data: ", query);
+            var db = app.locals.database;
+            db
+                .collection("sensors")
+                .find(query)
+                .toArray()
+                .then(function (resultItems) {
+                console.log("Query result count: " + resultItems.length);
+                resolve({ items: resultItems });
+            })
+                .catch(function () {
+                reject({ message: "not inserted" });
+            });
+        });
+    };
+    return SensorService;
+}());
+exports.SensorServiceInstance = new SensorService();
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 1)))
+
+/***/ }),
+/* 8 */
 /*!*************************************!*\
   !*** multi ./src/global/server.tsx ***!
   \*************************************/
@@ -836,11 +1006,11 @@ module.exports = nodebackForPromise;
 /*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! ./src/global/server.tsx */8);
+module.exports = __webpack_require__(/*! ./src/global/server.tsx */9);
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /*!*******************************!*\
   !*** ./src/global/server.tsx ***!
   \*******************************/
@@ -851,15 +1021,15 @@ module.exports = __webpack_require__(/*! ./src/global/server.tsx */8);
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var path = __webpack_require__(/*! path */ 9);
-var http = __webpack_require__(/*! http */ 10);
-var express = __webpack_require__(/*! express */ 11);
-var url = __webpack_require__(/*! url */ 12);
-var favicon = __webpack_require__(/*! serve-favicon */ 13);
-var routes_1 = __webpack_require__(/*! ../startUp/routes */ 14);
-var miio_1 = __webpack_require__(/*! ../startUp/miio */ 53);
-var bodyParser = __webpack_require__(/*! body-parser */ 55);
-var mongodb_1 = __webpack_require__(/*! mongodb */ 56);
+var path = __webpack_require__(/*! path */ 10);
+var http = __webpack_require__(/*! http */ 11);
+var express = __webpack_require__(/*! express */ 12);
+var url = __webpack_require__(/*! url */ 13);
+var favicon = __webpack_require__(/*! serve-favicon */ 14);
+var routes_1 = __webpack_require__(/*! ../startUp/routes */ 15);
+var miio_1 = __webpack_require__(/*! ../startUp/miio */ 56);
+var bodyParser = __webpack_require__(/*! body-parser */ 59);
+var database_1 = __webpack_require__(/*! ../startUp/database */ 60);
 function normalizePort(val) {
     var port = parseInt(val, 10);
     if (isNaN(port)) {
@@ -902,11 +1072,8 @@ router.use(function (req, res, next) {
     next();
 });
 app.use("/api", router);
-routes_1.registerRoutes(router);
-miio_1.registerDevices(app);
 app.get("/", function (request, response) {
     response.sendFile(path.join("views", "index.html"), { root: __dirname }, function (error) {
-        app.locals.test += 1;
         if (error) {
             console.log("ERROR SENDFILE!" + JSON.stringify(error));
         }
@@ -922,35 +1089,25 @@ app.use(function (err, req, res, next) {
     res.status(500);
     res.render("error", { error: err });
 });
-console.log("Tryconnect to Database: " + "mongodb://localhost:27017");
-mongodb_1.MongoClient.connect("mongodb://localhost:27017", function (err, database) {
-    if (err) {
-        throw err;
-    }
-    console.log("Success connected to database:" + database);
-    console.log("Read Database: " + "homeautomation");
-    app.locals.database = database.db("homeautomation");
-    var note = { text: "req.body.body", title: "req.body.title" };
-    app.locals.database.collection("test").insert(note, function (err, result) {
+database_1.initializeDatabase(app)
+    .then(function () {
+    routes_1.registerRoutes(router);
+    miio_1.registerDevices(app);
+    var server = http.createServer(app);
+    server.listen(port, function (err) {
         if (err) {
-            console.log({ error: "An error has occurred" });
+            return console.error(err);
         }
-        else {
-            console.log(result.ops[0]);
-        }
+        console.info("Server running on http://localhost:" + port + " [" + env + "]");
     });
-});
-var server = http.createServer(app);
-server.listen(port, function (err) {
-    if (err) {
-        return console.error(err);
-    }
-    console.info("Server running on http://localhost:" + port + " [" + env + "]");
+})
+    .catch(function (error) {
+    console.log("Can not start application", JSON.stringify(error));
 });
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /*!***********************!*\
   !*** external "path" ***!
   \***********************/
@@ -961,7 +1118,7 @@ server.listen(port, function (err) {
 module.exports = require("path");
 
 /***/ }),
-/* 10 */
+/* 11 */
 /*!***********************!*\
   !*** external "http" ***!
   \***********************/
@@ -972,7 +1129,7 @@ module.exports = require("path");
 module.exports = require("http");
 
 /***/ }),
-/* 11 */
+/* 12 */
 /*!**************************!*\
   !*** external "express" ***!
   \**************************/
@@ -983,7 +1140,7 @@ module.exports = require("http");
 module.exports = require("express");
 
 /***/ }),
-/* 12 */
+/* 13 */
 /*!**********************!*\
   !*** external "url" ***!
   \**********************/
@@ -994,7 +1151,7 @@ module.exports = require("express");
 module.exports = require("url");
 
 /***/ }),
-/* 13 */
+/* 14 */
 /*!********************************!*\
   !*** external "serve-favicon" ***!
   \********************************/
@@ -1005,7 +1162,7 @@ module.exports = require("url");
 module.exports = require("serve-favicon");
 
 /***/ }),
-/* 14 */
+/* 15 */
 /*!*******************************!*\
   !*** ./src/startUp/routes.ts ***!
   \*******************************/
@@ -1016,14 +1173,16 @@ module.exports = require("serve-favicon");
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var os = __webpack_require__(/*! os */ 15);
-var LightController_1 = __webpack_require__(/*! ../api/controllers/LightController */ 16);
-var SensorController_1 = __webpack_require__(/*! ../api/controllers/SensorController */ 49);
+var os = __webpack_require__(/*! os */ 16);
+var LightController_1 = __webpack_require__(/*! ../api/controllers/LightController */ 17);
+var SensorController_1 = __webpack_require__(/*! ../api/controllers/SensorController */ 50);
 var GatewayController_1 = __webpack_require__(/*! ../api/controllers/GatewayController */ 51);
+var AldiController_1 = __webpack_require__(/*! ../api/controllers/AldiController */ 53);
 function registerRoutes(router) {
     var c1 = new LightController_1.default(router);
     var c2 = new SensorController_1.default(router);
     var c3 = new GatewayController_1.default(router);
+    var c4 = new AldiController_1.default(router);
     router.route("/robots").get(function (req, res) {
         var robots = req.app.locals.xiaomi.robots;
         var robotsState = [];
@@ -1057,7 +1216,7 @@ exports.registerRoutes = registerRoutes;
 
 
 /***/ }),
-/* 15 */
+/* 16 */
 /*!*********************!*\
   !*** external "os" ***!
   \*********************/
@@ -1068,7 +1227,7 @@ exports.registerRoutes = registerRoutes;
 module.exports = require("os");
 
 /***/ }),
-/* 16 */
+/* 17 */
 /*!************************************************!*\
   !*** ./src/api/controllers/LightController.ts ***!
   \************************************************/
@@ -1079,7 +1238,7 @@ module.exports = require("os");
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var LightService_1 = __webpack_require__(/*! ../services/LightService */ 17);
+var LightService_1 = __webpack_require__(/*! ../services/LightService */ 18);
 var cfg = __webpack_require__(/*! ../../../config/config.json */ 3);
 var LightController = (function () {
     function LightController(router) {
@@ -1160,7 +1319,7 @@ exports.default = LightController;
 
 
 /***/ }),
-/* 17 */
+/* 18 */
 /*!******************************************!*\
   !*** ./src/api/services/LightService.ts ***!
   \******************************************/
@@ -1239,7 +1398,7 @@ var LightService = (function () {
                 .then(function (resultProperties) {
                 resultProperties.forEach(function (properties, index) {
                     console.log("PROPERTIES: " + properties);
-                    var intToRGB = __webpack_require__(/*! int-to-rgb */ 48);
+                    var intToRGB = __webpack_require__(/*! int-to-rgb */ 49);
                     var rgbInt = parseInt(properties[0]);
                     var colors = intToRGB(rgbInt);
                     result[index].rgb = {
@@ -1378,10 +1537,10 @@ var LightService = (function () {
 }());
 exports.LightServiceInstance = new LightService();
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 4)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 1)))
 
 /***/ }),
-/* 18 */
+/* 19 */
 /*!*****************************************************!*\
   !*** ./node_modules/bluebird/js/release/promise.js ***!
   \*****************************************************/
@@ -1419,11 +1578,11 @@ if (util.isNode) {
 }
 util.notEnumerableProp(Promise, "_getDomain", getDomain);
 
-var es5 = __webpack_require__(/*! ./es5 */ 2);
-var Async = __webpack_require__(/*! ./async */ 19);
+var es5 = __webpack_require__(/*! ./es5 */ 4);
+var Async = __webpack_require__(/*! ./async */ 20);
 var async = new Async();
 es5.defineProperty(Promise, "_async", {value: async});
-var errors = __webpack_require__(/*! ./errors */ 1);
+var errors = __webpack_require__(/*! ./errors */ 2);
 var TypeError = Promise.TypeError = errors.TypeError;
 Promise.RangeError = errors.RangeError;
 var CancellationError = Promise.CancellationError = errors.CancellationError;
@@ -1434,17 +1593,17 @@ Promise.AggregateError = errors.AggregateError;
 var INTERNAL = function(){};
 var APPLY = {};
 var NEXT_FILTER = {};
-var tryConvertToPromise = __webpack_require__(/*! ./thenables */ 22)(Promise, INTERNAL);
+var tryConvertToPromise = __webpack_require__(/*! ./thenables */ 23)(Promise, INTERNAL);
 var PromiseArray =
-    __webpack_require__(/*! ./promise_array */ 23)(Promise, INTERNAL,
+    __webpack_require__(/*! ./promise_array */ 24)(Promise, INTERNAL,
                                tryConvertToPromise, apiRejection, Proxyable);
-var Context = __webpack_require__(/*! ./context */ 24)(Promise);
+var Context = __webpack_require__(/*! ./context */ 25)(Promise);
  /*jshint unused:false*/
 var createContext = Context.create;
-var debug = __webpack_require__(/*! ./debuggability */ 25)(Promise, Context);
+var debug = __webpack_require__(/*! ./debuggability */ 26)(Promise, Context);
 var CapturedTrace = debug.CapturedTrace;
 var PassThroughHandlerContext =
-    __webpack_require__(/*! ./finally */ 26)(Promise, tryConvertToPromise, NEXT_FILTER);
+    __webpack_require__(/*! ./finally */ 27)(Promise, tryConvertToPromise, NEXT_FILTER);
 var catchFilter = __webpack_require__(/*! ./catch_filter */ 5)(NEXT_FILTER);
 var nodebackForPromise = __webpack_require__(/*! ./nodeback */ 6);
 var errorObj = util.errorObj;
@@ -2116,31 +2275,31 @@ util.notEnumerableProp(Promise,
                        "_makeSelfResolutionError",
                        makeSelfResolutionError);
 
-__webpack_require__(/*! ./method */ 27)(Promise, INTERNAL, tryConvertToPromise, apiRejection,
+__webpack_require__(/*! ./method */ 28)(Promise, INTERNAL, tryConvertToPromise, apiRejection,
     debug);
-__webpack_require__(/*! ./bind */ 28)(Promise, INTERNAL, tryConvertToPromise, debug);
-__webpack_require__(/*! ./cancel */ 29)(Promise, PromiseArray, apiRejection, debug);
-__webpack_require__(/*! ./direct_resolve */ 30)(Promise);
-__webpack_require__(/*! ./synchronous_inspection */ 31)(Promise);
-__webpack_require__(/*! ./join */ 32)(
+__webpack_require__(/*! ./bind */ 29)(Promise, INTERNAL, tryConvertToPromise, debug);
+__webpack_require__(/*! ./cancel */ 30)(Promise, PromiseArray, apiRejection, debug);
+__webpack_require__(/*! ./direct_resolve */ 31)(Promise);
+__webpack_require__(/*! ./synchronous_inspection */ 32)(Promise);
+__webpack_require__(/*! ./join */ 33)(
     Promise, PromiseArray, tryConvertToPromise, INTERNAL, async, getDomain);
 Promise.Promise = Promise;
 Promise.version = "3.5.1";
-__webpack_require__(/*! ./map.js */ 33)(Promise, PromiseArray, apiRejection, tryConvertToPromise, INTERNAL, debug);
-__webpack_require__(/*! ./call_get.js */ 34)(Promise);
-__webpack_require__(/*! ./using.js */ 35)(Promise, apiRejection, tryConvertToPromise, createContext, INTERNAL, debug);
-__webpack_require__(/*! ./timers.js */ 36)(Promise, INTERNAL, debug);
-__webpack_require__(/*! ./generators.js */ 37)(Promise, apiRejection, INTERNAL, tryConvertToPromise, Proxyable, debug);
-__webpack_require__(/*! ./nodeify.js */ 38)(Promise);
-__webpack_require__(/*! ./promisify.js */ 39)(Promise, INTERNAL);
-__webpack_require__(/*! ./props.js */ 40)(Promise, PromiseArray, tryConvertToPromise, apiRejection);
-__webpack_require__(/*! ./race.js */ 41)(Promise, INTERNAL, tryConvertToPromise, apiRejection);
-__webpack_require__(/*! ./reduce.js */ 42)(Promise, PromiseArray, apiRejection, tryConvertToPromise, INTERNAL, debug);
-__webpack_require__(/*! ./settle.js */ 43)(Promise, PromiseArray, debug);
-__webpack_require__(/*! ./some.js */ 44)(Promise, PromiseArray, apiRejection);
-__webpack_require__(/*! ./filter.js */ 45)(Promise, INTERNAL);
-__webpack_require__(/*! ./each.js */ 46)(Promise, INTERNAL);
-__webpack_require__(/*! ./any.js */ 47)(Promise);
+__webpack_require__(/*! ./map.js */ 34)(Promise, PromiseArray, apiRejection, tryConvertToPromise, INTERNAL, debug);
+__webpack_require__(/*! ./call_get.js */ 35)(Promise);
+__webpack_require__(/*! ./using.js */ 36)(Promise, apiRejection, tryConvertToPromise, createContext, INTERNAL, debug);
+__webpack_require__(/*! ./timers.js */ 37)(Promise, INTERNAL, debug);
+__webpack_require__(/*! ./generators.js */ 38)(Promise, apiRejection, INTERNAL, tryConvertToPromise, Proxyable, debug);
+__webpack_require__(/*! ./nodeify.js */ 39)(Promise);
+__webpack_require__(/*! ./promisify.js */ 40)(Promise, INTERNAL);
+__webpack_require__(/*! ./props.js */ 41)(Promise, PromiseArray, tryConvertToPromise, apiRejection);
+__webpack_require__(/*! ./race.js */ 42)(Promise, INTERNAL, tryConvertToPromise, apiRejection);
+__webpack_require__(/*! ./reduce.js */ 43)(Promise, PromiseArray, apiRejection, tryConvertToPromise, INTERNAL, debug);
+__webpack_require__(/*! ./settle.js */ 44)(Promise, PromiseArray, debug);
+__webpack_require__(/*! ./some.js */ 45)(Promise, PromiseArray, apiRejection);
+__webpack_require__(/*! ./filter.js */ 46)(Promise, INTERNAL);
+__webpack_require__(/*! ./each.js */ 47)(Promise, INTERNAL);
+__webpack_require__(/*! ./any.js */ 48)(Promise);
                                                          
     util.toFastProperties(Promise);                                          
     util.toFastProperties(Promise.prototype);                                
@@ -2168,7 +2327,7 @@ __webpack_require__(/*! ./any.js */ 47)(Promise);
 
 
 /***/ }),
-/* 19 */
+/* 20 */
 /*!***************************************************!*\
   !*** ./node_modules/bluebird/js/release/async.js ***!
   \***************************************************/
@@ -2180,8 +2339,8 @@ __webpack_require__(/*! ./any.js */ 47)(Promise);
 
 var firstLineError;
 try {throw new Error(); } catch (e) {firstLineError = e;}
-var schedule = __webpack_require__(/*! ./schedule */ 20);
-var Queue = __webpack_require__(/*! ./queue */ 21);
+var schedule = __webpack_require__(/*! ./schedule */ 21);
+var Queue = __webpack_require__(/*! ./queue */ 22);
 var util = __webpack_require__(/*! ./util */ 0);
 
 function Async() {
@@ -2341,7 +2500,7 @@ module.exports.firstLineError = firstLineError;
 
 
 /***/ }),
-/* 20 */
+/* 21 */
 /*!******************************************************!*\
   !*** ./node_modules/bluebird/js/release/schedule.js ***!
   \******************************************************/
@@ -2414,7 +2573,7 @@ module.exports = schedule;
 
 
 /***/ }),
-/* 21 */
+/* 22 */
 /*!***************************************************!*\
   !*** ./node_modules/bluebird/js/release/queue.js ***!
   \***************************************************/
@@ -2499,7 +2658,7 @@ module.exports = Queue;
 
 
 /***/ }),
-/* 22 */
+/* 23 */
 /*!*******************************************************!*\
   !*** ./node_modules/bluebird/js/release/thenables.js ***!
   \*******************************************************/
@@ -2597,7 +2756,7 @@ return tryConvertToPromise;
 
 
 /***/ }),
-/* 23 */
+/* 24 */
 /*!***********************************************************!*\
   !*** ./node_modules/bluebird/js/release/promise_array.js ***!
   \***********************************************************/
@@ -2794,7 +2953,7 @@ return PromiseArray;
 
 
 /***/ }),
-/* 24 */
+/* 25 */
 /*!*****************************************************!*\
   !*** ./node_modules/bluebird/js/release/context.js ***!
   \*****************************************************/
@@ -2875,7 +3034,7 @@ return Context;
 
 
 /***/ }),
-/* 25 */
+/* 26 */
 /*!***********************************************************!*\
   !*** ./node_modules/bluebird/js/release/debuggability.js ***!
   \***********************************************************/
@@ -2888,7 +3047,7 @@ return Context;
 module.exports = function(Promise, Context) {
 var getDomain = Promise._getDomain;
 var async = Promise._async;
-var Warning = __webpack_require__(/*! ./errors */ 1).Warning;
+var Warning = __webpack_require__(/*! ./errors */ 2).Warning;
 var util = __webpack_require__(/*! ./util */ 0);
 var canAttachTrace = util.canAttachTrace;
 var unhandledRejectionHandled;
@@ -3806,7 +3965,7 @@ return {
 
 
 /***/ }),
-/* 26 */
+/* 27 */
 /*!*****************************************************!*\
   !*** ./node_modules/bluebird/js/release/finally.js ***!
   \*****************************************************/
@@ -3964,7 +4123,7 @@ return PassThroughHandlerContext;
 
 
 /***/ }),
-/* 27 */
+/* 28 */
 /*!****************************************************!*\
   !*** ./node_modules/bluebird/js/release/method.js ***!
   \****************************************************/
@@ -4031,7 +4190,7 @@ Promise.prototype._resolveFromSyncValue = function (value) {
 
 
 /***/ }),
-/* 28 */
+/* 29 */
 /*!**************************************************!*\
   !*** ./node_modules/bluebird/js/release/bind.js ***!
   \**************************************************/
@@ -4110,7 +4269,7 @@ Promise.bind = function (thisArg, value) {
 
 
 /***/ }),
-/* 29 */
+/* 30 */
 /*!****************************************************!*\
   !*** ./node_modules/bluebird/js/release/cancel.js ***!
   \****************************************************/
@@ -4251,7 +4410,7 @@ Promise.prototype._resultCancelled = function() {
 
 
 /***/ }),
-/* 30 */
+/* 31 */
 /*!************************************************************!*\
   !*** ./node_modules/bluebird/js/release/direct_resolve.js ***!
   \************************************************************/
@@ -4309,7 +4468,7 @@ Promise.prototype.catchReturn = function (value) {
 
 
 /***/ }),
-/* 31 */
+/* 32 */
 /*!********************************************************************!*\
   !*** ./node_modules/bluebird/js/release/synchronous_inspection.js ***!
   \********************************************************************/
@@ -4424,7 +4583,7 @@ Promise.PromiseInspection = PromiseInspection;
 
 
 /***/ }),
-/* 32 */
+/* 33 */
 /*!**************************************************!*\
   !*** ./node_modules/bluebird/js/release/join.js ***!
   \**************************************************/
@@ -4604,7 +4763,7 @@ Promise.join = function () {
 
 
 /***/ }),
-/* 33 */
+/* 34 */
 /*!*************************************************!*\
   !*** ./node_modules/bluebird/js/release/map.js ***!
   \*************************************************/
@@ -4784,7 +4943,7 @@ Promise.map = function (promises, fn, options, _filter) {
 
 
 /***/ }),
-/* 34 */
+/* 35 */
 /*!******************************************************!*\
   !*** ./node_modules/bluebird/js/release/call_get.js ***!
   \******************************************************/
@@ -4919,7 +5078,7 @@ Promise.prototype.get = function (propertyName) {
 
 
 /***/ }),
-/* 35 */
+/* 36 */
 /*!***************************************************!*\
   !*** ./node_modules/bluebird/js/release/using.js ***!
   \***************************************************/
@@ -4932,7 +5091,7 @@ Promise.prototype.get = function (propertyName) {
 module.exports = function (Promise, apiRejection, tryConvertToPromise,
     createContext, INTERNAL, debug) {
     var util = __webpack_require__(/*! ./util */ 0);
-    var TypeError = __webpack_require__(/*! ./errors */ 1).TypeError;
+    var TypeError = __webpack_require__(/*! ./errors */ 2).TypeError;
     var inherits = __webpack_require__(/*! ./util */ 0).inherits;
     var errorObj = util.errorObj;
     var tryCatch = util.tryCatch;
@@ -5157,7 +5316,7 @@ module.exports = function (Promise, apiRejection, tryConvertToPromise,
 
 
 /***/ }),
-/* 36 */
+/* 37 */
 /*!****************************************************!*\
   !*** ./node_modules/bluebird/js/release/timers.js ***!
   \****************************************************/
@@ -5262,7 +5421,7 @@ Promise.prototype.timeout = function (ms, message) {
 
 
 /***/ }),
-/* 37 */
+/* 38 */
 /*!********************************************************!*\
   !*** ./node_modules/bluebird/js/release/generators.js ***!
   \********************************************************/
@@ -5278,7 +5437,7 @@ module.exports = function(Promise,
                           tryConvertToPromise,
                           Proxyable,
                           debug) {
-var errors = __webpack_require__(/*! ./errors */ 1);
+var errors = __webpack_require__(/*! ./errors */ 2);
 var TypeError = errors.TypeError;
 var util = __webpack_require__(/*! ./util */ 0);
 var errorObj = util.errorObj;
@@ -5497,7 +5656,7 @@ Promise.spawn = function (generatorFunction) {
 
 
 /***/ }),
-/* 38 */
+/* 39 */
 /*!*****************************************************!*\
   !*** ./node_modules/bluebird/js/release/nodeify.js ***!
   \*****************************************************/
@@ -5567,7 +5726,7 @@ Promise.prototype.asCallback = Promise.prototype.nodeify = function (nodeback,
 
 
 /***/ }),
-/* 39 */
+/* 40 */
 /*!*******************************************************!*\
   !*** ./node_modules/bluebird/js/release/promisify.js ***!
   \*******************************************************/
@@ -5584,7 +5743,7 @@ var nodebackForPromise = __webpack_require__(/*! ./nodeback */ 6);
 var withAppended = util.withAppended;
 var maybeWrapAsError = util.maybeWrapAsError;
 var canEvaluate = util.canEvaluate;
-var TypeError = __webpack_require__(/*! ./errors */ 1).TypeError;
+var TypeError = __webpack_require__(/*! ./errors */ 2).TypeError;
 var defaultSuffix = "Async";
 var defaultPromisified = {__isPromisified__: true};
 var noCopyProps = [
@@ -5893,7 +6052,7 @@ Promise.promisifyAll = function (target, options) {
 
 
 /***/ }),
-/* 40 */
+/* 41 */
 /*!***************************************************!*\
   !*** ./node_modules/bluebird/js/release/props.js ***!
   \***************************************************/
@@ -5907,7 +6066,7 @@ module.exports = function(
     Promise, PromiseArray, tryConvertToPromise, apiRejection) {
 var util = __webpack_require__(/*! ./util */ 0);
 var isObject = util.isObject;
-var es5 = __webpack_require__(/*! ./es5 */ 2);
+var es5 = __webpack_require__(/*! ./es5 */ 4);
 var Es6Map;
 if (typeof Map === "function") Es6Map = Map;
 
@@ -6023,7 +6182,7 @@ Promise.props = function (promises) {
 
 
 /***/ }),
-/* 41 */
+/* 42 */
 /*!**************************************************!*\
   !*** ./node_modules/bluebird/js/release/race.js ***!
   \**************************************************/
@@ -6084,7 +6243,7 @@ Promise.prototype.race = function () {
 
 
 /***/ }),
-/* 42 */
+/* 43 */
 /*!****************************************************!*\
   !*** ./node_modules/bluebird/js/release/reduce.js ***!
   \****************************************************/
@@ -6268,7 +6427,7 @@ function gotValue(value) {
 
 
 /***/ }),
-/* 43 */
+/* 44 */
 /*!****************************************************!*\
   !*** ./node_modules/bluebird/js/release/settle.js ***!
   \****************************************************/
@@ -6323,7 +6482,7 @@ Promise.prototype.settle = function () {
 
 
 /***/ }),
-/* 44 */
+/* 45 */
 /*!**************************************************!*\
   !*** ./node_modules/bluebird/js/release/some.js ***!
   \**************************************************/
@@ -6336,8 +6495,8 @@ Promise.prototype.settle = function () {
 module.exports =
 function(Promise, PromiseArray, apiRejection) {
 var util = __webpack_require__(/*! ./util */ 0);
-var RangeError = __webpack_require__(/*! ./errors */ 1).RangeError;
-var AggregateError = __webpack_require__(/*! ./errors */ 1).AggregateError;
+var RangeError = __webpack_require__(/*! ./errors */ 2).RangeError;
+var AggregateError = __webpack_require__(/*! ./errors */ 2).AggregateError;
 var isArray = util.isArray;
 var CANCELLATION = {};
 
@@ -6483,7 +6642,7 @@ Promise._SomePromiseArray = SomePromiseArray;
 
 
 /***/ }),
-/* 45 */
+/* 46 */
 /*!****************************************************!*\
   !*** ./node_modules/bluebird/js/release/filter.js ***!
   \****************************************************/
@@ -6507,7 +6666,7 @@ Promise.filter = function (promises, fn, options) {
 
 
 /***/ }),
-/* 46 */
+/* 47 */
 /*!**************************************************!*\
   !*** ./node_modules/bluebird/js/release/each.js ***!
   \**************************************************/
@@ -6549,7 +6708,7 @@ Promise.mapSeries = PromiseMapSeries;
 
 
 /***/ }),
-/* 47 */
+/* 48 */
 /*!*************************************************!*\
   !*** ./node_modules/bluebird/js/release/any.js ***!
   \*************************************************/
@@ -6582,7 +6741,7 @@ Promise.prototype.any = function () {
 
 
 /***/ }),
-/* 48 */
+/* 49 */
 /*!*****************************!*\
   !*** external "int-to-rgb" ***!
   \*****************************/
@@ -6593,7 +6752,7 @@ Promise.prototype.any = function () {
 module.exports = require("int-to-rgb");
 
 /***/ }),
-/* 49 */
+/* 50 */
 /*!*************************************************!*\
   !*** ./src/api/controllers/SensorController.ts ***!
   \*************************************************/
@@ -6604,7 +6763,7 @@ module.exports = require("int-to-rgb");
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var SensorService_1 = __webpack_require__(/*! ../services/SensorService */ 50);
+var SensorService_1 = __webpack_require__(/*! ../services/SensorService */ 7);
 var cfg = __webpack_require__(/*! ../../../config/config.json */ 3);
 var SensorController = (function () {
     function SensorController(router) {
@@ -6614,6 +6773,8 @@ var SensorController = (function () {
     SensorController.prototype.registerRoutes = function () {
         this.router.get("/sensors", this.getSensors.bind(this));
         this.router.get("/sensors/:id/info/:properties", this.getProperties.bind(this));
+        this.router.get("/sensors/:id/data/", this.getLoggedSensorData.bind(this));
+        this.router.get("/sensors/:id/between/:t1/:t2", this.getLoggedSensorDataBetweenDates.bind(this));
     };
     SensorController.prototype.getSensors = function (req, res) {
         var result = SensorService_1.SensorServiceInstance.getSensors(req.app);
@@ -6628,83 +6789,28 @@ var SensorController = (function () {
             res.status(500).json(error);
         });
     };
+    SensorController.prototype.getLoggedSensorData = function (req, res) {
+        var result = SensorService_1.SensorServiceInstance.getSensorData(req.app, req.params.id)
+            .then(function (result) {
+            res.status(200).json(result);
+        })
+            .catch(function (error) {
+            res.status(500).json(error);
+        });
+    };
+    SensorController.prototype.getLoggedSensorDataBetweenDates = function (req, res) {
+        var result = SensorService_1.SensorServiceInstance.getSensorDataBetweenDates(req.app, req.params.id, req.params.t1, req.params.t2)
+            .then(function (result) {
+            res.status(200).json(result);
+        })
+            .catch(function (error) {
+            res.status(500).json(error);
+        });
+    };
     return SensorController;
 }());
 exports.default = SensorController;
 
-
-/***/ }),
-/* 50 */
-/*!*******************************************!*\
-  !*** ./src/api/services/SensorService.ts ***!
-  \*******************************************/
-/*! dynamic exports provided */
-/*! all exports used */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(Promise) {
-Object.defineProperty(exports, "__esModule", { value: true });
-var cfg = __webpack_require__(/*! ../../../config/config.json */ 3);
-var SensorService = (function () {
-    function SensorService() {
-    }
-    SensorService.prototype.getSensors = function (app) {
-        var result = [];
-        var sensors = app.locals.xiaomi.sensors;
-        if (!sensors || sensors.length < 1) {
-            return result;
-        }
-        if (sensors && sensors.length > 0) {
-            result = sensors.map(function (sensor, index) {
-                return {
-                    name: "",
-                    hasPressure: sensor.hasCapability("pressure"),
-                    id: sensor.id,
-                    ip: sensor.ip,
-                    humidity: sensor.humidity || -1,
-                    pressure: sensor.hasCapability("pressure") ? sensor.pressure : -1,
-                    temperature: sensor.temperature || -1
-                };
-            });
-        }
-        cfg.devices.sensors.forEach(function (sensor) {
-            result.forEach(function (sens) {
-                if (sens.id === sensor.id) {
-                    sens.name = sensor.name;
-                }
-            });
-        });
-        return result;
-    };
-    SensorService.prototype.getSensorProperties = function (app, sensorId, properties) {
-        return new Promise(function (resolve, reject) {
-            var sensors = app.locals.xiaomi.sensors;
-            var sensor = sensors.find(function (sens) {
-                return sens.id === sensorId;
-            });
-            if (!sensor) {
-                reject({ message: "sensor not found" });
-            }
-            sensor._parent
-                .call("get_device_prop_exp", [["lumi." + sensor.id].concat(properties)])
-                .then(function (resultProperties) {
-                resolve({ id: sensorId, properties: resultProperties });
-            })
-                .catch(function (error) {
-                console.log(error);
-                reject({
-                    message: "error on query sensor method 'get_device_prop_exp'. Msg: " +
-                        error
-                });
-            });
-        });
-    };
-    return SensorService;
-}());
-exports.SensorServiceInstance = new SensorService();
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 4)))
 
 /***/ }),
 /* 51 */
@@ -6956,10 +7062,330 @@ var GatewayService = (function () {
 }());
 exports.GatewayServiceInstance = new GatewayService();
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 4)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 1)))
 
 /***/ }),
 /* 53 */
+/*!***********************************************!*\
+  !*** ./src/api/controllers/AldiController.ts ***!
+  \***********************************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var AldiService_1 = __webpack_require__(/*! ../services/AldiService */ 54);
+var cfg = __webpack_require__(/*! ../../../config/config.json */ 3);
+var AldiController = (function () {
+    function AldiController(router) {
+        this.router = router;
+        this.registerRoutes();
+    }
+    AldiController.prototype.registerRoutes = function () {
+        this.router.get("/routen", this.getRoutes.bind(this));
+        this.router.get("/filialen", this.getFilialen.bind(this));
+        this.router.post("/filialen", this.addFiliale.bind(this));
+        this.router.post("/routen", this.addRoute.bind(this));
+        this.router.delete("/routen/:routeId", this.deleteRoute.bind(this));
+        this.router.delete("/filialen/:filialId", this.deleteFiliale.bind(this));
+        this.router.get("/filialen/:filialId", this.getFiliale.bind(this));
+        this.router.put("/filialen/:filialId", this.updateFiliale.bind(this));
+    };
+    AldiController.prototype.getRoutes = function (req, res) {
+        var result = AldiService_1.AldiServiceInstance.getRouten(req.app)
+            .then(function (result) {
+            res.status(200).json(result);
+        })
+            .catch(function (error) {
+            res.status(500).json(error);
+        });
+    };
+    AldiController.prototype.getFilialen = function (req, res) {
+        var result = AldiService_1.AldiServiceInstance.getFilialen(req.app)
+            .then(function (result) {
+            res.status(200).json(result);
+        })
+            .catch(function (error) {
+            res.status(500).json(error);
+        });
+    };
+    AldiController.prototype.addRoute = function (req, res) {
+        console.log(JSON.stringify(req.body.route));
+        var result = AldiService_1.AldiServiceInstance.addRoute(req.app, req.body.route)
+            .then(function (result) {
+            res.status(200).json(result);
+        })
+            .catch(function (error) {
+            res.status(500).json(error);
+        });
+    };
+    AldiController.prototype.deleteRoute = function (req, res) {
+        console.log(JSON.stringify(req.params.routeId));
+        var result = AldiService_1.AldiServiceInstance.deleteRoute(req.app, req.params.routeId)
+            .then(function (result) {
+            res.status(200).json(result);
+        })
+            .catch(function (error) {
+            res.status(500).json(error);
+        });
+    };
+    AldiController.prototype.addFiliale = function (req, res) {
+        var result = AldiService_1.AldiServiceInstance.addFiliale(req.app, req.body.filiale)
+            .then(function (result) {
+            res.status(200).json(result);
+        })
+            .catch(function (error) {
+            res.status(500).json(error);
+        });
+    };
+    AldiController.prototype.deleteFiliale = function (req, res) {
+        console.log("filialId", JSON.stringify(req.params.filialId));
+        var result = AldiService_1.AldiServiceInstance.deleteFiliale(req.app, req.params.filialId)
+            .then(function (result) {
+            res.status(200).json(result);
+        })
+            .catch(function (error) {
+            res.status(500).json(error);
+        });
+    };
+    AldiController.prototype.getFiliale = function (req, res) {
+        console.log("filialId", JSON.stringify(req.params.filialId));
+        var result = AldiService_1.AldiServiceInstance.getFiliale(req.app, req.params.filialId)
+            .then(function (result) {
+            res.status(200).json(result);
+        })
+            .catch(function (error) {
+            res.status(500).json(error);
+        });
+    };
+    AldiController.prototype.updateFiliale = function (req, res) {
+        console.log("updateFiliale");
+        console.log("filialId", JSON.stringify(req.params.filialId));
+        console.log("filiale", JSON.stringify(req.body.filiale));
+        var result = AldiService_1.AldiServiceInstance.updateFiliale(req.app, req.params.filialId, req.body.filiale)
+            .then(function (result) {
+            res.status(200).json(result);
+        })
+            .catch(function (error) {
+            res.status(500).json(error);
+        });
+    };
+    return AldiController;
+}());
+exports.default = AldiController;
+
+
+/***/ }),
+/* 54 */
+/*!*****************************************!*\
+  !*** ./src/api/services/AldiService.ts ***!
+  \*****************************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(Promise) {
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var bson_1 = __webpack_require__(/*! bson */ 55);
+var cfg = __webpack_require__(/*! ../../../config/config.json */ 3);
+var AldiService = (function () {
+    function AldiService() {
+    }
+    AldiService.prototype.getFilialen = function (app) {
+        return new Promise(function (resolve, reject) {
+            app.locals.database
+                .collection("filialen")
+                .find({})
+                .toArray()
+                .then(function (result) {
+                resolve(result);
+            })
+                .catch(function (error) {
+                console.log("error inserting", JSON.stringify(error));
+                reject({ message: "error query filialen" });
+            });
+        });
+    };
+    AldiService.prototype.getFiliale = function (app, filialId) {
+        return new Promise(function (resolve, reject) {
+            var objectId = new bson_1.ObjectId(filialId);
+            console.log(objectId + "@" + JSON.stringify(objectId) + "@");
+            var db = app.locals.database;
+            db
+                .collection("filialen")
+                .findOne({ _id: objectId })
+                .then(function (result) {
+                console.log("filiale found");
+                resolve({
+                    message: "filiale found",
+                    filiale: result
+                });
+            })
+                .catch(function (error) {
+                console.log("error finding filiale", JSON.stringify(error));
+                reject({ message: "not found" });
+            });
+        });
+    };
+    AldiService.prototype.getRouten = function (app) {
+        return new Promise(function (resolve, reject) {
+            var db = app.locals.database;
+            db
+                .collection("routen")
+                .find({})
+                .toArray()
+                .then(function (result) {
+                resolve(result);
+            })
+                .catch(function (error) {
+                console.log("error inserting", JSON.stringify(error));
+                reject({ message: "error query routen" });
+            });
+        });
+    };
+    AldiService.prototype.addFiliale = function (app, filiale) {
+        return new Promise(function (resolve, reject) {
+            filiale.created = Date.now();
+            filiale.modified = Date.now();
+            var db = app.locals.database;
+            db
+                .collection("filialen")
+                .insert(filiale)
+                .then(function (result) {
+                resolve({
+                    message: "filiale inserted",
+                    insertedCount: result.insertedCount,
+                    insertedObjects: result.ops,
+                    insertedId: result.insertedId
+                });
+            })
+                .catch(function (error) {
+                console.log("error inserting", JSON.stringify(error));
+                reject({ message: "not inserted" });
+            });
+        });
+    };
+    AldiService.prototype.addRoute = function (app, route) {
+        return new Promise(function (resolve, reject) {
+            var db = app.locals.database;
+            route.created = Date.now();
+            route.modified = Date.now();
+            db
+                .collection("routen")
+                .insert(route)
+                .then(function (result) {
+                resolve({
+                    message: "route inserted",
+                    insertedCount: result.insertedCount,
+                    insertedObjects: result.ops,
+                    insertedId: result.insertedId
+                });
+            })
+                .catch(function (error) {
+                console.log("error inserting", JSON.stringify(error));
+                reject({ message: "not inserted" });
+            });
+        });
+    };
+    AldiService.prototype.deleteRoute = function (app, routeId) {
+        return new Promise(function (resolve, reject) {
+            var objectId = new bson_1.ObjectId(routeId);
+            var db = app.locals.database;
+            db
+                .collection("routen")
+                .deleteOne({ _id: objectId })
+                .then(function (result) {
+                console.log("deleted");
+                resolve({
+                    message: "route deleted",
+                    deletedCount: result.deletedCount
+                });
+            })
+                .catch(function (error) {
+                console.log("error deleting", JSON.stringify(error));
+                reject({ message: "not deleted" });
+            });
+        });
+    };
+    AldiService.prototype.deleteFiliale = function (app, filialId) {
+        return new Promise(function (resolve, reject) {
+            var objectId = new bson_1.ObjectId(filialId);
+            console.log(objectId + "@" + JSON.stringify(objectId) + "@");
+            var db = app.locals.database;
+            db
+                .collection("filialen")
+                .deleteOne({ _id: objectId })
+                .then(function (result) {
+                console.log("deleted filiale");
+                resolve({
+                    message: "filiale deleted",
+                    deletedCount: result.deletedCount
+                });
+            })
+                .catch(function (error) {
+                console.log("error deleting", JSON.stringify(error));
+                reject({ message: "not deleted" });
+            });
+        });
+    };
+    AldiService.prototype.updateFiliale = function (app, filialId, filiale) {
+        return new Promise(function (resolve, reject) {
+            var objectId = new bson_1.ObjectId(filialId);
+            var b = __assign({}, filiale);
+            delete b._id;
+            console.log("B:" + JSON.stringify(b) + "@");
+            var db = app.locals.database;
+            db
+                .collection("filialen")
+                .updateOne({ _id: objectId }, {
+                $set: b
+            }, { upsert: true })
+                .then(function (result) {
+                console.log("edited filiale");
+                resolve({
+                    message: "filiale edited",
+                    modifiedCount: result.modifiedCount,
+                    matchedCount: result.matchedCount,
+                    upsertedCount: result.upsertedCount,
+                    upsertedId: result.upsertedId
+                });
+            })
+                .catch(function (error) {
+                console.log("error editing", JSON.stringify(error));
+                reject({ message: "not deleted" });
+            });
+        });
+    };
+    return AldiService;
+}());
+exports.AldiServiceInstance = new AldiService();
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 1)))
+
+/***/ }),
+/* 55 */
+/*!***********************!*\
+  !*** external "bson" ***!
+  \***********************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports) {
+
+module.exports = require("bson");
+
+/***/ }),
+/* 56 */
 /*!*****************************!*\
   !*** ./src/startUp/miio.ts ***!
   \*****************************/
@@ -6968,9 +7394,12 @@ exports.GatewayServiceInstance = new GatewayService();
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function(Promise) {
 Object.defineProperty(exports, "__esModule", { value: true });
-var miio = __webpack_require__(/*! miio */ 54);
+var SensorService_1 = __webpack_require__(/*! ../api/services/SensorService */ 7);
+var timers_1 = __webpack_require__(/*! timers */ 57);
+var miio = __webpack_require__(/*! miio */ 58);
+var isConnected = false;
 function findIdInArray(targetArray, id) {
     var returnValue = -1;
     if (!targetArray) {
@@ -6985,7 +7414,55 @@ function findIdInArray(targetArray, id) {
     console.log("findIdInArray: element at index: " + returnValue);
     return returnValue;
 }
+function findRockrobot(app) {
+    return new Promise(function (resolve, reject) {
+        if (isConnected) {
+            console.log("exit findRockrobot");
+            resolve(true);
+            return;
+        }
+        var device = miio.createDevice({
+            address: "192.168.178.47",
+            token: "7932627133756e393939483475574d58",
+            model: "rockrobo.vacuum.v1"
+        });
+        device
+            .init()
+            .then(function (result) {
+            console.error("INIT SUCCESS!", JSON.stringify(result));
+            var indexOfElement = findIdInArray(app.locals.xiaomi.robots, device.id);
+            if (indexOfElement < 0) {
+                console.log("Robot existiert nicht");
+                app.locals.xiaomi.robots.push(device);
+            }
+            else {
+                console.log("Robot existiert", device.id);
+                app.locals.xiaomi.robots[indexOfElement] = device;
+            }
+            device.on("propertyChanged", function (e) {
+                console.log("@@ Detected Device propertyChanged: " +
+                    device.id +
+                    " (" +
+                    device.type +
+                    ") @@");
+                console.log("propertyChanged: " + e.property, e.oldValue, e.value, JSON.stringify(e));
+            });
+            device.on("action", function (e) { return console.log("Action performed:", e.id); });
+            resolve(true);
+        })
+            .catch(function (e) {
+            resolve(false);
+            console.error("ERROR", JSON.stringify(e));
+        });
+    });
+}
 function registerDevices(app) {
+    var time = timers_1.setInterval(function () {
+        console.log("Robot Connection Interval");
+        findRockrobot(app).then(function (connected) {
+            isConnected = connected;
+        });
+    }, 30000);
     var devices = miio.devices({
         cacheTime: 15
     });
@@ -7002,7 +7479,23 @@ function registerDevices(app) {
         }
         console.log("@@ Detected Device: " + device.id + " (" + device.type + ") @@");
         device.on("propertyChanged", function (e) {
-            return console.log("propertyChanged: " + e.property, e.oldValue, e.value);
+            console.log("@@ Detected Device propertyChanged: " +
+                device.id +
+                " (" +
+                device.type +
+                ") @@");
+            console.log("propertyChanged: " + e.property, e.oldValue, e.value, JSON.stringify(e));
+            if (device.type !== "sensor") {
+                console.log("Exit, no Sensor!");
+                return;
+            }
+            SensorService_1.SensorServiceInstance.logData(app, device.id)
+                .then(function () {
+                console.log("OK INSERT");
+            })
+                .catch(function (error) {
+                console.log("ERROR INSERTING @@ ", error);
+            });
         });
         device.on("action", function (e) { return console.log("Action performed:", e.id); });
         var indexOfElement = -1;
@@ -7091,9 +7584,21 @@ function registerDevices(app) {
 }
 exports.registerDevices = registerDevices;
 
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 1)))
 
 /***/ }),
-/* 54 */
+/* 57 */
+/*!*************************!*\
+  !*** external "timers" ***!
+  \*************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports) {
+
+module.exports = require("timers");
+
+/***/ }),
+/* 58 */
 /*!***********************!*\
   !*** external "miio" ***!
   \***********************/
@@ -7104,7 +7609,7 @@ exports.registerDevices = registerDevices;
 module.exports = require("miio");
 
 /***/ }),
-/* 55 */
+/* 59 */
 /*!******************************!*\
   !*** external "body-parser" ***!
   \******************************/
@@ -7115,7 +7620,49 @@ module.exports = require("miio");
 module.exports = require("body-parser");
 
 /***/ }),
-/* 56 */
+/* 60 */
+/*!*********************************!*\
+  !*** ./src/startUp/database.ts ***!
+  \*********************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(Promise) {
+Object.defineProperty(exports, "__esModule", { value: true });
+var mongodb_1 = __webpack_require__(/*! mongodb */ 61);
+function initializeDatabase(app) {
+    return new Promise(function (resolve, reject) {
+        console.log("Try connect to Database", "mongodb://localhost:27017");
+        mongodb_1.MongoClient.connect("mongodb://localhost:27017", function (err, database) {
+            if (err) {
+                reject({ message: "Error adding database startup entry", error: err });
+            }
+            console.log("Success connected to database.", "mongodb://localhost:27017");
+            console.log("Set Database and add startup entry: " + "homeautomation");
+            app.locals.database = database.db("homeautomation");
+            var note = { message: "Start Application", timestamp: Date.now() };
+            app.locals.database
+                .collection("application")
+                .insert(note, function (err, result) {
+                if (err) {
+                    console.log({ error: "An error has occurred" });
+                    reject({ message: "Error adding database startup entry" });
+                }
+                else {
+                    resolve();
+                }
+            });
+        });
+    });
+}
+exports.initializeDatabase = initializeDatabase;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 1)))
+
+/***/ }),
+/* 61 */
 /*!**************************!*\
   !*** external "mongodb" ***!
   \**************************/

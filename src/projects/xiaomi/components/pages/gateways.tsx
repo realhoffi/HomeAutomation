@@ -16,16 +16,21 @@ export interface IApplicationState {
   isInitialized: boolean;
   gateways: IGatewayModel[];
   gatewayLights: ILightModel[];
+  intervalId: undefined;
 }
 export class Application extends React.Component<
   IApplicationProps,
   IApplicationState
 > {
   private isMountedFinished = false;
-  private ival;
   constructor(props) {
     super(props);
-    this.state = { gateways: [], gatewayLights: [], isInitialized: false };
+    this.state = {
+      gateways: [],
+      gatewayLights: [],
+      isInitialized: false,
+      intervalId: undefined
+    };
     this.loadDevices = this.loadDevices.bind(this);
   }
   componentDidMount() {
@@ -36,21 +41,23 @@ export class Application extends React.Component<
         this.setState({ isInitialized: true });
       }
     });
-    this.ival = setInterval(this.loadDevices, 30000);
+    let interval = setInterval(this.loadDevices, 30000);
+    this.setState({ intervalId: interval["_id"] });
     this.isMountedFinished = true;
   }
   componentWillUnmount() {
-    clearInterval(this.ival);
+    clearInterval(this.state.intervalId);
     this.isMountedFinished = false;
   }
   private loadDevices() {
+    if (!this.isMountedFinished) {
+      Promise.resolve();
+    }
     return Axios.get("/api/gateways")
       .then(results => {
-        if (this.isMountedFinished === true) {
-          let gws: IGatewayModel[] = results.data["gateways"];
-          let gwLights: ILightModel[] = gws.map(this.mapGatewayToLightModel);
-          this.setState({ gateways: gws, gatewayLights: gwLights });
-        }
+        let gws: IGatewayModel[] = results.data["gateways"];
+        let gwLights: ILightModel[] = gws.map(this.mapGatewayToLightModel);
+        this.setState({ gateways: gws, gatewayLights: gwLights });
       })
       .catch(error => {});
   }

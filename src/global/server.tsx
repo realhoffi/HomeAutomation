@@ -9,10 +9,9 @@ import { registerDevices } from "../startUp/miio";
 
 import bodyParser = require("body-parser");
 import { Request } from "express";
-import { MongoClient } from "mongodb";
+import { initializeDatabase } from "../startUp/database";
 
-declare var MONGO_DB_CONNECTION_STRING: string;
-declare var MONGO_DB_DATABASE_STRING: string;
+// import iobroker = require("iobroker.mihome-vacuum");
 
 function normalizePort(val) {
   let port = parseInt(val, 10);
@@ -63,15 +62,12 @@ router.use(function(req, res, next) {
 });
 // all of our routes will be prefixed with /api
 app.use("/api", router);
-registerRoutes(router);
-registerDevices(app);
 
 app.get("/", function(request, response) {
   response.sendFile(
     path.join("views", "index.html"),
     { root: __dirname },
     error => {
-      app.locals.test += 1;
       if (error) {
         console.log("ERROR SENDFILE!" + JSON.stringify(error));
       }
@@ -91,51 +87,18 @@ app.use((err, req, res, next) => {
   res.status(500);
   res.render("error", { error: err });
 });
-
-console.log("Tryconnect to Database: " + MONGO_DB_CONNECTION_STRING);
-MongoClient.connect(MONGO_DB_CONNECTION_STRING, function(err, database) {
-  if (err) {
-    throw err;
-  }
-  console.log("Success connected to database:" + database);
-  console.log("Read Database: " + MONGO_DB_DATABASE_STRING);
-
-  app.locals.database = database.db(MONGO_DB_DATABASE_STRING);
-  const note = { text: "req.body.body", title: "req.body.title" };
-  // db
-  //   .collections()
-  //   .then(result => {
-  //     console.log(
-  //       result.forEach(col => {
-  //         console.log("c: " + col.namespace);
-  //       })
-  //     );
-  //   })
-  //   .catch(error => {
-  //     console.error("ERROR: " + error);
-  //   });
-  app.locals.database.collection("test").insert(note, (err, result) => {
-    if (err) {
-      console.log({ error: "An error has occurred" });
-    } else {
-      console.log(result.ops[0]);
-    }
+initializeDatabase(app)
+  .then(() => {
+    registerRoutes(router);
+    registerDevices(app);
+    let server = http.createServer(app);
+    server.listen(port, err => {
+      if (err) {
+        return console.error(err);
+      }
+      console.info(`Server running on http://localhost:${port} [${env}]`);
+    });
+  })
+  .catch(error => {
+    console.log("Can not start application", JSON.stringify(error));
   });
-  // db
-  //   .collection("configuration")
-  //   .find()
-  //   .toArray(function(err, result) {
-  //     if (err) {
-  //       throw err;
-  //     }
-  //     console.log(result);
-  //   });
-});
-
-let server = http.createServer(app);
-server.listen(port, err => {
-  if (err) {
-    return console.error(err);
-  }
-  console.info(`Server running on http://localhost:${port} [${env}]`);
-});

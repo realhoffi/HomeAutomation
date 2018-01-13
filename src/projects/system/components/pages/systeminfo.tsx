@@ -7,16 +7,20 @@ export interface IApplicationProps {}
 export interface IApplicationState {
   isInitialized: boolean;
   systemInformation: any;
+  intervalId: any;
 }
 export class SystemInfo extends React.Component<
   IApplicationProps,
   IApplicationState
 > {
   private isMountedFinished = false;
-  private ival;
   constructor(props) {
     super(props);
-    this.state = { systemInformation: undefined, isInitialized: false };
+    this.state = {
+      systemInformation: undefined,
+      isInitialized: false,
+      intervalId: undefined
+    };
     this.loadDevices = this.loadDevices.bind(this);
   }
   componentDidMount() {
@@ -27,18 +31,20 @@ export class SystemInfo extends React.Component<
         this.setState({ isInitialized: true });
       }
     });
-    this.ival = setInterval(this.loadDevices, 10000);
+    let interval = setInterval(this.loadDevices, 10000);
+    this.setState({ intervalId: interval["_id"] });
     this.isMountedFinished = true;
   }
   componentWillUnmount() {
-    clearInterval(this.ival);
+    clearInterval(this.state.intervalId);
     this.isMountedFinished = false;
   }
   private loadDevices() {
+    if (!this.isMountedFinished) {
+      Promise.resolve();
+    }
     return Axios.get("/api/system").then(result => {
-      if (this.isMountedFinished === true) {
-        this.setState({ systemInformation: result.data["system"] });
-      }
+      this.setState({ systemInformation: result.data["system"] });
     });
   }
   private convertRamToMBString(ram: number): string {

@@ -15,16 +15,16 @@ export interface IApplicationProps {}
 export interface IApplicationState {
   isInitialized: boolean;
   sensors: IBaseWeatherSensor[];
+  intervalId: undefined;
 }
 export class Application extends React.Component<
   IApplicationProps,
   IApplicationState
 > {
   private isMountedFinished = false;
-  private ival;
   constructor(props) {
     super(props);
-    this.state = { sensors: [], isInitialized: false };
+    this.state = { sensors: [], isInitialized: false, intervalId: undefined };
     this.loadDevices = this.loadDevices.bind(this);
   }
   componentDidMount() {
@@ -35,18 +35,20 @@ export class Application extends React.Component<
         this.setState({ isInitialized: true });
       }
     });
-    this.ival = setInterval(this.loadDevices, 30000);
+    let interval = setInterval(this.loadDevices, 30000);
+    this.setState({ intervalId: interval["_id"] });
     this.isMountedFinished = true;
   }
   componentWillUnmount() {
-    clearInterval(this.ival);
+    clearInterval(this.state.intervalId);
     this.isMountedFinished = false;
   }
   private loadDevices() {
+    if (!this.isMountedFinished) {
+      Promise.resolve();
+    }
     return Axios.get("/api/sensors").then(result => {
-      if (this.isMountedFinished === true) {
-        this.setState({ sensors: result.data["sensors"] });
-      }
+      this.setState({ sensors: result.data["sensors"] });
     });
   }
 

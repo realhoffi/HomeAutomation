@@ -17,16 +17,16 @@ export interface IApplicationProps {}
 export interface IApplicationState {
   isInitialized: boolean;
   lights: ILightModel[];
+  intervalId: undefined;
 }
 export class Application extends React.Component<
   IApplicationProps,
   IApplicationState
 > {
-  private ival;
   private isMountedFinished = false;
   constructor(props) {
     super(props);
-    this.state = { lights: [], isInitialized: false };
+    this.state = { lights: [], isInitialized: false, intervalId: undefined };
 
     this.colorChangedOnLight = this.colorChangedOnLight.bind(this);
     this.powerChangedOnLight = this.powerChangedOnLight.bind(this);
@@ -46,19 +46,21 @@ export class Application extends React.Component<
         this.setState({ isInitialized: true });
       }
     });
-    this.ival = setInterval(this.loadDevices, 30000);
+    let interval = setInterval(this.loadDevices, 30000);
+    this.setState({ intervalId: interval["_id"] });
     this.isMountedFinished = true;
   }
   componentWillUnmount() {
-    clearInterval(this.ival);
+    clearInterval(this.state.intervalId);
     this.isMountedFinished = false;
   }
   private loadDevices() {
+    if (!this.isMountedFinished) {
+      Promise.resolve();
+    }
     return Axios.get("/api/lights/details")
       .then(results => {
-        if (this.isMountedFinished === true) {
-          this.setState({ lights: results.data["lights"] });
-        }
+        this.setState({ lights: results.data["lights"] });
       })
       .catch(error => {});
   }

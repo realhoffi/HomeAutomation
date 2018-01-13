@@ -1,4 +1,36 @@
 import * as React from "react";
+import Axios from "axios";
+import {
+  CommandBarButton,
+  BaseButton,
+  Button,
+  Callout,
+  CommandBar
+} from "office-ui-fabric-react";
+import { Modal } from "office-ui-fabric-react/lib/Modal";
+import { ManageRoute } from "./manageRoute";
+import { PageType } from "../../../../enums/enums";
+import { SyntheticEvent, MouseEventHandler, Fragment } from "react";
+import { CalloutContent } from "office-ui-fabric-react/lib/components/Callout/CalloutContent";
+import { ToolTip } from "../../../../global/components/simple/ToolTip";
+import { Routenuebersicht } from "../intelligent/Routenuebersicht";
+import {
+  IRouteModel,
+  IRouteViewModel,
+  IFilialeModel,
+  IFilialeViewModel
+} from "../../../../interfaces/aldi";
+import { UploadRoutes } from "../intelligent/UploadRoutes";
+import { UploadFilialen } from "../intelligent/UploadFilialen";
+import {
+  promise_all_custom,
+  ICustomPromiseResult
+} from "../../../../helper/promise";
+import { Filialuebersicht } from "../intelligent/Filialuebersicht";
+import { Panel } from "../../../../global/components/simple/Panel";
+import { Filiale } from "../intelligent/Filiale";
+// import { BaseUebersicht } from "../../../../global/components/simple/BaseUebersicht";
+
 export interface IApplicationProps {
   requestUrl: string;
 }
@@ -7,20 +39,10 @@ export interface IApplicationState {
   modalContent: JSX.Element;
   isCalloutVisible: boolean;
   callOutContent: JSX.Element;
+  selectedRoutes: IRouteViewModel[];
+  selectedFilialen: IFilialeViewModel[];
 }
-import debug = require("debug");
-import {
-  CommandBarButton,
-  BaseButton,
-  Button,
-  Callout
-} from "office-ui-fabric-react";
-import { Modal } from "office-ui-fabric-react/lib/Modal";
-import { ManageRoute } from "./ManageRoute";
-import { PageType } from "../../../../enums/enums";
-import { SyntheticEvent, MouseEventHandler } from "react";
-import { CalloutContent } from "office-ui-fabric-react/lib/components/Callout/CalloutContent";
-import { ToolTip } from "../../../../global/components/simple/ToolTip";
+
 export class Application extends React.Component<
   IApplicationProps,
   IApplicationState
@@ -32,27 +54,74 @@ export class Application extends React.Component<
       modalContent: undefined,
       showModal: false,
       isCalloutVisible: false,
-      callOutContent: undefined
+      callOutContent: undefined,
+      selectedRoutes: [],
+      selectedFilialen: []
     };
 
-    this.addRouteClick = this.addRouteClick.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.showCallOut = this.showCallOut.bind(this);
     this.hideCallOut = this.hideCallOut.bind(this);
-  }
-  componentDidMount() {
-    document.title = "Aldi Hauptseite";
+
+    this.routeUploaded = this.routeUploaded.bind(this);
+    this.showUploadRoutesClick = this.showUploadRoutesClick.bind(this);
+    this.uploadFilialen = this.uploadFilialen.bind(this);
+    this.showUploadFilialenClick = this.showUploadFilialenClick.bind(this);
+
+    this.editRoute = this.editRoute.bind(this);
+    this.addRouteClick = this.addRouteClick.bind(this);
+
+    this.createFiliale = this.createFiliale.bind(this);
+    this.editFiliale = this.editFiliale.bind(this);
+    this.filialeSavedClick = this.filialeSavedClick.bind(this);
   }
 
+  private showUploadFilialenClick() {
+    this.setState({
+      showModal: true,
+      modalContent: (
+        <UploadFilialen
+          uploadFinished={this.uploadFilialen}
+          cancelBtnClick={this.closeModal}
+        />
+      )
+    });
+  }
+  private uploadFilialen() {
+    this.closeModal();
+  }
+
+  private showUploadRoutesClick() {
+    this.setState({
+      showModal: true,
+      modalContent: (
+        <UploadRoutes
+          uploadClick={this.routeUploaded}
+          cancelClick={this.closeModal}
+        />
+      )
+    });
+  }
+  private routeUploaded(routes: IRouteModel[]) {
+    this.closeModal();
+  }
   private addRouteClick() {
-    let c = (
-      <ManageRoute onExitPage={this.closeModal} pageType={PageType.Add} />
-    );
-    this.setState({ showModal: true, modalContent: c });
+    this.setState({
+      showModal: true,
+      modalContent: (
+        <ManageRoute onExitPage={this.closeModal} pageType={PageType.Add} />
+      )
+    });
     this.hideCallOut();
   }
-  private closeModal() {
-    this.setState({ showModal: false, modalContent: undefined });
+  private closeModal(copiedState: IApplicationState = undefined) {
+    if (copiedState) {
+      copiedState.showModal = false;
+      copiedState.modalContent = undefined;
+      return copiedState;
+    } else {
+      this.setState({ showModal: false, modalContent: undefined });
+    }
   }
   private showCallOut(
     event: React.SyntheticEvent<
@@ -86,41 +155,109 @@ export class Application extends React.Component<
     this.setState({ isCalloutVisible: false, callOutContent: undefined });
     return false;
   }
+
+  private filialeSavedClick() {
+    this.closeModal();
+  }
+  private editRoute(routeElement: IRouteViewModel) {}
+  private editFiliale(filialElement: IFilialeViewModel) {
+    this.setState({
+      showModal: true,
+      modalContent: (
+        <Filiale
+          cancel_clicked={this.closeModal}
+          pageType={PageType.Edit}
+          filialeId={filialElement._id}
+          headerText="Filiale bearbeiten"
+          ok_clicked={this.filialeSavedClick}
+        />
+      )
+    });
+    this.hideCallOut();
+  }
+  private createFiliale() {
+    this.setState({
+      showModal: true,
+      modalContent: (
+        <Filiale
+          cancel_clicked={this.closeModal}
+          pageType={PageType.Add}
+          filialeId={null}
+          headerText="Filiale hinzufügen"
+          ok_clicked={this.filialeSavedClick}
+        />
+      )
+    });
+    this.hideCallOut();
+  }
   render() {
+    console.log("render application");
+    if (this.state.showModal && !!this.state.modalContent) {
+      return (
+        <div className="ms-Grid-row">
+          <div className="ms-Grid-col ms-sm12">{this.state.modalContent}</div>
+        </div>
+      );
+    }
     return (
-      <div className="ms-Grid-row">
-        {this.state.modalContent &&
-          this.state.showModal && (
-            <div className="ms-Grid-col ms-sm12">{this.state.modalContent}</div>
-          )}
-        {this.state.showModal === false && (
+      <Fragment>
+        <div className="ms-Grid-row">
           <div className="ms-Grid-col ms-sm12">
-            <div className="ms-Grid-row">
-              <div className="ms-Grid-col ms-sm12 ms-lg4">
-                <div className="custom-cmd-button">
-                  <CommandBarButton
-                    data-info-title="Route erfassen"
-                    data-info-desc="Erstellt eine neue Route für Aldi"
-                    iconProps={{ iconName: "Add" }}
-                    text="Route erfassen"
-                    onClick={this.addRouteClick}
-                    onMouseEnter={this.showCallOut}
-                    onMouseLeave={this.hideCallOut}
-                  />
-                </div>
-              </div>
-              <div className="ms-Grid-col ms-sm12 ms-lg4">
-                <div className="custom-cmd-button">
-                  <CommandBarButton
-                    iconProps={{ iconName: "Add" }}
-                    text="Filialen erfassen"
-                  />
-                </div>
-              </div>
-            </div>
+            <Panel
+              contentClass="custom-padding-top-10px"
+              headerText="Routenübersicht"
+              className="custom-padding-bottom-10px custom-padding-top-10px"
+            >
+              <Routenuebersicht
+                onEditRouteClick={this.editRoute}
+                commandbarItems={[
+                  {
+                    key: "newItem",
+                    name: "New",
+                    icon: "Add",
+                    onClick: this.addRouteClick
+                  },
+                  {
+                    key: "import",
+                    name: "Import",
+                    icon: "import",
+                    onClick: this.showUploadRoutesClick
+                  }
+                ]}
+              />
+            </Panel>
           </div>
-        )}
-        {this.state.isCalloutVisible && (
+        </div>
+        <div className="ms-Grid-row">
+          <div className="ms-Grid-col ms-sm12">
+            <Panel
+              contentClass="custom-padding-top-10px"
+              headerText="Filialübersicht"
+              className="custom-padding-bottom-10px"
+            >
+              <div>
+                <Filialuebersicht
+                  onEditFilialeClick={this.editFiliale}
+                  commandbarItems={[
+                    {
+                      key: "newItem",
+                      name: "New",
+                      icon: "Add",
+                      onClick: this.createFiliale
+                    },
+                    {
+                      key: "import",
+                      name: "Import",
+                      icon: "import",
+                      onClick: this.showUploadFilialenClick
+                    }
+                  ]}
+                />
+              </div>
+            </Panel>
+          </div>
+        </div>
+        {/* {this.state.isCalloutVisible && (
           <div>
             <Callout
               role={"alertdialog"}
@@ -134,8 +271,8 @@ export class Application extends React.Component<
               {this.state.callOutContent}
             </Callout>
           </div>
-        )}
-      </div>
+        )} */}
+      </Fragment>
     );
   }
 }

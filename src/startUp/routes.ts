@@ -5,76 +5,13 @@ import os = require("os");
 import LightController from "../api/controllers/LightController";
 import SensorController from "../api/controllers/SensorController";
 import GatewayController from "../api/controllers/GatewayController";
+import AldiController from "../api/controllers/AldiController";
 
 export function registerRoutes(router: express.Router) {
   const c1 = new LightController(router);
   const c2 = new SensorController(router);
   const c3 = new GatewayController(router);
-
-  // router.route("/gateways/:id/info/:properties").get(function(req, res) {
-  //   let gateways: any[] = req.app.locals.xiaomi.gateways;
-  //   let gateway = gateways.find(gw => {
-  //     return gw.id === req.params.id;
-  //   });
-  //   if (gateway) {
-  //     gateway
-  //       .call("get_prop", req.params.properties.split(";"))
-  //       .then(resultProperties => {
-  //         console.log("GWPROPS: " + JSON.stringify(resultProperties));
-  //         res.json({ id: req.params.id, properties: resultProperties });
-  //       })
-  //       .catch(() => {
-  //         res.status(500).json({ error: "prop not fetched" });
-  //       });
-  //   } else {
-  //     res.status(500).json({ error: "Gateway not found" });
-  //   }
-  // });
-  // router
-  //   .route("/gateways/:id/info/:method/:properties")
-  //   .get(function(req, res) {
-  //     let gateways: any[] = req.app.locals.xiaomi.gateways;
-  //     let gateway = gateways.find(gw => {
-  //       return gw.id === req.params.id;
-  //     });
-  //     if (gateway) {
-  //       gateway
-  //         .call(req.params.method, req.params.properties.split(";"))
-  //         .then(resultProperties => {
-  //           console.log("GWPROPS: " + JSON.stringify(resultProperties));
-  //           res.json({ id: req.params.id, properties: resultProperties });
-  //         })
-  //         .catch(() => {
-  //           res.status(500).json({ error: "prop not fetched" });
-  //         });
-  //     } else {
-  //       res.status(500).json({ error: "Gateway not found" });
-  //     }
-  //   });
-  // router.route("/gateways/:id/devApi").get(function(req, res) {
-  //   let gateways: any[] = req.app.locals.xiaomi.gateways;
-  //   let gateway = gateways.find(gw => {
-  //     return gw.id === req.params.id;
-  //   });
-  //   if (gateway) {
-  //     console.log(gateway.id + "@@" + gateway.sid);
-  //     // tslint:disable-next-line:quotemark
-  //     let b = '{"cmd": "whois"}';
-  //     // tslint:disable-next-line:quotemark
-  //     b = '{"cmd": "get_id_list"}';
-  //     // b = '{"cmd": "read", "sid": "158d0001b962aa"}';
-  //     b = gateway.devApi.send(b);
-  //     // .then(resultProperties => {
-  //     //   console.log("GWPROPS: " + JSON.stringify(resultProperties));
-  //     //   res.json({ id: req.params.id, properties: resultProperties });
-  //     // })
-  //     // .catch(() => {
-  //     //   res.status(500).json({ error: "prop not fetched" });
-  //     // });
-  //   } else {
-  //     res.status(500).json({ error: "Gateway not found" });
-  //   }
-  // });
+  const c4 = new AldiController(router);
 
   router.route("/robots").get(function(req, res) {
     let robots: any[] = req.app.locals.xiaomi.robots;
