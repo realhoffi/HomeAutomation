@@ -14,7 +14,7 @@ import {
   DirectionalHint
 } from "office-ui-fabric-react";
 import { IRouteViewModel, IRouteModel } from "../../../../interfaces/aldi";
-import { routeOverviewColumns } from "../../configuration/routenColumns";
+import { routeOverviewColumns } from "../../configuration/columns";
 import { Fragment } from "react";
 import { ButtonRow } from "../../../../global/components/simple/ButtonRow";
 
@@ -28,6 +28,7 @@ export class UploadRoutes extends React.Component<IUploadRoutesProps, {}> {
     super(props);
 
     this.uploadClick = this.uploadClick.bind(this);
+    this.cancelClick = this.cancelClick.bind(this);
     this.setRef = this.setRef.bind(this);
   }
   private saveRoutes(routes: IRouteModel[]): Promise<IRouteModel[]> {
@@ -79,6 +80,9 @@ export class UploadRoutes extends React.Component<IUploadRoutesProps, {}> {
     );
     this.props.uploadClick(routes);
   }
+  private cancelClick() {
+    this.props.cancelClick();
+  }
   private setRef(element) {
     this.textareaElement = element;
   }
@@ -104,7 +108,7 @@ export class UploadRoutes extends React.Component<IUploadRoutesProps, {}> {
                 text: "Abbrechen",
                 disabled: false,
                 checked: false,
-                onClickFunc: this.props.cancelClick
+                onClickFunc: this.cancelClick
               }}
             />
           </div>

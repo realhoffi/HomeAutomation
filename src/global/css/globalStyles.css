@@ -47,3 +47,7 @@
     width: 100%;
     padding-left: 10px;
 }
+
+.default-panel-content-container {
+    padding: 15px 10px 10px;
+}

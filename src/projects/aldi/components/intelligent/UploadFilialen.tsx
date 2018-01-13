@@ -12,14 +12,14 @@ import {
   ContextualMenu,
   ContextualMenuItemType,
   DirectionalHint,
-  Label
+  Label,
+  Spinner
 } from "office-ui-fabric-react";
 import {
   IRouteViewModel,
   IRouteModel,
   IFilialeModel
 } from "../../../../interfaces/aldi";
-import { routeOverviewColumns } from "../../configuration/routenColumns";
 import { Fragment } from "react";
 import { ButtonRow } from "../../../../global/components/simple/ButtonRow";
 import { isNumber } from "util";
@@ -35,11 +35,19 @@ interface IUploadReport {
   messages: string[];
 }
 export interface IUploadFilialenProps {
-  routes: IRouteModel[];
   uploadFinished(): void;
   cancelBtnClick(): void;
 }
-export class UploadFilialen extends React.Component<IUploadFilialenProps, {}> {
+export interface IUploadFilialenState {
+  routes: IRouteModel[];
+  isInitialized: boolean;
+  isError: boolean;
+  isUploading: boolean;
+}
+export class UploadFilialen extends React.Component<
+  IUploadFilialenProps,
+  IUploadFilialenState
+> {
   textareaElement: HTMLTextAreaElement = undefined;
   selectRouteElement: HTMLSelectElement = undefined;
   constructor(props) {
@@ -49,8 +57,35 @@ export class UploadFilialen extends React.Component<IUploadFilialenProps, {}> {
     this.uploadClick = this.uploadClick.bind(this);
     this.setTextareaElement = this.setTextareaElement.bind(this);
     this.setSelectRouteElement = this.setSelectRouteElement.bind(this);
-  }
 
+    this.state = {
+      routes: [],
+      isInitialized: false,
+      isError: false,
+      isUploading: false
+    };
+  }
+  componentDidMount() {
+    this.loadRoutenRequest()
+      .then((result: IRouteModel[]) => {
+        this.setState({ routes: result, isInitialized: true });
+      })
+      .catch(e => {
+        alert("Routen konnten nicht geladen werden...");
+        this.setState({ isError: true });
+      });
+  }
+  private loadRoutenRequest() {
+    return new Promise((resolve, reject) => {
+      Axios.get("/api/routen")
+        .then(results => {
+          resolve(results.data as IRouteModel[]);
+        })
+        .catch(() => {
+          reject();
+        });
+    });
+  }
   private saveFilialen(filialen: IFilialeModel[]): Promise<any[]> {
     let filialPromises = filialen.map((filiale, index) => {
       return Axios.post("/api/filialen", {
@@ -61,7 +96,7 @@ export class UploadFilialen extends React.Component<IUploadFilialenProps, {}> {
   }
   private parseNumber(value: string): number {
     value = value.replace(/,/g, ".");
-    value = value.replace(/[^0-9.]/g, "");
+    value = value.replace(/[^-0-9.]/g, "");
     let returnValue = parseFloat(value);
 
     if (isNaN(returnValue)) {
@@ -127,20 +162,24 @@ export class UploadFilialen extends React.Component<IUploadFilialenProps, {}> {
     let filialen = this.createFilialen(
       this.textareaElement ? this.textareaElement.value : ""
     );
-    this.saveFilialen(filialen.import)
-      .then(r => {
-        if (r.length === filialen.importCount) {
-          // alert("OK");
-          this.props.uploadFinished();
-        } else {
-          alert("NIX OK");
-        }
-        return null;
-      })
-      .catch(error => {
-        alert("Globaler Error in saveFilialen");
-      });
-    // this.props.uploadClick(filialen.import);
+    if (!filialen) {
+      return;
+    }
+    this.setState({ isUploading: true }, () => {
+      this.saveFilialen(filialen.import)
+        .then(r => {
+          if (r.length === filialen.importCount) {
+            this.props.uploadFinished();
+          } else {
+            alert("NIX OK");
+          }
+          return null;
+        })
+        .catch(error => {
+          alert("Globaler Error in saveFilialen");
+          this.setState({ isError: true });
+        });
+    });
   }
   private setTextareaElement(element) {
     this.textareaElement = element;
@@ -150,6 +189,15 @@ export class UploadFilialen extends React.Component<IUploadFilialenProps, {}> {
   }
   render() {
     console.log("render UploadFilialen");
+    if (!this.state.isInitialized) {
+      return <Spinner label="Lade Daten..." />;
+    }
+    if (this.state.isError) {
+      return <h1>Es ist ein Fehler aufgetreten... </h1>;
+    }
+    if (this.state.isUploading) {
+      return <Spinner label="Importiere Filialen..." />;
+    }
     return (
       <Fragment>
         <div className="ms-Grid-row">
@@ -157,7 +205,7 @@ export class UploadFilialen extends React.Component<IUploadFilialenProps, {}> {
             <div style={{ padding: "25px" }}>
               <Label>{"Routenfahrt auswählen"}</Label>
               <select ref={this.setSelectRouteElement}>
-                {this.props.routes.map((route, index) => {
+                {this.state.routes.map((route, index) => {
                   return (
                     <option value={route._id} key={"r_" + index}>
                       {getGermanDateString(new Date(route.route_timestamp))}

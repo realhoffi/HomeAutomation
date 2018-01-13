@@ -1,5 +1,5 @@
 import * as React from "react";
-
+import Axios from "axios";
 import {
   TextField,
   DetailsList,
@@ -11,122 +11,97 @@ import {
   IconButton,
   ContextualMenu,
   ContextualMenuItemType,
-  DirectionalHint
+  DirectionalHint,
+  IContextualMenuItem
 } from "office-ui-fabric-react";
-import { IRouteViewModel } from "../../../../interfaces/aldi";
-import { routeOverviewColumns } from "../../configuration/routenColumns";
+import { IRouteViewModel, IRouteModel } from "../../../../interfaces/aldi";
+import { routeOverviewColumns } from "../../configuration/columns";
 import { Fragment } from "react";
+import { BaseUebersicht } from "../../../../global/components/simple/BaseUebersicht";
+import { promise_all_custom } from "../../../../helper/promise";
+import { sortArrayByProperty } from "../../../../helper/sorting";
+
+interface IPromiseRouteResult {
+  rawItems: IRouteModel[];
+  transformedItems: IRouteViewModel[];
+}
 
 export interface IRoutenuebersichtProps {
-  items: IRouteViewModel[];
-  sortByPropertyName(
-    propertyName: string,
-    descending: boolean
-  ): IRouteViewModel[];
-  onDeleteRouteClicked(route: IRouteViewModel[]): Promise<any>;
-  selectionChanged(route: IRouteViewModel[]): void;
   onEditRouteClick(route: IRouteViewModel): void;
+  commandbarItems: IContextualMenuItem[];
 }
 export interface IRoutenuebersichtState {
   columns: IColumn[];
-  showContextMenue: boolean;
+  items: IRouteViewModel[];
+  rawItems: IRouteModel[];
   selectedItems: IRouteViewModel[];
+  isLoading: boolean;
+  commandbarItems: IContextualMenuItem[];
+  isCtxVisible: boolean;
+  ctxTarget: any;
 }
 export class Routenuebersicht extends React.Component<
   IRoutenuebersichtProps,
   IRoutenuebersichtState
 > {
-  private _selection: Selection;
-  private _target: any;
   constructor(props) {
     super(props);
 
     this.selectionHasChanged = this.selectionHasChanged.bind(this);
-
-    this.selectionHasChanged = this.selectionHasChanged.bind(this);
-    this.onColumnClick = this.onColumnClick.bind(this);
+    this.deleteAllRoutenClicked = this.deleteAllRoutenClicked.bind(this);
+    this.deleteRouteClicked = this.deleteRouteClicked.bind(this);
+    this.sortItems = this.sortItems.bind(this);
+    this.deleteRoute = this.deleteRoute.bind(this);
+    this.deleteRouten = this.deleteRouten.bind(this);
+    this.editRoute = this.editRoute.bind(this);
+    this.onCtxMenueVisible = this.onCtxMenueVisible.bind(this);
     this.renderContext = this.renderContext.bind(this);
     this.showMoreClicked = this.showMoreClicked.bind(this);
-    this.closeContextualMenue = this.closeContextualMenue.bind(this);
-    this.deleteRoute = this.deleteRoute.bind(this);
-    this.editRoute = this.editRoute.bind(this);
+
+    let commardbarItems: IContextualMenuItem[] = [].concat(
+      this.props.commandbarItems
+    );
+    if (!commardbarItems) {
+      commardbarItems = [];
+    }
+    commardbarItems.push({
+      key: "delete",
+      name: "Delete Selected",
+      icon: "delete",
+      disabled: true,
+      onClick: this.deleteAllRoutenClicked
+    });
     let cols = routeOverviewColumns.map(col => {
-      col.onColumnClick = this.onColumnClick;
       if (col.fieldName === "ctx") {
         col.onRender = this.renderContext;
       }
       return col;
     });
-    this.state = {
-      columns: cols,
-      showContextMenue: false,
-      selectedItems: undefined
-    };
-    this._selection = new Selection({
-      onSelectionChanged: this.selectionHasChanged
-    });
-  }
-  componentDidUpdate(
-    prevProps: Readonly<IRoutenuebersichtProps>,
-    prevState: Readonly<IRoutenuebersichtState>,
-    prevContext: any
-  ) {
-    if (JSON.stringify(this.props.items) !== JSON.stringify(prevProps.items)) {
-      // console.log("update items");
-      // let s = this._selection.getSelection();
-      // console.log("selection count: " + s.length);
-      // this._selection.getItems().forEach((e, i) => {
-      //   this._selection.setIndexSelected(i, false, false);
-      // });
-      // this._selection.setItems(this.props.items as any, true);
-      // this._selection.setAllSelected(false);
-      // console.log("isAllSelected", this._selection.isAllSelected());
-      // if (this._selection.isAllSelected()) {
-      //   this._selection.toggleAllSelected();
-      //   this._selection.setAllSelected(false);
-      // }
-      //  this.setState({ selectedItems: undefined, showContextMenue: false });
-      //  this._selection.setAllSelected(false);
-      // this._selection.getItems().forEach(item => {
-      //   // debugger;
-      //   let n = "";
-      // });
-    } else {
-      console.log("NO update items");
-    }
-  }
-  private selectionHasChanged() {
-    console.log("selectionHasChanged");
-    console.log("count: " + this._selection.getSelectedCount());
-    this.props.selectionChanged(
-      this._selection.getSelection() as IRouteViewModel[]
-    );
-  }
-  private deleteRoute() {
-    this.props
-      .onDeleteRouteClicked(this.state.selectedItems)
-      .then(() => {
-        this._selection.setAllSelected(false);
-        this.setState({ selectedItems: undefined, showContextMenue: false });
-      })
-      .catch(() => {
-        alert("Es ist ein Fehler beim Löschen der Route aufgetreten");
-      });
-  }
-  private editRoute() {
-    this.props.onEditRouteClick(this.state.selectedItems[0]);
-    this.setState({ selectedItems: undefined, showContextMenue: false });
-  }
-  private closeContextualMenue() {
-    this.setState({ showContextMenue: false });
-  }
-  private showMoreClicked(event) {
-    this._target = event.target;
 
-    this.setState({
-      showContextMenue: true,
-      selectedItems: this._selection.getSelection() as IRouteViewModel[]
-    });
+    this.state = {
+      isLoading: true,
+      columns: cols,
+      items: [],
+      rawItems: [],
+      selectedItems: [],
+      commandbarItems: commardbarItems,
+      ctxTarget: undefined,
+      isCtxVisible: false
+    };
+  }
+  componentDidMount() {
+    this.loadRouten()
+      .then((data: IPromiseRouteResult) => {
+        this.setState({
+          rawItems: data.rawItems,
+          items: data.transformedItems,
+          isLoading: false
+        });
+        return null;
+      })
+      .catch(error => {
+        alert("Fehler loadRouten");
+      });
   }
   private renderContext() {
     return (
@@ -141,79 +116,178 @@ export class Routenuebersicht extends React.Component<
       </div>
     );
   }
-  private onColumnClick(ev: React.MouseEvent<HTMLElement>, column: IColumn) {
-    const { columns } = this.state;
-    let newItems: IRouteViewModel[] = [];
-    let newColumns: IColumn[] = columns.slice();
-    let currColumn: IColumn = newColumns.filter(
-      (currCol: IColumn, idx: number) => {
-        return column.key === currCol.key;
-      }
-    )[0];
-    newColumns.forEach((newCol: IColumn) => {
-      if (newCol === currColumn) {
-        currColumn.isSortedDescending = !currColumn.isSortedDescending;
-        currColumn.isSorted = true;
-      } else {
-        newCol.isSorted = false;
-        newCol.isSortedDescending = true;
+  private showMoreClicked(event) {
+    this.setState({
+      isCtxVisible: true,
+      ctxTarget: event.target
+    });
+  }
+  private onCtxMenueVisible(isVisible: boolean) {
+    if (this.state.isCtxVisible === isVisible) {
+      return;
+    }
+    let ns = { ...this.state };
+    ns.isCtxVisible = isVisible;
+    if (isVisible === false) {
+      ns.ctxTarget = null;
+    }
+    this.setState(ns);
+  }
+  private selectionHasChanged(selectedItems: IRouteViewModel[]) {
+    let newState = { ...this.state };
+    newState.selectedItems = selectedItems;
+    newState.commandbarItems.forEach(item => {
+      if (item.key === "delete") {
+        item.disabled = !selectedItems || selectedItems.length < 1;
       }
     });
-    // newItems = this.props.sortByPropertyName(
-    //   currColumn.fieldName,
-    //   currColumn.isSortedDescending
-    // );
-    this.setState({
-      columns: newColumns
+    this.setState(newState);
+  }
+  private getRouteViewModelByRouteModel(items: IRouteModel[]) {
+    return items.map((item: IRouteModel, index) => {
+      return {
+        index: index + 1,
+        _id: item._id,
+        created: item.created,
+        modified: item.modified,
+        timestamp: item.timestamp,
+        links: item.links,
+        route_timestamp: item.route_timestamp,
+        ausgaben: item.ausgaben
+      } as IRouteViewModel;
+    });
+  }
+  private loadRouten(): Promise<IPromiseRouteResult> {
+    return new Promise((resolve, reject) => {
+      this.loadRoutenRequest()
+        .then((data: IRouteModel[]) => {
+          let items: IRouteViewModel[] = this.getRouteViewModelByRouteModel(
+            data
+          );
+          resolve({
+            rawItems: data || [],
+            transformedItems: items || []
+          });
+        })
+        .catch(() => {
+          alert("Fehler beim Laden der Routen");
+        });
+    });
+  }
+  private deleteRouten(routenElements: IRouteViewModel[]) {
+    return new Promise((resolve, reject) => {
+      let promises = [];
+      routenElements.forEach(route => {
+        promises.push(this.deleteRouteElementRequest(route));
+      });
+      promise_all_custom(promises)
+        .then(() => {
+          resolve();
+        })
+        .catch(() => {
+          alert("Grober Fehler deleteRouten!");
+          reject();
+        });
+    });
+  }
+  private loadRoutenRequest() {
+    return new Promise((resolve, reject) => {
+      Axios.get("/api/routen")
+        .then(results => {
+          resolve(results.data);
+        })
+        .catch(() => {
+          reject();
+        });
+    });
+  }
+  private deleteRouteElementRequest(route: IRouteViewModel) {
+    return Axios.delete("/api/routen/" + route._id);
+  }
+  private deleteRoute(selectedItems: IRouteViewModel[]) {
+    return new Promise((resolve, reject) => {
+      if (
+        !selectedItems ||
+        selectedItems.length === 0 ||
+        selectedItems.length > 1
+      ) {
+        resolve();
+        return null;
+      }
+      return this.deleteRouten(selectedItems)
+        .then(() => {
+          return this.loadRouten();
+        })
+        .then((data: IPromiseRouteResult) => {
+          this.setState(
+            {
+              rawItems: data.rawItems,
+              items: data.transformedItems,
+              isLoading: false
+            },
+            () => {
+              resolve();
+              return null;
+            }
+          );
+        })
+        .catch(error => {
+          alert("Fehler deleteRoute");
+          reject();
+          return null;
+        });
+    });
+  }
+  private editRoute(selectedRoute: IRouteViewModel) {
+    if (selectedRoute) {
+      this.props.onEditRouteClick(selectedRoute);
+    }
+  }
+  private sortItems(propertyName: string, descending: boolean) {
+    return sortArrayByProperty(this.state.items, propertyName, descending);
+  }
+  private deleteRouteClicked(selectedItems: IRouteViewModel[]) {
+    return this.deleteRoute(selectedItems);
+  }
+  private deleteAllRoutenClicked() {
+    return this.setState({ isLoading: true }, () => {
+      this.deleteRouten(this.state.selectedItems)
+        .then(() => {
+          this.loadRouten().then((data: IPromiseRouteResult) => {
+            this.setState({
+              rawItems: data.rawItems,
+              items: data.transformedItems,
+              isLoading: false
+            });
+            return null;
+          });
+        })
+        .catch(error => {
+          alert("Fehler deleteAllRoutenClicked");
+        });
     });
   }
   render() {
     console.log("render Routenuebersicht");
+    // return null;
     return (
-      <Fragment>
-        <DetailsList
-          selectionMode={SelectionMode.multiple}
-          items={this.props.items}
-          compact={false}
-          columns={this.state.columns}
-          setKey="set"
-          layoutMode={DetailsListLayoutMode.justified}
-          isHeaderVisible={true}
-          selection={this._selection}
-          selectionPreservedOnEmptyClick={false}
-          enterModalSelectionOnTouch={false}
-        />
-        {this.state.showContextMenue && (
-          <ContextualMenu
-            directionalHint={DirectionalHint.rightCenter}
-            isBeakVisible={true}
-            gapSpace={10}
-            beakWidth={20}
-            directionalHintFixed={true}
-            target={this._target}
-            items={[
-              {
-                name: "Bearbeiten",
-                key: "edit",
-                icon: "edit",
-                itemType: ContextualMenuItemType.Normal
-              },
-              {
-                key: "divider_1",
-                itemType: ContextualMenuItemType.Divider
-              },
-              {
-                name: "Löschen",
-                key: "delete",
-                icon: "Delete",
-                itemType: ContextualMenuItemType.Normal,
-                onClick: this.deleteRoute
-              }
-            ]}
-            onDismiss={this.closeContextualMenue}
-          />
-        )}
-      </Fragment>
+      <BaseUebersicht
+        key="ru"
+        ctxTarget={this.state.ctxTarget}
+        ctxVisible={this.state.isCtxVisible}
+        onCtxMenueVisible={this.onCtxMenueVisible}
+        onDeleteItemClicked={this.deleteRouteClicked}
+        columns={this.state.columns}
+        items={this.state.items}
+        onEditItemClick={this.editRoute}
+        onItemSelectionChanged={this.selectionHasChanged}
+        sortByPropertyName={this.sortItems}
+        isLoading={this.state.isLoading}
+        loadingText="Routen werden geladen"
+        useCommandbar={true}
+        enableSearchBox={false}
+        commandbarItems={this.state.commandbarItems}
+      />
     );
   }
 }

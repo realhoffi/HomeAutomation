@@ -18,26 +18,27 @@ import {
 } from "office-ui-fabric-react";
 
 import { Fragment } from "react";
-import { filialOverviewColumns } from "../../../projects/aldi/configuration/routenColumns";
 
 export interface IBaseUebersichtProps {
+  ctxTarget: any;
+  ctxVisible: boolean;
   useCommandbar: boolean;
   commandbarItems: IContextualMenuItem[];
   isLoading: boolean;
   enableSearchBox: boolean;
-  items: Array<any>;
+  items: any[];
   columns: IColumn[];
   loadingText: string;
   sortByPropertyName(propertyName: string, descending: boolean): any[];
-  onDeleteItemClicked(items: Array<any>): Promise<any>;
-  onItemSelectionChanged(items: Array<any>): void;
+  onDeleteItemClicked(items: any[]): Promise<any>;
+  onItemSelectionChanged(items: any[]): void;
   onEditItemClick(item: any): void;
+  onCtxMenueVisible(visible: boolean): void;
 }
 export interface IBaseUebersichtState {
   columns: IColumn[];
-  items: Array<any>;
-  showContextMenue: boolean;
-  selectedItems: Array<any>;
+  items: any[];
+  ctxMenues: IContextualMenuItem[];
 }
 export class BaseUebersicht extends React.Component<
   IBaseUebersichtProps,
@@ -50,23 +51,35 @@ export class BaseUebersicht extends React.Component<
 
     this.selectionHasChanged = this.selectionHasChanged.bind(this);
     this.onColumnClick = this.onColumnClick.bind(this);
-    this.renderContext = this.renderContext.bind(this);
-    this.showMoreClicked = this.showMoreClicked.bind(this);
     this.closeContextualMenue = this.closeContextualMenue.bind(this);
-    this.deleteFiliale = this.deleteFiliale.bind(this);
-    this.editFiliale = this.editFiliale.bind(this);
-    let cols = filialOverviewColumns.map(col => {
-      col.onColumnClick = this.onColumnClick;
-      if (col.fieldName === "ctx") {
-        col.onRender = this.renderContext;
+    this.deleteClicked = this.deleteClicked.bind(this);
+    this.editClicked = this.editClicked.bind(this);
+    this.callCtxVisible = this.callCtxVisible.bind(this);
+
+    let commandItems = [
+      {
+        name: "Bearbeiten",
+        key: "edit",
+        icon: "edit",
+        itemType: ContextualMenuItemType.Normal,
+        onClick: this.editClicked
+      },
+      {
+        key: "divider_1",
+        itemType: ContextualMenuItemType.Divider
+      },
+      {
+        name: "Löschen",
+        key: "delete",
+        icon: "Delete",
+        itemType: ContextualMenuItemType.Normal,
+        onClick: this.deleteClicked
       }
-      return col;
-    });
+    ];
     this.state = {
-      columns: cols,
-      items: this.props.items,
-      showContextMenue: false,
-      selectedItems: undefined
+      ctxMenues: commandItems,
+      columns: this.props.columns,
+      items: this.props.items
     };
     this._selection = new Selection({
       onSelectionChanged: this.selectionHasChanged
@@ -85,56 +98,48 @@ export class BaseUebersicht extends React.Component<
       this._selection.setAllSelected(false);
       this._selection["_onSelectionChanged"] = this.selectionHasChanged;
       this._selection.setItems(this.props.items as any, true);
-      this.setState({ selectedItems: undefined, showContextMenue: false });
+      this.callCtxVisible(false);
+      this.props.onItemSelectionChanged(this._selection.getSelection());
     }
+  }
+  private callCtxVisible(isVisible: boolean) {
+    if (this.props.ctxVisible === isVisible) {
+      return;
+    }
+    this.props.onCtxMenueVisible(isVisible);
   }
   private selectionHasChanged() {
     console.log("selectionHasChanged");
-    this.props.onItemSelectionChanged(this._selection.getSelection());
-    this.forceUpdate();
+    let selection = this._selection.getSelection();
+    this.props.onItemSelectionChanged(selection);
+    if (!selection) {
+      this.callCtxVisible(false);
+    }
   }
-  private deleteFiliale() {
+  private deleteClicked() {
     this.props
-      .onDeleteItemClicked(this.state.selectedItems)
+      .onDeleteItemClicked(this._selection.getSelection())
       .then(() => {
         this._selection.setAllSelected(false);
-        this.setState({ selectedItems: undefined, showContextMenue: false });
+        this.callCtxVisible(false);
       })
       .catch(() => {
-        alert("Es ist ein Fehler beim Löschen der Filiale aufgetreten");
+        alert("Es ist ein Fehler beim Löschen der Aktion aufgetreten");
       });
   }
-  private editFiliale() {
-    this.props.onEditItemClick(this.state.selectedItems[0]);
-    this.setState({ selectedItems: undefined, showContextMenue: false });
+  private editClicked() {
+    let selection = this._selection.getSelection();
+    if (!selection || selection.length < 1) {
+      return;
+    }
+    this.props.onEditItemClick(selection[0]);
   }
   private closeContextualMenue() {
-    this.setState({ showContextMenue: false });
+    this.props.onCtxMenueVisible(false);
   }
-  private showMoreClicked(event) {
-    this._target = event.target;
 
-    this.setState({
-      showContextMenue: true,
-      selectedItems: this._selection.getSelection() || []
-    });
-  }
-  private renderContext() {
-    return (
-      <div className="ms-font-xl ms-fontColor-themePrimary">
-        <IconButton
-          checked={false}
-          iconProps={{ iconName: "More" }}
-          title="More"
-          ariaLabel="More"
-          onClick={this.showMoreClicked}
-        />
-      </div>
-    );
-  }
   private onColumnClick(ev: React.MouseEvent<HTMLElement>, column: IColumn) {
     const { columns, items } = this.state;
-    // let newItems: IFilialeViewModel[] = items.slice();
     let newColumns: IColumn[] = columns.slice();
     let currColumn: IColumn = newColumns.filter(
       (currCol: IColumn, idx: number) => {
@@ -150,21 +155,17 @@ export class BaseUebersicht extends React.Component<
         newCol.isSortedDescending = true;
       }
     });
-    //  newItems =
     this.props.sortByPropertyName(
       currColumn.fieldName,
       currColumn.isSortedDescending
     );
     this.setState({
       columns: newColumns
-      // items: newItems
     });
   }
   render() {
     console.log("render BaseUebersicht");
-    if (this.props.isLoading) {
-      return <Spinner label={this.props.loadingText} />;
-    }
+
     return (
       <Fragment>
         {this.props.useCommandbar &&
@@ -179,46 +180,34 @@ export class BaseUebersicht extends React.Component<
               </div>
             </div>
           )}
-        <DetailsList
-          selectionMode={SelectionMode.multiple}
-          items={this.props.items}
-          compact={false}
-          columns={this.state.columns}
-          setKey="set"
-          layoutMode={DetailsListLayoutMode.justified}
-          isHeaderVisible={true}
-          selection={this._selection}
-          selectionPreservedOnEmptyClick={false}
-          enterModalSelectionOnTouch={false}
-        />
-        {this.state.showContextMenue && (
+        <div className="ms-Grid-row">
+          <div className="ms-Grid-col ms-sm12">
+            {this.props.isLoading && <Spinner label={this.props.loadingText} />}
+            {!this.props.isLoading && (
+              <DetailsList
+                selectionMode={SelectionMode.multiple}
+                items={this.props.items}
+                compact={false}
+                columns={this.state.columns}
+                setKey="set"
+                layoutMode={DetailsListLayoutMode.justified}
+                isHeaderVisible={true}
+                selection={this._selection}
+                selectionPreservedOnEmptyClick={false}
+                enterModalSelectionOnTouch={false}
+              />
+            )}
+          </div>
+        </div>
+        {this.props.ctxVisible && (
           <ContextualMenu
             directionalHint={DirectionalHint.rightCenter}
             isBeakVisible={true}
             gapSpace={10}
             beakWidth={20}
             directionalHintFixed={true}
-            target={this._target}
-            items={[
-              {
-                name: "Bearbeiten",
-                key: "edit",
-                icon: "edit",
-                itemType: ContextualMenuItemType.Normal,
-                onClick: this.editFiliale
-              },
-              {
-                key: "divider_1",
-                itemType: ContextualMenuItemType.Divider
-              },
-              {
-                name: "Löschen",
-                key: "delete",
-                icon: "Delete",
-                itemType: ContextualMenuItemType.Normal,
-                onClick: this.deleteFiliale
-              }
-            ]}
+            target={this.props.ctxTarget}
+            items={this.state.ctxMenues}
             onDismiss={this.closeContextualMenue}
           />
         )}

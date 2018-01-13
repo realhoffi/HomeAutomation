@@ -1,8 +1,10 @@
 "use strict";
 import express from "express";
 import { SensorServiceInstance } from "../api/services/SensorService";
+import { setInterval } from "timers";
 const miio = require("miio");
 
+let isConnected = false;
 function findIdInArray(targetArray: any[], id): number {
   let returnValue = -1;
   if (!targetArray) {
@@ -19,7 +21,73 @@ function findIdInArray(targetArray: any[], id): number {
   console.log("findIdInArray: element at index: " + returnValue);
   return returnValue;
 }
+function findRockrobot(app: express.Application): Promise<boolean> {
+  return new Promise((resolve, reject) => {
+    if (isConnected) {
+      console.log("exit findRockrobot");
+      // app.locals.xiaomi.robots[0].find();
+      // app.locals.xiaomi.robots[0].getHistory().then(h => {
+      //   console.log("history: " + JSON.stringify(h));
+      // });
+      resolve(true);
+      return;
+    }
+    const device = miio.createDevice({
+      address: "192.168.178.47",
+      token: "7932627133756e393939483475574d58",
+      model: "rockrobo.vacuum.v1"
+    });
+    // device["_monitorInterval"] = 10000;
+    device
+      .init()
+      .then(result => {
+        console.error("INIT SUCCESS!", JSON.stringify(result));
+        let indexOfElement = findIdInArray(app.locals.xiaomi.robots, device.id);
+        if (indexOfElement < 0) {
+          console.log("Robot existiert nicht");
+          app.locals.xiaomi.robots.push(device);
+        } else {
+          console.log("Robot existiert", device.id);
+          app.locals.xiaomi.robots[indexOfElement] = device;
+        }
+
+        device.on("propertyChanged", e => {
+          console.log(
+            "@@ Detected Device propertyChanged: " +
+              device.id +
+              " (" +
+              device.type +
+              ") @@"
+          );
+          console.log(
+            "propertyChanged: " + e.property,
+            e.oldValue,
+            e.value,
+            JSON.stringify(e)
+          );
+        });
+        // Some devices have custom events
+        device.on("action", e => console.log("Action performed:", e.id));
+        resolve(true);
+      })
+      .catch(e => {
+        resolve(false);
+        console.error("ERROR", JSON.stringify(e));
+      });
+  });
+}
 export function registerDevices(app: express.Application) {
+  let time = setInterval(() => {
+    console.log("Robot Connection Interval");
+    // if (isConnected) {
+    //   console.log("exit, because robot it is connected");
+    //   return;
+    // }
+    findRockrobot(app).then(connected => {
+      isConnected = connected;
+    });
+  }, 30000);
+
   const devices = miio.devices({
     cacheTime: 15 // 5 minutes. Default is 1800 seconds (30 minutes)
   });

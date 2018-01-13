@@ -15,7 +15,7 @@ import {
   IContextualMenuItem
 } from "office-ui-fabric-react";
 import { IFilialeViewModel, IFilialeModel } from "../../../../interfaces/aldi";
-import { filialOverviewColumns } from "../../configuration/routenColumns";
+import { filialOverviewColumns } from "../../configuration/columns";
 import { Fragment } from "react";
 import { BaseUebersicht } from "../../../../global/components/simple/BaseUebersicht";
 import { sortArrayByProperty } from "../../../../helper/sorting";
@@ -36,13 +36,13 @@ export interface IFilialuebersichtState {
   selectedItems: IFilialeViewModel[];
   isLoading: boolean;
   commandbarItems: IContextualMenuItem[];
+  isCtxVisible: boolean;
+  ctxTarget: any;
 }
 export class Filialuebersicht extends React.Component<
   IFilialuebersichtProps,
   IFilialuebersichtState
 > {
-  private _selection: Selection;
-  private _target: any;
   constructor(props) {
     super(props);
 
@@ -53,13 +53,10 @@ export class Filialuebersicht extends React.Component<
     this.deleteFiliale = this.deleteFiliale.bind(this);
     this.deleteFilialen = this.deleteFilialen.bind(this);
     this.editFiliale = this.editFiliale.bind(this);
-    // let cols = filialOverviewColumns.map(col => {
-    //   col.onColumnClick = this.onColumnClick;
-    //   // if (col.fieldName === "ctx") {
-    //   //   col.onRender = this.renderContext;
-    //   // }
-    //   return col;
-    // });
+
+    this.onCtxMenueVisible = this.onCtxMenueVisible.bind(this);
+    this.renderContext = this.renderContext.bind(this);
+    this.showMoreClicked = this.showMoreClicked.bind(this);
 
     let commardbarItems: IContextualMenuItem[] = [].concat(
       this.props.commandbarItems
@@ -74,13 +71,22 @@ export class Filialuebersicht extends React.Component<
       disabled: true,
       onClick: this.deleteAllFilialenClicked
     });
+    let cols = filialOverviewColumns.map(col => {
+      if (col.fieldName === "ctx") {
+        col.onRender = this.renderContext;
+      }
+      return col;
+    });
+
     this.state = {
       isLoading: true,
-      columns: [], // cols,
+      columns: cols,
       items: [],
       rawItems: [],
       selectedItems: [],
-      commandbarItems: commardbarItems
+      commandbarItems: commardbarItems,
+      ctxTarget: undefined,
+      isCtxVisible: false
     };
   }
   componentDidMount() {
@@ -97,12 +103,31 @@ export class Filialuebersicht extends React.Component<
         alert("Fehler loadFilialen");
       });
   }
+  private renderContext() {
+    return (
+      <div className="ms-font-xl ms-fontColor-themePrimary">
+        <IconButton
+          checked={false}
+          iconProps={{ iconName: "More" }}
+          title="More"
+          ariaLabel="More"
+          onClick={this.showMoreClicked}
+        />
+      </div>
+    );
+  }
+  private showMoreClicked(event) {
+    this.setState({
+      isCtxVisible: true,
+      ctxTarget: event.target
+    });
+  }
   private selectionHasChanged(selectedItems: IFilialeViewModel[]) {
     let newState = { ...this.state };
     newState.selectedItems = selectedItems;
     newState.commandbarItems.forEach(item => {
       if (item.key === "delete") {
-        item.disabled = !selectedItems || selectedItems.length < 0;
+        item.disabled = !selectedItems || selectedItems.length < 1;
       }
     });
     this.setState(newState);
@@ -236,12 +261,27 @@ export class Filialuebersicht extends React.Component<
       });
     });
   }
+  private onCtxMenueVisible(isVisible: boolean) {
+    if (this.state.isCtxVisible === isVisible) {
+      return;
+    }
+    let ns = { ...this.state };
+    ns.isCtxVisible = isVisible;
+    if (isVisible === false) {
+      ns.ctxTarget = null;
+    }
+    this.setState(ns);
+  }
   render() {
     console.log("render Filialuebersicht");
     return (
       <BaseUebersicht
+        key="fu"
+        onCtxMenueVisible={this.onCtxMenueVisible}
+        ctxVisible={this.state.isCtxVisible}
+        ctxTarget={this.state.ctxTarget}
         onDeleteItemClicked={this.deleteFilialeClicked}
-        columns={[]}
+        columns={this.state.columns}
         items={this.state.items}
         onEditItemClick={this.editFiliale}
         onItemSelectionChanged={this.selectionHasChanged}

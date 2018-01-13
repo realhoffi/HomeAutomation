@@ -8,6 +8,7 @@ export interface IPanelState {
 export interface IPanelProps {
   headerText: string;
   className?: string;
+  contentClass?: string;
   isCollapsed?: boolean;
   canToggleContentHidden?: boolean;
   headerControls?: any;
@@ -23,6 +24,7 @@ export class Panel extends React.PureComponent<IPanelProps, IPanelState> {
   public static defaultProps: IPanelProps = {
     headerText: "Kein Text",
     className: "",
+    contentClass: "default-panel-content-container",
     isCollapsed: false,
     canToggleContentHidden: true,
     headerControls: null
@@ -42,9 +44,10 @@ export class Panel extends React.PureComponent<IPanelProps, IPanelState> {
 
   render() {
     // console.log("render Panel");
-    let c = this.props.className || "";
+    let panelClass = this.props.className || "";
+    let contentClass = this.props.contentClass;
     return (
-      <div className={c}>
+      <div className={panelClass}>
         <div className="custom-border-settings ms-borderColor-neutralLighter">
           <div className="ms-bgColor-neutralLighter custom-panel-header">
             <IconButton
@@ -74,9 +77,7 @@ export class Panel extends React.PureComponent<IPanelProps, IPanelState> {
             {this.props.headerControls && this.props.headerControls}
           </div>
           {this.state.isContentVisible && (
-            <div style={{ padding: "10px", paddingTop: "15px" }}>
-              {this.props.children}
-            </div>
+            <div className={contentClass}>{this.props.children}</div>
           )}
         </div>
       </div>

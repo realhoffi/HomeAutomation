@@ -12,6 +12,7 @@ import { promise_all_custom } from "../../../../helper/promise";
 import { Spinner, SpinnerSize } from "office-ui-fabric-react";
 import { Fragment } from "react";
 import { ButtonRow } from "../../../../global/components/simple/ButtonRow";
+import { ILoadingState } from "../../../../interfaces/global";
 
 export interface IFilialProps {
   filialeId: string;
@@ -21,7 +22,7 @@ export interface IFilialProps {
   cancel_clicked(): void;
 }
 export interface IFilialState {
-  isInitilized: boolean;
+  loadingState: ILoadingState;
   routes: IRouteModel[];
   dbEntry: IFilialeModel;
   viewModel: IFilialeViewModel;
@@ -34,7 +35,11 @@ export class Filiale extends React.Component<IFilialProps, IFilialState> {
       dbEntry: undefined,
       routes: [],
       viewModel: undefined,
-      isInitilized: false,
+      loadingState: {
+        isLoading: true,
+        isError: false,
+        error: { message: "", stacktrace: "" }
+      },
       availableRouteDates: []
     };
 
@@ -53,26 +58,34 @@ export class Filiale extends React.Component<IFilialProps, IFilialState> {
   }
 
   componentDidMount() {
-    promise_all_custom([
-      Axios.get("api/routen"),
-      Axios.get("api/filialen/" + this.props.filialeId)
-    ])
+    let promises = [Axios.get("api/routen")];
+    if (this.props.pageType !== PageType.Add) {
+      promises.push(Axios.get("api/filialen/" + this.props.filialeId));
+    }
+    promise_all_custom(promises)
       .then(data => {
-        if (data[0].isError || data[1].isError) {
+        if (data[0].isError) {
           alert("Fehler beim Abfragen der Daten...");
           return;
         }
-        let routes: IRouteModel[] = data[0].data.data || [];
-        let filiale: IFilialeModel = data[1].data.data.filiale || undefined;
-        if (!routes || routes.length === 0) {
-          alert("Keine Routen gefunden...");
-          return;
-        }
-        if (!filiale) {
-          alert("Keine Filiale gefunden...");
-          return;
+        if (this.props.pageType !== PageType.Add) {
+          if (data[1].isError) {
+            alert("Fehler beim Abfragen der Daten...");
+            return;
+          }
         }
 
+        let routes: IRouteModel[] = data[0].data.data || [];
+        if (!routes || routes.length === 0) {
+          let ns = { ...this.state };
+          ns.loadingState = {
+            isLoading: false,
+            isError: true,
+            error: { message: "Keine Routen gefunden...", stacktrace: "" }
+          };
+          this.setState(ns);
+          return;
+        }
         routes = routes.sort((a, b) => {
           return a.route_timestamp > b.route_timestamp
             ? 1
@@ -81,6 +94,41 @@ export class Filiale extends React.Component<IFilialProps, IFilialState> {
         let dates = routes.map(route => {
           return new Date(route.route_timestamp);
         });
+
+        let filiale: IFilialeModel = undefined;
+        if (this.props.pageType === PageType.Add) {
+          filiale = {
+            _id: undefined,
+            ausgaben: 0,
+            created: Date.now(),
+            einnahmen: 0,
+            modified: Date.now(),
+            ort: "",
+            pkz: 0,
+            plz: 0,
+            strasse: "",
+            route_id: "",
+            testnummer: 0,
+            timestamp: Date.now()
+          };
+          if (routes.length > 0) {
+            filiale.route_id = routes[0]._id;
+          }
+        } else {
+          filiale = data[1].data.data.filiale || undefined;
+        }
+
+        if (!filiale) {
+          let ns = { ...this.state };
+          ns.loadingState = {
+            isLoading: false,
+            isError: true,
+            error: { message: "Keine Filiale gefunden...", stacktrace: "" }
+          };
+          this.setState(ns);
+          return;
+        }
+
         let vm: IFilialeViewModel = {
           _id: filiale._id,
           ausgaben: filiale.ausgaben,
@@ -100,8 +148,13 @@ export class Filiale extends React.Component<IFilialProps, IFilialState> {
             vm.fahrdatum = route.route_timestamp;
           }
         });
+
         this.setState({
-          isInitilized: true,
+          loadingState: {
+            isLoading: false,
+            isError: false,
+            error: { message: "", stacktrace: "" }
+          },
           availableRouteDates: dates,
           routes: routes,
           dbEntry: filiale,
@@ -116,10 +169,10 @@ export class Filiale extends React.Component<IFilialProps, IFilialState> {
     this.props.cancel_clicked();
   }
   private saveClicked() {
-    let f = "";
+    let routeId = "";
     this.state.routes.forEach(route => {
       if (route.route_timestamp === this.state.viewModel.fahrdatum) {
-        f = route._id;
+        routeId = route._id;
       }
     });
     let data: IFilialeModel = {
@@ -132,17 +185,33 @@ export class Filiale extends React.Component<IFilialProps, IFilialState> {
       strasse: this.state.viewModel.strasse,
       testnummer: this.state.viewModel.testnummer,
       timestamp: this.state.viewModel.timestamp,
-      route_id: f
+      route_id: routeId
     };
-    Axios.put("/api/filialen/" + this.state.dbEntry._id, { filiale: data })
-      .then(response => {
-        this.props.ok_clicked();
-        return null;
-      })
-      .catch(e => {
-        console.log("Fehler", JSON.stringify(e));
-        alert("Fehler");
-      });
+    if (this.props.pageType === PageType.Edit) {
+      Axios.put("/api/filialen/" + this.state.dbEntry._id, { filiale: data })
+        .then(response => {
+          this.props.ok_clicked();
+          return null;
+        })
+        .catch(e => {
+          console.log("Fehler", JSON.stringify(e));
+          alert("Fehler saveClicked");
+        });
+    }
+    if (this.props.pageType === PageType.Add) {
+      Axios.post("/api/filialen", { filiale: data })
+        .then(response => {
+          this.props.ok_clicked();
+          return null;
+        })
+        .catch(e => {
+          console.log("Fehler", JSON.stringify(e));
+          alert("Fehler saveClicked");
+        });
+    } else {
+      this.props.ok_clicked();
+      return null;
+    }
   }
   private onDeleteClick(id: string): void {
     alert("Löschen nicht erlaubt");
@@ -190,8 +259,17 @@ export class Filiale extends React.Component<IFilialProps, IFilialState> {
 
   render() {
     console.log("render Filiale");
-    if (!this.state.isInitilized) {
+    if (this.state.loadingState.isLoading) {
       return <Spinner label="Lade Filiale..." size={SpinnerSize.large} />;
+    }
+    if (this.state.loadingState.isError) {
+      return (
+        <h1>
+          {"Es ist ein Fehler beim Laden aufgetreten... (Message: " +
+            this.state.loadingState.error.message +
+            ")"}
+        </h1>
+      );
     }
     return (
       <Fragment>

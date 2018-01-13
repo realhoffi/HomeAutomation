@@ -454,10 +454,34 @@ if (ret.isNode) ret.toFastProperties(process);
 try {throw new Error(); } catch (e) {ret.lastLineError = e;}
 module.exports = ret;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 3)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 1)))
 
 /***/ }),
 /* 1 */
+/*!******************************************************!*\
+  !*** ./node_modules/bluebird/js/release/bluebird.js ***!
+  \******************************************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(Promise) {
+var old;
+if (typeof Promise !== "undefined") old = Promise;
+function noConflict() {
+    try { if (Promise === bluebird) Promise = old; }
+    catch (e) {}
+    return bluebird;
+}
+var bluebird = __webpack_require__(/*! ./promise */ 19)();
+bluebird.noConflict = noConflict;
+module.exports = bluebird;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 1)))
+
+/***/ }),
+/* 2 */
 /*!****************************************************!*\
   !*** ./node_modules/bluebird/js/release/errors.js ***!
   \****************************************************/
@@ -585,7 +609,7 @@ module.exports = {
 
 
 /***/ }),
-/* 2 */
+/* 3 */
 /*!****************************!*\
   !*** ./config/config.json ***!
   \****************************/
@@ -594,30 +618,6 @@ module.exports = {
 /***/ (function(module, exports) {
 
 module.exports = {"devices":{"sensors":[{"name":"Sensor Wohnzimmer","beschreibung":"Rund","ort":"Wohnzimmer","id":"158d0001c19abd","model":"lumi.sensor_ht","type":"sensor"},{"name":"Sensor Schlafzimmer","beschreibung":"rund","ort":"Schlafzimmer","id":"158d0001c19ab8","type":"sensor","model":"lumi.sensor_ht"},{"name":"Sensor Bad","beschreibung":"Eckig","ort":"Bad","id":"158d0001b962aa","type":"sensor","model":"lumi.weather"},{"name":"Sensor Terasse","beschreibung":"Eckig","ort":"Terasse","id":"158d0001b9635d","type":"sensor","model":"lumi.weather"}],"robots":[{"name":"Staubsauger","beschreibung":"","ort":"Wohnzimmer","id":"74217308","type":"vacuum","model":"rockrobo.vacuum.v1","token":"7932627133756e393939483475574d58"}],"lights":[{"name":"Lampe Bad","beschreibung":"","ort":"Badezimmer","id":"72779159","type":"light","model":"yeelink.light.color1","token":""},{"name":"Lampe Bad neu","beschreibung":"","ort":"Badezimmer","id":"77079675","type":"light","model":"yeelink.light.color1","token":"623f34fc24bffabc06a1a1605b0858b4"}],"gateways":[{"name":"Hauptgateway","beschreibung":"","ort":"Wohnzimmer","id":"73058750","model":"lumi.gateway.v3","address":"192.168.178.45","token":"ff2e9a62f90e0fe5f365a744460616c7"}]}}
-
-/***/ }),
-/* 3 */
-/*!******************************************************!*\
-  !*** ./node_modules/bluebird/js/release/bluebird.js ***!
-  \******************************************************/
-/*! dynamic exports provided */
-/*! all exports used */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(Promise) {
-var old;
-if (typeof Promise !== "undefined") old = Promise;
-function noConflict() {
-    try { if (Promise === bluebird) Promise = old; }
-    catch (e) {}
-    return bluebird;
-}
-var bluebird = __webpack_require__(/*! ./promise */ 19)();
-bluebird.noConflict = noConflict;
-module.exports = bluebird;
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 3)))
 
 /***/ }),
 /* 4 */
@@ -777,7 +777,7 @@ return catchFilter;
 
 var util = __webpack_require__(/*! ./util */ 0);
 var maybeWrapAsError = util.maybeWrapAsError;
-var errors = __webpack_require__(/*! ./errors */ 1);
+var errors = __webpack_require__(/*! ./errors */ 2);
 var OperationalError = errors.OperationalError;
 var es5 = __webpack_require__(/*! ./es5 */ 4);
 
@@ -839,7 +839,7 @@ module.exports = nodebackForPromise;
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Promise) {
 Object.defineProperty(exports, "__esModule", { value: true });
-var cfg = __webpack_require__(/*! ../../../config/config.json */ 2);
+var cfg = __webpack_require__(/*! ../../../config/config.json */ 3);
 var SensorService = (function () {
     function SensorService() {
     }
@@ -995,7 +995,7 @@ var SensorService = (function () {
 }());
 exports.SensorServiceInstance = new SensorService();
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 3)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 1)))
 
 /***/ }),
 /* 8 */
@@ -1028,8 +1028,8 @@ var url = __webpack_require__(/*! url */ 13);
 var favicon = __webpack_require__(/*! serve-favicon */ 14);
 var routes_1 = __webpack_require__(/*! ../startUp/routes */ 15);
 var miio_1 = __webpack_require__(/*! ../startUp/miio */ 56);
-var bodyParser = __webpack_require__(/*! body-parser */ 58);
-var database_1 = __webpack_require__(/*! ../startUp/database */ 59);
+var bodyParser = __webpack_require__(/*! body-parser */ 59);
+var database_1 = __webpack_require__(/*! ../startUp/database */ 60);
 function normalizePort(val) {
     var port = parseInt(val, 10);
     if (isNaN(port)) {
@@ -1239,7 +1239,7 @@ module.exports = require("os");
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var LightService_1 = __webpack_require__(/*! ../services/LightService */ 18);
-var cfg = __webpack_require__(/*! ../../../config/config.json */ 2);
+var cfg = __webpack_require__(/*! ../../../config/config.json */ 3);
 var LightController = (function () {
     function LightController(router) {
         this.router = router;
@@ -1330,7 +1330,7 @@ exports.default = LightController;
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Promise) {
 Object.defineProperty(exports, "__esModule", { value: true });
-var cfg = __webpack_require__(/*! ../../../config/config.json */ 2);
+var cfg = __webpack_require__(/*! ../../../config/config.json */ 3);
 var LightService = (function () {
     function LightService() {
     }
@@ -1537,7 +1537,7 @@ var LightService = (function () {
 }());
 exports.LightServiceInstance = new LightService();
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 3)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 1)))
 
 /***/ }),
 /* 19 */
@@ -1582,7 +1582,7 @@ var es5 = __webpack_require__(/*! ./es5 */ 4);
 var Async = __webpack_require__(/*! ./async */ 20);
 var async = new Async();
 es5.defineProperty(Promise, "_async", {value: async});
-var errors = __webpack_require__(/*! ./errors */ 1);
+var errors = __webpack_require__(/*! ./errors */ 2);
 var TypeError = Promise.TypeError = errors.TypeError;
 Promise.RangeError = errors.RangeError;
 var CancellationError = Promise.CancellationError = errors.CancellationError;
@@ -3047,7 +3047,7 @@ return Context;
 module.exports = function(Promise, Context) {
 var getDomain = Promise._getDomain;
 var async = Promise._async;
-var Warning = __webpack_require__(/*! ./errors */ 1).Warning;
+var Warning = __webpack_require__(/*! ./errors */ 2).Warning;
 var util = __webpack_require__(/*! ./util */ 0);
 var canAttachTrace = util.canAttachTrace;
 var unhandledRejectionHandled;
@@ -5091,7 +5091,7 @@ Promise.prototype.get = function (propertyName) {
 module.exports = function (Promise, apiRejection, tryConvertToPromise,
     createContext, INTERNAL, debug) {
     var util = __webpack_require__(/*! ./util */ 0);
-    var TypeError = __webpack_require__(/*! ./errors */ 1).TypeError;
+    var TypeError = __webpack_require__(/*! ./errors */ 2).TypeError;
     var inherits = __webpack_require__(/*! ./util */ 0).inherits;
     var errorObj = util.errorObj;
     var tryCatch = util.tryCatch;
@@ -5437,7 +5437,7 @@ module.exports = function(Promise,
                           tryConvertToPromise,
                           Proxyable,
                           debug) {
-var errors = __webpack_require__(/*! ./errors */ 1);
+var errors = __webpack_require__(/*! ./errors */ 2);
 var TypeError = errors.TypeError;
 var util = __webpack_require__(/*! ./util */ 0);
 var errorObj = util.errorObj;
@@ -5743,7 +5743,7 @@ var nodebackForPromise = __webpack_require__(/*! ./nodeback */ 6);
 var withAppended = util.withAppended;
 var maybeWrapAsError = util.maybeWrapAsError;
 var canEvaluate = util.canEvaluate;
-var TypeError = __webpack_require__(/*! ./errors */ 1).TypeError;
+var TypeError = __webpack_require__(/*! ./errors */ 2).TypeError;
 var defaultSuffix = "Async";
 var defaultPromisified = {__isPromisified__: true};
 var noCopyProps = [
@@ -6495,8 +6495,8 @@ Promise.prototype.settle = function () {
 module.exports =
 function(Promise, PromiseArray, apiRejection) {
 var util = __webpack_require__(/*! ./util */ 0);
-var RangeError = __webpack_require__(/*! ./errors */ 1).RangeError;
-var AggregateError = __webpack_require__(/*! ./errors */ 1).AggregateError;
+var RangeError = __webpack_require__(/*! ./errors */ 2).RangeError;
+var AggregateError = __webpack_require__(/*! ./errors */ 2).AggregateError;
 var isArray = util.isArray;
 var CANCELLATION = {};
 
@@ -6764,7 +6764,7 @@ module.exports = require("int-to-rgb");
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var SensorService_1 = __webpack_require__(/*! ../services/SensorService */ 7);
-var cfg = __webpack_require__(/*! ../../../config/config.json */ 2);
+var cfg = __webpack_require__(/*! ../../../config/config.json */ 3);
 var SensorController = (function () {
     function SensorController(router) {
         this.router = router;
@@ -6825,7 +6825,7 @@ exports.default = SensorController;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var GatewayService_1 = __webpack_require__(/*! ../services/GatewayService */ 52);
-var cfg = __webpack_require__(/*! ../../../config/config.json */ 2);
+var cfg = __webpack_require__(/*! ../../../config/config.json */ 3);
 var GatewayController = (function () {
     function GatewayController(router) {
         this.router = router;
@@ -6900,7 +6900,7 @@ exports.default = GatewayController;
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Promise) {
 Object.defineProperty(exports, "__esModule", { value: true });
-var cfg = __webpack_require__(/*! ../../../config/config.json */ 2);
+var cfg = __webpack_require__(/*! ../../../config/config.json */ 3);
 var GatewayService = (function () {
     function GatewayService() {
     }
@@ -7062,7 +7062,7 @@ var GatewayService = (function () {
 }());
 exports.GatewayServiceInstance = new GatewayService();
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 3)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 1)))
 
 /***/ }),
 /* 53 */
@@ -7077,7 +7077,7 @@ exports.GatewayServiceInstance = new GatewayService();
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var AldiService_1 = __webpack_require__(/*! ../services/AldiService */ 54);
-var cfg = __webpack_require__(/*! ../../../config/config.json */ 2);
+var cfg = __webpack_require__(/*! ../../../config/config.json */ 3);
 var AldiController = (function () {
     function AldiController(router) {
         this.router = router;
@@ -7198,7 +7198,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var bson_1 = __webpack_require__(/*! bson */ 55);
-var cfg = __webpack_require__(/*! ../../../config/config.json */ 2);
+var cfg = __webpack_require__(/*! ../../../config/config.json */ 3);
 var AldiService = (function () {
     function AldiService() {
     }
@@ -7371,7 +7371,7 @@ var AldiService = (function () {
 }());
 exports.AldiServiceInstance = new AldiService();
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 3)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 1)))
 
 /***/ }),
 /* 55 */
@@ -7394,10 +7394,12 @@ module.exports = require("bson");
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function(Promise) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var SensorService_1 = __webpack_require__(/*! ../api/services/SensorService */ 7);
-var miio = __webpack_require__(/*! miio */ 57);
+var timers_1 = __webpack_require__(/*! timers */ 57);
+var miio = __webpack_require__(/*! miio */ 58);
+var isConnected = false;
 function findIdInArray(targetArray, id) {
     var returnValue = -1;
     if (!targetArray) {
@@ -7412,7 +7414,55 @@ function findIdInArray(targetArray, id) {
     console.log("findIdInArray: element at index: " + returnValue);
     return returnValue;
 }
+function findRockrobot(app) {
+    return new Promise(function (resolve, reject) {
+        if (isConnected) {
+            console.log("exit findRockrobot");
+            resolve(true);
+            return;
+        }
+        var device = miio.createDevice({
+            address: "192.168.178.47",
+            token: "7932627133756e393939483475574d58",
+            model: "rockrobo.vacuum.v1"
+        });
+        device
+            .init()
+            .then(function (result) {
+            console.error("INIT SUCCESS!", JSON.stringify(result));
+            var indexOfElement = findIdInArray(app.locals.xiaomi.robots, device.id);
+            if (indexOfElement < 0) {
+                console.log("Robot existiert nicht");
+                app.locals.xiaomi.robots.push(device);
+            }
+            else {
+                console.log("Robot existiert", device.id);
+                app.locals.xiaomi.robots[indexOfElement] = device;
+            }
+            device.on("propertyChanged", function (e) {
+                console.log("@@ Detected Device propertyChanged: " +
+                    device.id +
+                    " (" +
+                    device.type +
+                    ") @@");
+                console.log("propertyChanged: " + e.property, e.oldValue, e.value, JSON.stringify(e));
+            });
+            device.on("action", function (e) { return console.log("Action performed:", e.id); });
+            resolve(true);
+        })
+            .catch(function (e) {
+            resolve(false);
+            console.error("ERROR", JSON.stringify(e));
+        });
+    });
+}
 function registerDevices(app) {
+    var time = timers_1.setInterval(function () {
+        console.log("Robot Connection Interval");
+        findRockrobot(app).then(function (connected) {
+            isConnected = connected;
+        });
+    }, 30000);
     var devices = miio.devices({
         cacheTime: 15
     });
@@ -7534,9 +7584,21 @@ function registerDevices(app) {
 }
 exports.registerDevices = registerDevices;
 
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 1)))
 
 /***/ }),
 /* 57 */
+/*!*************************!*\
+  !*** external "timers" ***!
+  \*************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports) {
+
+module.exports = require("timers");
+
+/***/ }),
+/* 58 */
 /*!***********************!*\
   !*** external "miio" ***!
   \***********************/
@@ -7547,7 +7609,7 @@ exports.registerDevices = registerDevices;
 module.exports = require("miio");
 
 /***/ }),
-/* 58 */
+/* 59 */
 /*!******************************!*\
   !*** external "body-parser" ***!
   \******************************/
@@ -7558,7 +7620,7 @@ module.exports = require("miio");
 module.exports = require("body-parser");
 
 /***/ }),
-/* 59 */
+/* 60 */
 /*!*********************************!*\
   !*** ./src/startUp/database.ts ***!
   \*********************************/
@@ -7569,7 +7631,7 @@ module.exports = require("body-parser");
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Promise) {
 Object.defineProperty(exports, "__esModule", { value: true });
-var mongodb_1 = __webpack_require__(/*! mongodb */ 60);
+var mongodb_1 = __webpack_require__(/*! mongodb */ 61);
 function initializeDatabase(app) {
     return new Promise(function (resolve, reject) {
         console.log("Try connect to Database", "mongodb://localhost:27017");
@@ -7597,10 +7659,10 @@ function initializeDatabase(app) {
 }
 exports.initializeDatabase = initializeDatabase;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 3)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 1)))
 
 /***/ }),
-/* 60 */
+/* 61 */
 /*!**************************!*\
   !*** external "mongodb" ***!
   \**************************/
