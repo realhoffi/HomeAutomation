@@ -1028,8 +1028,8 @@ var url = __webpack_require__(/*! url */ 13);
 var favicon = __webpack_require__(/*! serve-favicon */ 14);
 var routes_1 = __webpack_require__(/*! ../startUp/routes */ 15);
 var miio_1 = __webpack_require__(/*! ../startUp/miio */ 56);
-var bodyParser = __webpack_require__(/*! body-parser */ 59);
-var database_1 = __webpack_require__(/*! ../startUp/database */ 60);
+var bodyParser = __webpack_require__(/*! body-parser */ 58);
+var database_1 = __webpack_require__(/*! ../startUp/database */ 59);
 function normalizePort(val) {
     var port = parseInt(val, 10);
     if (isNaN(port)) {
@@ -7397,8 +7397,7 @@ module.exports = require("bson");
 /* WEBPACK VAR INJECTION */(function(Promise) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var SensorService_1 = __webpack_require__(/*! ../api/services/SensorService */ 7);
-var timers_1 = __webpack_require__(/*! timers */ 57);
-var miio = __webpack_require__(/*! miio */ 58);
+var miio = __webpack_require__(/*! miio */ 57);
 var isConnected = false;
 function findIdInArray(targetArray, id) {
     var returnValue = -1;
@@ -7457,12 +7456,6 @@ function findRockrobot(app) {
     });
 }
 function registerDevices(app) {
-    var time = timers_1.setInterval(function () {
-        console.log("Robot Connection Interval");
-        findRockrobot(app).then(function (connected) {
-            isConnected = connected;
-        });
-    }, 30000);
     var devices = miio.devices({
         cacheTime: 15
     });
@@ -7588,17 +7581,6 @@ exports.registerDevices = registerDevices;
 
 /***/ }),
 /* 57 */
-/*!*************************!*\
-  !*** external "timers" ***!
-  \*************************/
-/*! dynamic exports provided */
-/*! all exports used */
-/***/ (function(module, exports) {
-
-module.exports = require("timers");
-
-/***/ }),
-/* 58 */
 /*!***********************!*\
   !*** external "miio" ***!
   \***********************/
@@ -7609,7 +7591,7 @@ module.exports = require("timers");
 module.exports = require("miio");
 
 /***/ }),
-/* 59 */
+/* 58 */
 /*!******************************!*\
   !*** external "body-parser" ***!
   \******************************/
@@ -7620,7 +7602,7 @@ module.exports = require("miio");
 module.exports = require("body-parser");
 
 /***/ }),
-/* 60 */
+/* 59 */
 /*!*********************************!*\
   !*** ./src/startUp/database.ts ***!
   \*********************************/
@@ -7631,7 +7613,7 @@ module.exports = require("body-parser");
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Promise) {
 Object.defineProperty(exports, "__esModule", { value: true });
-var mongodb_1 = __webpack_require__(/*! mongodb */ 61);
+var mongodb_1 = __webpack_require__(/*! mongodb */ 60);
 function initializeDatabase(app) {
     return new Promise(function (resolve, reject) {
         console.log("Try connect to Database", "mongodb://localhost:27017");
@@ -7662,7 +7644,7 @@ exports.initializeDatabase = initializeDatabase;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 1)))
 
 /***/ }),
-/* 61 */
+/* 60 */
 /*!**************************!*\
   !*** external "mongodb" ***!
   \**************************/

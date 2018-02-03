@@ -1,6 +1,6 @@
 webpackJsonp([0],{
 
-/***/ 132:
+/***/ 133:
 /*!****************************************************!*\
   !*** ./src/global/components/simple/ButtonRow.tsx ***!
   \****************************************************/
@@ -41,7 +41,7 @@ exports.ButtonRow = ButtonRow;
 
 /***/ }),
 
-/***/ 133:
+/***/ 134:
 /*!*******************************!*\
   !*** ./src/helper/promise.ts ***!
   \*******************************/
@@ -292,7 +292,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
 var axios_1 = __webpack_require__(/*! axios */ 30);
-var BaseWeatherSensor_1 = __webpack_require__(/*! ../../../../global/components/simple/BaseWeatherSensor */ 718);
+var BaseWeatherSensor_1 = __webpack_require__(/*! ../../../../global/components/simple/BaseWeatherSensor */ 720);
 var timers_1 = __webpack_require__(/*! timers */ 87);
 var intToRGB = __webpack_require__(/*! int-to-rgb */ 186);
 var Application = (function (_super) {
@@ -375,7 +375,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
 var axios_1 = __webpack_require__(/*! axios */ 30);
-var BaseLight_1 = __webpack_require__(/*! ../../../../global/components/simple/BaseLight */ 866);
+var BaseLight_1 = __webpack_require__(/*! ../../../../global/components/simple/BaseLight */ 868);
 var timers_1 = __webpack_require__(/*! timers */ 87);
 var intToRGB = __webpack_require__(/*! int-to-rgb */ 186);
 var Application = (function (_super) {
@@ -718,7 +718,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
 var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
 var NumberTextField_1 = __webpack_require__(/*! ../../../../global/components/simple/NumberTextField */ 334);
-var Panel_1 = __webpack_require__(/*! ../../../../global/components/simple/Panel */ 61);
+var Panel_1 = __webpack_require__(/*! ../../../../global/components/simple/Panel */ 60);
 var date_1 = __webpack_require__(/*! ../../../../helper/date */ 78);
 var Filiale = (function (_super) {
     __extends(Filiale, _super);
@@ -768,7 +768,7 @@ var Filiale = (function (_super) {
         console.log("render Filiale");
         return (React.createElement("div", { className: "ms-Grid-row", key: "filiale_" + this.props.id },
             React.createElement("div", { className: "ms-Grid-col ms-sm12" },
-                React.createElement(Panel_1.Panel, { headerText: this.props.title, headerControls: this.props.enableDeleteBtn ? (React.createElement(office_ui_fabric_react_1.ActionButton, { "data-info-title": "Filiale entfernen", "data-info-desc": "Löscht die Filiale", iconProps: { iconName: "Delete" }, onClick: this.deleteClicked })) : null },
+                React.createElement(Panel_1.Panel, { headerText: this.props.title, headerControls: this.props.enableDeleteBtn ? (React.createElement(office_ui_fabric_react_1.ActionButton, { "data-info-title": "Filiale entfernen", "data-info-desc": "L\u00F6scht die Filiale", iconProps: { iconName: "Delete" }, onClick: this.deleteClicked })) : null },
                     React.createElement("div", { className: "ms-Grid-row" },
                         React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-md5" },
                             React.createElement("div", null,
@@ -779,17 +779,17 @@ var Filiale = (function (_super) {
                         React.createElement("div", { className: "ms-Grid-col ms-sm8 ms-md4" },
                             React.createElement(NumberTextField_1.NumberTextField, { required: true, placeholder: "Testnummer", label: "Testnummer", numberValue: this.props.filiale.testnummer, onChanged: this.testnummerChanged })),
                         React.createElement("div", { className: "ms-Grid-col ms-sm4 ms-md3" },
-                            React.createElement(NumberTextField_1.NumberTextField, { required: true, placeholder: "Prüfkennziffer", label: "Pkz.", numberValue: this.props.filiale.pkz, onChanged: this.pkzChanged })),
+                            React.createElement(NumberTextField_1.NumberTextField, { required: true, placeholder: "Pr\u00FCfkennziffer", label: "Pkz.", numberValue: this.props.filiale.pkz, onChanged: this.pkzChanged })),
                         React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-lg5" },
-                            React.createElement(office_ui_fabric_react_1.TextField, { required: true, placeholder: "Straße", label: "Straße", value: this.props.filiale.strasse, onChanged: this.strasseChanged })),
+                            React.createElement(office_ui_fabric_react_1.TextField, { required: true, placeholder: "Stra\u00DFe", label: "Stra\u00DFe", value: this.props.filiale.strasse, onChanged: this.strasseChanged })),
                         React.createElement("div", { className: "ms-Grid-col ms-sm4 ms-md3 ms-lg2" },
                             React.createElement(NumberTextField_1.NumberTextField, { required: true, placeholder: "Plz", label: "Plz", numberValue: this.props.filiale.plz, onChanged: this.plzChanged })),
                         React.createElement("div", { className: "ms-Grid-col ms-sm8 ms-md9 ms-lg5" },
                             React.createElement(office_ui_fabric_react_1.TextField, { required: true, placeholder: "Ort", label: "Ort", value: this.props.filiale.ort, onChanged: this.ortChanged })),
                         React.createElement("div", { className: "ms-Grid-col ms-sm6 ms-md6 ms-lg6" },
-                            React.createElement(NumberTextField_1.NumberTextField, { placeholder: "Einnahmen", label: "Einnahmen", numberValue: this.props.filiale.einnahmen, onChanged: this.einnahmenChanged, suffix: " €" })),
+                            React.createElement(NumberTextField_1.NumberTextField, { placeholder: "Einnahmen", label: "Einnahmen", numberValue: this.props.filiale.einnahmen, onChanged: this.einnahmenChanged, suffix: " \u20AC" })),
                         React.createElement("div", { className: "ms-Grid-col ms-sm6 ms-md6 ms-lg6" },
-                            React.createElement(NumberTextField_1.NumberTextField, { placeholder: "Ausgaben", label: "Ausgaben", numberValue: this.props.filiale.ausgaben, onChanged: this.ausgabenChanged, suffix: " €" })))))));
+                            React.createElement(NumberTextField_1.NumberTextField, { placeholder: "Ausgaben", label: "Ausgaben", numberValue: this.props.filiale.ausgaben, onChanged: this.ausgabenChanged, suffix: " \u20AC" })))))));
     };
     return Filiale;
 }(React.Component));
@@ -804,31 +804,32 @@ exports.Filiale = Filiale;
   \**********************************************/
 /*! dynamic exports provided */
 /*! all exports used */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-/* WEBPACK VAR INJECTION */(function(global) {// Unique ID creation requires a high quality random # generator.  In the
+// Unique ID creation requires a high quality random # generator.  In the
 // browser this is a little complicated due to unknown quality of Math.random()
 // and inconsistent support for the `crypto` API.  We do the best we can via
 // feature-detection
-var rng;
 
-var crypto = global.crypto || global.msCrypto; // for IE 11
-if (crypto && crypto.getRandomValues) {
+// getRandomValues needs to be invoked in a context where "this" is a Crypto implementation.
+var getRandomValues = (typeof(crypto) != 'undefined' && crypto.getRandomValues.bind(crypto)) ||
+                      (typeof(msCrypto) != 'undefined' && msCrypto.getRandomValues.bind(msCrypto));
+if (getRandomValues) {
   // WHATWG crypto RNG - http://wiki.whatwg.org/wiki/Crypto
   var rnds8 = new Uint8Array(16); // eslint-disable-line no-undef
-  rng = function whatwgRNG() {
-    crypto.getRandomValues(rnds8);
+
+  module.exports = function whatwgRNG() {
+    getRandomValues(rnds8);
     return rnds8;
   };
-}
-
-if (!rng) {
+} else {
   // Math.random()-based (RNG)
   //
   // If all else fails, use Math.random().  It's fast, but is of unspecified
   // quality.
   var rnds = new Array(16);
-  rng = function() {
+
+  module.exports = function mathRNG() {
     for (var i = 0, r; i < 16; i++) {
       if ((i & 0x03) === 0) r = Math.random() * 0x100000000;
       rnds[i] = r >>> ((i & 0x03) << 3) & 0xff;
@@ -838,9 +839,6 @@ if (!rng) {
   };
 }
 
-module.exports = rng;
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../webpack/buildin/global.js */ 57)))
 
 /***/ }),
 
@@ -1403,11 +1401,11 @@ var React = __webpack_require__(/*! react */ 1);
 var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ 84);
 var application_1 = __webpack_require__(/*! ./application */ 415);
 var application_2 = __webpack_require__(/*! ../../../projects/yeelight/components/pages/application */ 237);
-var application_3 = __webpack_require__(/*! ../../../projects/vacuumRoboter/components/pages/application */ 867);
-var application_4 = __webpack_require__(/*! ../../../projects/aldi/components/pages/application */ 868);
+var application_3 = __webpack_require__(/*! ../../../projects/vacuumRoboter/components/pages/application */ 869);
+var application_4 = __webpack_require__(/*! ../../../projects/aldi/components/pages/application */ 870);
 var sensors_1 = __webpack_require__(/*! ../../../projects/xiaomi/components/pages/sensors */ 311);
 var gateways_1 = __webpack_require__(/*! ../../../projects/xiaomi/components/pages/gateways */ 331);
-var NotFoundPage_1 = __webpack_require__(/*! ../../components/simple/NotFoundPage */ 882);
+var NotFoundPage_1 = __webpack_require__(/*! ../../components/simple/NotFoundPage */ 884);
 var Routing_1 = __webpack_require__(/*! ../simple/Routing */ 341);
 var basePage_1 = __webpack_require__(/*! ../container/basePage */ 333);
 var systeminfo_1 = __webpack_require__(/*! ../../../projects/system/components/pages/systeminfo */ 332);
@@ -1571,7 +1569,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
 var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
-var Panel_1 = __webpack_require__(/*! ../../../../global/components/simple/Panel */ 61);
+var Panel_1 = __webpack_require__(/*! ../../../../global/components/simple/Panel */ 60);
 var Yeelight = (function (_super) {
     __extends(Yeelight, _super);
     function Yeelight(props) {
@@ -1696,7 +1694,7 @@ var Yeelight = (function (_super) {
                         React.createElement("div", { className: "ms-Grid-col ms-sm12" },
                             React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, "RGB Farben"),
                             React.createElement(office_ui_fabric_react_1.Slider, { label: "Rot", min: 0, max: 255, step: 1, disabled: !this.props.lightInformation.power, value: this.props.lightInformation.rgb.r, showValue: true, onChange: this.onRedChanged }),
-                            React.createElement(office_ui_fabric_react_1.Slider, { label: "Grün", min: 0, max: 255, step: 1, disabled: !this.props.lightInformation.power, value: this.props.lightInformation.rgb.g, showValue: true, onChange: this.onGreenChanged }),
+                            React.createElement(office_ui_fabric_react_1.Slider, { label: "Gr\u00FCn", min: 0, max: 255, step: 1, disabled: !this.props.lightInformation.power, value: this.props.lightInformation.rgb.g, showValue: true, onChange: this.onGreenChanged }),
                             React.createElement(office_ui_fabric_react_1.Slider, { label: "Blau", min: 0, max: 255, step: 1, disabled: !this.props.lightInformation.power, value: this.props.lightInformation.rgb.b, showValue: true, onChange: this.onBlueChanged })))))));
     };
     return Yeelight;
@@ -1706,7 +1704,7 @@ exports.Yeelight = Yeelight;
 
 /***/ }),
 
-/***/ 61:
+/***/ 60:
 /*!************************************************!*\
   !*** ./src/global/components/simple/Panel.tsx ***!
   \************************************************/
@@ -1736,7 +1734,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
-var Button_1 = __webpack_require__(/*! office-ui-fabric-react/lib/Button */ 20);
+var Button_1 = __webpack_require__(/*! office-ui-fabric-react/lib/Button */ 22);
 var Panel = (function (_super) {
     __extends(Panel, _super);
     function Panel(props) {
@@ -1791,7 +1789,7 @@ exports.Panel = Panel;
 
 /***/ }),
 
-/***/ 718:
+/***/ 720:
 /*!************************************************************!*\
   !*** ./src/global/components/simple/BaseWeatherSensor.tsx ***!
   \************************************************************/
@@ -1814,9 +1812,9 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
 var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
-var Panel_1 = __webpack_require__(/*! ../../../global/components/simple/Panel */ 61);
+var Panel_1 = __webpack_require__(/*! ../../../global/components/simple/Panel */ 60);
 var react_1 = __webpack_require__(/*! react */ 1);
-var BaseWeatherSensorChart_1 = __webpack_require__(/*! ./BaseWeatherSensorChart */ 719);
+var BaseWeatherSensorChart_1 = __webpack_require__(/*! ./BaseWeatherSensorChart */ 721);
 var BaseWeatherSensor = (function (_super) {
     __extends(BaseWeatherSensor, _super);
     function BaseWeatherSensor(props) {
@@ -1835,7 +1833,7 @@ var BaseWeatherSensor = (function (_super) {
                 React.createElement(Panel_1.Panel, { headerText: this.props.sensorInformations.name, className: "custom-padding-bottom-10px", headerControls: React.createElement("div", null,
                         React.createElement(office_ui_fabric_react_1.IconButton, { checked: false, iconProps: {
                                 iconName: "info"
-                            }, title: "Charts öffnen", ariaLabel: "Charts öffnen", onClick: this.sensorDetailsClicked })) },
+                            }, title: "Charts \u00F6ffnen", ariaLabel: "Charts \u00F6ffnen", onClick: this.sensorDetailsClicked })) },
                     !this.state.showDetails && (React.createElement(react_1.Fragment, null,
                         React.createElement("div", { className: "ms-Grid-row" },
                             React.createElement("div", { className: "ms-Grid-col ms-sm12" },
@@ -1856,7 +1854,7 @@ exports.BaseWeatherSensor = BaseWeatherSensor;
 
 /***/ }),
 
-/***/ 719:
+/***/ 721:
 /*!*****************************************************************!*\
   !*** ./src/global/components/simple/BaseWeatherSensorChart.tsx ***!
   \*****************************************************************/
@@ -2122,7 +2120,7 @@ var BaseWeatherSensorChart = (function (_super) {
                 sensorDataContent = "Keine Daten vorhanden...";
             }
             else {
-                sensorDataContent = (React.createElement(react_chartjs_2_1.Line, { data: this.state.sensorData, options: this.state.options }));
+                sensorDataContent = (React.createElement(react_chartjs_2_1.Line, { data: this.state.sensorData, options: this.state.options, height: 400, width: 400 }));
             }
         }
         return (React.createElement("div", { className: "ms-Grid-row" },
@@ -2201,7 +2199,7 @@ exports.setDatePropertiesToZero = setDatePropertiesToZero;
 
 /***/ }),
 
-/***/ 866:
+/***/ 868:
 /*!****************************************************!*\
   !*** ./src/global/components/simple/BaseLight.tsx ***!
   \****************************************************/
@@ -2232,7 +2230,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
 var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
-var Panel_1 = __webpack_require__(/*! ../../../global/components/simple/Panel */ 61);
+var Panel_1 = __webpack_require__(/*! ../../../global/components/simple/Panel */ 60);
 var BaseLight = (function (_super) {
     __extends(BaseLight, _super);
     function BaseLight(props) {
@@ -2344,7 +2342,7 @@ var BaseLight = (function (_super) {
                         React.createElement("div", { className: "ms-Grid-col ms-sm12" },
                             React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, "RGB Farben"),
                             React.createElement(office_ui_fabric_react_1.Slider, { label: "Rot", min: 0, max: 255, step: 1, disabled: !this.props.lightInformation.power, value: this.props.lightInformation.rgb.r, showValue: true, onChange: this.onRedChanged }),
-                            React.createElement(office_ui_fabric_react_1.Slider, { label: "Grün", min: 0, max: 255, step: 1, disabled: !this.props.lightInformation.power, value: this.props.lightInformation.rgb.g, showValue: true, onChange: this.onGreenChanged }),
+                            React.createElement(office_ui_fabric_react_1.Slider, { label: "Gr\u00FCn", min: 0, max: 255, step: 1, disabled: !this.props.lightInformation.power, value: this.props.lightInformation.rgb.g, showValue: true, onChange: this.onGreenChanged }),
                             React.createElement(office_ui_fabric_react_1.Slider, { label: "Blau", min: 0, max: 255, step: 1, disabled: !this.props.lightInformation.power, value: this.props.lightInformation.rgb.b, showValue: true, onChange: this.onBlueChanged })))))));
     };
     return BaseLight;
@@ -2354,7 +2352,7 @@ exports.BaseLight = BaseLight;
 
 /***/ }),
 
-/***/ 867:
+/***/ 869:
 /*!*********************************************************************!*\
   !*** ./src/projects/vacuumRoboter/components/pages/application.tsx ***!
   \*********************************************************************/
@@ -2399,7 +2397,7 @@ exports.Application = Application;
 
 /***/ }),
 
-/***/ 868:
+/***/ 870:
 /*!************************************************************!*\
   !*** ./src/projects/aldi/components/pages/application.tsx ***!
   \************************************************************/
@@ -2421,16 +2419,16 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
-var manageRoute_1 = __webpack_require__(/*! ./manageRoute */ 869);
+var manageRoute_1 = __webpack_require__(/*! ./manageRoute */ 871);
 var enums_1 = __webpack_require__(/*! ../../../../enums/enums */ 196);
 var react_1 = __webpack_require__(/*! react */ 1);
-var ToolTip_1 = __webpack_require__(/*! ../../../../global/components/simple/ToolTip */ 876);
-var Routenuebersicht_1 = __webpack_require__(/*! ../intelligent/Routenuebersicht */ 877);
-var UploadRoutes_1 = __webpack_require__(/*! ../intelligent/UploadRoutes */ 878);
-var UploadFilialen_1 = __webpack_require__(/*! ../intelligent/UploadFilialen */ 879);
-var Filialuebersicht_1 = __webpack_require__(/*! ../intelligent/Filialuebersicht */ 880);
-var Panel_1 = __webpack_require__(/*! ../../../../global/components/simple/Panel */ 61);
-var Filiale_1 = __webpack_require__(/*! ../intelligent/Filiale */ 881);
+var ToolTip_1 = __webpack_require__(/*! ../../../../global/components/simple/ToolTip */ 878);
+var Routenuebersicht_1 = __webpack_require__(/*! ../intelligent/Routenuebersicht */ 879);
+var UploadRoutes_1 = __webpack_require__(/*! ../intelligent/UploadRoutes */ 880);
+var UploadFilialen_1 = __webpack_require__(/*! ../intelligent/UploadFilialen */ 881);
+var Filialuebersicht_1 = __webpack_require__(/*! ../intelligent/Filialuebersicht */ 882);
+var Panel_1 = __webpack_require__(/*! ../../../../global/components/simple/Panel */ 60);
+var Filiale_1 = __webpack_require__(/*! ../intelligent/Filiale */ 883);
 var Application = (function (_super) {
     __extends(Application, _super);
     function Application(props) {
@@ -2534,7 +2532,7 @@ var Application = (function (_super) {
     Application.prototype.createFiliale = function () {
         this.setState({
             showModal: true,
-            modalContent: (React.createElement(Filiale_1.Filiale, { cancel_clicked: this.closeModal, pageType: enums_1.PageType.Add, filialeId: null, headerText: "Filiale hinzufügen", ok_clicked: this.filialeSavedClick }))
+            modalContent: (React.createElement(Filiale_1.Filiale, { cancel_clicked: this.closeModal, pageType: enums_1.PageType.Add, filialeId: null, headerText: "Filiale hinzuf\u00FCgen", ok_clicked: this.filialeSavedClick }))
         });
         this.hideCallOut();
     };
@@ -2547,7 +2545,7 @@ var Application = (function (_super) {
         return (React.createElement(react_1.Fragment, null,
             React.createElement("div", { className: "ms-Grid-row" },
                 React.createElement("div", { className: "ms-Grid-col ms-sm12" },
-                    React.createElement(Panel_1.Panel, { contentClass: "custom-padding-top-10px", headerText: "Routenübersicht", className: "custom-padding-bottom-10px custom-padding-top-10px" },
+                    React.createElement(Panel_1.Panel, { contentClass: "custom-padding-top-10px", headerText: "Routen\u00FCbersicht", className: "custom-padding-bottom-10px custom-padding-top-10px" },
                         React.createElement(Routenuebersicht_1.Routenuebersicht, { onEditRouteClick: this.editRoute, commandbarItems: [
                                 {
                                     key: "newItem",
@@ -2564,7 +2562,7 @@ var Application = (function (_super) {
                             ] })))),
             React.createElement("div", { className: "ms-Grid-row" },
                 React.createElement("div", { className: "ms-Grid-col ms-sm12" },
-                    React.createElement(Panel_1.Panel, { contentClass: "custom-padding-top-10px", headerText: "Filialübersicht", className: "custom-padding-bottom-10px" },
+                    React.createElement(Panel_1.Panel, { contentClass: "custom-padding-top-10px", headerText: "Filial\u00FCbersicht", className: "custom-padding-bottom-10px" },
                         React.createElement("div", null,
                             React.createElement(Filialuebersicht_1.Filialuebersicht, { onEditFilialeClick: this.editFiliale, commandbarItems: [
                                     {
@@ -2588,7 +2586,7 @@ exports.Application = Application;
 
 /***/ }),
 
-/***/ 869:
+/***/ 871:
 /*!************************************************************!*\
   !*** ./src/projects/aldi/components/pages/manageRoute.tsx ***!
   \************************************************************/
@@ -2621,14 +2619,14 @@ var React = __webpack_require__(/*! react */ 1);
 var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
 var enums_1 = __webpack_require__(/*! ../../../../enums/enums */ 196);
 var basePage_1 = __webpack_require__(/*! ../../../../global/components/container/basePage */ 333);
-var ButtonRow_1 = __webpack_require__(/*! ../../../../global/components/simple/ButtonRow */ 132);
-var Panel_1 = __webpack_require__(/*! ../../../../global/components/simple/Panel */ 61);
+var ButtonRow_1 = __webpack_require__(/*! ../../../../global/components/simple/ButtonRow */ 133);
+var Panel_1 = __webpack_require__(/*! ../../../../global/components/simple/Panel */ 60);
 var date_1 = __webpack_require__(/*! ../../../../helper/date */ 78);
-var Link_1 = __webpack_require__(/*! ../stateless/Link */ 870);
-var Ausgabe_1 = __webpack_require__(/*! ../stateless/Ausgabe */ 871);
+var Link_1 = __webpack_require__(/*! ../stateless/Link */ 872);
+var Ausgabe_1 = __webpack_require__(/*! ../stateless/Ausgabe */ 873);
 var Filiale_1 = __webpack_require__(/*! ../stateless/Filiale */ 335);
-var Routenfahrt_1 = __webpack_require__(/*! ../stateless/Routenfahrt */ 872);
-var uuid_1 = __webpack_require__(/*! uuid */ 873);
+var Routenfahrt_1 = __webpack_require__(/*! ../stateless/Routenfahrt */ 874);
+var uuid_1 = __webpack_require__(/*! uuid */ 875);
 var axios_1 = __webpack_require__(/*! axios */ 30);
 var ManageRoute = (function (_super) {
     __extends(ManageRoute, _super);
@@ -2985,7 +2983,7 @@ exports.ManageRoute = ManageRoute;
 
 /***/ }),
 
-/***/ 870:
+/***/ 872:
 /*!*********************************************************!*\
   !*** ./src/projects/aldi/components/stateless/Link.tsx ***!
   \*********************************************************/
@@ -3032,7 +3030,7 @@ var Link = (function (_super) {
             React.createElement("div", { className: "ms-Grid-col ms-sm8 ms-lg-10" },
                 React.createElement(office_ui_fabric_react_1.TextField, { placeholder: "Link eingeben", value: this.props.linkModel.link, onChanged: this.onLinkHrefChanged })),
             React.createElement("div", { className: "ms-Grid-col ms-sm2 ms-lg1" },
-                React.createElement(office_ui_fabric_react_1.ActionButton, { "data-info-title": "Link entfernen", "data-info-desc": "Löscht den Link", iconProps: {
+                React.createElement(office_ui_fabric_react_1.ActionButton, { "data-info-title": "Link entfernen", "data-info-desc": "L\u00F6scht den Link", iconProps: {
                         iconName: "Delete",
                         className: "img-font-size-large"
                     }, onClick: this.deleteLinkClicked }))));
@@ -3044,7 +3042,7 @@ exports.Link = Link;
 
 /***/ }),
 
-/***/ 871:
+/***/ 873:
 /*!************************************************************!*\
   !*** ./src/projects/aldi/components/stateless/Ausgabe.tsx ***!
   \************************************************************/
@@ -3068,7 +3066,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
 var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
 var NumberTextField_1 = __webpack_require__(/*! ../../../../global/components/simple/NumberTextField */ 334);
-var Panel_1 = __webpack_require__(/*! ../../../../global/components/simple/Panel */ 61);
+var Panel_1 = __webpack_require__(/*! ../../../../global/components/simple/Panel */ 60);
 var defaultOption = React.createElement("option", { key: "-1" }, "Bitte einen Wert angeben");
 var Ausgabe = (function (_super) {
     __extends(Ausgabe, _super);
@@ -3106,7 +3104,7 @@ exports.Ausgabe = Ausgabe;
 
 /***/ }),
 
-/***/ 872:
+/***/ 874:
 /*!****************************************************************!*\
   !*** ./src/projects/aldi/components/stateless/Routenfahrt.tsx ***!
   \****************************************************************/
@@ -3151,9 +3149,9 @@ var Routenfahrt = (function (_super) {
             React.createElement("div", { className: "ms-Grid-col ms-sm2 ms-md1 ms-lg1" },
                 React.createElement(office_ui_fabric_react_1.Label, { className: "ms-fontSize-l ms-textAlignCenter" }, this.props.title)),
             React.createElement("div", { className: "ms-Grid-col ms-sm8 ms-md8 ms-lg6" },
-                React.createElement(office_ui_fabric_react_1.DatePicker, { placeholder: "Bitte Routenfahrdatum auswählen", showWeekNumbers: true, showMonthPickerAsOverlay: true, allowTextInput: false, formatDate: date_1.getGermanDateString, firstDayOfWeek: 1, key: "fahrt" + this.props.routenfahrtId, value: this.props.value, onSelectDate: this.dateChanged })),
+                React.createElement(office_ui_fabric_react_1.DatePicker, { placeholder: "Bitte Routenfahrdatum ausw\u00E4hlen", showWeekNumbers: true, showMonthPickerAsOverlay: true, allowTextInput: false, formatDate: date_1.getGermanDateString, firstDayOfWeek: 1, key: "fahrt" + this.props.routenfahrtId, value: this.props.value, onSelectDate: this.dateChanged })),
             React.createElement("div", { className: "ms-Grid-col ms-sm2 ms-md2 ms-lg1" },
-                React.createElement(office_ui_fabric_react_1.ActionButton, { "data-info-title": "Fahrdatum entfernen", "data-info-desc": "Löscht das Fahrdatum", iconProps: {
+                React.createElement(office_ui_fabric_react_1.ActionButton, { "data-info-title": "Fahrdatum entfernen", "data-info-desc": "L\u00F6scht das Fahrdatum", iconProps: {
                         iconName: "Delete",
                         className: "img-font-size-large"
                     }, onClick: this.deleteRoutenfahrtClicked }))));
@@ -3165,7 +3163,7 @@ exports.Routenfahrt = Routenfahrt;
 
 /***/ }),
 
-/***/ 873:
+/***/ 875:
 /*!************************************!*\
   !*** ./node_modules/uuid/index.js ***!
   \************************************/
@@ -3173,8 +3171,8 @@ exports.Routenfahrt = Routenfahrt;
 /*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
-var v1 = __webpack_require__(/*! ./v1 */ 874);
-var v4 = __webpack_require__(/*! ./v4 */ 875);
+var v1 = __webpack_require__(/*! ./v1 */ 876);
+var v4 = __webpack_require__(/*! ./v4 */ 877);
 
 var uuid = v4;
 uuid.v1 = v1;
@@ -3185,7 +3183,7 @@ module.exports = uuid;
 
 /***/ }),
 
-/***/ 874:
+/***/ 876:
 /*!*********************************!*\
   !*** ./node_modules/uuid/v1.js ***!
   \*********************************/
@@ -3201,20 +3199,12 @@ var bytesToUuid = __webpack_require__(/*! ./lib/bytesToUuid */ 337);
 // Inspired by https://github.com/LiosK/UUID.js
 // and http://docs.python.org/library/uuid.html
 
-// random #'s we need to init node and clockseq
-var _seedBytes = rng();
-
-// Per 4.5, create and 48-bit node id, (47 random bits + multicast bit = 1)
-var _nodeId = [
-  _seedBytes[0] | 0x01,
-  _seedBytes[1], _seedBytes[2], _seedBytes[3], _seedBytes[4], _seedBytes[5]
-];
-
-// Per 4.2.2, randomize (14 bit) clockseq
-var _clockseq = (_seedBytes[6] << 8 | _seedBytes[7]) & 0x3fff;
+var _nodeId;
+var _clockseq;
 
 // Previous uuid creation time
-var _lastMSecs = 0, _lastNSecs = 0;
+var _lastMSecs = 0;
+var _lastNSecs = 0;
 
 // See https://github.com/broofa/node-uuid for API details
 function v1(options, buf, offset) {
@@ -3222,8 +3212,26 @@ function v1(options, buf, offset) {
   var b = buf || [];
 
   options = options || {};
-
+  var node = options.node || _nodeId;
   var clockseq = options.clockseq !== undefined ? options.clockseq : _clockseq;
+
+  // node and clockseq need to be initialized to random values if they're not
+  // specified.  We do this lazily to minimize issues related to insufficient
+  // system entropy.  See #189
+  if (node == null || clockseq == null) {
+    var seedBytes = rng();
+    if (node == null) {
+      // Per 4.5, create and 48-bit node id, (47 random bits + multicast bit = 1)
+      node = _nodeId = [
+        seedBytes[0] | 0x01,
+        seedBytes[1], seedBytes[2], seedBytes[3], seedBytes[4], seedBytes[5]
+      ];
+    }
+    if (clockseq == null) {
+      // Per 4.2.2, randomize (14 bit) clockseq
+      clockseq = _clockseq = (seedBytes[6] << 8 | seedBytes[7]) & 0x3fff;
+    }
+  }
 
   // UUID timestamps are 100 nano-second units since the Gregorian epoch,
   // (1582-10-15 00:00).  JSNumbers aren't precise enough for this, so
@@ -3284,7 +3292,6 @@ function v1(options, buf, offset) {
   b[i++] = clockseq & 0xff;
 
   // `node`
-  var node = options.node || _nodeId;
   for (var n = 0; n < 6; ++n) {
     b[i + n] = node[n];
   }
@@ -3297,7 +3304,7 @@ module.exports = v1;
 
 /***/ }),
 
-/***/ 875:
+/***/ 877:
 /*!*********************************!*\
   !*** ./node_modules/uuid/v4.js ***!
   \*********************************/
@@ -3312,7 +3319,7 @@ function v4(options, buf, offset) {
   var i = buf && offset || 0;
 
   if (typeof(options) == 'string') {
-    buf = options == 'binary' ? new Array(16) : null;
+    buf = options === 'binary' ? new Array(16) : null;
     options = null;
   }
   options = options || {};
@@ -3338,7 +3345,7 @@ module.exports = v4;
 
 /***/ }),
 
-/***/ 876:
+/***/ 878:
 /*!**************************************************!*\
   !*** ./src/global/components/simple/ToolTip.tsx ***!
   \**************************************************/
@@ -3380,7 +3387,7 @@ exports.ToolTip = ToolTip;
 
 /***/ }),
 
-/***/ 877:
+/***/ 879:
 /*!***********************************************************************!*\
   !*** ./src/projects/aldi/components/intelligent/Routenuebersicht.tsx ***!
   \***********************************************************************/
@@ -3414,7 +3421,7 @@ var axios_1 = __webpack_require__(/*! axios */ 30);
 var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
 var columns_1 = __webpack_require__(/*! ../../configuration/columns */ 338);
 var BaseUebersicht_1 = __webpack_require__(/*! ../../../../global/components/simple/BaseUebersicht */ 339);
-var promise_1 = __webpack_require__(/*! ../../../../helper/promise */ 133);
+var promise_1 = __webpack_require__(/*! ../../../../helper/promise */ 134);
 var sorting_1 = __webpack_require__(/*! ../../../../helper/sorting */ 340);
 var Routenuebersicht = (function (_super) {
     __extends(Routenuebersicht, _super);
@@ -3638,7 +3645,7 @@ exports.Routenuebersicht = Routenuebersicht;
 
 /***/ }),
 
-/***/ 878:
+/***/ 880:
 /*!*******************************************************************!*\
   !*** ./src/projects/aldi/components/intelligent/UploadRoutes.tsx ***!
   \*******************************************************************/
@@ -3662,7 +3669,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
 var axios_1 = __webpack_require__(/*! axios */ 30);
 var react_1 = __webpack_require__(/*! react */ 1);
-var ButtonRow_1 = __webpack_require__(/*! ../../../../global/components/simple/ButtonRow */ 132);
+var ButtonRow_1 = __webpack_require__(/*! ../../../../global/components/simple/ButtonRow */ 133);
 var UploadRoutes = (function (_super) {
     __extends(UploadRoutes, _super);
     function UploadRoutes(props) {
@@ -3752,7 +3759,7 @@ exports.UploadRoutes = UploadRoutes;
 
 /***/ }),
 
-/***/ 879:
+/***/ 881:
 /*!*********************************************************************!*\
   !*** ./src/projects/aldi/components/intelligent/UploadFilialen.tsx ***!
   \*********************************************************************/
@@ -3777,9 +3784,9 @@ var React = __webpack_require__(/*! react */ 1);
 var axios_1 = __webpack_require__(/*! axios */ 30);
 var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
 var react_1 = __webpack_require__(/*! react */ 1);
-var ButtonRow_1 = __webpack_require__(/*! ../../../../global/components/simple/ButtonRow */ 132);
+var ButtonRow_1 = __webpack_require__(/*! ../../../../global/components/simple/ButtonRow */ 133);
 var date_1 = __webpack_require__(/*! ../../../../helper/date */ 78);
-var promise_1 = __webpack_require__(/*! ../../../../helper/promise */ 133);
+var promise_1 = __webpack_require__(/*! ../../../../helper/promise */ 134);
 var UploadFilialen = (function (_super) {
     __extends(UploadFilialen, _super);
     function UploadFilialen(props) {
@@ -3959,7 +3966,7 @@ exports.UploadFilialen = UploadFilialen;
 
 /***/ }),
 
-/***/ 880:
+/***/ 882:
 /*!***********************************************************************!*\
   !*** ./src/projects/aldi/components/intelligent/Filialuebersicht.tsx ***!
   \***********************************************************************/
@@ -3994,7 +4001,7 @@ var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */
 var columns_1 = __webpack_require__(/*! ../../configuration/columns */ 338);
 var BaseUebersicht_1 = __webpack_require__(/*! ../../../../global/components/simple/BaseUebersicht */ 339);
 var sorting_1 = __webpack_require__(/*! ../../../../helper/sorting */ 340);
-var promise_1 = __webpack_require__(/*! ../../../../helper/promise */ 133);
+var promise_1 = __webpack_require__(/*! ../../../../helper/promise */ 134);
 var Filialuebersicht = (function (_super) {
     __extends(Filialuebersicht, _super);
     function Filialuebersicht(props) {
@@ -4222,7 +4229,7 @@ exports.Filialuebersicht = Filialuebersicht;
 
 /***/ }),
 
-/***/ 881:
+/***/ 883:
 /*!**************************************************************!*\
   !*** ./src/projects/aldi/components/intelligent/Filiale.tsx ***!
   \**************************************************************/
@@ -4255,10 +4262,10 @@ var React = __webpack_require__(/*! react */ 1);
 var axios_1 = __webpack_require__(/*! axios */ 30);
 var enums_1 = __webpack_require__(/*! ../../../../enums/enums */ 196);
 var Filiale_1 = __webpack_require__(/*! ../stateless/Filiale */ 335);
-var promise_1 = __webpack_require__(/*! ../../../../helper/promise */ 133);
+var promise_1 = __webpack_require__(/*! ../../../../helper/promise */ 134);
 var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
 var react_1 = __webpack_require__(/*! react */ 1);
-var ButtonRow_1 = __webpack_require__(/*! ../../../../global/components/simple/ButtonRow */ 132);
+var ButtonRow_1 = __webpack_require__(/*! ../../../../global/components/simple/ButtonRow */ 133);
 var Filiale = (function (_super) {
     __extends(Filiale, _super);
     function Filiale(props) {
@@ -4517,7 +4524,7 @@ exports.Filiale = Filiale;
 
 /***/ }),
 
-/***/ 882:
+/***/ 884:
 /*!*******************************************************!*\
   !*** ./src/global/components/simple/NotFoundPage.tsx ***!
   \*******************************************************/

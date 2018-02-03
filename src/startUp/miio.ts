@@ -77,16 +77,16 @@ function findRockrobot(app: express.Application): Promise<boolean> {
   });
 }
 export function registerDevices(app: express.Application) {
-  let time = setInterval(() => {
-    console.log("Robot Connection Interval");
-    // if (isConnected) {
-    //   console.log("exit, because robot it is connected");
-    //   return;
-    // }
-    findRockrobot(app).then(connected => {
-      isConnected = connected;
-    });
-  }, 30000);
+  // let time = setInterval(() => {
+  //   console.log("Robot Connection Interval");
+  //   // if (isConnected) {
+  //   //   console.log("exit, because robot it is connected");
+  //   //   return;
+  //   // }
+  //   findRockrobot(app).then(connected => {
+  //     isConnected = connected;
+  //   });
+  // }, 30000);
 
   const devices = miio.devices({
     cacheTime: 15 // 5 minutes. Default is 1800 seconds (30 minutes)

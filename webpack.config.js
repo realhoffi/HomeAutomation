@@ -13,9 +13,9 @@ var fs = require("fs");
 
 var currentStage = "development"; //;"development"; //production
 var nodeModules = {};
-var compileServer = true;
-var compileClient = true;
-
+var compileServer = false;
+var compileClient = false;
+var compileDatabase = true;
 var vendor = [
   "babel-polyfill",
   "react",
@@ -44,6 +44,8 @@ fs
     // }
   });
 
+var dbConnection = "mongodb://localhost:27017";
+//dbConnection = "mongodb://192.168.178.43:27017/homeautomation";
 var exportWebpack = [];
 
 if (!!compileServer) {
@@ -75,7 +77,7 @@ if (!!compileServer) {
       new webpack.DefinePlugin({
         PRODUCTION: JSON.stringify(true),
         VERSION: JSON.stringify(1.0),
-        MONGO_DB_CONNECTION_STRING: JSON.stringify("mongodb://localhost:27017"),
+        MONGO_DB_CONNECTION_STRING: JSON.stringify(dbConnection),
         MONGO_DB_DATABASE_STRING: JSON.stringify("homeautomation"),
         MONGO_DB_SENSOR_COLLECTION_STRING: JSON.stringify("sensors"),
         MONGO_DB_APPLICATION_COLLECTION_STRING: JSON.stringify("application"),
@@ -288,5 +290,89 @@ if (!!compileClient) {
     }
   };
   exportWebpack.push(clientJs);
+}
+if (!!compileDatabase) {
+  var serverJs = {
+    externals: nodeModules,
+    name: "nodejs",
+    target: "node",
+    node: {
+      __dirname: false,
+      __filename: false
+    },
+    resolve: {
+      extensions: ["*", ".js", ".jsx", ".ts", ".tsx"]
+    },
+    entry: {
+      database: ["./src/global/mongoDB/cleanSensorData.ts"]
+    },
+    devtool: "#source-map",
+    output: {
+      pathinfo: true,
+      path: outDir,
+      filename: "[name].js",
+      chunkFilename: "[name].js"
+    },
+    plugins: [
+      new webpack.ProvidePlugin({
+        Promise: "bluebird"
+      }),
+      new webpack.DefinePlugin({
+        PRODUCTION: JSON.stringify(true),
+        VERSION: JSON.stringify(1.0),
+        MONGO_DB_CONNECTION_STRING: JSON.stringify(dbConnection),
+        MONGO_DB_DATABASE_STRING: JSON.stringify("homeautomation"),
+        MONGO_DB_SENSOR_COLLECTION_STRING: JSON.stringify("sensors"),
+        MONGO_DB_MERGED_SENSOR_DATA_COLLECTION_STRING: JSON.stringify(
+          "sensordata"
+        ),
+        MONGO_DB_APPLICATION_COLLECTION_STRING: JSON.stringify("application"),
+        MONGO_DB_CONFIGURATION_COLLECTION_STRING: JSON.stringify(
+          "configuration"
+        ),
+        MONGO_DB_FILIALEN_COLLECTION_STRING: JSON.stringify("filialen"),
+        MONGO_DB_ROUTEN_COLLECTION_STRING: JSON.stringify("routen"),
+        "process.env": {
+          NODE_ENV: JSON.stringify(currentStage)
+        }
+      }),
+
+      new WebpackNotifierPlugin({ title: "Webpack Build finished" }),
+      new webpack.LoaderOptionsPlugin({
+        options: {
+          tslint: {
+            emitErrors: true,
+            failOnHint: true
+          }
+        }
+      })
+    ],
+    module: {
+      rules: [
+        {
+          test: /\.tsx?$/,
+          loader: "awesome-typescript-loader",
+          exclude: /(node_modules)/
+        }
+      ],
+      loaders: [
+        {
+          test: /\.js(x)$/,
+          loader: "babel",
+          exclude: /node_modules/,
+          query: {
+            cacheDirectory: "babel_cache",
+            compact: false,
+            presets: ["es2015", "react"]
+          }
+        },
+        {
+          test: /\.json$/,
+          loader: "json-loader"
+        }
+      ]
+    }
+  };
+  exportWebpack.push(serverJs);
 }
 module.exports = exportWebpack;

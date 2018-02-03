@@ -27,4 +27,5 @@ export interface IBaseWeatherSensor extends IXiaomiDevice {
   humidity: number;
   pressure: number;
   hasPressure: boolean;
+  timestamp: number;
 }
