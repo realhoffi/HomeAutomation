@@ -7,6 +7,8 @@ import {
 import { IBaseWeatherSensor } from "../../interfaces/xiaomi";
 import { json } from "express";
 import { resultItem } from "office-ui-fabric-react/lib/components/pickers/PeoplePicker/PeoplePicker.scss";
+import { Promise } from "bluebird";
+
 declare let MONGO_DB_CONNECTION_STRING: string;
 declare let MONGO_DB_DATABASE_STRING: string;
 declare let MONGO_DB_CONFIGURATION_COLLECTION_STRING: string;
@@ -40,7 +42,8 @@ export interface ICleanSensorCongfigurationEntry {
   sensorId: string;
   timestamp: number;
 }
-export function initializeDatabase(): Promise<Db> {
+// : Promise<Db>
+export function initializeDatabase() {
   return new Promise((resolve, reject) => {
     console.log("Try connect to Database", MONGO_DB_CONNECTION_STRING);
     MongoClient.connect(MONGO_DB_CONNECTION_STRING, function(err, database) {
@@ -66,25 +69,22 @@ export function getSensorIds(database: Db) {
       });
   });
 }
-export function cleanSensorData(
-  database: Db,
-  sensorId: string
-): Promise<string> {
+// : Promise<string>
+export function cleanSensorData(database: Db, sensorId: string) {
   return new Promise((resolve, reject) => {
     let collection = database.collection(MONGO_DB_SENSOR_COLLECTION_STRING);
-    // collection.distinct("id", {}).then((sensorIds: any[]) => {
-    //  sensorIds.forEach(sensorId => {
     let maxItems = 0;
     let itemsToInsert = [];
     let sensorConfiguration = null;
+    console.log(`[${sensorId}] Running cleanSensorData`);
     getSensorConfiguration(database, sensorId)
-      .then(cfg => {
+      .then((cfg: ICleanSensorCongfigurationEntry) => {
         //  console.log(`[${sensorId}] cfg: ` + JSON.stringify(cfg));
         let ts = cfg ? cfg.timestamp : -1;
         // console.log(`[${sensorId}] getSensorData`);
         return getSensorData(sensorId, ts, collection);
       })
-      .then(result => {
+      .then((result: ISensorQueryResult) => {
         if (!result || result.count === 0 || !result.items) {
           console.log(`[${sensorId}] !!! EXIT !!! NO DATA AVAILABLE !!!`);
           resolve("No Data Available");
@@ -109,7 +109,7 @@ export function cleanSensorData(
       })
       .then(mergedResult => {
         console.log(
-          `[${sensorId}] Insert ${itemsToInsert.length} DB-Entries now...`
+          `[${sensorId}] Insert ${itemsToInsert.length} DB-Entries now`
         );
         let mergedCollection = database.collection(
           MONGO_DB_MERGED_SENSOR_DATA_COLLECTION_STRING
@@ -136,23 +136,24 @@ export function cleanSensorData(
         );
         reject(error);
       });
-    // });
-    // });
   });
 }
+// : Promise<ISensorQueryResult>
 export function getSensorData(
   sensorId: string,
   cfgTimestamp: number,
   collection: Collection
-): Promise<ISensorQueryResult> {
+) {
+  console.log(`[${sensorId}] Running getSensorData`);
   return new Promise((resolve, reject) => {
-    console.log(`[${sensorId}] Timestamp: ${JSON.stringify(cfgTimestamp)}`);
+    console.log(
+      `[${sensorId}] Last Timestamp: ${JSON.stringify(cfgTimestamp)}`
+    );
     let searchItem = { id: sensorId };
     if (cfgTimestamp !== -1) {
       searchItem["timestamp"] = { $gt: cfgTimestamp };
     }
     console.log(`[${sensorId}] Search Query: ` + JSON.stringify(searchItem));
-
     collection
       .find(searchItem)
       .count()
@@ -165,95 +166,95 @@ export function getSensorData(
             count: 0,
             items: []
           });
-          return;
-        }
-        let promises = [];
-        let pageSize = 500;
-        let pages = Math.ceil(maxItemCount / pageSize);
-        //  console.log("sensorId-Entry COUNT: " + maxItemCount);
-        // console.log("PAGES: " + pages);
-        for (let index = 1; index <= pages; index++) {
-          // { id: sensorId }
-          let promiseRequest = collection
-            .find(searchItem)
-            // .sort({ timestamp: 1 })
-            .skip(pageSize * (index - 1))
-            .limit(pageSize)
-            .toArray();
-          promises.push(promiseRequest);
-        }
-        let itemCount = maxItemCount;
-        let promiseCount = promises.length;
-        console.log(
-          `[${sensorId}] Anzahl: ${itemCount} @@ Seiten: ${pages} @@ promiseCount: ${promiseCount} `
-        );
-        Promise.all(promises)
-          .then(promises => {
-            let resultItems: any[] = [];
-            promises.forEach((promise: any[]) => {
-              resultItems = resultItems.concat(promise);
-            });
-            resultItems.sort((entryA, entryB) => {
-              return entryA["timestamp"] > entryB["timestamp"]
-                ? 1
-                : entryA["timestamp"] < entryB["timestamp"] ? -1 : 0;
-            });
-            console.log(
-              `[${sensorId}] Sortierte Sensordaten: ${resultItems.length}`
-            );
-            if (itemCount !== resultItems.length) {
+        } else {
+          let promises = [];
+          let pageSize = 500;
+          let pages = Math.ceil(maxItemCount / pageSize);
+          //  console.log("sensorId-Entry COUNT: " + maxItemCount);
+          // console.log("PAGES: " + pages);
+          for (let index = 1; index <= pages; index++) {
+            // { id: sensorId }
+            let promiseRequest = collection
+              .find(searchItem)
+              // .sort({ timestamp: 1 })
+              .skip(pageSize * (index - 1))
+              .limit(pageSize)
+              .toArray();
+            promises.push(promiseRequest);
+          }
+          let itemCount = maxItemCount;
+          let promiseCount = promises.length;
+          console.log(
+            `[${sensorId}] Anzahl: ${itemCount} @@ Seiten: ${pages} @@ promiseCount: ${promiseCount} `
+          );
+          Promise.all(promises)
+            .then(promises => {
+              let resultItems: any[] = [];
+              promises.forEach((promise: any[]) => {
+                resultItems = resultItems.concat(promise);
+              });
+              resultItems.sort((entryA, entryB) => {
+                return entryA["timestamp"] > entryB["timestamp"]
+                  ? 1
+                  : entryA["timestamp"] < entryB["timestamp"] ? -1 : 0;
+              });
               console.log(
-                "CAREFUL -> Missmatch Paging-Global Count! Itemcount !== resultItems.length"
+                `[${sensorId}] Sortierte Sensordaten: ${resultItems.length}`
               );
-            }
-            resolve({
-              id: sensorId,
-              minValue: resultItems[0].timestamp,
-              maxValue: resultItems[resultItems.length - 1].timestamp,
-              count: resultItems.length,
-              items: resultItems
+              if (itemCount !== resultItems.length) {
+                console.log(
+                  "CAREFUL -> Missmatch Paging-Global Count! Itemcount !== resultItems.length"
+                );
+              }
+              resolve({
+                id: sensorId,
+                minValue: resultItems[0].timestamp,
+                maxValue: resultItems[resultItems.length - 1].timestamp,
+                count: resultItems.length,
+                items: resultItems
+              });
+            })
+            .catch(error => {
+              console.log(
+                `[${sensorId}] ERROR (getSensorData): ${JSON.stringify(error)}`
+              );
+              reject();
             });
-          })
-          .catch(error => {
-            console.log(
-              `[${sensorId}] ERROR (getSensorData): ${JSON.stringify(error)}`
-            );
-            reject();
-          });
+        }
       });
   });
 }
 export function mergeSensorDataByDate(sensorQueryResult: ISensorQueryResult) {
-  return new Promise((resolve, reject) => {
-    let sensorDataByDateResult: ISensorDataCollection[] = [];
-    sensorQueryResult.items.forEach(item => {
-      let sensorDataElement: ISensorData = {
-        sensorId: item.id,
-        timestamp: item.timestamp,
-        dateValue: new Date(item.timestamp),
-        rawSensorData: item
-      };
-      let foundElement = sensorDataByDateResult.find(e => {
-        return (
-          e.dateValueString === getGermanDateString(sensorDataElement.dateValue)
-        );
-      });
-      if (foundElement) {
-        foundElement.items.push(sensorDataElement);
-      } else {
-        sensorDataByDateResult.push({
-          sensorId: sensorDataElement.sensorId,
-          dateValueString: getGermanDateString(sensorDataElement.dateValue),
-          items: [sensorDataElement]
-        });
-      }
+  let sensorDataByDateResult: ISensorDataCollection[] = [];
+  console.log(`[${sensorQueryResult.id}] Running mergeSensorDataByDate`);
+  sensorQueryResult.items.forEach(item => {
+    let sensorDataElement: ISensorData = {
+      sensorId: item.id,
+      timestamp: item.timestamp,
+      dateValue: new Date(item.timestamp),
+      rawSensorData: item
+    };
+    let foundElement = sensorDataByDateResult.find(e => {
+      return (
+        e.dateValueString === getGermanDateString(sensorDataElement.dateValue)
+      );
     });
-    resolve(sensorDataByDateResult);
+    if (foundElement) {
+      foundElement.items.push(sensorDataElement);
+    } else {
+      sensorDataByDateResult.push({
+        sensorId: sensorDataElement.sensorId,
+        dateValueString: getGermanDateString(sensorDataElement.dateValue),
+        items: [sensorDataElement]
+      });
+    }
   });
+  return sensorDataByDateResult;
 }
 export function mergeSensorDataByHours(
   sensorDataGroupByDate: ISensorDataCollection[]
 ) {
+  console.log(`Running mergeSensorDataByDate`);
   let mergedDataResult: IBaseWeatherSensor[] = [];
   sensorDataGroupByDate.forEach(dateSensorData => {
     let mergedHourEntries: ISensorDataCollection[] = [];
@@ -294,6 +295,7 @@ export function mergeSensorDataByHours(
 }
 export function mergeSensorDataResults(sensorData: ISensorDataCollection[]) {
   let mergedDataResult: IBaseWeatherSensor[] = [];
+  console.log(`Running mergeSensorDataResults`);
   sensorData.forEach(mergedHourEntry => {
     let mergedSensorDataEntry: IBaseWeatherSensor = {
       temperature: 0,
@@ -338,10 +340,9 @@ export function mergeSensorDataResults(sensorData: ISensorDataCollection[]) {
   // console.log("mergeSensorDataResults: " + mergedDataResult.length);
   return mergedDataResult;
 }
-export function getSensorConfiguration(
-  database: Db,
-  sensorId: string
-): Promise<ICleanSensorCongfigurationEntry> {
+
+// : Promise<ICleanSensorCongfigurationEntry>
+export function getSensorConfiguration(database: Db, sensorId: string) {
   return new Promise((resolve, reject) => {
     let configurationCollection = database.collection(
       MONGO_DB_CONFIGURATION_COLLECTION_STRING
@@ -352,22 +353,21 @@ export function getSensorConfiguration(
       .toArray()
       .then(result => {
         if (!result || result.length === 0) {
-          console.log(`[${sensorId}] Kein Konfigurations-Eintrag gefunden...`);
+          console.log(`[${sensorId}] Kein Konfigurations-Eintrag vorhanden`);
           resolve(undefined);
         } else if (result.length > 1) {
-          console.log(
-            `[${sensorId}] Mehrere Konfigurations-Eintrag gefunden...`
-          );
-          reject("Mehrere Konfigurations-Eintrag gefunden");
+          console.log(`[${sensorId}] Mehrere Konfigurations-Eintrag vorhanden`);
+          reject("Mehrere Konfigurations-Eintrag vorhanden");
         } else {
           // console.log(JSON.stringify(result));
-          console.log(`[${sensorId}] Konfigurations-Eintrag gefunden...`);
+          console.log(`[${sensorId}] Konfigurations-Eintrag vorhanden`);
           resolve(result[0]);
         }
       })
       .catch(e => {
-        console.log(`[${sensorId}] Konfigurations-Eintrag gefunden...`);
-        console.log("Fehler bei der Suche nach Konfiguration-Eintrag ...");
+        console.log(
+          `[${sensorId}] Fehler bei der Suche nach Konfiguration-Eintrag`
+        );
         reject(e);
       });
   });
@@ -381,16 +381,15 @@ export function saveSensorConfiguration(
       MONGO_DB_CONFIGURATION_COLLECTION_STRING
     );
     getSensorConfiguration(database, configuration.sensorId)
-      .then(cfg => {
+      .then((cfg: ICleanSensorCongfigurationEntry) => {
         if (!cfg) {
-          // console.log("NOT found...");
           configurationCollection
             .insert(configuration)
             .then(() => {
               console.log(
                 `[${
                   configuration.sensorId
-                }] Konfigurations-Eintrag erfolgreich; hinzugefügt;...`
+                }] Konfigurations-Eintrag erfolgreich hinzugefügt`
               );
               resolve();
             })
@@ -398,12 +397,11 @@ export function saveSensorConfiguration(
               console.log(
                 `[${
                   configuration.sensorId
-                }] Fehler; beim; Hinzufügen; des; Konfiguration-Eintrags;...`
+                }] Fehler beim Hinzufügen des Konfiguration-Eintrags`
               );
               reject("Fehler beim Hinzufügen des Konfiguration-Eintrags");
             });
         } else {
-          // console.log("found...");
           configurationCollection
             .updateOne(
               { sensorId: cfg.sensorId },
@@ -413,7 +411,7 @@ export function saveSensorConfiguration(
               console.log(
                 `[${
                   configuration.sensorId
-                }] Konfigurations-Eintrag erfolgreich geupdated...`
+                }] Konfigurations-Eintrag erfolgreich aktualisiert`
               );
               resolve();
             })
@@ -421,9 +419,9 @@ export function saveSensorConfiguration(
               console.log(
                 `[${
                   configuration.sensorId
-                }] Fehler beim Updaten des Konfiguration-Eintrags...`
+                }] Fehler beim Aktualisieren des Konfiguration-Eintrags`
               );
-              reject("Fehler beim Updaten des Konfiguration-Eintrags");
+              reject("Fehler beim Aktualisieren des Konfiguration-Eintrags");
             });
         }
       })
@@ -432,29 +430,45 @@ export function saveSensorConfiguration(
       });
   });
 }
-export function runMergeJob() {
+export function runMergeJob(syncronized: boolean = false) {
   let db: Db = null;
   console.log("[runMergeJob] START");
   initializeDatabase()
     .then(database => {
       console.log("[runMergeJob] DB LOADED");
-      db = database;
+      db = database as Db;
       return db;
     })
     .then(getSensorIds)
     .then((sensorIds: string[]) => {
       console.log("[runMergeJob] SENSOR ID'S LOADED");
-      let promises = [];
-      sensorIds.forEach(id => {
-        console.log("[runMergeJob] CLEAN SENSOR-DATA FOR SENSOR [" + id + "]");
-        let p = cleanSensorData(db, id);
-        promises.push(p);
-      });
-      return Promise.all(promises);
+      if (syncronized === true) {
+        console.log("[runMergeJob] RUN SYNCRONIZED");
+        return Promise.mapSeries(sensorIds, function(id, index) {
+          console.log(
+            `@@@@ [ITERATION ${index + 1} of ${
+              sensorIds.length
+            }] RUN SENSOR ${id} @@@@`
+          );
+          // process each individual item here, return a promise
+          return cleanSensorData(db, id);
+        });
+      } else {
+        console.log("[runMergeJob] RUN ASYNCRON");
+        let promises = [];
+        sensorIds.forEach(id => {
+          console.log(
+            "[runMergeJob] CLEAN SENSOR-DATA FOR SENSOR [" + id + "]"
+          );
+          let p = cleanSensorData(db, id);
+          promises.push(p);
+        });
+        return Promise.all(promises);
+      }
     })
     .then(() => {
       console.log("[runMergeJob] FINISHED");
     })
     .catch(console.error);
 }
-runMergeJob();
+runMergeJob(true);
