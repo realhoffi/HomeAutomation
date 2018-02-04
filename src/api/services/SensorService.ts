@@ -3,7 +3,9 @@ import { Application } from "express";
 import { IBaseWeatherSensor } from "../../interfaces/xiaomi";
 import { Db } from "mongodb";
 const cfg = require("../../../config/config.json");
-declare let MONGO_DB_SENSOR_COLLECTION_STRING: string;
+// declare let MONGO_DB_SENSOR_COLLECTION_STRING: string;
+declare let MONGO_DB_MERGED_SENSOR_DATA_COLLECTION_STRING: string;
+
 class SensorService {
   public getSensors(app: Application): IBaseWeatherSensor[] {
     let result: IBaseWeatherSensor[] = [];
@@ -84,7 +86,7 @@ class SensorService {
       //  let db = app.locals.database as Db;
 
       app.locals.database
-        .collection(MONGO_DB_SENSOR_COLLECTION_STRING)
+        .collection(MONGO_DB_MERGED_SENSOR_DATA_COLLECTION_STRING)
         .insert(data)
         .then(result => {
           resolve({ message: "inserted" });
@@ -110,7 +112,7 @@ class SensorService {
       let db = app.locals.database as Db;
 
       db
-        .collection(MONGO_DB_SENSOR_COLLECTION_STRING)
+        .collection(MONGO_DB_MERGED_SENSOR_DATA_COLLECTION_STRING)
         .find(query)
         .toArray()
         .then(resultItems => {
@@ -159,7 +161,7 @@ class SensorService {
       let db = app.locals.database as Db;
 
       db
-        .collection(MONGO_DB_SENSOR_COLLECTION_STRING)
+        .collection(MONGO_DB_MERGED_SENSOR_DATA_COLLECTION_STRING)
         .find(query)
         .toArray()
         .then(resultItems => {

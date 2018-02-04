@@ -915,7 +915,7 @@ var SensorService = (function () {
             };
             console.log("add data now.", JSON.stringify(data));
             app.locals.database
-                .collection("sensors")
+                .collection("sensordata")
                 .insert(data)
                 .then(function (result) {
                 resolve({ message: "inserted" });
@@ -938,7 +938,7 @@ var SensorService = (function () {
             console.log("Query Sensor Data: ", query);
             var db = app.locals.database;
             db
-                .collection("sensors")
+                .collection("sensordata")
                 .find(query)
                 .toArray()
                 .then(function (resultItems) {
@@ -979,7 +979,7 @@ var SensorService = (function () {
             console.log("Query Sensor Data: ", query);
             var db = app.locals.database;
             db
-                .collection("sensors")
+                .collection("sensordata")
                 .find(query)
                 .toArray()
                 .then(function (resultItems) {

@@ -13,6 +13,11 @@ declare let MONGO_DB_CONFIGURATION_COLLECTION_STRING: string;
 declare let MONGO_DB_SENSOR_COLLECTION_STRING: string;
 declare let MONGO_DB_MERGED_SENSOR_DATA_COLLECTION_STRING: string;
 
+// 1. Sensordaten auslesen (mit altem MAX Wert aus DB) -> OK
+// 2. Sensordaten verarbeiten -> OK
+// 3. Sensordaten in DB schreiben -> OK
+// 4. MAX-Timestamp in DB setzen, damit beim nächsten mal dort wieder angefangen werden kann -> OK
+
 export interface ISensorQueryResult {
   id: string;
   minValue: number;
@@ -35,7 +40,7 @@ export interface ICleanSensorCongfigurationEntry {
   sensorId: string;
   timestamp: number;
 }
-export function initializeDatabase() {
+export function initializeDatabase(): Promise<Db> {
   return new Promise((resolve, reject) => {
     console.log("Try connect to Database", MONGO_DB_CONNECTION_STRING);
     MongoClient.connect(MONGO_DB_CONNECTION_STRING, function(err, database) {
@@ -48,80 +53,91 @@ export function initializeDatabase() {
     });
   });
 }
-export function cleanSensorData(database: Db) {
-  // 1. Sensordaten auslesen (mit altem MAX Wert aus DB) -> OK
-  // 2. Sensordaten verarbeiten -> OK
-  // 3. Sensordaten in DB schreiben -> OK
-  // 4. MAX-Timestamp in DB setzen, damit beim nächsten mal dort wieder angefangen werden kann -> OK
-  let collection = database.collection(MONGO_DB_SENSOR_COLLECTION_STRING);
-  collection.distinct("id", {}).then((sensorIds: any[]) => {
-    sensorIds.forEach(sensorId => {
-      let maxItems = 0;
-      let itemsToInsert = [];
-      let sensorConfiguration = null;
-      getSensorConfiguration(database, sensorId)
-        .then(cfg => {
-          //  console.log(`[${sensorId}] cfg: ` + JSON.stringify(cfg));
-          let ts = cfg ? cfg.timestamp : -1;
-          //  console.log("TS:", ts);
-          // console.log(`[${sensorId}] getSensorData`);
-          return getSensorData(sensorId, ts, collection);
-        })
-        // .catch(() => {
-        //   console.log(
-        //     `[${sensorId}] Fehler beim Auslesen der Sensor-Configuration`
-        //   );
-        // })
-        //  getSensorData(sensorId, collection)
-        .then(result => {
-          if (!result || result.count === 0 || !result.items) {
-            console.log(`[${sensorId}] !!! EXIT !!! NO DATA AVAILABLE !!!`);
-            return;
-          }
+export function getSensorIds(database: Db) {
+  return new Promise((resolve, reject) => {
+    let collection = database.collection(MONGO_DB_SENSOR_COLLECTION_STRING);
+    collection
+      .distinct("id", {})
+      .then((sensorIds: any[]) => {
+        resolve(sensorIds || []);
+      })
+      .catch(e => {
+        reject(e);
+      });
+  });
+}
+export function cleanSensorData(
+  database: Db,
+  sensorId: string
+): Promise<string> {
+  return new Promise((resolve, reject) => {
+    let collection = database.collection(MONGO_DB_SENSOR_COLLECTION_STRING);
+    // collection.distinct("id", {}).then((sensorIds: any[]) => {
+    //  sensorIds.forEach(sensorId => {
+    let maxItems = 0;
+    let itemsToInsert = [];
+    let sensorConfiguration = null;
+    getSensorConfiguration(database, sensorId)
+      .then(cfg => {
+        //  console.log(`[${sensorId}] cfg: ` + JSON.stringify(cfg));
+        let ts = cfg ? cfg.timestamp : -1;
+        // console.log(`[${sensorId}] getSensorData`);
+        return getSensorData(sensorId, ts, collection);
+      })
+      .then(result => {
+        if (!result || result.count === 0 || !result.items) {
+          console.log(`[${sensorId}] !!! EXIT !!! NO DATA AVAILABLE !!!`);
+          resolve("No Data Available");
+        } else {
           maxItems = result.count;
           sensorConfiguration = {
             sensorId: result.id,
             timestamp: result.maxValue
           };
-          // console.log(`[${sensorId}] mergeSensorData`);
+          console.log(`[${sensorId}] Merge Data Now`);
           return mergeSensorDataByDate(result);
-        })
-        .then((sensorData: ISensorDataCollection[]) => {
-          // Alle Sensor-Daten für einen Sensor gruppiert nach Datum
-          itemsToInsert = mergeSensorDataByHours(sensorData);
-          console.log(`[${sensorId}] Ergebnis: ${itemsToInsert.length}`);
-          let perc = 100 - itemsToInsert.length * 100 / maxItems;
-          console.log(`[${sensorId}] Saved ${perc.toFixed(1)}%`);
-          return itemsToInsert;
-        })
-        .then(mergedResult => {
-          console.log(
-            `[${sensorId}] Insert ${itemsToInsert.length} DB-Entries now...`
-          );
-          let mergedCollection = database.collection(
-            MONGO_DB_MERGED_SENSOR_DATA_COLLECTION_STRING
-          );
-          return mergedCollection.insert(mergedResult);
-        })
-        .then(insertResult => {
-          console.log(
-            `[${sensorId}] Finished... INSERTED ${
-              insertResult.insertedCount
-            } of ${itemsToInsert.length}`
-          );
-          console.log(`[${sensorId}] Adding Configurations now...`);
-          return saveSensorConfiguration(database, sensorConfiguration);
-        })
-        .then(() => {
-          console.log(`[${sensorId}] Inserted Sensor-Configuration`);
-          console.log(`[${sensorId}] !!!FINISHED!!!`);
-        })
-        .catch(error => {
-          console.log(
-            `[${sensorId}] ERROR (cleanSensorData): ${JSON.stringify(error)}`
-          );
-        });
-    });
+        }
+      })
+      .then((sensorData: ISensorDataCollection[]) => {
+        console.log(`[${sensorId}] Merged Ergebnis: ${sensorData.length}`);
+        // Alle Sensor-Daten für einen Sensor gruppiert nach Datum
+        itemsToInsert = mergeSensorDataByHours(sensorData);
+        console.log(`[${sensorId}] Ergebnis: ${itemsToInsert.length}`);
+        let perc = 100 - itemsToInsert.length * 100 / maxItems;
+        console.log(`[${sensorId}] Saved ${perc.toFixed(1)}%`);
+        return itemsToInsert;
+      })
+      .then(mergedResult => {
+        console.log(
+          `[${sensorId}] Insert ${itemsToInsert.length} DB-Entries now...`
+        );
+        let mergedCollection = database.collection(
+          MONGO_DB_MERGED_SENSOR_DATA_COLLECTION_STRING
+        );
+        return mergedCollection.insert(mergedResult);
+      })
+      .then(insertResult => {
+        console.log(
+          `[${sensorId}] Finished... INSERTED ${
+            insertResult.insertedCount
+          } of ${itemsToInsert.length}`
+        );
+        console.log(`[${sensorId}] Adding Configurations now...`);
+        return saveSensorConfiguration(database, sensorConfiguration);
+      })
+      .then(() => {
+        console.log(`[${sensorId}] Inserted Sensor-Configuration`);
+        console.log(`[${sensorId}] !!!FINISHED!!!`);
+        resolve("Finished");
+      })
+      .catch(error => {
+        console.log(
+          `[${sensorId}] ERROR (cleanSensorData): ${JSON.stringify(error)}`
+        );
+        reject(error);
+      });
+    // });
+    // });
   });
 }
 export function getSensorData(
@@ -130,12 +146,12 @@ export function getSensorData(
   collection: Collection
 ): Promise<ISensorQueryResult> {
   return new Promise((resolve, reject) => {
-    console.log("[${sensorId}] TIMESTAMP: " + JSON.stringify(cfgTimestamp));
+    console.log(`[${sensorId}] Timestamp: ${JSON.stringify(cfgTimestamp)}`);
     let searchItem = { id: sensorId };
     if (cfgTimestamp !== -1) {
       searchItem["timestamp"] = { $gt: cfgTimestamp };
     }
-    console.log(`[${sensorId}] SEARCH-QUERY: ` + JSON.stringify(searchItem));
+    console.log(`[${sensorId}] Search Query: ` + JSON.stringify(searchItem));
 
     collection
       .find(searchItem)
@@ -397,7 +413,7 @@ export function saveSensorConfiguration(
               console.log(
                 `[${
                   configuration.sensorId
-                }] Konfigurations-Eintrag; erfolgreich; geupdated;...`
+                }] Konfigurations-Eintrag erfolgreich geupdated...`
               );
               resolve();
             })
@@ -405,7 +421,7 @@ export function saveSensorConfiguration(
               console.log(
                 `[${
                   configuration.sensorId
-                }] Fehler; beim; Updaten; des; Konfiguration-Eintrags;...`
+                }] Fehler beim Updaten des Konfiguration-Eintrags...`
               );
               reject("Fehler beim Updaten des Konfiguration-Eintrags");
             });
@@ -416,6 +432,29 @@ export function saveSensorConfiguration(
       });
   });
 }
-initializeDatabase()
-  .then(cleanSensorData)
-  .catch(console.error);
+export function runMergeJob() {
+  let db: Db = null;
+  console.log("[runMergeJob] START");
+  initializeDatabase()
+    .then(database => {
+      console.log("[runMergeJob] DB LOADED");
+      db = database;
+      return db;
+    })
+    .then(getSensorIds)
+    .then((sensorIds: string[]) => {
+      console.log("[runMergeJob] SENSOR ID'S LOADED");
+      let promises = [];
+      sensorIds.forEach(id => {
+        console.log("[runMergeJob] CLEAN SENSOR-DATA FOR SENSOR [" + id + "]");
+        let p = cleanSensorData(db, id);
+        promises.push(p);
+      });
+      return Promise.all(promises);
+    })
+    .then(() => {
+      console.log("[runMergeJob] FINISHED");
+    })
+    .catch(console.error);
+}
+runMergeJob();

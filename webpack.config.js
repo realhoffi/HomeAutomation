@@ -45,7 +45,6 @@ fs
   });
 
 var dbConnection = "mongodb://localhost:27017";
-//dbConnection = "mongodb://192.168.178.43:27017/homeautomation";
 var exportWebpack = [];
 
 if (!!compileServer) {
@@ -83,6 +82,9 @@ if (!!compileServer) {
         MONGO_DB_APPLICATION_COLLECTION_STRING: JSON.stringify("application"),
         MONGO_DB_CONFIGURATION_COLLECTION_STRING: JSON.stringify(
           "configuration"
+        ),
+        MONGO_DB_MERGED_SENSOR_DATA_COLLECTION_STRING: JSON.stringify(
+          "sensordata"
         ),
         MONGO_DB_FILIALEN_COLLECTION_STRING: JSON.stringify("filialen"),
         MONGO_DB_ROUTEN_COLLECTION_STRING: JSON.stringify("routen"),
