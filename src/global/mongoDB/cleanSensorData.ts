@@ -8,6 +8,7 @@ import { IBaseWeatherSensor } from "../../interfaces/xiaomi";
 import { json } from "express";
 import { resultItem } from "office-ui-fabric-react/lib/components/pickers/PeoplePicker/PeoplePicker.scss";
 import { Promise } from "bluebird";
+import { RechnungServiceInstance } from "../../api/services/RechnungService";
 
 declare let MONGO_DB_CONNECTION_STRING: string;
 declare let MONGO_DB_DATABASE_STRING: string;
@@ -46,7 +47,7 @@ export interface ICleanSensorCongfigurationEntry {
 export function initializeDatabase() {
   return new Promise((resolve, reject) => {
     console.log("Try connect to Database", MONGO_DB_CONNECTION_STRING);
-    MongoClient.connect(MONGO_DB_CONNECTION_STRING, function(err, database) {
+    MongoClient.connect(MONGO_DB_CONNECTION_STRING, function (err, database) {
       if (err) {
         reject({ message: "Error adding database startup entry", error: err });
         // throw err;
@@ -119,7 +120,7 @@ export function cleanSensorData(database: Db, sensorId: string) {
       .then(insertResult => {
         console.log(
           `[${sensorId}] Finished... INSERTED ${
-            insertResult.insertedCount
+          insertResult.insertedCount
           } of ${itemsToInsert.length}`
         );
         console.log(`[${sensorId}] Adding Configurations now...`);
@@ -388,7 +389,7 @@ export function saveSensorConfiguration(
             .then(() => {
               console.log(
                 `[${
-                  configuration.sensorId
+                configuration.sensorId
                 }] Konfigurations-Eintrag erfolgreich hinzugefügt`
               );
               resolve();
@@ -396,7 +397,7 @@ export function saveSensorConfiguration(
             .catch(() => {
               console.log(
                 `[${
-                  configuration.sensorId
+                configuration.sensorId
                 }] Fehler beim Hinzufügen des Konfiguration-Eintrags`
               );
               reject("Fehler beim Hinzufügen des Konfiguration-Eintrags");
@@ -410,7 +411,7 @@ export function saveSensorConfiguration(
             .then(() => {
               console.log(
                 `[${
-                  configuration.sensorId
+                configuration.sensorId
                 }] Konfigurations-Eintrag erfolgreich aktualisiert`
               );
               resolve();
@@ -418,7 +419,7 @@ export function saveSensorConfiguration(
             .catch(() => {
               console.log(
                 `[${
-                  configuration.sensorId
+                configuration.sensorId
                 }] Fehler beim Aktualisieren des Konfiguration-Eintrags`
               );
               reject("Fehler beim Aktualisieren des Konfiguration-Eintrags");
@@ -444,10 +445,10 @@ export function runMergeJob(syncronized: boolean = false) {
       console.log("[runMergeJob] SENSOR ID'S LOADED");
       if (syncronized === true) {
         console.log("[runMergeJob] RUN SYNCRONIZED");
-        return Promise.mapSeries(sensorIds, function(id, index) {
+        return Promise.mapSeries(sensorIds, function (id, index) {
           console.log(
             `@@@@ [ITERATION ${index + 1} of ${
-              sensorIds.length
+            sensorIds.length
             }] RUN SENSOR ${id} @@@@`
           );
           // process each individual item here, return a promise
@@ -471,4 +472,20 @@ export function runMergeJob(syncronized: boolean = false) {
     })
     .catch(console.error);
 }
-runMergeJob(true);
+
+function createRechnungen() {
+  let db = null;
+  initializeDatabase()
+    .then(database => {
+      console.log("[runMergeJob] DB LOADED");
+      db = database as Db;
+      return db;
+    }).then((db: Db) => {
+      return RechnungServiceInstance.createRechnung(db);
+    }).then(() => {
+      console.log("Finished");
+      process.exit();
+    }).catch(console.log);
+}
+// runMergeJob(true);
+createRechnungen();

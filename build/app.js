@@ -915,7 +915,7 @@ var SensorService = (function () {
             };
             console.log("add data now.", JSON.stringify(data));
             app.locals.database
-                .collection("sensordata")
+                .collection("sensors")
                 .insert(data)
                 .then(function (result) {
                 resolve({ message: "inserted" });
@@ -938,7 +938,7 @@ var SensorService = (function () {
             console.log("Query Sensor Data: ", query);
             var db = app.locals.database;
             db
-                .collection("sensordata")
+                .collection("sensors")
                 .find(query)
                 .toArray()
                 .then(function (resultItems) {
@@ -979,7 +979,7 @@ var SensorService = (function () {
             console.log("Query Sensor Data: ", query);
             var db = app.locals.database;
             db
-                .collection("sensordata")
+                .collection("sensors")
                 .find(query)
                 .toArray()
                 .then(function (resultItems) {
@@ -7203,9 +7203,11 @@ var AldiService = (function () {
     function AldiService() {
     }
     AldiService.prototype.getFilialen = function (app) {
+        return this.getFilialenByDbObject(app.locals.database);
+    };
+    AldiService.prototype.getFilialenByDbObject = function (db) {
         return new Promise(function (resolve, reject) {
-            app.locals.database
-                .collection("filialen")
+            db.collection("filialen")
                 .find({})
                 .toArray()
                 .then(function (result) {

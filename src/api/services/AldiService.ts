@@ -9,10 +9,12 @@ declare let MONGO_DB_FILIALEN_COLLECTION_STRING: string;
 declare let MONGO_DB_ROUTEN_COLLECTION_STRING: string;
 
 class AldiService {
-  public getFilialen(app: Application) {
+  public getFilialen(app: Application): Promise<any[]> {
+    return this.getFilialenByDbObject(app.locals.database);
+  }
+  public getFilialenByDbObject(db: Db): Promise<any[]> {
     return new Promise((resolve, reject) => {
-      app.locals.database
-        .collection(MONGO_DB_FILIALEN_COLLECTION_STRING)
+      db.collection(MONGO_DB_FILIALEN_COLLECTION_STRING)
         .find({})
         .toArray()
         .then(result => {
@@ -22,8 +24,6 @@ class AldiService {
           console.log("error inserting", JSON.stringify(error));
           reject({ message: "error query filialen" });
         });
-
-      // };
     });
   }
   public getFiliale(app: Application, filialId: string) {
