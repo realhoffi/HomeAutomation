@@ -5,8 +5,6 @@ import {
   setDatePropertiesToZero
 } from "../../helper/date";
 import { IBaseWeatherSensor } from "../../interfaces/xiaomi";
-import { json } from "express";
-import { resultItem } from "office-ui-fabric-react/lib/components/pickers/PeoplePicker/PeoplePicker.scss";
 import { Promise } from "bluebird";
 import { RechnungServiceInstance } from "../../api/services/RechnungService";
 
@@ -15,11 +13,6 @@ declare let MONGO_DB_DATABASE_STRING: string;
 declare let MONGO_DB_CONFIGURATION_COLLECTION_STRING: string;
 declare let MONGO_DB_SENSOR_COLLECTION_STRING: string;
 declare let MONGO_DB_MERGED_SENSOR_DATA_COLLECTION_STRING: string;
-
-// 1. Sensordaten auslesen (mit altem MAX Wert aus DB) -> OK
-// 2. Sensordaten verarbeiten -> OK
-// 3. Sensordaten in DB schreiben -> OK
-// 4. MAX-Timestamp in DB setzen, damit beim nächsten mal dort wieder angefangen werden kann -> OK
 
 export interface ISensorQueryResult {
   id: string;

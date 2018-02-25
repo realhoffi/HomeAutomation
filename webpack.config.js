@@ -13,8 +13,8 @@ var fs = require("fs");
 
 var currentStage = "development"; //;"development"; //production
 var nodeModules = {};
-var compileServer = false;
-var compileClient = false;
+var compileServer = true;
+var compileClient = true;
 var compileDatabase = true;
 var vendor = [
   "babel-polyfill",
@@ -354,6 +354,10 @@ if (!!compileDatabase) {
         {
           test: /\.tsx?$/,
           loader: "awesome-typescript-loader",
+          options: {
+            instance: 'server',
+            configFile: 'tsconfig.json',
+          },
           exclude: /(node_modules)/
         }
       ],

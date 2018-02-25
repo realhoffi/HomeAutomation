@@ -50,6 +50,7 @@ class RechnungService {
       });
       console.log("finished createRechnung");
       resolve();
+      return;
     });
   }
   public getFiliale(app: Application, filialId: string) {

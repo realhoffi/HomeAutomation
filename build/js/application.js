@@ -88,7 +88,7 @@ exports.promise_all_custom = promise_all_custom;
 
 /***/ }),
 
-/***/ 186:
+/***/ 188:
 /*!******************************************!*\
   !*** ./node_modules/int-to-rgb/index.js ***!
   \******************************************/
@@ -118,7 +118,7 @@ module.exports = function(int) {
 
 /***/ }),
 
-/***/ 196:
+/***/ 198:
 /*!****************************!*\
   !*** ./src/enums/enums.ts ***!
   \****************************/
@@ -139,7 +139,7 @@ var PageType;
 
 /***/ }),
 
-/***/ 237:
+/***/ 239:
 /*!****************************************************************!*\
   !*** ./src/projects/yeelight/components/pages/application.tsx ***!
   \****************************************************************/
@@ -170,10 +170,10 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
 var axios_1 = __webpack_require__(/*! axios */ 30);
-var timers_1 = __webpack_require__(/*! timers */ 87);
-var Yeelight_1 = __webpack_require__(/*! ../simple/Yeelight */ 438);
+var timers_1 = __webpack_require__(/*! timers */ 86);
+var Yeelight_1 = __webpack_require__(/*! ../simple/Yeelight */ 443);
 var react_1 = __webpack_require__(/*! react */ 1);
-var intToRGB = __webpack_require__(/*! int-to-rgb */ 186);
+var intToRGB = __webpack_require__(/*! int-to-rgb */ 188);
 var Application = (function (_super) {
     __extends(Application, _super);
     function Application(props) {
@@ -269,7 +269,7 @@ exports.Application = Application;
 
 /***/ }),
 
-/***/ 314:
+/***/ 319:
 /*!**********************************************************!*\
   !*** ./src/projects/xiaomi/components/pages/sensors.tsx ***!
   \**********************************************************/
@@ -292,9 +292,9 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
 var axios_1 = __webpack_require__(/*! axios */ 30);
-var BaseWeatherSensor_1 = __webpack_require__(/*! ../../../../global/components/simple/BaseWeatherSensor */ 733);
-var timers_1 = __webpack_require__(/*! timers */ 87);
-var intToRGB = __webpack_require__(/*! int-to-rgb */ 186);
+var BaseWeatherSensor_1 = __webpack_require__(/*! ../../../../global/components/simple/BaseWeatherSensor */ 737);
+var timers_1 = __webpack_require__(/*! timers */ 86);
+var intToRGB = __webpack_require__(/*! int-to-rgb */ 188);
 var Application = (function (_super) {
     __extends(Application, _super);
     function Application(props) {
@@ -352,7 +352,7 @@ exports.Application = Application;
 
 /***/ }),
 
-/***/ 334:
+/***/ 339:
 /*!***********************************************************!*\
   !*** ./src/projects/xiaomi/components/pages/gateways.tsx ***!
   \***********************************************************/
@@ -375,9 +375,9 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
 var axios_1 = __webpack_require__(/*! axios */ 30);
-var BaseLight_1 = __webpack_require__(/*! ../../../../global/components/simple/BaseLight */ 881);
-var timers_1 = __webpack_require__(/*! timers */ 87);
-var intToRGB = __webpack_require__(/*! int-to-rgb */ 186);
+var BaseLight_1 = __webpack_require__(/*! ../../../../global/components/simple/BaseLight */ 885);
+var timers_1 = __webpack_require__(/*! timers */ 86);
+var intToRGB = __webpack_require__(/*! int-to-rgb */ 188);
 var Application = (function (_super) {
     __extends(Application, _super);
     function Application(props) {
@@ -476,7 +476,7 @@ exports.Application = Application;
 
 /***/ }),
 
-/***/ 335:
+/***/ 340:
 /*!*************************************************************!*\
   !*** ./src/projects/system/components/pages/systeminfo.tsx ***!
   \*************************************************************/
@@ -500,7 +500,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
 var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
 var axios_1 = __webpack_require__(/*! axios */ 30);
-var timers_1 = __webpack_require__(/*! timers */ 87);
+var timers_1 = __webpack_require__(/*! timers */ 86);
 var react_1 = __webpack_require__(/*! react */ 1);
 var SystemInfo = (function (_super) {
     __extends(SystemInfo, _super);
@@ -587,7 +587,7 @@ exports.SystemInfo = SystemInfo;
 
 /***/ }),
 
-/***/ 336:
+/***/ 341:
 /*!******************************************************!*\
   !*** ./src/global/components/container/basePage.tsx ***!
   \******************************************************/
@@ -639,7 +639,7 @@ exports.BasePage = BasePage;
 
 /***/ }),
 
-/***/ 337:
+/***/ 342:
 /*!**********************************************************!*\
   !*** ./src/global/components/simple/NumberTextField.tsx ***!
   \**********************************************************/
@@ -694,7 +694,7 @@ exports.NumberTextField = NumberTextField;
 
 /***/ }),
 
-/***/ 338:
+/***/ 343:
 /*!************************************************************!*\
   !*** ./src/projects/aldi/components/stateless/Filiale.tsx ***!
   \************************************************************/
@@ -717,9 +717,9 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
 var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
-var NumberTextField_1 = __webpack_require__(/*! ../../../../global/components/simple/NumberTextField */ 337);
+var NumberTextField_1 = __webpack_require__(/*! ../../../../global/components/simple/NumberTextField */ 342);
 var Panel_1 = __webpack_require__(/*! ../../../../global/components/simple/Panel */ 61);
-var date_1 = __webpack_require__(/*! ../../../../helper/date */ 78);
+var date_1 = __webpack_require__(/*! ../../../../helper/date */ 77);
 var Filiale = (function (_super) {
     __extends(Filiale, _super);
     function Filiale(props) {
@@ -798,7 +798,7 @@ exports.Filiale = Filiale;
 
 /***/ }),
 
-/***/ 339:
+/***/ 344:
 /*!**********************************************!*\
   !*** ./node_modules/uuid/lib/rng-browser.js ***!
   \**********************************************/
@@ -842,7 +842,7 @@ if (getRandomValues) {
 
 /***/ }),
 
-/***/ 340:
+/***/ 345:
 /*!**********************************************!*\
   !*** ./node_modules/uuid/lib/bytesToUuid.js ***!
   \**********************************************/
@@ -877,7 +877,7 @@ module.exports = bytesToUuid;
 
 /***/ }),
 
-/***/ 341:
+/***/ 346:
 /*!*****************************************************!*\
   !*** ./src/projects/aldi/configuration/columns.tsx ***!
   \*****************************************************/
@@ -889,7 +889,7 @@ module.exports = bytesToUuid;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
-var date_1 = __webpack_require__(/*! ../../../helper/date */ 78);
+var date_1 = __webpack_require__(/*! ../../../helper/date */ 77);
 exports.defaultColumns = [];
 exports.routeOverviewColumns = [
     {
@@ -1079,7 +1079,7 @@ exports.filialOverviewColumns = [
 
 /***/ }),
 
-/***/ 342:
+/***/ 347:
 /*!*********************************************************!*\
   !*** ./src/global/components/simple/BaseUebersicht.tsx ***!
   \*********************************************************/
@@ -1235,7 +1235,7 @@ exports.BaseUebersicht = BaseUebersicht;
 
 /***/ }),
 
-/***/ 343:
+/***/ 348:
 /*!*******************************!*\
   !*** ./src/helper/sorting.ts ***!
   \*******************************/
@@ -1275,7 +1275,7 @@ exports.sortArrayByProperty = sortArrayByProperty;
 
 /***/ }),
 
-/***/ 344:
+/***/ 349:
 /*!**************************************************!*\
   !*** ./src/global/components/simple/Routing.tsx ***!
   \**************************************************/
@@ -1297,7 +1297,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
-var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ 84);
+var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ 83);
 var RedirectWithStatus = (function (_super) {
     __extends(RedirectWithStatus, _super);
     function RedirectWithStatus() {
@@ -1338,7 +1338,7 @@ exports.Status = Status;
 
 /***/ }),
 
-/***/ 380:
+/***/ 385:
 /*!*******************************************************!*\
   !*** multi ./src/global/components/pages/initApp.tsx ***!
   \*******************************************************/
@@ -1346,12 +1346,12 @@ exports.Status = Status;
 /*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! ./src/global/components/pages/initApp.tsx */381);
+module.exports = __webpack_require__(/*! ./src/global/components/pages/initApp.tsx */386);
 
 
 /***/ }),
 
-/***/ 381:
+/***/ 386:
 /*!*************************************************!*\
   !*** ./src/global/components/pages/initApp.tsx ***!
   \*************************************************/
@@ -1364,9 +1364,9 @@ module.exports = __webpack_require__(/*! ./src/global/components/pages/initApp.t
 Object.defineProperty(exports, "__esModule", { value: true });
 var ReactDOM = __webpack_require__(/*! react-dom */ 56);
 var React = __webpack_require__(/*! react */ 1);
-var globalApplication_1 = __webpack_require__(/*! ./globalApplication */ 396);
-var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ 84);
-var icons_1 = __webpack_require__(/*! @uifabric/icons */ 345);
+var globalApplication_1 = __webpack_require__(/*! ./globalApplication */ 401);
+var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ 83);
+var icons_1 = __webpack_require__(/*! @uifabric/icons */ 350);
 icons_1.initializeIcons();
 window.onload = function () {
     ReactDOM.render(React.createElement(react_router_dom_1.HashRouter, null,
@@ -1376,7 +1376,7 @@ window.onload = function () {
 
 /***/ }),
 
-/***/ 396:
+/***/ 401:
 /*!***********************************************************!*\
   !*** ./src/global/components/pages/globalApplication.tsx ***!
   \***********************************************************/
@@ -1398,17 +1398,17 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
-var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ 84);
-var application_1 = __webpack_require__(/*! ./application */ 418);
-var application_2 = __webpack_require__(/*! ../../../projects/yeelight/components/pages/application */ 237);
-var application_3 = __webpack_require__(/*! ../../../projects/vacuumRoboter/components/pages/application */ 882);
-var application_4 = __webpack_require__(/*! ../../../projects/aldi/components/pages/application */ 883);
-var sensors_1 = __webpack_require__(/*! ../../../projects/xiaomi/components/pages/sensors */ 314);
-var gateways_1 = __webpack_require__(/*! ../../../projects/xiaomi/components/pages/gateways */ 334);
-var NotFoundPage_1 = __webpack_require__(/*! ../../components/simple/NotFoundPage */ 897);
-var Routing_1 = __webpack_require__(/*! ../simple/Routing */ 344);
-var basePage_1 = __webpack_require__(/*! ../container/basePage */ 336);
-var systeminfo_1 = __webpack_require__(/*! ../../../projects/system/components/pages/systeminfo */ 335);
+var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ 83);
+var application_1 = __webpack_require__(/*! ./application */ 423);
+var application_2 = __webpack_require__(/*! ../../../projects/yeelight/components/pages/application */ 239);
+var application_3 = __webpack_require__(/*! ../../../projects/vacuumRoboter/components/pages/application */ 886);
+var application_4 = __webpack_require__(/*! ../../../projects/aldi/components/pages/application */ 887);
+var sensors_1 = __webpack_require__(/*! ../../../projects/xiaomi/components/pages/sensors */ 319);
+var gateways_1 = __webpack_require__(/*! ../../../projects/xiaomi/components/pages/gateways */ 339);
+var NotFoundPage_1 = __webpack_require__(/*! ../../components/simple/NotFoundPage */ 901);
+var Routing_1 = __webpack_require__(/*! ../simple/Routing */ 349);
+var basePage_1 = __webpack_require__(/*! ../container/basePage */ 341);
+var systeminfo_1 = __webpack_require__(/*! ../../../projects/system/components/pages/systeminfo */ 340);
 var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
 var GlobalApplication = (function (_super) {
     __extends(GlobalApplication, _super);
@@ -1478,7 +1478,7 @@ exports.GlobalApplication = GlobalApplication;
 
 /***/ }),
 
-/***/ 418:
+/***/ 423:
 /*!*****************************************************!*\
   !*** ./src/global/components/pages/application.tsx ***!
   \*****************************************************/
@@ -1500,12 +1500,12 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
-var application_1 = __webpack_require__(/*! ../../../projects/yeelight/components/pages/application */ 237);
-var sensors_1 = __webpack_require__(/*! ../../../projects/xiaomi/components/pages/sensors */ 314);
-var gateways_1 = __webpack_require__(/*! ../../../projects/xiaomi/components/pages/gateways */ 334);
+var application_1 = __webpack_require__(/*! ../../../projects/yeelight/components/pages/application */ 239);
+var sensors_1 = __webpack_require__(/*! ../../../projects/xiaomi/components/pages/sensors */ 319);
+var gateways_1 = __webpack_require__(/*! ../../../projects/xiaomi/components/pages/gateways */ 339);
 var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
-var PivotItem_1 = __webpack_require__(/*! office-ui-fabric-react/lib/components/Pivot/PivotItem */ 184);
-var systeminfo_1 = __webpack_require__(/*! ../../../projects/system/components/pages/systeminfo */ 335);
+var PivotItem_1 = __webpack_require__(/*! office-ui-fabric-react/lib/components/Pivot/PivotItem */ 186);
+var systeminfo_1 = __webpack_require__(/*! ../../../projects/system/components/pages/systeminfo */ 340);
 var Application = (function (_super) {
     __extends(Application, _super);
     function Application(props) {
@@ -1538,7 +1538,7 @@ exports.Application = Application;
 
 /***/ }),
 
-/***/ 438:
+/***/ 443:
 /*!**************************************************************!*\
   !*** ./src/projects/yeelight/components/simple/Yeelight.tsx ***!
   \**************************************************************/
@@ -1789,7 +1789,7 @@ exports.Panel = Panel;
 
 /***/ }),
 
-/***/ 733:
+/***/ 737:
 /*!************************************************************!*\
   !*** ./src/global/components/simple/BaseWeatherSensor.tsx ***!
   \************************************************************/
@@ -1814,7 +1814,7 @@ var React = __webpack_require__(/*! react */ 1);
 var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
 var Panel_1 = __webpack_require__(/*! ../../../global/components/simple/Panel */ 61);
 var react_1 = __webpack_require__(/*! react */ 1);
-var BaseWeatherSensorChart_1 = __webpack_require__(/*! ./BaseWeatherSensorChart */ 734);
+var BaseWeatherSensorChart_1 = __webpack_require__(/*! ./BaseWeatherSensorChart */ 738);
 var BaseWeatherSensor = (function (_super) {
     __extends(BaseWeatherSensor, _super);
     function BaseWeatherSensor(props) {
@@ -1854,7 +1854,7 @@ exports.BaseWeatherSensor = BaseWeatherSensor;
 
 /***/ }),
 
-/***/ 734:
+/***/ 738:
 /*!*****************************************************************!*\
   !*** ./src/global/components/simple/BaseWeatherSensorChart.tsx ***!
   \*****************************************************************/
@@ -1878,8 +1878,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
 var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
 var axios_1 = __webpack_require__(/*! axios */ 30);
-var react_chartjs_2_1 = __webpack_require__(/*! react-chartjs-2 */ 315);
-var date_1 = __webpack_require__(/*! ../../../helper/date */ 78);
+var react_chartjs_2_1 = __webpack_require__(/*! react-chartjs-2 */ 320);
+var date_1 = __webpack_require__(/*! ../../../helper/date */ 77);
 var options = [
     React.createElement("option", { value: "1", key: "k1" }, "Heute"),
     React.createElement("option", { value: "2", key: "k2" }, "Letzten 2 Tage"),
@@ -2140,7 +2140,7 @@ exports.BaseWeatherSensorChart = BaseWeatherSensorChart;
 
 /***/ }),
 
-/***/ 78:
+/***/ 77:
 /*!****************************!*\
   !*** ./src/helper/date.ts ***!
   \****************************/
@@ -2199,7 +2199,7 @@ exports.setDatePropertiesToZero = setDatePropertiesToZero;
 
 /***/ }),
 
-/***/ 881:
+/***/ 885:
 /*!****************************************************!*\
   !*** ./src/global/components/simple/BaseLight.tsx ***!
   \****************************************************/
@@ -2352,7 +2352,7 @@ exports.BaseLight = BaseLight;
 
 /***/ }),
 
-/***/ 882:
+/***/ 886:
 /*!*********************************************************************!*\
   !*** ./src/projects/vacuumRoboter/components/pages/application.tsx ***!
   \*********************************************************************/
@@ -2397,7 +2397,7 @@ exports.Application = Application;
 
 /***/ }),
 
-/***/ 883:
+/***/ 887:
 /*!************************************************************!*\
   !*** ./src/projects/aldi/components/pages/application.tsx ***!
   \************************************************************/
@@ -2419,16 +2419,16 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
-var manageRoute_1 = __webpack_require__(/*! ./manageRoute */ 884);
-var enums_1 = __webpack_require__(/*! ../../../../enums/enums */ 196);
+var manageRoute_1 = __webpack_require__(/*! ./manageRoute */ 888);
+var enums_1 = __webpack_require__(/*! ../../../../enums/enums */ 198);
 var react_1 = __webpack_require__(/*! react */ 1);
-var ToolTip_1 = __webpack_require__(/*! ../../../../global/components/simple/ToolTip */ 891);
-var Routenuebersicht_1 = __webpack_require__(/*! ../intelligent/Routenuebersicht */ 892);
-var UploadRoutes_1 = __webpack_require__(/*! ../intelligent/UploadRoutes */ 893);
-var UploadFilialen_1 = __webpack_require__(/*! ../intelligent/UploadFilialen */ 894);
-var Filialuebersicht_1 = __webpack_require__(/*! ../intelligent/Filialuebersicht */ 895);
+var ToolTip_1 = __webpack_require__(/*! ../../../../global/components/simple/ToolTip */ 895);
+var Routenuebersicht_1 = __webpack_require__(/*! ../intelligent/Routenuebersicht */ 896);
+var UploadRoutes_1 = __webpack_require__(/*! ../intelligent/UploadRoutes */ 897);
+var UploadFilialen_1 = __webpack_require__(/*! ../intelligent/UploadFilialen */ 898);
+var Filialuebersicht_1 = __webpack_require__(/*! ../intelligent/Filialuebersicht */ 899);
 var Panel_1 = __webpack_require__(/*! ../../../../global/components/simple/Panel */ 61);
-var Filiale_1 = __webpack_require__(/*! ../intelligent/Filiale */ 896);
+var Filiale_1 = __webpack_require__(/*! ../intelligent/Filiale */ 900);
 var Application = (function (_super) {
     __extends(Application, _super);
     function Application(props) {
@@ -2586,7 +2586,7 @@ exports.Application = Application;
 
 /***/ }),
 
-/***/ 884:
+/***/ 888:
 /*!************************************************************!*\
   !*** ./src/projects/aldi/components/pages/manageRoute.tsx ***!
   \************************************************************/
@@ -2617,16 +2617,16 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
 var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
-var enums_1 = __webpack_require__(/*! ../../../../enums/enums */ 196);
-var basePage_1 = __webpack_require__(/*! ../../../../global/components/container/basePage */ 336);
+var enums_1 = __webpack_require__(/*! ../../../../enums/enums */ 198);
+var basePage_1 = __webpack_require__(/*! ../../../../global/components/container/basePage */ 341);
 var ButtonRow_1 = __webpack_require__(/*! ../../../../global/components/simple/ButtonRow */ 133);
 var Panel_1 = __webpack_require__(/*! ../../../../global/components/simple/Panel */ 61);
-var date_1 = __webpack_require__(/*! ../../../../helper/date */ 78);
-var Link_1 = __webpack_require__(/*! ../stateless/Link */ 885);
-var Ausgabe_1 = __webpack_require__(/*! ../stateless/Ausgabe */ 886);
-var Filiale_1 = __webpack_require__(/*! ../stateless/Filiale */ 338);
-var Routenfahrt_1 = __webpack_require__(/*! ../stateless/Routenfahrt */ 887);
-var uuid_1 = __webpack_require__(/*! uuid */ 888);
+var date_1 = __webpack_require__(/*! ../../../../helper/date */ 77);
+var Link_1 = __webpack_require__(/*! ../stateless/Link */ 889);
+var Ausgabe_1 = __webpack_require__(/*! ../stateless/Ausgabe */ 890);
+var Filiale_1 = __webpack_require__(/*! ../stateless/Filiale */ 343);
+var Routenfahrt_1 = __webpack_require__(/*! ../stateless/Routenfahrt */ 891);
+var uuid_1 = __webpack_require__(/*! uuid */ 892);
 var axios_1 = __webpack_require__(/*! axios */ 30);
 var ManageRoute = (function (_super) {
     __extends(ManageRoute, _super);
@@ -2983,7 +2983,7 @@ exports.ManageRoute = ManageRoute;
 
 /***/ }),
 
-/***/ 885:
+/***/ 889:
 /*!*********************************************************!*\
   !*** ./src/projects/aldi/components/stateless/Link.tsx ***!
   \*********************************************************/
@@ -3042,7 +3042,7 @@ exports.Link = Link;
 
 /***/ }),
 
-/***/ 886:
+/***/ 890:
 /*!************************************************************!*\
   !*** ./src/projects/aldi/components/stateless/Ausgabe.tsx ***!
   \************************************************************/
@@ -3065,7 +3065,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
 var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
-var NumberTextField_1 = __webpack_require__(/*! ../../../../global/components/simple/NumberTextField */ 337);
+var NumberTextField_1 = __webpack_require__(/*! ../../../../global/components/simple/NumberTextField */ 342);
 var Panel_1 = __webpack_require__(/*! ../../../../global/components/simple/Panel */ 61);
 var defaultOption = React.createElement("option", { key: "-1" }, "Bitte einen Wert angeben");
 var Ausgabe = (function (_super) {
@@ -3104,7 +3104,7 @@ exports.Ausgabe = Ausgabe;
 
 /***/ }),
 
-/***/ 887:
+/***/ 891:
 /*!****************************************************************!*\
   !*** ./src/projects/aldi/components/stateless/Routenfahrt.tsx ***!
   \****************************************************************/
@@ -3127,7 +3127,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
 var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
-var date_1 = __webpack_require__(/*! ../../../../helper/date */ 78);
+var date_1 = __webpack_require__(/*! ../../../../helper/date */ 77);
 var defaultOption = React.createElement("option", { key: "-1" }, "Bitte einen Wert angeben");
 var Routenfahrt = (function (_super) {
     __extends(Routenfahrt, _super);
@@ -3163,7 +3163,7 @@ exports.Routenfahrt = Routenfahrt;
 
 /***/ }),
 
-/***/ 888:
+/***/ 892:
 /*!************************************!*\
   !*** ./node_modules/uuid/index.js ***!
   \************************************/
@@ -3171,8 +3171,8 @@ exports.Routenfahrt = Routenfahrt;
 /*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
-var v1 = __webpack_require__(/*! ./v1 */ 889);
-var v4 = __webpack_require__(/*! ./v4 */ 890);
+var v1 = __webpack_require__(/*! ./v1 */ 893);
+var v4 = __webpack_require__(/*! ./v4 */ 894);
 
 var uuid = v4;
 uuid.v1 = v1;
@@ -3183,7 +3183,7 @@ module.exports = uuid;
 
 /***/ }),
 
-/***/ 889:
+/***/ 893:
 /*!*********************************!*\
   !*** ./node_modules/uuid/v1.js ***!
   \*********************************/
@@ -3191,8 +3191,8 @@ module.exports = uuid;
 /*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
-var rng = __webpack_require__(/*! ./lib/rng */ 339);
-var bytesToUuid = __webpack_require__(/*! ./lib/bytesToUuid */ 340);
+var rng = __webpack_require__(/*! ./lib/rng */ 344);
+var bytesToUuid = __webpack_require__(/*! ./lib/bytesToUuid */ 345);
 
 // **`v1()` - Generate time-based UUID**
 //
@@ -3304,7 +3304,7 @@ module.exports = v1;
 
 /***/ }),
 
-/***/ 890:
+/***/ 894:
 /*!*********************************!*\
   !*** ./node_modules/uuid/v4.js ***!
   \*********************************/
@@ -3312,8 +3312,8 @@ module.exports = v1;
 /*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
-var rng = __webpack_require__(/*! ./lib/rng */ 339);
-var bytesToUuid = __webpack_require__(/*! ./lib/bytesToUuid */ 340);
+var rng = __webpack_require__(/*! ./lib/rng */ 344);
+var bytesToUuid = __webpack_require__(/*! ./lib/bytesToUuid */ 345);
 
 function v4(options, buf, offset) {
   var i = buf && offset || 0;
@@ -3345,7 +3345,7 @@ module.exports = v4;
 
 /***/ }),
 
-/***/ 891:
+/***/ 895:
 /*!**************************************************!*\
   !*** ./src/global/components/simple/ToolTip.tsx ***!
   \**************************************************/
@@ -3387,7 +3387,7 @@ exports.ToolTip = ToolTip;
 
 /***/ }),
 
-/***/ 892:
+/***/ 896:
 /*!***********************************************************************!*\
   !*** ./src/projects/aldi/components/intelligent/Routenuebersicht.tsx ***!
   \***********************************************************************/
@@ -3419,10 +3419,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
 var axios_1 = __webpack_require__(/*! axios */ 30);
 var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
-var columns_1 = __webpack_require__(/*! ../../configuration/columns */ 341);
-var BaseUebersicht_1 = __webpack_require__(/*! ../../../../global/components/simple/BaseUebersicht */ 342);
+var columns_1 = __webpack_require__(/*! ../../configuration/columns */ 346);
+var BaseUebersicht_1 = __webpack_require__(/*! ../../../../global/components/simple/BaseUebersicht */ 347);
 var promise_1 = __webpack_require__(/*! ../../../../helper/promise */ 134);
-var sorting_1 = __webpack_require__(/*! ../../../../helper/sorting */ 343);
+var sorting_1 = __webpack_require__(/*! ../../../../helper/sorting */ 348);
 var Routenuebersicht = (function (_super) {
     __extends(Routenuebersicht, _super);
     function Routenuebersicht(props) {
@@ -3645,7 +3645,7 @@ exports.Routenuebersicht = Routenuebersicht;
 
 /***/ }),
 
-/***/ 893:
+/***/ 897:
 /*!*******************************************************************!*\
   !*** ./src/projects/aldi/components/intelligent/UploadRoutes.tsx ***!
   \*******************************************************************/
@@ -3759,7 +3759,7 @@ exports.UploadRoutes = UploadRoutes;
 
 /***/ }),
 
-/***/ 894:
+/***/ 898:
 /*!*********************************************************************!*\
   !*** ./src/projects/aldi/components/intelligent/UploadFilialen.tsx ***!
   \*********************************************************************/
@@ -3785,7 +3785,7 @@ var axios_1 = __webpack_require__(/*! axios */ 30);
 var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
 var react_1 = __webpack_require__(/*! react */ 1);
 var ButtonRow_1 = __webpack_require__(/*! ../../../../global/components/simple/ButtonRow */ 133);
-var date_1 = __webpack_require__(/*! ../../../../helper/date */ 78);
+var date_1 = __webpack_require__(/*! ../../../../helper/date */ 77);
 var promise_1 = __webpack_require__(/*! ../../../../helper/promise */ 134);
 var UploadFilialen = (function (_super) {
     __extends(UploadFilialen, _super);
@@ -3966,7 +3966,7 @@ exports.UploadFilialen = UploadFilialen;
 
 /***/ }),
 
-/***/ 895:
+/***/ 899:
 /*!***********************************************************************!*\
   !*** ./src/projects/aldi/components/intelligent/Filialuebersicht.tsx ***!
   \***********************************************************************/
@@ -3998,9 +3998,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
 var axios_1 = __webpack_require__(/*! axios */ 30);
 var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
-var columns_1 = __webpack_require__(/*! ../../configuration/columns */ 341);
-var BaseUebersicht_1 = __webpack_require__(/*! ../../../../global/components/simple/BaseUebersicht */ 342);
-var sorting_1 = __webpack_require__(/*! ../../../../helper/sorting */ 343);
+var columns_1 = __webpack_require__(/*! ../../configuration/columns */ 346);
+var BaseUebersicht_1 = __webpack_require__(/*! ../../../../global/components/simple/BaseUebersicht */ 347);
+var sorting_1 = __webpack_require__(/*! ../../../../helper/sorting */ 348);
 var promise_1 = __webpack_require__(/*! ../../../../helper/promise */ 134);
 var Filialuebersicht = (function (_super) {
     __extends(Filialuebersicht, _super);
@@ -4229,7 +4229,7 @@ exports.Filialuebersicht = Filialuebersicht;
 
 /***/ }),
 
-/***/ 896:
+/***/ 900:
 /*!**************************************************************!*\
   !*** ./src/projects/aldi/components/intelligent/Filiale.tsx ***!
   \**************************************************************/
@@ -4260,8 +4260,8 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
 var axios_1 = __webpack_require__(/*! axios */ 30);
-var enums_1 = __webpack_require__(/*! ../../../../enums/enums */ 196);
-var Filiale_1 = __webpack_require__(/*! ../stateless/Filiale */ 338);
+var enums_1 = __webpack_require__(/*! ../../../../enums/enums */ 198);
+var Filiale_1 = __webpack_require__(/*! ../stateless/Filiale */ 343);
 var promise_1 = __webpack_require__(/*! ../../../../helper/promise */ 134);
 var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
 var react_1 = __webpack_require__(/*! react */ 1);
@@ -4524,7 +4524,7 @@ exports.Filiale = Filiale;
 
 /***/ }),
 
-/***/ 897:
+/***/ 901:
 /*!*******************************************************!*\
   !*** ./src/global/components/simple/NotFoundPage.tsx ***!
   \*******************************************************/
@@ -4546,8 +4546,8 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ 1);
-var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ 84);
-var Routing_1 = __webpack_require__(/*! ./Routing */ 344);
+var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ 83);
+var Routing_1 = __webpack_require__(/*! ./Routing */ 349);
 var NotFoundPage = (function (_super) {
     __extends(NotFoundPage, _super);
     function NotFoundPage() {
@@ -4568,5 +4568,5 @@ exports.NotFoundPage = NotFoundPage;
 
 /***/ })
 
-},[380]);
+},[385]);
 //# sourceMappingURL=application.js.map
