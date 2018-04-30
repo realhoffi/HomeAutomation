@@ -1,6 +1,6 @@
 webpackJsonp([0],{
 
-/***/ 133:
+/***/ 132:
 /*!****************************************************!*\
   !*** ./src/global/components/simple/ButtonRow.tsx ***!
   \****************************************************/
@@ -10,38 +10,23 @@ webpackJsonp([0],{
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ 1);
-var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
-var ButtonRow = (function (_super) {
-    __extends(ButtonRow, _super);
-    function ButtonRow() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    ButtonRow.prototype.render = function () {
+const React = __webpack_require__(/*! react */ 1);
+const office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
+class ButtonRow extends React.PureComponent {
+    render() {
         return (React.createElement("div", { className: "ms-Grid-row" },
             React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-textAlignRight" },
                 React.createElement(office_ui_fabric_react_1.ActionButton, { "data-automation-id": "save", key: "save_btn_" + Date.now(), iconProps: { iconName: "Save" }, disabled: this.props.saveButtonProps.disabled, checked: this.props.saveButtonProps.checked, onClick: this.props.saveButtonProps.onClickFunc }, this.props.saveButtonProps.text),
                 React.createElement(office_ui_fabric_react_1.ActionButton, { "data-automation-id": "cancel", key: "cancel_btn_" + Date.now(), iconProps: { iconName: "Cancel" }, disabled: this.props.cancelButtonProps.disabled, checked: this.props.cancelButtonProps.checked, onClick: this.props.cancelButtonProps.onClickFunc }, this.props.cancelButtonProps.text))));
-    };
-    return ButtonRow;
-}(React.PureComponent));
+    }
+}
 exports.ButtonRow = ButtonRow;
 
 
 /***/ }),
 
-/***/ 134:
+/***/ 133:
 /*!*******************************!*\
   !*** ./src/helper/promise.ts ***!
   \*******************************/
@@ -53,17 +38,17 @@ exports.ButtonRow = ButtonRow;
 /* WEBPACK VAR INJECTION */(function(Promise) {
 Object.defineProperty(exports, "__esModule", { value: true });
 function promise_all_custom(promises) {
-    return new Promise(function (resolve, reject) {
-        var messages = [];
+    return new Promise((resolve, reject) => {
+        let messages = [];
         if (!promises || promises.length === 0) {
             resolve(messages);
             return;
         }
-        var count = 0;
-        promises.forEach(function (promise, index) {
+        let count = 0;
+        promises.forEach((promise, index) => {
             messages[index] = undefined;
             promise
-                .then(function (data) {
+                .then(data => {
                 messages[index] = { isError: false, data: data };
                 count++;
                 if (count === promises.length) {
@@ -71,7 +56,7 @@ function promise_all_custom(promises) {
                     return;
                 }
             })
-                .catch(function (e) {
+                .catch(e => {
                 messages[index] = { isError: true, data: e };
                 count++;
                 if (count === promises.length) {
@@ -88,7 +73,7 @@ exports.promise_all_custom = promise_all_custom;
 
 /***/ }),
 
-/***/ 188:
+/***/ 187:
 /*!******************************************!*\
   !*** ./node_modules/int-to-rgb/index.js ***!
   \******************************************/
@@ -118,7 +103,7 @@ module.exports = function(int) {
 
 /***/ }),
 
-/***/ 198:
+/***/ 197:
 /*!****************************!*\
   !*** ./src/enums/enums.ts ***!
   \****************************/
@@ -139,7 +124,7 @@ var PageType;
 
 /***/ }),
 
-/***/ 239:
+/***/ 238:
 /*!****************************************************************!*\
   !*** ./src/projects/yeelight/components/pages/application.tsx ***!
   \****************************************************************/
@@ -149,103 +134,79 @@ var PageType;
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Promise) {
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __assign = (this && this.__assign) || Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-    }
-    return t;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ 1);
-var axios_1 = __webpack_require__(/*! axios */ 30);
-var timers_1 = __webpack_require__(/*! timers */ 86);
-var Yeelight_1 = __webpack_require__(/*! ../simple/Yeelight */ 443);
-var react_1 = __webpack_require__(/*! react */ 1);
-var intToRGB = __webpack_require__(/*! int-to-rgb */ 188);
-var Application = (function (_super) {
-    __extends(Application, _super);
-    function Application(props) {
-        var _this = _super.call(this, props) || this;
-        _this.isMountedFinished = false;
-        _this.state = { lights: [], isInitialized: false, intervalId: undefined };
-        _this.colorChangedOnLight = _this.colorChangedOnLight.bind(_this);
-        _this.powerChangedOnLight = _this.powerChangedOnLight.bind(_this);
-        _this.colorSchemaChangedOnLight = _this.colorSchemaChangedOnLight.bind(_this);
-        _this.brightnessChangedOnLight = _this.brightnessChangedOnLight.bind(_this);
-        _this.colorTemperatureChangedOnLight = _this.colorTemperatureChangedOnLight.bind(_this);
-        _this.reloadLightInformations = _this.reloadLightInformations.bind(_this);
-        _this.loadDevices = _this.loadDevices.bind(_this);
-        return _this;
+const React = __webpack_require__(/*! react */ 1);
+const axios_1 = __webpack_require__(/*! axios */ 30);
+const timers_1 = __webpack_require__(/*! timers */ 87);
+const Yeelight_1 = __webpack_require__(/*! ../simple/Yeelight */ 461);
+const react_1 = __webpack_require__(/*! react */ 1);
+const intToRGB = __webpack_require__(/*! int-to-rgb */ 187);
+class Application extends React.Component {
+    constructor(props) {
+        super(props);
+        this.isMountedFinished = false;
+        this.state = { lights: [], isInitialized: false, intervalId: undefined };
+        this.colorChangedOnLight = this.colorChangedOnLight.bind(this);
+        this.powerChangedOnLight = this.powerChangedOnLight.bind(this);
+        this.colorSchemaChangedOnLight = this.colorSchemaChangedOnLight.bind(this);
+        this.brightnessChangedOnLight = this.brightnessChangedOnLight.bind(this);
+        this.colorTemperatureChangedOnLight = this.colorTemperatureChangedOnLight.bind(this);
+        this.reloadLightInformations = this.reloadLightInformations.bind(this);
+        this.loadDevices = this.loadDevices.bind(this);
     }
-    Application.prototype.componentDidMount = function () {
-        var _this = this;
+    componentDidMount() {
         document.title = "Yeelight Hauptseite";
         console.log("Yeelight componentDidMount");
-        this.loadDevices().then(function () {
-            if (_this.isMountedFinished === true) {
-                _this.setState({ isInitialized: true });
+        this.loadDevices().then(() => {
+            if (this.isMountedFinished === true) {
+                this.setState({ isInitialized: true });
             }
         });
-        var interval = timers_1.setInterval(this.loadDevices, 30000);
+        let interval = timers_1.setInterval(this.loadDevices, 30000);
         this.setState({ intervalId: interval["_id"] });
         this.isMountedFinished = true;
-    };
-    Application.prototype.componentWillUnmount = function () {
+    }
+    componentWillUnmount() {
         clearInterval(this.state.intervalId);
         this.isMountedFinished = false;
-    };
-    Application.prototype.loadDevices = function () {
-        var _this = this;
+    }
+    loadDevices() {
         if (!this.isMountedFinished) {
             Promise.resolve();
         }
         return axios_1.default.get("/api/lights/details")
-            .then(function (results) {
-            _this.setState({ lights: results.data["lights"] });
+            .then(results => {
+            this.setState({ lights: results.data["lights"] });
         })
-            .catch(function (error) { });
-    };
-    Application.prototype.reloadLightInformations = function () {
-        var _this = this;
-        axios_1.default.get("/api/lights/details").then(function (result) {
-            _this.setState({ lights: result.data.lights });
-            var newState = __assign({}, _this.state);
+            .catch(error => { });
+    }
+    reloadLightInformations() {
+        axios_1.default.get("/api/lights/details").then(result => {
+            this.setState({ lights: result.data.lights });
+            let newState = Object.assign({}, this.state);
         });
-    };
-    Application.prototype.colorChangedOnLight = function (lightInformation, color) {
-        var rgb = color.r * 65536 + color.g * 256 + color.b;
+    }
+    colorChangedOnLight(lightInformation, color) {
+        let rgb = color.r * 65536 + color.g * 256 + color.b;
         axios_1.default.post("/api/lights/" + lightInformation.id + "/color/" + rgb).then(this.reloadLightInformations);
-    };
-    Application.prototype.powerChangedOnLight = function (lightInformation) {
+    }
+    powerChangedOnLight(lightInformation) {
         axios_1.default.post("/api/lights/" + lightInformation.id + "/power").then(this.reloadLightInformations);
-    };
-    Application.prototype.colorTemperatureChangedOnLight = function (lightInformation, colorTemperature) {
+    }
+    colorTemperatureChangedOnLight(lightInformation, colorTemperature) {
         axios_1.default.post("/api/lights/" + lightInformation.id + "/temperature/" + colorTemperature).then(this.reloadLightInformations);
-    };
-    Application.prototype.colorSchemaChangedOnLight = function (lightInformation, color, brightness) {
-        var rgb = color.r * 65536 + color.g * 256 + color.b;
+    }
+    colorSchemaChangedOnLight(lightInformation, color, brightness) {
+        let rgb = color.r * 65536 + color.g * 256 + color.b;
         Promise.all([
             axios_1.default.post("/api/lights/" + lightInformation.id + "/brightness/" + brightness),
             axios_1.default.post("/api/lights/" + lightInformation.id + "/color/" + rgb)
         ]).then(this.reloadLightInformations);
-    };
-    Application.prototype.brightnessChangedOnLight = function (lightInformation, brightness) {
+    }
+    brightnessChangedOnLight(lightInformation, brightness) {
         axios_1.default.post("/api/lights/" + lightInformation.id + "/brightness/" + brightness).then(this.reloadLightInformations);
-    };
-    Application.prototype.render = function () {
-        var _this = this;
+    }
+    render() {
         if (!this.state.isInitialized) {
             return false;
         }
@@ -255,21 +216,20 @@ var Application = (function (_super) {
                 (!this.state.lights || this.state.lights.length < 1) && (React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, "Keine Lampen gefunden")),
                 React.createElement("div", { className: "ms-Grid-row" }, this.state.lights &&
                     this.state.lights.length > 0 &&
-                    this.state.lights.map(function (light, index) {
+                    this.state.lights.map((light, index) => {
                         return (React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-lg6 ms-xl3", key: "light_container_" + index },
                             React.createElement(react_1.Fragment, null,
-                                React.createElement(Yeelight_1.Yeelight, { lightInformation: light, id: index + 22, onBrightnessChanged: _this.brightnessChangedOnLight, onColorChanged: _this.colorChangedOnLight, onColorSchemaChanged: _this.colorSchemaChangedOnLight, onPowerChanged: _this.powerChangedOnLight, onColorTemperatureChanged: _this.colorTemperatureChangedOnLight }))));
+                                React.createElement(Yeelight_1.Yeelight, { lightInformation: light, id: index + 22, onBrightnessChanged: this.brightnessChangedOnLight, onColorChanged: this.colorChangedOnLight, onColorSchemaChanged: this.colorSchemaChangedOnLight, onPowerChanged: this.powerChangedOnLight, onColorTemperatureChanged: this.colorTemperatureChangedOnLight }))));
                     })))));
-    };
-    return Application;
-}(React.Component));
+    }
+}
 exports.Application = Application;
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 18)))
 
 /***/ }),
 
-/***/ 319:
+/***/ 338:
 /*!**********************************************************!*\
   !*** ./src/projects/xiaomi/components/pages/sensors.tsx ***!
   \**********************************************************/
@@ -279,58 +239,44 @@ exports.Application = Application;
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Promise) {
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ 1);
-var axios_1 = __webpack_require__(/*! axios */ 30);
-var BaseWeatherSensor_1 = __webpack_require__(/*! ../../../../global/components/simple/BaseWeatherSensor */ 737);
-var timers_1 = __webpack_require__(/*! timers */ 86);
-var intToRGB = __webpack_require__(/*! int-to-rgb */ 188);
-var Application = (function (_super) {
-    __extends(Application, _super);
-    function Application(props) {
-        var _this = _super.call(this, props) || this;
-        _this.isMountedFinished = false;
-        _this.state = { sensors: [], isInitialized: false, intervalId: undefined };
-        _this.loadDevices = _this.loadDevices.bind(_this);
-        return _this;
+const React = __webpack_require__(/*! react */ 1);
+const axios_1 = __webpack_require__(/*! axios */ 30);
+const BaseWeatherSensor_1 = __webpack_require__(/*! ../../../../global/components/simple/BaseWeatherSensor */ 759);
+const timers_1 = __webpack_require__(/*! timers */ 87);
+const intToRGB = __webpack_require__(/*! int-to-rgb */ 187);
+class Application extends React.Component {
+    constructor(props) {
+        super(props);
+        this.isMountedFinished = false;
+        this.state = { sensors: [], isInitialized: false, intervalId: undefined };
+        this.loadDevices = this.loadDevices.bind(this);
     }
-    Application.prototype.componentDidMount = function () {
-        var _this = this;
+    componentDidMount() {
         document.title = "Yeelight Hauptseite";
         console.log("Yeelight componentDidMount");
-        this.loadDevices().then(function () {
-            if (_this.isMountedFinished === true) {
-                _this.setState({ isInitialized: true });
+        this.loadDevices().then(() => {
+            if (this.isMountedFinished === true) {
+                this.setState({ isInitialized: true });
             }
         });
-        var interval = timers_1.setInterval(this.loadDevices, 30000);
+        let interval = timers_1.setInterval(this.loadDevices, 30000);
         this.setState({ intervalId: interval["_id"] });
         this.isMountedFinished = true;
-    };
-    Application.prototype.componentWillUnmount = function () {
+    }
+    componentWillUnmount() {
         clearInterval(this.state.intervalId);
         this.isMountedFinished = false;
-    };
-    Application.prototype.loadDevices = function () {
-        var _this = this;
+    }
+    loadDevices() {
         if (!this.isMountedFinished) {
             Promise.resolve();
         }
-        return axios_1.default.get("/api/sensors").then(function (result) {
-            _this.setState({ sensors: result.data["sensors"] });
+        return axios_1.default.get("/api/sensors").then(result => {
+            this.setState({ sensors: result.data["sensors"] });
         });
-    };
-    Application.prototype.render = function () {
+    }
+    render() {
         if (!this.state.isInitialized) {
             return false;
         }
@@ -339,20 +285,19 @@ var Application = (function (_super) {
                 (!this.state.sensors || this.state.sensors.length < 1) && (React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, "Keine Sensoren gefunden")),
                 React.createElement("div", { className: "ms-Grid-row" }, this.state.sensors &&
                     this.state.sensors.length > 0 &&
-                    this.state.sensors.map(function (sensor, index) {
+                    this.state.sensors.map((sensor, index) => {
                         return (React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-lg6 ms-xl3", key: "sensor_container_" + index },
                             React.createElement(BaseWeatherSensor_1.BaseWeatherSensor, { id: index, sensorInformations: sensor })));
                     })))));
-    };
-    return Application;
-}(React.Component));
+    }
+}
 exports.Application = Application;
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 18)))
 
 /***/ }),
 
-/***/ 339:
+/***/ 359:
 /*!***********************************************************!*\
   !*** ./src/projects/xiaomi/components/pages/gateways.tsx ***!
   \***********************************************************/
@@ -362,67 +307,53 @@ exports.Application = Application;
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Promise) {
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ 1);
-var axios_1 = __webpack_require__(/*! axios */ 30);
-var BaseLight_1 = __webpack_require__(/*! ../../../../global/components/simple/BaseLight */ 885);
-var timers_1 = __webpack_require__(/*! timers */ 86);
-var intToRGB = __webpack_require__(/*! int-to-rgb */ 188);
-var Application = (function (_super) {
-    __extends(Application, _super);
-    function Application(props) {
-        var _this = _super.call(this, props) || this;
-        _this.isMountedFinished = false;
-        _this.state = {
+const React = __webpack_require__(/*! react */ 1);
+const axios_1 = __webpack_require__(/*! axios */ 30);
+const BaseLight_1 = __webpack_require__(/*! ../../../../global/components/simple/BaseLight */ 906);
+const timers_1 = __webpack_require__(/*! timers */ 87);
+const intToRGB = __webpack_require__(/*! int-to-rgb */ 187);
+class Application extends React.Component {
+    constructor(props) {
+        super(props);
+        this.isMountedFinished = false;
+        this.state = {
             gateways: [],
             gatewayLights: [],
             isInitialized: false,
             intervalId: undefined
         };
-        _this.loadDevices = _this.loadDevices.bind(_this);
-        return _this;
+        this.loadDevices = this.loadDevices.bind(this);
     }
-    Application.prototype.componentDidMount = function () {
-        var _this = this;
+    componentDidMount() {
         document.title = "Yeelight Hauptseite";
         console.log("Yeelight componentDidMount");
-        this.loadDevices().then(function () {
-            if (_this.isMountedFinished === true) {
-                _this.setState({ isInitialized: true });
+        this.loadDevices().then(() => {
+            if (this.isMountedFinished === true) {
+                this.setState({ isInitialized: true });
             }
         });
-        var interval = timers_1.setInterval(this.loadDevices, 30000);
+        let interval = timers_1.setInterval(this.loadDevices, 30000);
         this.setState({ intervalId: interval["_id"] });
         this.isMountedFinished = true;
-    };
-    Application.prototype.componentWillUnmount = function () {
+    }
+    componentWillUnmount() {
         clearInterval(this.state.intervalId);
         this.isMountedFinished = false;
-    };
-    Application.prototype.loadDevices = function () {
-        var _this = this;
+    }
+    loadDevices() {
         if (!this.isMountedFinished) {
             Promise.resolve();
         }
         return axios_1.default.get("/api/gateways")
-            .then(function (results) {
-            var gws = results.data["gateways"];
-            var gwLights = gws.map(_this.mapGatewayToLightModel);
-            _this.setState({ gateways: gws, gatewayLights: gwLights });
+            .then(results => {
+            let gws = results.data["gateways"];
+            let gwLights = gws.map(this.mapGatewayToLightModel);
+            this.setState({ gateways: gws, gatewayLights: gwLights });
         })
-            .catch(function (error) { });
-    };
-    Application.prototype.mapGatewayToLightModel = function (gwModel) {
+            .catch(error => { });
+    }
+    mapGatewayToLightModel(gwModel) {
         return {
             id: gwModel.id,
             ip: gwModel.ip,
@@ -432,9 +363,8 @@ var Application = (function (_super) {
             colorTemperature: gwModel.illuminance,
             rgb: gwModel.rgb
         };
-    };
-    Application.prototype.render = function () {
-        var _this = this;
+    }
+    render() {
         if (!this.state.isInitialized) {
             return false;
         }
@@ -445,38 +375,37 @@ var Application = (function (_super) {
                     this.state.gatewayLights.length < 1) && (React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, "Keine Gateways gefunden")),
                 React.createElement("div", { className: "ms-Grid-row" }, this.state.gatewayLights &&
                     this.state.gatewayLights.length > 0 &&
-                    this.state.gatewayLights.map(function (gw, index) {
+                    this.state.gatewayLights.map((gw, index) => {
                         return (React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-lg6 ms-xl3", key: "gwr_" + index },
-                            React.createElement(BaseLight_1.BaseLight, { lightInformation: gw, id: index, onBrightnessChanged: function (lightInformation, brightness) {
+                            React.createElement(BaseLight_1.BaseLight, { lightInformation: gw, id: index, onBrightnessChanged: (lightInformation, brightness) => {
                                     axios_1.default.post("/api/gateways/" +
                                         lightInformation.id +
                                         "/brightness/" +
-                                        brightness).then(_this.loadDevices);
-                                }, onColorChanged: function (lightInformation, color) {
-                                    axios_1.default.post("/api/gateways/" + lightInformation.id + "/color", { color: color }).then(_this.loadDevices);
-                                }, onColorSchemaChanged: function (lightInformation, color, brightness) {
-                                    axios_1.default.post("/api/gateways/" + lightInformation.id + "/color", { color: color })
-                                        .then(function () {
+                                        brightness).then(this.loadDevices);
+                                }, onColorChanged: (lightInformation, color) => {
+                                    axios_1.default.post("/api/gateways/" + lightInformation.id + "/color", { color }).then(this.loadDevices);
+                                }, onColorSchemaChanged: (lightInformation, color, brightness) => {
+                                    axios_1.default.post("/api/gateways/" + lightInformation.id + "/color", { color })
+                                        .then(() => {
                                         return axios_1.default.post("/api/gateways/" +
                                             lightInformation.id +
                                             "/brightness/" +
                                             brightness);
                                     })
-                                        .then(_this.loadDevices);
-                                }, onPowerChanged: function (lightInformation) {
-                                    axios_1.default.post("/api/gateways/" + lightInformation.id + "/power").then(_this.loadDevices);
+                                        .then(this.loadDevices);
+                                }, onPowerChanged: (lightInformation) => {
+                                    axios_1.default.post("/api/gateways/" + lightInformation.id + "/power").then(this.loadDevices);
                                 } })));
                     })))));
-    };
-    return Application;
-}(React.Component));
+    }
+}
 exports.Application = Application;
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 18)))
 
 /***/ }),
 
-/***/ 340:
+/***/ 360:
 /*!*************************************************************!*\
   !*** ./src/projects/system/components/pages/systeminfo.tsx ***!
   \*************************************************************/
@@ -486,90 +415,76 @@ exports.Application = Application;
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Promise) {
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ 1);
-var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
-var axios_1 = __webpack_require__(/*! axios */ 30);
-var timers_1 = __webpack_require__(/*! timers */ 86);
-var react_1 = __webpack_require__(/*! react */ 1);
-var SystemInfo = (function (_super) {
-    __extends(SystemInfo, _super);
-    function SystemInfo(props) {
-        var _this = _super.call(this, props) || this;
-        _this.isMountedFinished = false;
-        _this.state = {
+const React = __webpack_require__(/*! react */ 1);
+const office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
+const axios_1 = __webpack_require__(/*! axios */ 30);
+const timers_1 = __webpack_require__(/*! timers */ 87);
+const react_1 = __webpack_require__(/*! react */ 1);
+class SystemInfo extends React.Component {
+    constructor(props) {
+        super(props);
+        this.isMountedFinished = false;
+        this.state = {
             systemInformation: undefined,
             isInitialized: false,
             intervalId: undefined
         };
-        _this.loadDevices = _this.loadDevices.bind(_this);
-        return _this;
+        this.loadDevices = this.loadDevices.bind(this);
     }
-    SystemInfo.prototype.componentDidMount = function () {
-        var _this = this;
+    componentDidMount() {
         document.title = "System Informationen";
         console.log("SystemInfo componentDidMount");
-        this.loadDevices().then(function () {
-            if (_this.isMountedFinished === true) {
-                _this.setState({ isInitialized: true });
+        this.loadDevices().then(() => {
+            if (this.isMountedFinished === true) {
+                this.setState({ isInitialized: true });
             }
         });
-        var interval = timers_1.setInterval(this.loadDevices, 10000);
+        let interval = timers_1.setInterval(this.loadDevices, 10000);
         this.setState({ intervalId: interval["_id"] });
         this.isMountedFinished = true;
-    };
-    SystemInfo.prototype.componentWillUnmount = function () {
+    }
+    componentWillUnmount() {
         clearInterval(this.state.intervalId);
         this.isMountedFinished = false;
-    };
-    SystemInfo.prototype.loadDevices = function () {
-        var _this = this;
+    }
+    loadDevices() {
         if (!this.isMountedFinished) {
             Promise.resolve();
         }
-        return axios_1.default.get("/api/system").then(function (result) {
-            _this.setState({ systemInformation: result.data["system"] });
+        return axios_1.default.get("/api/system").then(result => {
+            this.setState({ systemInformation: result.data["system"] });
         });
-    };
-    SystemInfo.prototype.convertRamToMBString = function (ram) {
+    }
+    convertRamToMBString(ram) {
         if (isNaN(ram)) {
             return "-";
         }
         return (ram / 1024 / 1024).toFixed(0) + " MB";
-    };
-    SystemInfo.prototype.getUptimeString = function (uptime) {
+    }
+    getUptimeString(uptime) {
         if (isNaN(uptime)) {
             return "-";
         }
-        var hr = Math.floor(uptime / 60 / 60);
-        var days = (hr / 24).toFixed(2);
-        return hr + " Stunden (" + days + " Tage)";
-    };
-    SystemInfo.prototype.getLabelRowForProperty = function (label, value) {
+        let hr = Math.floor(uptime / 60 / 60);
+        let days = (hr / 24).toFixed(2);
+        return `${hr} Stunden (${days} Tage)`;
+    }
+    getLabelRowForProperty(label, value) {
         return (React.createElement("div", { className: "ms-Grid-row" },
             React.createElement("div", { className: "ms-Grid-col ms-sm12" },
                 React.createElement(office_ui_fabric_react_1.Label, { className: "ms-font-xl ms-fontColor-themePrimary" }, label),
                 React.createElement("span", null, value))));
-    };
-    SystemInfo.prototype.getValueFromSystemInfo = function () {
+    }
+    getValueFromSystemInfo() {
         return (React.createElement(react_1.Fragment, null,
-            this.getLabelRowForProperty("Hostname: ", this.state.systemInformation.hostname + " (" + this.state.systemInformation.userName + ")"),
+            this.getLabelRowForProperty("Hostname: ", `${this.state.systemInformation.hostname} (${this.state.systemInformation.userName})`),
             this.getLabelRowForProperty("Total Memory: ", this.convertRamToMBString(Number(this.state.systemInformation.totalMemory))),
             this.getLabelRowForProperty("Free Memory: ", this.convertRamToMBString(Number(this.state.systemInformation.freeMemory))),
             this.getLabelRowForProperty("Uptime: ", this.getUptimeString(this.state.systemInformation.uptime)),
-            this.getLabelRowForProperty("Plattform: ", this.state.systemInformation.platform + " (" + this.state.systemInformation.arch + ")")));
-    };
-    SystemInfo.prototype.render = function () {
+            this.getLabelRowForProperty("Plattform: ", `${this.state.systemInformation.platform} (${this.state.systemInformation.arch})`)));
+    }
+    render() {
         if (!this.state.isInitialized) {
             return false;
         }
@@ -578,16 +493,15 @@ var SystemInfo = (function (_super) {
                 !this.state.systemInformation && (React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, "Keine System-Informationen gefunden")),
                 this.state.systemInformation && (React.createElement("div", { className: "ms-Grid-row" },
                     React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-lg6 ms-xl3", key: "sysinfo_" }, this.getValueFromSystemInfo()))))));
-    };
-    return SystemInfo;
-}(React.Component));
+    }
+}
 exports.SystemInfo = SystemInfo;
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 18)))
 
 /***/ }),
 
-/***/ 341:
+/***/ 361:
 /*!******************************************************!*\
   !*** ./src/global/components/container/basePage.tsx ***!
   \******************************************************/
@@ -597,28 +511,17 @@ exports.SystemInfo = SystemInfo;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ 1);
-var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
-var BasePage = (function (_super) {
-    __extends(BasePage, _super);
-    function BasePage(props) {
-        return _super.call(this, props) || this;
+const React = __webpack_require__(/*! react */ 1);
+const office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
+class BasePage extends React.PureComponent {
+    constructor(props) {
+        super(props);
     }
-    BasePage.prototype.render = function () {
+    render() {
         console.log("render BasePage");
-        var renderElement = null;
-        var content = (React.createElement("div", { className: "ms-Grid" },
+        let renderElement = null;
+        let content = (React.createElement("div", { className: "ms-Grid" },
             this.props.Header && (React.createElement("div", { className: "ms-Grid-row" },
                 React.createElement("div", { className: "ms-Grid-col ms-sm12" }, this.props.Header))),
             React.createElement("div", { className: "ms-Grid-row" },
@@ -631,15 +534,14 @@ var BasePage = (function (_super) {
                 React.createElement("div", { className: "ms-Grid-col ms-sm12" }, this.props.Footer)))));
         renderElement = this.props.IncludeFabricElement ? (React.createElement(office_ui_fabric_react_1.Fabric, null, content)) : (content);
         return renderElement;
-    };
-    return BasePage;
-}(React.PureComponent));
+    }
+}
 exports.BasePage = BasePage;
 
 
 /***/ }),
 
-/***/ 342:
+/***/ 362:
 /*!**********************************************************!*\
   !*** ./src/global/components/simple/NumberTextField.tsx ***!
   \**********************************************************/
@@ -649,52 +551,39 @@ exports.BasePage = BasePage;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ 1);
-var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
-var NumberTextField = (function (_super) {
-    __extends(NumberTextField, _super);
-    function NumberTextField(props) {
-        var _this = _super.call(this, props) || this;
-        _this.validateNumber = function (value) {
+const React = __webpack_require__(/*! react */ 1);
+const office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
+class NumberTextField extends React.Component {
+    constructor(props) {
+        super(props);
+        this.validateNumber = function (value) {
             return isNaN(Number(value))
                 ? "The value should be a number, actual is " + value + "."
                 : "";
         };
-        _this.valueChanged = _this.valueChanged.bind(_this);
-        return _this;
+        this.valueChanged = this.valueChanged.bind(this);
     }
-    NumberTextField.prototype.valueChanged = function (value) {
-        var v = value.replace(",", ".");
-        var n = parseFloat(v);
+    valueChanged(value) {
+        let v = value.replace(",", ".");
+        let n = parseFloat(v);
         n = isNaN(n) ? 0 : n;
         this.props.onChanged(n);
         if (this.props.numberValueChanged) {
             this.props.numberValueChanged(n);
         }
-    };
-    NumberTextField.prototype.render = function () {
-        var v = this.props.numberValue || this.props.value || "";
+    }
+    render() {
+        let v = this.props.numberValue || this.props.value || "";
         return (React.createElement(office_ui_fabric_react_1.TextField, { value: v.toString(), placeholder: this.props.placeholder, type: "number", prefix: this.props.prefix, suffix: this.props.suffix, required: this.props.required, label: this.props.label, onGetErrorMessage: this.validateNumber, onChanged: this.valueChanged }));
-    };
-    return NumberTextField;
-}(React.Component));
+    }
+}
 exports.NumberTextField = NumberTextField;
 
 
 /***/ }),
 
-/***/ 343:
+/***/ 363:
 /*!************************************************************!*\
   !*** ./src/projects/aldi/components/stateless/Filiale.tsx ***!
   \************************************************************/
@@ -704,67 +593,55 @@ exports.NumberTextField = NumberTextField;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ 1);
-var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
-var NumberTextField_1 = __webpack_require__(/*! ../../../../global/components/simple/NumberTextField */ 342);
-var Panel_1 = __webpack_require__(/*! ../../../../global/components/simple/Panel */ 61);
-var date_1 = __webpack_require__(/*! ../../../../helper/date */ 77);
-var Filiale = (function (_super) {
-    __extends(Filiale, _super);
-    function Filiale(props) {
-        var _this = _super.call(this, props) || this;
-        _this.fahrDatumChanged = _this.fahrDatumChanged.bind(_this);
-        _this.deleteClicked = _this.deleteClicked.bind(_this);
-        _this.pkzChanged = _this.pkzChanged.bind(_this);
-        _this.testnummerChanged = _this.testnummerChanged.bind(_this);
-        _this.ausgabenChanged = _this.ausgabenChanged.bind(_this);
-        _this.einnahmenChanged = _this.einnahmenChanged.bind(_this);
-        _this.ortChanged = _this.ortChanged.bind(_this);
-        _this.strasseChanged = _this.strasseChanged.bind(_this);
-        _this.plzChanged = _this.plzChanged.bind(_this);
-        return _this;
+const React = __webpack_require__(/*! react */ 1);
+const office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
+const NumberTextField_1 = __webpack_require__(/*! ../../../../global/components/simple/NumberTextField */ 362);
+const Panel_1 = __webpack_require__(/*! ../../../../global/components/simple/Panel */ 62);
+const date_1 = __webpack_require__(/*! ../../../../helper/date */ 79);
+class Filiale extends React.Component {
+    constructor(props) {
+        super(props);
+        this.fahrDatumChanged = this.fahrDatumChanged.bind(this);
+        this.deleteClicked = this.deleteClicked.bind(this);
+        this.pkzChanged = this.pkzChanged.bind(this);
+        this.testnummerChanged = this.testnummerChanged.bind(this);
+        this.ausgabenChanged = this.ausgabenChanged.bind(this);
+        this.einnahmenChanged = this.einnahmenChanged.bind(this);
+        this.ortChanged = this.ortChanged.bind(this);
+        this.strasseChanged = this.strasseChanged.bind(this);
+        this.plzChanged = this.plzChanged.bind(this);
     }
-    Filiale.prototype.fahrDatumChanged = function (event) {
-        var index = event.target.selectedIndex;
-        var value = event.target.options[index].value;
+    fahrDatumChanged(event) {
+        let index = event.target.selectedIndex;
+        let value = event.target.options[index].value;
         this.props.onFahrdatumChanged(this.props.id, parseInt(value));
-    };
-    Filiale.prototype.deleteClicked = function () {
+    }
+    deleteClicked() {
         this.props.onDeleteClick(this.props.id);
-    };
-    Filiale.prototype.pkzChanged = function (value) {
+    }
+    pkzChanged(value) {
         this.props.onPkzChanged(this.props.id, value);
-    };
-    Filiale.prototype.testnummerChanged = function (value) {
+    }
+    testnummerChanged(value) {
         this.props.onTestnummerChanged(this.props.id, value);
-    };
-    Filiale.prototype.ausgabenChanged = function (value) {
+    }
+    ausgabenChanged(value) {
         this.props.onAusgabenChanged(this.props.id, value);
-    };
-    Filiale.prototype.einnahmenChanged = function (value) {
+    }
+    einnahmenChanged(value) {
         this.props.onEinnahmenChanged(this.props.id, value);
-    };
-    Filiale.prototype.ortChanged = function (value) {
+    }
+    ortChanged(value) {
         this.props.onOrtChanged(this.props.id, value);
-    };
-    Filiale.prototype.strasseChanged = function (value) {
+    }
+    strasseChanged(value) {
         this.props.onStrasseChanged(this.props.id, value);
-    };
-    Filiale.prototype.plzChanged = function (value) {
+    }
+    plzChanged(value) {
         this.props.onPlzChanged(this.props.id, value);
-    };
-    Filiale.prototype.render = function () {
+    }
+    render() {
         console.log("render Filiale");
         return (React.createElement("div", { className: "ms-Grid-row", key: "filiale_" + this.props.id },
             React.createElement("div", { className: "ms-Grid-col ms-sm12" },
@@ -773,7 +650,7 @@ var Filiale = (function (_super) {
                         React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-md5" },
                             React.createElement("div", null,
                                 React.createElement(office_ui_fabric_react_1.Label, null, "Routenfahrdatum"),
-                                React.createElement("select", { className: "custom-ddl-control", onChange: this.fahrDatumChanged, value: this.props.filiale.fahrdatum || undefined }, this.props.fahrdaten.map(function (fahrtDatum, index) {
+                                React.createElement("select", { className: "custom-ddl-control", onChange: this.fahrDatumChanged, value: this.props.filiale.fahrdatum || undefined }, this.props.fahrdaten.map((fahrtDatum, index) => {
                                     return (React.createElement("option", { key: "fahrt__" + index, value: fahrtDatum.getTime() }, date_1.getGermanDateString(fahrtDatum)));
                                 })))),
                         React.createElement("div", { className: "ms-Grid-col ms-sm8 ms-md4" },
@@ -790,15 +667,14 @@ var Filiale = (function (_super) {
                             React.createElement(NumberTextField_1.NumberTextField, { placeholder: "Einnahmen", label: "Einnahmen", numberValue: this.props.filiale.einnahmen, onChanged: this.einnahmenChanged, suffix: " \u20AC" })),
                         React.createElement("div", { className: "ms-Grid-col ms-sm6 ms-md6 ms-lg6" },
                             React.createElement(NumberTextField_1.NumberTextField, { placeholder: "Ausgaben", label: "Ausgaben", numberValue: this.props.filiale.ausgaben, onChanged: this.ausgabenChanged, suffix: " \u20AC" })))))));
-    };
-    return Filiale;
-}(React.Component));
+    }
+}
 exports.Filiale = Filiale;
 
 
 /***/ }),
 
-/***/ 344:
+/***/ 364:
 /*!**********************************************!*\
   !*** ./node_modules/uuid/lib/rng-browser.js ***!
   \**********************************************/
@@ -842,7 +718,7 @@ if (getRandomValues) {
 
 /***/ }),
 
-/***/ 345:
+/***/ 365:
 /*!**********************************************!*\
   !*** ./node_modules/uuid/lib/bytesToUuid.js ***!
   \**********************************************/
@@ -877,7 +753,7 @@ module.exports = bytesToUuid;
 
 /***/ }),
 
-/***/ 346:
+/***/ 366:
 /*!*****************************************************!*\
   !*** ./src/projects/aldi/configuration/columns.tsx ***!
   \*****************************************************/
@@ -888,8 +764,8 @@ module.exports = bytesToUuid;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ 1);
-var date_1 = __webpack_require__(/*! ../../../helper/date */ 77);
+const React = __webpack_require__(/*! react */ 1);
+const date_1 = __webpack_require__(/*! ../../../helper/date */ 79);
 exports.defaultColumns = [];
 exports.routeOverviewColumns = [
     {
@@ -901,7 +777,7 @@ exports.routeOverviewColumns = [
         isResizable: true,
         isCollapsable: true,
         data: "number",
-        onRender: function (item) {
+        onRender: (item) => {
             return React.createElement("span", null, item.index);
         }
     },
@@ -913,7 +789,7 @@ exports.routeOverviewColumns = [
         maxWidth: 60,
         isResizable: false,
         isCollapsable: false,
-        onRender: function (item) {
+        onRender: (item) => {
             return React.createElement("span", null, "...");
         }
     },
@@ -926,7 +802,7 @@ exports.routeOverviewColumns = [
         isResizable: true,
         isCollapsable: true,
         data: "string",
-        onRender: function (item) {
+        onRender: (item) => {
             return React.createElement("span", null, date_1.getGermanDateString(new Date(item.route_timestamp)));
         }
     },
@@ -938,7 +814,7 @@ exports.routeOverviewColumns = [
         maxWidth: 150,
         isResizable: true,
         data: "string",
-        onRender: function (item) {
+        onRender: (item) => {
             return React.createElement("span", null, date_1.getGermanDateTimeString(new Date(item.modified)));
         },
         isPadded: true
@@ -952,7 +828,7 @@ exports.routeOverviewColumns = [
         isResizable: false,
         isCollapsable: false,
         data: "string",
-        onRender: function (item) {
+        onRender: (item) => {
             return React.createElement("span", null, date_1.getGermanDateTimeString(new Date(item.created)));
         }
     }
@@ -967,7 +843,7 @@ exports.filialOverviewColumns = [
         isResizable: true,
         isCollapsable: true,
         data: "number",
-        onRender: function (item) {
+        onRender: (item) => {
             return React.createElement("span", null, item.index);
         }
     },
@@ -979,7 +855,7 @@ exports.filialOverviewColumns = [
         maxWidth: 60,
         isResizable: false,
         isCollapsable: false,
-        onRender: function (item) {
+        onRender: (item) => {
             return React.createElement("span", null, "...");
         }
     },
@@ -992,7 +868,7 @@ exports.filialOverviewColumns = [
         isResizable: true,
         isCollapsable: true,
         data: "string",
-        onRender: function (item) {
+        onRender: (item) => {
             return React.createElement("span", null, item.strasse);
         }
     },
@@ -1005,7 +881,7 @@ exports.filialOverviewColumns = [
         isResizable: true,
         isCollapsable: true,
         data: "string",
-        onRender: function (item) {
+        onRender: (item) => {
             return React.createElement("span", null, item.plz);
         }
     },
@@ -1018,7 +894,7 @@ exports.filialOverviewColumns = [
         isResizable: true,
         isCollapsable: true,
         data: "string",
-        onRender: function (item) {
+        onRender: (item) => {
             return React.createElement("span", null, item.ort);
         }
     },
@@ -1031,7 +907,7 @@ exports.filialOverviewColumns = [
         isResizable: true,
         isCollapsable: true,
         data: "string",
-        onRender: function (item) {
+        onRender: (item) => {
             return React.createElement("span", null, item.testnummer);
         }
     },
@@ -1044,7 +920,7 @@ exports.filialOverviewColumns = [
         isResizable: true,
         isCollapsable: true,
         data: "string",
-        onRender: function (item) {
+        onRender: (item) => {
             return React.createElement("span", null, item.pkz);
         }
     },
@@ -1056,7 +932,7 @@ exports.filialOverviewColumns = [
         maxWidth: 150,
         isResizable: true,
         data: "string",
-        onRender: function (item) {
+        onRender: (item) => {
             return React.createElement("span", null, date_1.getGermanDateTimeString(new Date(item.modified)));
         },
         isPadded: true
@@ -1070,7 +946,7 @@ exports.filialOverviewColumns = [
         isResizable: false,
         isCollapsable: false,
         data: "string",
-        onRender: function (item) {
+        onRender: (item) => {
             return React.createElement("span", null, date_1.getGermanDateTimeString(new Date(item.created)));
         }
     }
@@ -1079,7 +955,7 @@ exports.filialOverviewColumns = [
 
 /***/ }),
 
-/***/ 347:
+/***/ 367:
 /*!*********************************************************!*\
   !*** ./src/global/components/simple/BaseUebersicht.tsx ***!
   \*********************************************************/
@@ -1089,37 +965,26 @@ exports.filialOverviewColumns = [
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ 1);
-var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
-var react_1 = __webpack_require__(/*! react */ 1);
-var BaseUebersicht = (function (_super) {
-    __extends(BaseUebersicht, _super);
-    function BaseUebersicht(props) {
-        var _this = _super.call(this, props) || this;
-        _this.selectionHasChanged = _this.selectionHasChanged.bind(_this);
-        _this.onColumnClick = _this.onColumnClick.bind(_this);
-        _this.closeContextualMenue = _this.closeContextualMenue.bind(_this);
-        _this.deleteClicked = _this.deleteClicked.bind(_this);
-        _this.editClicked = _this.editClicked.bind(_this);
-        _this.callCtxVisible = _this.callCtxVisible.bind(_this);
-        var commandItems = [
+const React = __webpack_require__(/*! react */ 1);
+const office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
+const react_1 = __webpack_require__(/*! react */ 1);
+class BaseUebersicht extends React.Component {
+    constructor(props) {
+        super(props);
+        this.selectionHasChanged = this.selectionHasChanged.bind(this);
+        this.onColumnClick = this.onColumnClick.bind(this);
+        this.closeContextualMenue = this.closeContextualMenue.bind(this);
+        this.deleteClicked = this.deleteClicked.bind(this);
+        this.editClicked = this.editClicked.bind(this);
+        this.callCtxVisible = this.callCtxVisible.bind(this);
+        let commandItems = [
             {
                 name: "Bearbeiten",
                 key: "edit",
                 icon: "edit",
                 itemType: office_ui_fabric_react_1.ContextualMenuItemType.Normal,
-                onClick: _this.editClicked
+                onClick: this.editClicked
             },
             {
                 key: "divider_1",
@@ -1130,25 +995,23 @@ var BaseUebersicht = (function (_super) {
                 key: "delete",
                 icon: "Delete",
                 itemType: office_ui_fabric_react_1.ContextualMenuItemType.Normal,
-                onClick: _this.deleteClicked
+                onClick: this.deleteClicked
             }
         ];
-        _this.state = {
+        this.state = {
             ctxMenues: commandItems,
-            columns: _this.props.columns,
-            items: _this.props.items
+            columns: this.props.columns,
+            items: this.props.items
         };
-        _this._selection = new office_ui_fabric_react_1.Selection({
-            onSelectionChanged: _this.selectionHasChanged
+        this._selection = new office_ui_fabric_react_1.Selection({
+            onSelectionChanged: this.selectionHasChanged
         });
-        return _this;
     }
-    BaseUebersicht.prototype.componentDidUpdate = function (prevProps, prevState, prevContext) {
-        var _this = this;
+    componentDidUpdate(prevProps, prevState, prevContext) {
         if (JSON.stringify(this.props.items) !== JSON.stringify(prevProps.items)) {
             this._selection["_onSelectionChanged"] = undefined;
-            this._selection.getItems().forEach(function (e, i) {
-                _this._selection.setIndexSelected(i, false, false);
+            this._selection.getItems().forEach((e, i) => {
+                this._selection.setIndexSelected(i, false, false);
             });
             this._selection.setAllSelected(false);
             this._selection["_onSelectionChanged"] = this.selectionHasChanged;
@@ -1156,50 +1019,49 @@ var BaseUebersicht = (function (_super) {
             this.callCtxVisible(false);
             this.props.onItemSelectionChanged(this._selection.getSelection());
         }
-    };
-    BaseUebersicht.prototype.callCtxVisible = function (isVisible) {
+    }
+    callCtxVisible(isVisible) {
         if (this.props.ctxVisible === isVisible) {
             return;
         }
         this.props.onCtxMenueVisible(isVisible);
-    };
-    BaseUebersicht.prototype.selectionHasChanged = function () {
+    }
+    selectionHasChanged() {
         console.log("selectionHasChanged");
-        var selection = this._selection.getSelection();
+        let selection = this._selection.getSelection();
         this.props.onItemSelectionChanged(selection);
         if (!selection) {
             this.callCtxVisible(false);
         }
-    };
-    BaseUebersicht.prototype.deleteClicked = function () {
-        var _this = this;
+    }
+    deleteClicked() {
         this.props
             .onDeleteItemClicked(this._selection.getSelection())
-            .then(function () {
-            _this._selection.setAllSelected(false);
-            _this.callCtxVisible(false);
+            .then(() => {
+            this._selection.setAllSelected(false);
+            this.callCtxVisible(false);
         })
-            .catch(function () {
+            .catch(() => {
             alert("Es ist ein Fehler beim Löschen der Aktion aufgetreten");
         });
-    };
-    BaseUebersicht.prototype.editClicked = function () {
-        var selection = this._selection.getSelection();
+    }
+    editClicked() {
+        let selection = this._selection.getSelection();
         if (!selection || selection.length < 1) {
             return;
         }
         this.props.onEditItemClick(selection[0]);
-    };
-    BaseUebersicht.prototype.closeContextualMenue = function () {
+    }
+    closeContextualMenue() {
         this.props.onCtxMenueVisible(false);
-    };
-    BaseUebersicht.prototype.onColumnClick = function (ev, column) {
-        var _a = this.state, columns = _a.columns, items = _a.items;
-        var newColumns = columns.slice();
-        var currColumn = newColumns.filter(function (currCol, idx) {
+    }
+    onColumnClick(ev, column) {
+        const { columns, items } = this.state;
+        let newColumns = columns.slice();
+        let currColumn = newColumns.filter((currCol, idx) => {
             return column.key === currCol.key;
         })[0];
-        newColumns.forEach(function (newCol) {
+        newColumns.forEach((newCol) => {
             if (newCol === currColumn) {
                 currColumn.isSortedDescending = !currColumn.isSortedDescending;
                 currColumn.isSorted = true;
@@ -1213,8 +1075,8 @@ var BaseUebersicht = (function (_super) {
         this.setState({
             columns: newColumns
         });
-    };
-    BaseUebersicht.prototype.render = function () {
+    }
+    render() {
         console.log("render BaseUebersicht");
         return (React.createElement(react_1.Fragment, null,
             this.props.useCommandbar &&
@@ -1227,15 +1089,14 @@ var BaseUebersicht = (function (_super) {
                     this.props.isLoading && React.createElement(office_ui_fabric_react_1.Spinner, { label: this.props.loadingText }),
                     !this.props.isLoading && (React.createElement(office_ui_fabric_react_1.DetailsList, { selectionMode: office_ui_fabric_react_1.SelectionMode.multiple, items: this.props.items, compact: false, columns: this.state.columns, setKey: "set", layoutMode: office_ui_fabric_react_1.DetailsListLayoutMode.justified, isHeaderVisible: true, selection: this._selection, selectionPreservedOnEmptyClick: false, enterModalSelectionOnTouch: false })))),
             this.props.ctxVisible && (React.createElement(office_ui_fabric_react_1.ContextualMenu, { directionalHint: 12, isBeakVisible: true, gapSpace: 10, beakWidth: 20, directionalHintFixed: true, target: this.props.ctxTarget, items: this.state.ctxMenues, onDismiss: this.closeContextualMenue }))));
-    };
-    return BaseUebersicht;
-}(React.Component));
+    }
+}
 exports.BaseUebersicht = BaseUebersicht;
 
 
 /***/ }),
 
-/***/ 348:
+/***/ 368:
 /*!*******************************!*\
   !*** ./src/helper/sorting.ts ***!
   \*******************************/
@@ -1246,9 +1107,8 @@ exports.BaseUebersicht = BaseUebersicht;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-function sortElement(elementOne, elementTwo, propertyName, descending) {
-    if (descending === void 0) { descending = false; }
-    var r = 0;
+function sortElement(elementOne, elementTwo, propertyName, descending = false) {
+    let r = 0;
     if (!elementOne.hasOwnProperty(propertyName) ||
         !elementTwo.hasOwnProperty(propertyName)) {
     }
@@ -1264,9 +1124,8 @@ function sortElement(elementOne, elementTwo, propertyName, descending) {
     return descending ? r * -1 : r;
 }
 exports.sortElement = sortElement;
-function sortArrayByProperty(arrayOfElements, propertyName, descending) {
-    if (descending === void 0) { descending = false; }
-    return arrayOfElements.sort(function (a, b) {
+function sortArrayByProperty(arrayOfElements, propertyName, descending = false) {
+    return arrayOfElements.sort((a, b) => {
         return sortElement(a, b, propertyName, descending);
     });
 }
@@ -1275,7 +1134,7 @@ exports.sortArrayByProperty = sortArrayByProperty;
 
 /***/ }),
 
-/***/ 349:
+/***/ 369:
 /*!**************************************************!*\
   !*** ./src/global/components/simple/Routing.tsx ***!
   \**************************************************/
@@ -1285,60 +1144,36 @@ exports.sortArrayByProperty = sortArrayByProperty;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ 1);
-var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ 83);
-var RedirectWithStatus = (function (_super) {
-    __extends(RedirectWithStatus, _super);
-    function RedirectWithStatus() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    RedirectWithStatus.prototype.render = function () {
-        var _this = this;
-        return (React.createElement(react_router_dom_1.Route, { render: function (_a) {
-                var staticContext = _a.staticContext;
+const React = __webpack_require__(/*! react */ 1);
+const react_router_dom_1 = __webpack_require__(/*! react-router-dom */ 84);
+class RedirectWithStatus extends React.Component {
+    render() {
+        return (React.createElement(react_router_dom_1.Route, { render: ({ staticContext }) => {
                 if (staticContext) {
-                    staticContext.status = _this.props.status;
+                    staticContext.status = this.props.status;
                 }
-                return React.createElement(react_router_dom_1.Redirect, { from: _this.props.from, to: _this.props.to });
+                return React.createElement(react_router_dom_1.Redirect, { from: this.props.from, to: this.props.to });
             } }));
-    };
-    return RedirectWithStatus;
-}(React.Component));
+    }
+}
 exports.RedirectWithStatus = RedirectWithStatus;
-var Status = (function (_super) {
-    __extends(Status, _super);
-    function Status() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    Status.prototype.render = function () {
-        var _this = this;
-        return (React.createElement(react_router_dom_1.Route, { render: function (_a) {
-                var staticContext = _a.staticContext;
+class Status extends React.Component {
+    render() {
+        return (React.createElement(react_router_dom_1.Route, { render: ({ staticContext }) => {
                 if (staticContext) {
-                    staticContext.status = _this.props.code;
+                    staticContext.status = this.props.code;
                 }
-                return _this.props.children;
+                return this.props.children;
             } }));
-    };
-    return Status;
-}(React.Component));
+    }
+}
 exports.Status = Status;
 
 
 /***/ }),
 
-/***/ 385:
+/***/ 405:
 /*!*******************************************************!*\
   !*** multi ./src/global/components/pages/initApp.tsx ***!
   \*******************************************************/
@@ -1346,12 +1181,12 @@ exports.Status = Status;
 /*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! ./src/global/components/pages/initApp.tsx */386);
+module.exports = __webpack_require__(/*! ./src/global/components/pages/initApp.tsx */406);
 
 
 /***/ }),
 
-/***/ 386:
+/***/ 406:
 /*!*************************************************!*\
   !*** ./src/global/components/pages/initApp.tsx ***!
   \*************************************************/
@@ -1362,13 +1197,13 @@ module.exports = __webpack_require__(/*! ./src/global/components/pages/initApp.t
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var ReactDOM = __webpack_require__(/*! react-dom */ 56);
-var React = __webpack_require__(/*! react */ 1);
-var globalApplication_1 = __webpack_require__(/*! ./globalApplication */ 401);
-var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ 83);
-var icons_1 = __webpack_require__(/*! @uifabric/icons */ 350);
+const ReactDOM = __webpack_require__(/*! react-dom */ 58);
+const React = __webpack_require__(/*! react */ 1);
+const globalApplication_1 = __webpack_require__(/*! ./globalApplication */ 419);
+const react_router_dom_1 = __webpack_require__(/*! react-router-dom */ 84);
+const icons_1 = __webpack_require__(/*! @uifabric/icons */ 370);
 icons_1.initializeIcons();
-window.onload = function () {
+window.onload = () => {
     ReactDOM.render(React.createElement(react_router_dom_1.HashRouter, null,
         React.createElement(globalApplication_1.GlobalApplication, null)), document.getElementById("reactRoot"));
 };
@@ -1376,7 +1211,7 @@ window.onload = function () {
 
 /***/ }),
 
-/***/ 401:
+/***/ 419:
 /*!***********************************************************!*\
   !*** ./src/global/components/pages/globalApplication.tsx ***!
   \***********************************************************/
@@ -1386,62 +1221,50 @@ window.onload = function () {
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ 1);
-var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ 83);
-var application_1 = __webpack_require__(/*! ./application */ 423);
-var application_2 = __webpack_require__(/*! ../../../projects/yeelight/components/pages/application */ 239);
-var application_3 = __webpack_require__(/*! ../../../projects/vacuumRoboter/components/pages/application */ 886);
-var application_4 = __webpack_require__(/*! ../../../projects/aldi/components/pages/application */ 887);
-var sensors_1 = __webpack_require__(/*! ../../../projects/xiaomi/components/pages/sensors */ 319);
-var gateways_1 = __webpack_require__(/*! ../../../projects/xiaomi/components/pages/gateways */ 339);
-var NotFoundPage_1 = __webpack_require__(/*! ../../components/simple/NotFoundPage */ 901);
-var Routing_1 = __webpack_require__(/*! ../simple/Routing */ 349);
-var basePage_1 = __webpack_require__(/*! ../container/basePage */ 341);
-var systeminfo_1 = __webpack_require__(/*! ../../../projects/system/components/pages/systeminfo */ 340);
-var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
-var GlobalApplication = (function (_super) {
-    __extends(GlobalApplication, _super);
-    function GlobalApplication(props) {
-        var _this = _super.call(this, props) || this;
-        _this.state = { selectedNavKey: _this.getRouteIdFromHash() };
-        _this.routeChanged = _this.routeChanged.bind(_this);
-        return _this;
+const React = __webpack_require__(/*! react */ 1);
+const react_router_dom_1 = __webpack_require__(/*! react-router-dom */ 84);
+const application_1 = __webpack_require__(/*! ./application */ 441);
+const application_2 = __webpack_require__(/*! ../../../projects/yeelight/components/pages/application */ 238);
+const application_3 = __webpack_require__(/*! ../../../projects/vacuumRoboter/components/pages/application */ 907);
+const application_4 = __webpack_require__(/*! ../../../projects/aldi/components/pages/application */ 908);
+const sensors_1 = __webpack_require__(/*! ../../../projects/xiaomi/components/pages/sensors */ 338);
+const gateways_1 = __webpack_require__(/*! ../../../projects/xiaomi/components/pages/gateways */ 359);
+const NotFoundPage_1 = __webpack_require__(/*! ../../components/simple/NotFoundPage */ 922);
+const Routing_1 = __webpack_require__(/*! ../simple/Routing */ 369);
+const basePage_1 = __webpack_require__(/*! ../container/basePage */ 361);
+const systeminfo_1 = __webpack_require__(/*! ../../../projects/system/components/pages/systeminfo */ 360);
+const office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
+class GlobalApplication extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { selectedNavKey: this.getRouteIdFromHash() };
+        this.routeChanged = this.routeChanged.bind(this);
     }
-    GlobalApplication.prototype.getRouteIdFromHash = function () {
+    getRouteIdFromHash() {
         return document.location.hash
             ? "#" + document.location.hash.replace("#/", "")
             : "#";
-    };
-    GlobalApplication.prototype.componentDidMount = function () {
+    }
+    componentDidMount() {
         document.title = "Web-Application by Florian Hoffmann";
         console.log("componentDidMount Application");
         window.addEventListener("hashchange", this.routeChanged);
-    };
-    GlobalApplication.prototype.routeChanged = function () {
+    }
+    routeChanged() {
         console.log("route changed");
-        var navKey = this.getRouteIdFromHash();
+        let navKey = this.getRouteIdFromHash();
         if (this.state.selectedNavKey === navKey) {
             return;
         }
         this.setState({
             selectedNavKey: navKey
         });
-    };
-    GlobalApplication.prototype.componentWillUnmount = function () {
+    }
+    componentWillUnmount() {
         window.removeEventListener("hashchange", this.routeChanged);
-    };
-    GlobalApplication.prototype.render = function () {
+    }
+    render() {
         console.log("render Application");
         return (React.createElement(basePage_1.BasePage, { IncludeFabricElement: true, Body: React.createElement(react_router_dom_1.Switch, null,
                 React.createElement(Routing_1.RedirectWithStatus, { status: 302, from: "/courses", to: "/aldi" }),
@@ -1470,15 +1293,14 @@ var GlobalApplication = (function (_super) {
                             ]
                         }
                     ] })) }));
-    };
-    return GlobalApplication;
-}(React.Component));
+    }
+}
 exports.GlobalApplication = GlobalApplication;
 
 
 /***/ }),
 
-/***/ 423:
+/***/ 441:
 /*!*****************************************************!*\
   !*** ./src/global/components/pages/application.tsx ***!
   \*****************************************************/
@@ -1488,40 +1310,28 @@ exports.GlobalApplication = GlobalApplication;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ 1);
-var application_1 = __webpack_require__(/*! ../../../projects/yeelight/components/pages/application */ 239);
-var sensors_1 = __webpack_require__(/*! ../../../projects/xiaomi/components/pages/sensors */ 319);
-var gateways_1 = __webpack_require__(/*! ../../../projects/xiaomi/components/pages/gateways */ 339);
-var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
-var PivotItem_1 = __webpack_require__(/*! office-ui-fabric-react/lib/components/Pivot/PivotItem */ 186);
-var systeminfo_1 = __webpack_require__(/*! ../../../projects/system/components/pages/systeminfo */ 340);
-var Application = (function (_super) {
-    __extends(Application, _super);
-    function Application(props) {
-        var _this = _super.call(this, props) || this;
-        _this.state = {
+const React = __webpack_require__(/*! react */ 1);
+const application_1 = __webpack_require__(/*! ../../../projects/yeelight/components/pages/application */ 238);
+const sensors_1 = __webpack_require__(/*! ../../../projects/xiaomi/components/pages/sensors */ 338);
+const gateways_1 = __webpack_require__(/*! ../../../projects/xiaomi/components/pages/gateways */ 359);
+const office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
+const PivotItem_1 = __webpack_require__(/*! office-ui-fabric-react/lib/components/Pivot/PivotItem */ 185);
+const systeminfo_1 = __webpack_require__(/*! ../../../projects/system/components/pages/systeminfo */ 360);
+class Application extends React.PureComponent {
+    constructor(props) {
+        super(props);
+        this.state = {
             GatewayInformations: React.createElement(gateways_1.Application, null),
             SensorInformations: React.createElement(sensors_1.Application, null),
             YeelightInformations: React.createElement(application_1.Application, null),
             SystemInformations: React.createElement(systeminfo_1.SystemInfo, null)
         };
-        return _this;
     }
-    Application.prototype.componentDidMount = function () {
+    componentDidMount() {
         console.log("componentDidMount Application");
-    };
-    Application.prototype.render = function () {
+    }
+    render() {
         return (React.createElement("div", null,
             React.createElement(office_ui_fabric_react_1.Pivot, { linkSize: office_ui_fabric_react_1.PivotLinkSize.large },
                 React.createElement(PivotItem_1.PivotItem, { linkText: "Sensoren", itemIcon: "CloudWeather" },
@@ -1530,15 +1340,14 @@ var Application = (function (_super) {
                     React.createElement("div", { style: { paddingTop: "15px" } }, this.state.GatewayInformations)),
                 React.createElement(PivotItem_1.PivotItem, { linkText: "Yeelights", itemIcon: "Lightbulb" },
                     React.createElement("div", { style: { paddingTop: "15px" } }, this.state.YeelightInformations)))));
-    };
-    return Application;
-}(React.PureComponent));
+    }
+}
 exports.Application = Application;
 
 
 /***/ }),
 
-/***/ 443:
+/***/ 461:
 /*!**************************************************************!*\
   !*** ./src/projects/yeelight/components/simple/Yeelight.tsx ***!
   \**************************************************************/
@@ -1548,34 +1357,15 @@ exports.Application = Application;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __assign = (this && this.__assign) || Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-    }
-    return t;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ 1);
-var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
-var Panel_1 = __webpack_require__(/*! ../../../../global/components/simple/Panel */ 61);
-var Yeelight = (function (_super) {
-    __extends(Yeelight, _super);
-    function Yeelight(props) {
-        var _this = _super.call(this, props) || this;
-        _this.state = { gateways: [] };
-        _this.colorSchemes = [
+const React = __webpack_require__(/*! react */ 1);
+const office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
+const Panel_1 = __webpack_require__(/*! ../../../../global/components/simple/Panel */ 62);
+class Yeelight extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { gateways: [] };
+        this.colorSchemes = [
             {
                 name: "Bitte auswählen...",
                 color: { r: 0, g: 0, b: 0 },
@@ -1592,84 +1382,78 @@ var Yeelight = (function (_super) {
                 brightness: 43
             }
         ];
-        _this.brightnessChanged = _this.brightnessChanged.bind(_this);
-        _this.togglePower = _this.togglePower.bind(_this);
-        _this.setBrightness = _this.setBrightness.bind(_this);
-        _this.colorSchemeChanged = _this.colorSchemeChanged.bind(_this);
-        _this.colorTemperatureChanged = _this.colorTemperatureChanged.bind(_this);
-        _this.onRedChanged = _this.onRedChanged.bind(_this);
-        _this.onBlueChanged = _this.onBlueChanged.bind(_this);
-        _this.onGreenChanged = _this.onGreenChanged.bind(_this);
-        return _this;
+        this.brightnessChanged = this.brightnessChanged.bind(this);
+        this.togglePower = this.togglePower.bind(this);
+        this.setBrightness = this.setBrightness.bind(this);
+        this.colorSchemeChanged = this.colorSchemeChanged.bind(this);
+        this.colorTemperatureChanged = this.colorTemperatureChanged.bind(this);
+        this.onRedChanged = this.onRedChanged.bind(this);
+        this.onBlueChanged = this.onBlueChanged.bind(this);
+        this.onGreenChanged = this.onGreenChanged.bind(this);
     }
-    Yeelight.prototype.colorSchemeChanged = function (event) {
-        var schemeIndex = event.currentTarget.selectedIndex;
-        var schema = this.colorSchemes[schemeIndex];
+    colorSchemeChanged(event) {
+        let schemeIndex = event.currentTarget.selectedIndex;
+        let schema = this.colorSchemes[schemeIndex];
         if (!schema || schema.intensity === -1)
             return;
         this.props.onColorSchemaChanged(this.props.lightInformation, schema.color, schema.brightness);
-    };
-    Yeelight.prototype.togglePower = function () {
+    }
+    togglePower() {
         this.props.onPowerChanged(this.props.lightInformation);
-    };
-    Yeelight.prototype.setBrightness = function (value) {
+    }
+    setBrightness(value) {
         this.props.onBrightnessChanged(this.props.lightInformation, value);
-    };
-    Yeelight.prototype.brightnessChanged = function (value) {
-        var _this = this;
+    }
+    brightnessChanged(value) {
         if (this.sliderDelay) {
             clearTimeout(this.sliderDelay);
         }
-        this.sliderDelay = setTimeout(function () {
-            _this.setBrightness(value);
+        this.sliderDelay = setTimeout(() => {
+            this.setBrightness(value);
         }, 400);
-    };
-    Yeelight.prototype.colorTemperatureChanged = function (value) {
-        var _this = this;
+    }
+    colorTemperatureChanged(value) {
         if (this.sliderDelay) {
             clearTimeout(this.sliderDelay);
         }
-        this.sliderDelay = setTimeout(function () {
-            _this.props.onColorTemperatureChanged(_this.props.lightInformation, value);
+        this.sliderDelay = setTimeout(() => {
+            this.props.onColorTemperatureChanged(this.props.lightInformation, value);
         }, 400);
-    };
-    Yeelight.prototype.onColorChanged = function (color) {
+    }
+    onColorChanged(color) {
         this.props.onColorChanged(this.props.lightInformation, color);
-    };
-    Yeelight.prototype.onRedChanged = function (value) {
-        var _this = this;
-        var color = __assign({}, this.props.lightInformation.rgb);
+    }
+    onRedChanged(value) {
+        let color = Object.assign({}, this.props.lightInformation.rgb);
         color.r = value;
         if (this.sliderDelay) {
             clearTimeout(this.sliderDelay);
         }
-        this.sliderDelay = setTimeout(function () {
-            _this.onColorChanged(color);
+        this.sliderDelay = setTimeout(() => {
+            this.onColorChanged(color);
         }, 400);
-    };
-    Yeelight.prototype.onBlueChanged = function (value) {
-        var _this = this;
-        var color = __assign({}, this.props.lightInformation.rgb);
+    }
+    onBlueChanged(value) {
+        let color = Object.assign({}, this.props.lightInformation.rgb);
         color.b = value;
         if (this.sliderDelay) {
             clearTimeout(this.sliderDelay);
         }
-        this.sliderDelay = setTimeout(function () {
-            _this.onColorChanged(color);
+        this.sliderDelay = setTimeout(() => {
+            this.onColorChanged(color);
         }, 400);
-    };
-    Yeelight.prototype.onGreenChanged = function (value) {
-        var _this = this;
-        var color = __assign({}, this.props.lightInformation.rgb);
+    }
+    onGreenChanged(value) {
+        let color = Object.assign({}, this.props.lightInformation.rgb);
         color.g = value;
         if (this.sliderDelay) {
             clearTimeout(this.sliderDelay);
         }
-        this.sliderDelay = setTimeout(function () {
-            _this.onColorChanged(color);
+        this.sliderDelay = setTimeout(() => {
+            this.onColorChanged(color);
         }, 400);
-    };
-    Yeelight.prototype.render = function () {
+    }
+    render() {
         console.log("Yeelight render");
         return (React.createElement("div", { className: "ms-Grid-row", key: "list_" + this.props.id },
             React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-lg12" },
@@ -1682,7 +1466,7 @@ var Yeelight = (function (_super) {
                             React.createElement(office_ui_fabric_react_1.Toggle, { key: "light_power_" + this.props.id, checked: this.props.lightInformation.power, onText: "On", offText: "Off", onChanged: this.togglePower })),
                         React.createElement("div", { className: "ms-Grid-col ms-sm6" },
                             React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, "Farbschema"),
-                            React.createElement("select", { onChange: this.colorSchemeChanged, style: { padding: "10px", width: "100%" }, disabled: !this.props.lightInformation.power }, this.colorSchemes.map(function (schema, index) {
+                            React.createElement("select", { onChange: this.colorSchemeChanged, style: { padding: "10px", width: "100%" }, disabled: !this.props.lightInformation.power }, this.colorSchemes.map((schema, index) => {
                                 return (React.createElement("option", { key: "option_schema_" + index, value: index }, schema.name));
                             }))),
                         React.createElement("div", { className: "ms-Grid-col ms-sm12" },
@@ -1696,15 +1480,14 @@ var Yeelight = (function (_super) {
                             React.createElement(office_ui_fabric_react_1.Slider, { label: "Rot", min: 0, max: 255, step: 1, disabled: !this.props.lightInformation.power, value: this.props.lightInformation.rgb.r, showValue: true, onChange: this.onRedChanged }),
                             React.createElement(office_ui_fabric_react_1.Slider, { label: "Gr\u00FCn", min: 0, max: 255, step: 1, disabled: !this.props.lightInformation.power, value: this.props.lightInformation.rgb.g, showValue: true, onChange: this.onGreenChanged }),
                             React.createElement(office_ui_fabric_react_1.Slider, { label: "Blau", min: 0, max: 255, step: 1, disabled: !this.props.lightInformation.power, value: this.props.lightInformation.rgb.b, showValue: true, onChange: this.onBlueChanged })))))));
-    };
-    return Yeelight;
-}(React.Component));
+    }
+}
 exports.Yeelight = Yeelight;
 
 
 /***/ }),
 
-/***/ 61:
+/***/ 62:
 /*!************************************************!*\
   !*** ./src/global/components/simple/Panel.tsx ***!
   \************************************************/
@@ -1714,50 +1497,30 @@ exports.Yeelight = Yeelight;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __assign = (this && this.__assign) || Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-    }
-    return t;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ 1);
-var Button_1 = __webpack_require__(/*! office-ui-fabric-react/lib/Button */ 22);
-var Panel = (function (_super) {
-    __extends(Panel, _super);
-    function Panel(props) {
-        var _this = _super.call(this, props) || this;
-        _this.state = {
-            isContentVisible: !_this.props.isCollapsed
+const React = __webpack_require__(/*! react */ 1);
+const Button_1 = __webpack_require__(/*! office-ui-fabric-react/lib/Button */ 22);
+class Panel extends React.PureComponent {
+    constructor(props) {
+        super(props);
+        this.state = {
+            isContentVisible: !this.props.isCollapsed
         };
-        _this.linkClicked = _this.linkClicked.bind(_this);
-        return _this;
+        this.linkClicked = this.linkClicked.bind(this);
     }
-    Panel.prototype.linkClicked = function (e) {
+    linkClicked(e) {
         if (this.props.canToggleContentHidden === false) {
             return false;
         }
         e.preventDefault();
-        var newState = __assign({}, this.state);
+        let newState = Object.assign({}, this.state);
         newState.isContentVisible = !newState.isContentVisible;
         this.setState(newState);
         return false;
-    };
-    Panel.prototype.render = function () {
-        var panelClass = this.props.className || "";
-        var contentClass = this.props.contentClass;
+    }
+    render() {
+        let panelClass = this.props.className || "";
+        let contentClass = this.props.contentClass;
         return (React.createElement("div", { className: panelClass },
             React.createElement("div", { className: "custom-border-settings ms-borderColor-neutralLighter" },
                 React.createElement("div", { className: "ms-bgColor-neutralLighter custom-panel-header" },
@@ -1773,23 +1536,22 @@ var Panel = (function (_super) {
                         React.createElement("span", { className: "ms-font-xl ms-fontColor-themePrimary" }, this.props.headerText)),
                     this.props.headerControls && this.props.headerControls),
                 this.state.isContentVisible && (React.createElement("div", { className: contentClass }, this.props.children)))));
-    };
-    Panel.defaultProps = {
-        headerText: "Kein Text",
-        className: "",
-        contentClass: "default-panel-content-container",
-        isCollapsed: false,
-        canToggleContentHidden: true,
-        headerControls: null
-    };
-    return Panel;
-}(React.PureComponent));
+    }
+}
+Panel.defaultProps = {
+    headerText: "Kein Text",
+    className: "",
+    contentClass: "default-panel-content-container",
+    isCollapsed: false,
+    canToggleContentHidden: true,
+    headerControls: null
+};
 exports.Panel = Panel;
 
 
 /***/ }),
 
-/***/ 737:
+/***/ 759:
 /*!************************************************************!*\
   !*** ./src/global/components/simple/BaseWeatherSensor.tsx ***!
   \************************************************************/
@@ -1799,34 +1561,22 @@ exports.Panel = Panel;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ 1);
-var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
-var Panel_1 = __webpack_require__(/*! ../../../global/components/simple/Panel */ 61);
-var react_1 = __webpack_require__(/*! react */ 1);
-var BaseWeatherSensorChart_1 = __webpack_require__(/*! ./BaseWeatherSensorChart */ 738);
-var BaseWeatherSensor = (function (_super) {
-    __extends(BaseWeatherSensor, _super);
-    function BaseWeatherSensor(props) {
-        var _this = _super.call(this, props) || this;
-        _this.state = { showDetails: false };
-        _this.sensorDetailsClicked = _this.sensorDetailsClicked.bind(_this);
-        return _this;
+const React = __webpack_require__(/*! react */ 1);
+const office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
+const Panel_1 = __webpack_require__(/*! ../../../global/components/simple/Panel */ 62);
+const react_1 = __webpack_require__(/*! react */ 1);
+const BaseWeatherSensorChart_1 = __webpack_require__(/*! ./BaseWeatherSensorChart */ 760);
+class BaseWeatherSensor extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { showDetails: false };
+        this.sensorDetailsClicked = this.sensorDetailsClicked.bind(this);
     }
-    BaseWeatherSensor.prototype.sensorDetailsClicked = function () {
+    sensorDetailsClicked() {
         this.setState({ showDetails: !this.state.showDetails });
-    };
-    BaseWeatherSensor.prototype.render = function () {
+    }
+    render() {
         console.log("BaseWeatherSensor render");
         return (React.createElement("div", { className: "ms-Grid-row", key: "sensor" + this.props.id },
             React.createElement("div", { className: "ms-Grid-col ms-sm12" },
@@ -1846,15 +1596,14 @@ var BaseWeatherSensor = (function (_super) {
                             this.props.sensorInformations.hasPressure && (React.createElement("div", { className: "ms-Grid-col ms-sm6" },
                                 React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, this.props.sensorInformations.pressure)))))),
                     this.state.showDetails && (React.createElement(BaseWeatherSensorChart_1.BaseWeatherSensorChart, { sensorInformations: this.props.sensorInformations }))))));
-    };
-    return BaseWeatherSensor;
-}(React.Component));
+    }
+}
 exports.BaseWeatherSensor = BaseWeatherSensor;
 
 
 /***/ }),
 
-/***/ 738:
+/***/ 760:
 /*!*****************************************************************!*\
   !*** ./src/global/components/simple/BaseWeatherSensorChart.tsx ***!
   \*****************************************************************/
@@ -1864,33 +1613,22 @@ exports.BaseWeatherSensor = BaseWeatherSensor;
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Promise) {
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ 1);
-var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
-var axios_1 = __webpack_require__(/*! axios */ 30);
-var react_chartjs_2_1 = __webpack_require__(/*! react-chartjs-2 */ 320);
-var date_1 = __webpack_require__(/*! ../../../helper/date */ 77);
-var options = [
+const React = __webpack_require__(/*! react */ 1);
+const office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
+const axios_1 = __webpack_require__(/*! axios */ 30);
+const react_chartjs_2_1 = __webpack_require__(/*! react-chartjs-2 */ 339);
+const date_1 = __webpack_require__(/*! ../../../helper/date */ 79);
+const options = [
     React.createElement("option", { value: "1", key: "k1" }, "Heute"),
     React.createElement("option", { value: "2", key: "k2" }, "Letzten 2 Tage"),
     React.createElement("option", { value: "3", key: "k3" }, "Letzte Woche"),
     React.createElement("option", { value: "4", key: "k4" }, "Alle")
 ];
-var BaseWeatherSensorChart = (function (_super) {
-    __extends(BaseWeatherSensorChart, _super);
-    function BaseWeatherSensorChart(props) {
-        var _this = _super.call(this, props) || this;
-        _this.state = {
+class BaseWeatherSensorChart extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
             sensorData: undefined,
             rawSensorData: [],
             isError: false,
@@ -1898,13 +1636,12 @@ var BaseWeatherSensorChart = (function (_super) {
             selectedRange: "1",
             options: undefined
         };
-        _this.dateRangeSelectionChanged = _this.dateRangeSelectionChanged.bind(_this);
-        _this.getTooltipTitle = _this.getTooltipTitle.bind(_this);
-        return _this;
+        this.dateRangeSelectionChanged = this.dateRangeSelectionChanged.bind(this);
+        this.getTooltipTitle = this.getTooltipTitle.bind(this);
     }
-    BaseWeatherSensorChart.prototype.getChartData = function (defaultData) {
-        var dataRows = defaultData;
-        var data = {
+    getChartData(defaultData) {
+        let dataRows = defaultData;
+        let data = {
             datasets: [],
             labels: []
         };
@@ -1913,11 +1650,11 @@ var BaseWeatherSensorChart = (function (_super) {
         if (this.props.sensorInformations.hasPressure) {
             data.datasets.push({ label: "Druck", data: [] });
         }
-        var labels = [];
-        var tempValues = [];
-        var humidityValues = [];
-        var pressureValues = [];
-        dataRows.forEach(function (row) {
+        let labels = [];
+        let tempValues = [];
+        let humidityValues = [];
+        let pressureValues = [];
+        dataRows.forEach(row => {
             if (!row.timestamp)
                 return;
             labels.push(row.timestamp);
@@ -1988,21 +1725,21 @@ var BaseWeatherSensorChart = (function (_super) {
             });
         }
         return data;
-    };
-    BaseWeatherSensorChart.prototype.querySensorDataByDateRange = function (from, to) {
+    }
+    querySensorDataByDateRange(from, to) {
         return axios_1.default.get("/api/sensors/" +
             this.props.sensorInformations.id +
             "/between/" +
             from +
             "/" +
             to);
-    };
-    BaseWeatherSensorChart.prototype.queryAllSensorData = function () {
+    }
+    queryAllSensorData() {
         return axios_1.default.get("/api/sensors/" + this.props.sensorInformations.id + "/data");
-    };
-    BaseWeatherSensorChart.prototype.getDateTickRangeBySelection = function (selectedOption) {
-        var from = -1;
-        var to = -1;
+    }
+    getDateTickRangeBySelection(selectedOption) {
+        let from = -1;
+        let to = -1;
         switch (selectedOption) {
             case "1":
                 from = date_1.setDatePropertiesToZero(new Date()).getTime();
@@ -2025,13 +1762,12 @@ var BaseWeatherSensorChart = (function (_super) {
             from: from,
             to: to
         };
-    };
-    BaseWeatherSensorChart.prototype.queryLiveDate = function (selectedOption) {
-        var _this = this;
-        return new Promise(function (resolve, reject) {
-            var dateRange = _this.getDateTickRangeBySelection(selectedOption);
-            _this.querySensorDataByDateRange(dateRange.from, dateRange.to)
-                .then(function (dataResult) {
+    }
+    queryLiveDate(selectedOption) {
+        return new Promise((resolve, reject) => {
+            let dateRange = this.getDateTickRangeBySelection(selectedOption);
+            this.querySensorDataByDateRange(dateRange.from, dateRange.to)
+                .then(dataResult => {
                 if (!dataResult.data) {
                     resolve([]);
                 }
@@ -2040,18 +1776,18 @@ var BaseWeatherSensorChart = (function (_super) {
                 }
                 resolve(dataResult.data.items);
             })
-                .catch(function (error) {
+                .catch(error => {
                 reject(error);
             });
         });
-    };
-    BaseWeatherSensorChart.prototype.getTooltipTitle = function (tooltipItem, data) {
-        var returnValue = undefined;
+    }
+    getTooltipTitle(tooltipItem, data) {
+        let returnValue = undefined;
         if (this.state.rawSensorData &&
             this.state.rawSensorData.length >= tooltipItem[0].index) {
-            var sensorTimeStamp = this.state.rawSensorData[tooltipItem[0].index];
+            let sensorTimeStamp = this.state.rawSensorData[tooltipItem[0].index];
             if (sensorTimeStamp) {
-                var timestamp = sensorTimeStamp.timestamp;
+                let timestamp = sensorTimeStamp.timestamp;
                 returnValue = date_1.getGermanDateTimeString(new Date(timestamp));
             }
         }
@@ -2059,51 +1795,49 @@ var BaseWeatherSensorChart = (function (_super) {
             returnValue = data.labels[tooltipItem[0].index];
         }
         return returnValue;
-    };
-    BaseWeatherSensorChart.prototype.doSensorQueryNow = function () {
-        var _this = this;
+    }
+    doSensorQueryNow() {
         this.queryLiveDate(this.state.selectedRange)
-            .then(function (result) {
-            var chartData = _this.getChartData(result);
-            var options = { tooltips: {} };
+            .then(result => {
+            let chartData = this.getChartData(result);
+            let options = { tooltips: {} };
             options.tooltips.callbacks = {
-                title: _this.getTooltipTitle
+                title: this.getTooltipTitle
             };
             if (chartData && chartData.labels && chartData.labels.length > 0) {
-                chartData.labels = chartData.labels.map(function (label) {
+                chartData.labels = chartData.labels.map(label => {
                     label = date_1.getGermanDateString(new Date(parseFloat(label.toString())));
                     return label;
                 });
             }
-            _this.setState({
+            this.setState({
                 rawSensorData: result,
                 options: options,
                 sensorData: chartData,
                 isLoadingSensorData: false
             });
         })
-            .catch(function (error) {
-            _this.setState({
+            .catch(error => {
+            this.setState({
                 isError: true,
                 isLoadingSensorData: false
             });
         });
-    };
-    BaseWeatherSensorChart.prototype.componentDidMount = function () {
+    }
+    componentDidMount() {
         this.doSensorQueryNow();
-    };
-    BaseWeatherSensorChart.prototype.dateRangeSelectionChanged = function (event) {
-        var _this = this;
-        var index = event.target.selectedIndex;
-        var selectedOptionValue = event.target.options[index].value;
+    }
+    dateRangeSelectionChanged(event) {
+        let index = event.target.selectedIndex;
+        let selectedOptionValue = event.target.options[index].value;
         this.setState({
             isLoadingSensorData: true,
             selectedRange: selectedOptionValue
-        }, function () {
-            _this.doSensorQueryNow();
+        }, () => {
+            this.doSensorQueryNow();
         });
-    };
-    BaseWeatherSensorChart.prototype.render = function () {
+    }
+    render() {
         console.log("BaseWeatherSensorChart render");
         if (!this.state.sensorData)
             return null;
@@ -2111,7 +1845,7 @@ var BaseWeatherSensorChart = (function (_super) {
             return (this.state.isError && (React.createElement("div", { className: "ms-Grid-row" },
                 React.createElement("div", { className: "ms-Grid-col ms-sm12" }, "Es ist ein Fehler aufgetreten..."))));
         }
-        var sensorDataContent = null;
+        let sensorDataContent = null;
         if (this.state.isLoadingSensorData) {
             sensorDataContent = (React.createElement(office_ui_fabric_react_1.Spinner, { size: office_ui_fabric_react_1.SpinnerSize.large, label: "Lade Sensor-Daten..." }));
         }
@@ -2131,16 +1865,15 @@ var BaseWeatherSensorChart = (function (_super) {
                         React.createElement("select", { onChange: this.dateRangeSelectionChanged, value: this.state.selectedRange }, options))),
                 React.createElement("div", { className: "ms-Grid-row" },
                     React.createElement("div", { className: "ms-Grid-col ms-sm12" }, sensorDataContent)))));
-    };
-    return BaseWeatherSensorChart;
-}(React.Component));
+    }
+}
 exports.BaseWeatherSensorChart = BaseWeatherSensorChart;
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 18)))
 
 /***/ }),
 
-/***/ 77:
+/***/ 79:
 /*!****************************!*\
   !*** ./src/helper/date.ts ***!
   \****************************/
@@ -2176,9 +1909,8 @@ function getGermanDateTimeString(date) {
     });
 }
 exports.getGermanDateTimeString = getGermanDateTimeString;
-function addDays(dateToAdd, daysToAdd, setHrsMinSecMiSecToZero) {
-    if (setHrsMinSecMiSecToZero === void 0) { setHrsMinSecMiSecToZero = false; }
-    var calculatedDate = new Date(dateToAdd);
+function addDays(dateToAdd, daysToAdd, setHrsMinSecMiSecToZero = false) {
+    let calculatedDate = new Date(dateToAdd);
     calculatedDate.setDate(calculatedDate.getDate() + daysToAdd);
     if (setHrsMinSecMiSecToZero) {
         calculatedDate = setDatePropertiesToZero(calculatedDate);
@@ -2187,7 +1919,7 @@ function addDays(dateToAdd, daysToAdd, setHrsMinSecMiSecToZero) {
 }
 exports.addDays = addDays;
 function setDatePropertiesToZero(dateToSet) {
-    var calculatedDate = new Date(dateToSet);
+    let calculatedDate = new Date(dateToSet);
     calculatedDate.setMinutes(0);
     calculatedDate.setHours(0);
     calculatedDate.setSeconds(0);
@@ -2199,7 +1931,7 @@ exports.setDatePropertiesToZero = setDatePropertiesToZero;
 
 /***/ }),
 
-/***/ 885:
+/***/ 906:
 /*!****************************************************!*\
   !*** ./src/global/components/simple/BaseLight.tsx ***!
   \****************************************************/
@@ -2209,34 +1941,15 @@ exports.setDatePropertiesToZero = setDatePropertiesToZero;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __assign = (this && this.__assign) || Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-    }
-    return t;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ 1);
-var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
-var Panel_1 = __webpack_require__(/*! ../../../global/components/simple/Panel */ 61);
-var BaseLight = (function (_super) {
-    __extends(BaseLight, _super);
-    function BaseLight(props) {
-        var _this = _super.call(this, props) || this;
-        _this.state = { gateways: [] };
-        _this.colorSchemes = [
+const React = __webpack_require__(/*! react */ 1);
+const office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
+const Panel_1 = __webpack_require__(/*! ../../../global/components/simple/Panel */ 62);
+class BaseLight extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { gateways: [] };
+        this.colorSchemes = [
             {
                 name: "Bitte auswählen...",
                 color: { r: 0, g: 0, b: 0 },
@@ -2253,74 +1966,69 @@ var BaseLight = (function (_super) {
                 brightness: 43
             }
         ];
-        _this.brightnessChanged = _this.brightnessChanged.bind(_this);
-        _this.togglePower = _this.togglePower.bind(_this);
-        _this.setBrightness = _this.setBrightness.bind(_this);
-        _this.colorSchemeChanged = _this.colorSchemeChanged.bind(_this);
-        _this.onRedChanged = _this.onRedChanged.bind(_this);
-        _this.onBlueChanged = _this.onBlueChanged.bind(_this);
-        _this.onGreenChanged = _this.onGreenChanged.bind(_this);
-        return _this;
+        this.brightnessChanged = this.brightnessChanged.bind(this);
+        this.togglePower = this.togglePower.bind(this);
+        this.setBrightness = this.setBrightness.bind(this);
+        this.colorSchemeChanged = this.colorSchemeChanged.bind(this);
+        this.onRedChanged = this.onRedChanged.bind(this);
+        this.onBlueChanged = this.onBlueChanged.bind(this);
+        this.onGreenChanged = this.onGreenChanged.bind(this);
     }
-    BaseLight.prototype.colorSchemeChanged = function (event) {
-        var schemeIndex = event.currentTarget.selectedIndex;
-        var schema = this.colorSchemes[schemeIndex];
+    colorSchemeChanged(event) {
+        let schemeIndex = event.currentTarget.selectedIndex;
+        let schema = this.colorSchemes[schemeIndex];
         if (!schema || schema.intensity === -1)
             return;
         this.props.onColorSchemaChanged(this.props.lightInformation, schema.color, schema.brightness);
-    };
-    BaseLight.prototype.togglePower = function () {
+    }
+    togglePower() {
         this.props.onPowerChanged(this.props.lightInformation);
-    };
-    BaseLight.prototype.setBrightness = function (value) {
+    }
+    setBrightness(value) {
         this.props.onBrightnessChanged(this.props.lightInformation, value);
-    };
-    BaseLight.prototype.brightnessChanged = function (value) {
-        var _this = this;
+    }
+    brightnessChanged(value) {
         if (this.sliderDelay) {
             clearTimeout(this.sliderDelay);
         }
-        this.sliderDelay = setTimeout(function () {
-            _this.setBrightness(value);
+        this.sliderDelay = setTimeout(() => {
+            this.setBrightness(value);
         }, 400);
-    };
-    BaseLight.prototype.onColorChanged = function (color) {
+    }
+    onColorChanged(color) {
         this.props.onColorChanged(this.props.lightInformation, color);
-    };
-    BaseLight.prototype.onRedChanged = function (value) {
-        var _this = this;
-        var color = __assign({}, this.props.lightInformation.rgb);
+    }
+    onRedChanged(value) {
+        let color = Object.assign({}, this.props.lightInformation.rgb);
         color.r = value;
         if (this.sliderDelay) {
             clearTimeout(this.sliderDelay);
         }
-        this.sliderDelay = setTimeout(function () {
-            _this.onColorChanged(color);
+        this.sliderDelay = setTimeout(() => {
+            this.onColorChanged(color);
         }, 400);
-    };
-    BaseLight.prototype.onBlueChanged = function (value) {
-        var _this = this;
-        var color = __assign({}, this.props.lightInformation.rgb);
+    }
+    onBlueChanged(value) {
+        let color = Object.assign({}, this.props.lightInformation.rgb);
         color.b = value;
         if (this.sliderDelay) {
             clearTimeout(this.sliderDelay);
         }
-        this.sliderDelay = setTimeout(function () {
-            _this.onColorChanged(color);
+        this.sliderDelay = setTimeout(() => {
+            this.onColorChanged(color);
         }, 400);
-    };
-    BaseLight.prototype.onGreenChanged = function (value) {
-        var _this = this;
-        var color = __assign({}, this.props.lightInformation.rgb);
+    }
+    onGreenChanged(value) {
+        let color = Object.assign({}, this.props.lightInformation.rgb);
         color.g = value;
         if (this.sliderDelay) {
             clearTimeout(this.sliderDelay);
         }
-        this.sliderDelay = setTimeout(function () {
-            _this.onColorChanged(color);
+        this.sliderDelay = setTimeout(() => {
+            this.onColorChanged(color);
         }, 400);
-    };
-    BaseLight.prototype.render = function () {
+    }
+    render() {
         console.log("baseLight render");
         return (React.createElement("div", { className: "ms-Grid-row", key: "list_" + this.props.id },
             React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-lg12" },
@@ -2333,7 +2041,7 @@ var BaseLight = (function (_super) {
                             React.createElement(office_ui_fabric_react_1.Toggle, { key: "light_power_" + this.props.id, checked: this.props.lightInformation.power, onText: "On", offText: "Off", onChanged: this.togglePower })),
                         React.createElement("div", { className: "ms-Grid-col ms-sm6" },
                             React.createElement("h1", { className: "ms-font-xl ms-fontColor-themePrimary" }, "Farbschema"),
-                            React.createElement("select", { onChange: this.colorSchemeChanged, style: { padding: "10px", width: "100%" }, disabled: !this.props.lightInformation.power }, this.colorSchemes.map(function (schema, index) {
+                            React.createElement("select", { onChange: this.colorSchemeChanged, style: { padding: "10px", width: "100%" }, disabled: !this.props.lightInformation.power }, this.colorSchemes.map((schema, index) => {
                                 return (React.createElement("option", { key: "option_schema_" + index, value: index }, schema.name));
                             }))),
                         React.createElement("div", { className: "ms-Grid-col ms-sm12" },
@@ -2344,15 +2052,14 @@ var BaseLight = (function (_super) {
                             React.createElement(office_ui_fabric_react_1.Slider, { label: "Rot", min: 0, max: 255, step: 1, disabled: !this.props.lightInformation.power, value: this.props.lightInformation.rgb.r, showValue: true, onChange: this.onRedChanged }),
                             React.createElement(office_ui_fabric_react_1.Slider, { label: "Gr\u00FCn", min: 0, max: 255, step: 1, disabled: !this.props.lightInformation.power, value: this.props.lightInformation.rgb.g, showValue: true, onChange: this.onGreenChanged }),
                             React.createElement(office_ui_fabric_react_1.Slider, { label: "Blau", min: 0, max: 255, step: 1, disabled: !this.props.lightInformation.power, value: this.props.lightInformation.rgb.b, showValue: true, onChange: this.onBlueChanged })))))));
-    };
-    return BaseLight;
-}(React.Component));
+    }
+}
 exports.BaseLight = BaseLight;
 
 
 /***/ }),
 
-/***/ 886:
+/***/ 907:
 /*!*********************************************************************!*\
   !*** ./src/projects/vacuumRoboter/components/pages/application.tsx ***!
   \*********************************************************************/
@@ -2362,42 +2069,30 @@ exports.BaseLight = BaseLight;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ 1);
-var Application = (function (_super) {
-    __extends(Application, _super);
-    function Application(props) {
-        return _super.call(this, props) || this;
+const React = __webpack_require__(/*! react */ 1);
+class Application extends React.Component {
+    constructor(props) {
+        super(props);
     }
-    Application.prototype.componentDidMount = function () {
+    componentDidMount() {
         document.title = "Vacuum Roboter Hauptseite";
-    };
-    Application.prototype.render = function () {
+    }
+    render() {
         return (React.createElement("h1", null,
             "Hello from Vacuum Roboter!",
             React.createElement("br", null),
             "Your requested url is",
             " ",
             this.props.requestUrl));
-    };
-    return Application;
-}(React.Component));
+    }
+}
 exports.Application = Application;
 
 
 /***/ }),
 
-/***/ 887:
+/***/ 908:
 /*!************************************************************!*\
   !*** ./src/projects/aldi/components/pages/application.tsx ***!
   \************************************************************/
@@ -2407,33 +2102,22 @@ exports.Application = Application;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ 1);
-var manageRoute_1 = __webpack_require__(/*! ./manageRoute */ 888);
-var enums_1 = __webpack_require__(/*! ../../../../enums/enums */ 198);
-var react_1 = __webpack_require__(/*! react */ 1);
-var ToolTip_1 = __webpack_require__(/*! ../../../../global/components/simple/ToolTip */ 895);
-var Routenuebersicht_1 = __webpack_require__(/*! ../intelligent/Routenuebersicht */ 896);
-var UploadRoutes_1 = __webpack_require__(/*! ../intelligent/UploadRoutes */ 897);
-var UploadFilialen_1 = __webpack_require__(/*! ../intelligent/UploadFilialen */ 898);
-var Filialuebersicht_1 = __webpack_require__(/*! ../intelligent/Filialuebersicht */ 899);
-var Panel_1 = __webpack_require__(/*! ../../../../global/components/simple/Panel */ 61);
-var Filiale_1 = __webpack_require__(/*! ../intelligent/Filiale */ 900);
-var Application = (function (_super) {
-    __extends(Application, _super);
-    function Application(props) {
-        var _this = _super.call(this, props) || this;
-        _this.state = {
+const React = __webpack_require__(/*! react */ 1);
+const manageRoute_1 = __webpack_require__(/*! ./manageRoute */ 909);
+const enums_1 = __webpack_require__(/*! ../../../../enums/enums */ 197);
+const react_1 = __webpack_require__(/*! react */ 1);
+const ToolTip_1 = __webpack_require__(/*! ../../../../global/components/simple/ToolTip */ 916);
+const Routenuebersicht_1 = __webpack_require__(/*! ../intelligent/Routenuebersicht */ 917);
+const UploadRoutes_1 = __webpack_require__(/*! ../intelligent/UploadRoutes */ 918);
+const UploadFilialen_1 = __webpack_require__(/*! ../intelligent/UploadFilialen */ 919);
+const Filialuebersicht_1 = __webpack_require__(/*! ../intelligent/Filialuebersicht */ 920);
+const Panel_1 = __webpack_require__(/*! ../../../../global/components/simple/Panel */ 62);
+const Filiale_1 = __webpack_require__(/*! ../intelligent/Filiale */ 921);
+class Application extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
             modalContent: undefined,
             showModal: false,
             isCalloutVisible: false,
@@ -2441,47 +2125,45 @@ var Application = (function (_super) {
             selectedRoutes: [],
             selectedFilialen: []
         };
-        _this.closeModal = _this.closeModal.bind(_this);
-        _this.showCallOut = _this.showCallOut.bind(_this);
-        _this.hideCallOut = _this.hideCallOut.bind(_this);
-        _this.routeUploaded = _this.routeUploaded.bind(_this);
-        _this.showUploadRoutesClick = _this.showUploadRoutesClick.bind(_this);
-        _this.uploadFilialen = _this.uploadFilialen.bind(_this);
-        _this.showUploadFilialenClick = _this.showUploadFilialenClick.bind(_this);
-        _this.editRoute = _this.editRoute.bind(_this);
-        _this.addRouteClick = _this.addRouteClick.bind(_this);
-        _this.createFiliale = _this.createFiliale.bind(_this);
-        _this.editFiliale = _this.editFiliale.bind(_this);
-        _this.filialeSavedClick = _this.filialeSavedClick.bind(_this);
-        return _this;
+        this.closeModal = this.closeModal.bind(this);
+        this.showCallOut = this.showCallOut.bind(this);
+        this.hideCallOut = this.hideCallOut.bind(this);
+        this.routeUploaded = this.routeUploaded.bind(this);
+        this.showUploadRoutesClick = this.showUploadRoutesClick.bind(this);
+        this.uploadFilialen = this.uploadFilialen.bind(this);
+        this.showUploadFilialenClick = this.showUploadFilialenClick.bind(this);
+        this.editRoute = this.editRoute.bind(this);
+        this.addRouteClick = this.addRouteClick.bind(this);
+        this.createFiliale = this.createFiliale.bind(this);
+        this.editFiliale = this.editFiliale.bind(this);
+        this.filialeSavedClick = this.filialeSavedClick.bind(this);
     }
-    Application.prototype.showUploadFilialenClick = function () {
+    showUploadFilialenClick() {
         this.setState({
             showModal: true,
             modalContent: (React.createElement(UploadFilialen_1.UploadFilialen, { uploadFinished: this.uploadFilialen, cancelBtnClick: this.closeModal }))
         });
-    };
-    Application.prototype.uploadFilialen = function () {
+    }
+    uploadFilialen() {
         this.closeModal();
-    };
-    Application.prototype.showUploadRoutesClick = function () {
+    }
+    showUploadRoutesClick() {
         this.setState({
             showModal: true,
             modalContent: (React.createElement(UploadRoutes_1.UploadRoutes, { uploadClick: this.routeUploaded, cancelClick: this.closeModal }))
         });
-    };
-    Application.prototype.routeUploaded = function (routes) {
+    }
+    routeUploaded(routes) {
         this.closeModal();
-    };
-    Application.prototype.addRouteClick = function () {
+    }
+    addRouteClick() {
         this.setState({
             showModal: true,
             modalContent: (React.createElement(manageRoute_1.ManageRoute, { onExitPage: this.closeModal, pageType: enums_1.PageType.Add }))
         });
         this.hideCallOut();
-    };
-    Application.prototype.closeModal = function (copiedState) {
-        if (copiedState === void 0) { copiedState = undefined; }
+    }
+    closeModal(copiedState = undefined) {
         if (copiedState) {
             copiedState.showModal = false;
             copiedState.modalContent = undefined;
@@ -2490,17 +2172,17 @@ var Application = (function (_super) {
         else {
             this.setState({ showModal: false, modalContent: undefined });
         }
-    };
-    Application.prototype.showCallOut = function (event) {
+    }
+    showCallOut(event) {
         console.log("MouseIn - " + event.target["tagName"]);
         if (this.state.isCalloutVisible || this.state.showModal) {
             return;
         }
         this.targetCallOutElement = event.target;
-        var title = this.targetCallOutElement.hasAttribute("data-info-title")
+        let title = this.targetCallOutElement.hasAttribute("data-info-title")
             ? this.targetCallOutElement.getAttribute("data-info-title")
             : "";
-        var description = this.targetCallOutElement.hasAttribute("data-info-desc")
+        let description = this.targetCallOutElement.hasAttribute("data-info-desc")
             ? this.targetCallOutElement.getAttribute("data-info-desc")
             : "";
         if (!title && !description) {
@@ -2511,32 +2193,32 @@ var Application = (function (_super) {
             callOutContent: React.createElement(ToolTip_1.ToolTip, { Title: title, Description: description })
         });
         return false;
-    };
-    Application.prototype.hideCallOut = function () {
+    }
+    hideCallOut() {
         console.log("MouseOut");
         this.targetCallOutElement = null;
         this.setState({ isCalloutVisible: false, callOutContent: undefined });
         return false;
-    };
-    Application.prototype.filialeSavedClick = function () {
+    }
+    filialeSavedClick() {
         this.closeModal();
-    };
-    Application.prototype.editRoute = function (routeElement) { };
-    Application.prototype.editFiliale = function (filialElement) {
+    }
+    editRoute(routeElement) { }
+    editFiliale(filialElement) {
         this.setState({
             showModal: true,
             modalContent: (React.createElement(Filiale_1.Filiale, { cancel_clicked: this.closeModal, pageType: enums_1.PageType.Edit, filialeId: filialElement._id, headerText: "Filiale bearbeiten", ok_clicked: this.filialeSavedClick }))
         });
         this.hideCallOut();
-    };
-    Application.prototype.createFiliale = function () {
+    }
+    createFiliale() {
         this.setState({
             showModal: true,
             modalContent: (React.createElement(Filiale_1.Filiale, { cancel_clicked: this.closeModal, pageType: enums_1.PageType.Add, filialeId: null, headerText: "Filiale hinzuf\u00FCgen", ok_clicked: this.filialeSavedClick }))
         });
         this.hideCallOut();
-    };
-    Application.prototype.render = function () {
+    }
+    render() {
         console.log("render application");
         if (this.state.showModal && !!this.state.modalContent) {
             return (React.createElement("div", { className: "ms-Grid-row" },
@@ -2578,15 +2260,14 @@ var Application = (function (_super) {
                                         onClick: this.showUploadFilialenClick
                                     }
                                 ] })))))));
-    };
-    return Application;
-}(React.Component));
+    }
+}
 exports.Application = Application;
 
 
 /***/ }),
 
-/***/ 888:
+/***/ 909:
 /*!************************************************************!*\
   !*** ./src/projects/aldi/components/pages/manageRoute.tsx ***!
   \************************************************************/
@@ -2596,74 +2277,54 @@ exports.Application = Application;
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Promise) {
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __assign = (this && this.__assign) || Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-    }
-    return t;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ 1);
-var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
-var enums_1 = __webpack_require__(/*! ../../../../enums/enums */ 198);
-var basePage_1 = __webpack_require__(/*! ../../../../global/components/container/basePage */ 341);
-var ButtonRow_1 = __webpack_require__(/*! ../../../../global/components/simple/ButtonRow */ 133);
-var Panel_1 = __webpack_require__(/*! ../../../../global/components/simple/Panel */ 61);
-var date_1 = __webpack_require__(/*! ../../../../helper/date */ 77);
-var Link_1 = __webpack_require__(/*! ../stateless/Link */ 889);
-var Ausgabe_1 = __webpack_require__(/*! ../stateless/Ausgabe */ 890);
-var Filiale_1 = __webpack_require__(/*! ../stateless/Filiale */ 343);
-var Routenfahrt_1 = __webpack_require__(/*! ../stateless/Routenfahrt */ 891);
-var uuid_1 = __webpack_require__(/*! uuid */ 892);
-var axios_1 = __webpack_require__(/*! axios */ 30);
-var ManageRoute = (function (_super) {
-    __extends(ManageRoute, _super);
-    function ManageRoute(props) {
-        var _this = _super.call(this, props) || this;
-        _this.state = {
+const React = __webpack_require__(/*! react */ 1);
+const office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
+const enums_1 = __webpack_require__(/*! ../../../../enums/enums */ 197);
+const basePage_1 = __webpack_require__(/*! ../../../../global/components/container/basePage */ 361);
+const ButtonRow_1 = __webpack_require__(/*! ../../../../global/components/simple/ButtonRow */ 132);
+const Panel_1 = __webpack_require__(/*! ../../../../global/components/simple/Panel */ 62);
+const date_1 = __webpack_require__(/*! ../../../../helper/date */ 79);
+const Link_1 = __webpack_require__(/*! ../stateless/Link */ 910);
+const Ausgabe_1 = __webpack_require__(/*! ../stateless/Ausgabe */ 911);
+const Filiale_1 = __webpack_require__(/*! ../stateless/Filiale */ 363);
+const Routenfahrt_1 = __webpack_require__(/*! ../stateless/Routenfahrt */ 912);
+const uuid_1 = __webpack_require__(/*! uuid */ 913);
+const axios_1 = __webpack_require__(/*! axios */ 30);
+class ManageRoute extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
             filialen: [],
             routenfahrten: [],
             ausgaben: [],
             links: []
         };
-        _this.cancelClick = _this.cancelClick.bind(_this);
-        _this.saveClick = _this.saveClick.bind(_this);
-        _this.addLink = _this.addLink.bind(_this);
-        _this.deleteLink = _this.deleteLink.bind(_this);
-        _this.linkChanged = _this.linkChanged.bind(_this);
-        _this.addAusgabe = _this.addAusgabe.bind(_this);
-        _this.deleteAusgabe = _this.deleteAusgabe.bind(_this);
-        _this.ausgabeDescriptionChanged = _this.ausgabeDescriptionChanged.bind(_this);
-        _this.ausgabeValueChanged = _this.ausgabeValueChanged.bind(_this);
-        _this.deleteFiliale = _this.deleteFiliale.bind(_this);
-        _this.addFiliale = _this.addFiliale.bind(_this);
-        _this.pkzChanged = _this.pkzChanged.bind(_this);
-        _this.einnahmenChanged = _this.einnahmenChanged.bind(_this);
-        _this.ausgabenChanged = _this.ausgabenChanged.bind(_this);
-        _this.plzChanged = _this.plzChanged.bind(_this);
-        _this.testnummerChanged = _this.testnummerChanged.bind(_this);
-        _this.fahrdatumChanged = _this.fahrdatumChanged.bind(_this);
-        _this.ortChanged = _this.ortChanged.bind(_this);
-        _this.strasseChanged = _this.strasseChanged.bind(_this);
-        _this.addRoutenfahrt = _this.addRoutenfahrt.bind(_this);
-        _this.deleteRoutenfahrt = _this.deleteRoutenfahrt.bind(_this);
-        _this.changeRouteDate = _this.changeRouteDate.bind(_this);
-        return _this;
+        this.cancelClick = this.cancelClick.bind(this);
+        this.saveClick = this.saveClick.bind(this);
+        this.addLink = this.addLink.bind(this);
+        this.deleteLink = this.deleteLink.bind(this);
+        this.linkChanged = this.linkChanged.bind(this);
+        this.addAusgabe = this.addAusgabe.bind(this);
+        this.deleteAusgabe = this.deleteAusgabe.bind(this);
+        this.ausgabeDescriptionChanged = this.ausgabeDescriptionChanged.bind(this);
+        this.ausgabeValueChanged = this.ausgabeValueChanged.bind(this);
+        this.deleteFiliale = this.deleteFiliale.bind(this);
+        this.addFiliale = this.addFiliale.bind(this);
+        this.pkzChanged = this.pkzChanged.bind(this);
+        this.einnahmenChanged = this.einnahmenChanged.bind(this);
+        this.ausgabenChanged = this.ausgabenChanged.bind(this);
+        this.plzChanged = this.plzChanged.bind(this);
+        this.testnummerChanged = this.testnummerChanged.bind(this);
+        this.fahrdatumChanged = this.fahrdatumChanged.bind(this);
+        this.ortChanged = this.ortChanged.bind(this);
+        this.strasseChanged = this.strasseChanged.bind(this);
+        this.addRoutenfahrt = this.addRoutenfahrt.bind(this);
+        this.deleteRoutenfahrt = this.deleteRoutenfahrt.bind(this);
+        this.changeRouteDate = this.changeRouteDate.bind(this);
     }
-    ManageRoute.prototype.componentDidMount = function () {
-        var docTitle = "";
+    componentDidMount() {
+        let docTitle = "";
         switch (this.props.pageType) {
             case enums_1.PageType.Display:
                 docTitle = "Route anzeigen";
@@ -2678,75 +2339,74 @@ var ManageRoute = (function (_super) {
                 break;
         }
         document.title = docTitle;
-    };
-    ManageRoute.prototype.saveRoutes = function (routes) {
-        return new Promise(function (resolve, reject) {
-            var promises = [];
-            routes.forEach(function (route) {
-                promises.push(axios_1.default.post("/api/routen", { route: route }));
+    }
+    saveRoutes(routes) {
+        return new Promise((resolve, reject) => {
+            let promises = [];
+            routes.forEach(route => {
+                promises.push(axios_1.default.post("/api/routen", { route }));
             });
             Promise.all(promises)
-                .then(function (results) {
+                .then(results => {
                 console.log(JSON.stringify(results));
-                var resultValue = [];
-                results.forEach(function (p) {
+                let resultValue = [];
+                results.forEach(p => {
                     if (p.data.insertedObjects && p.data.insertedObjects.length > 0) {
                         resultValue = resultValue.concat(p.data.insertedObjects);
                     }
                 });
                 resolve(resultValue);
             })
-                .catch(function (error) {
+                .catch(error => {
                 console.log("saveRoutes", JSON.stringify(error));
                 reject({ message: "Kein Einfügen", error: error });
             });
         });
-    };
-    ManageRoute.prototype.saveFilialen = function (filialen) {
-        return new Promise(function (resolve, reject) {
-            var promises = [];
-            filialen.forEach(function (filiale) {
-                promises.push(axios_1.default.post("/api/filialen", { filiale: filiale }));
+    }
+    saveFilialen(filialen) {
+        return new Promise((resolve, reject) => {
+            let promises = [];
+            filialen.forEach(filiale => {
+                promises.push(axios_1.default.post("/api/filialen", { filiale }));
             });
             Promise.all(promises)
-                .then(function (results) {
+                .then(results => {
                 console.log(JSON.stringify(results));
-                var resultValue = [];
-                results.forEach(function (p) {
+                let resultValue = [];
+                results.forEach(p => {
                     if (p.data.insertedObjects && p.data.insertedObjects.length > 0) {
                         resultValue = resultValue.concat(p.data.insertedObjects);
                     }
                 });
                 resolve(resultValue);
             })
-                .catch(function (error) {
+                .catch(error => {
                 console.log("saveFilialen", JSON.stringify(error));
                 reject({ message: "Kein Einfügen", error: error });
             });
         });
-    };
-    ManageRoute.prototype.saveClick = function () {
-        var _this = this;
+    }
+    saveClick() {
         console.log("Save Click");
         if (!this.state.routenfahrten || this.state.routenfahrten.length < 0) {
             return;
         }
-        var routenModels = [];
-        this.state.routenfahrten.forEach(function (fahrt) {
-            var route = {
+        let routenModels = [];
+        this.state.routenfahrten.forEach(fahrt => {
+            let route = {
                 route_timestamp: fahrt.getTime(),
                 ausgaben: [],
                 links: [],
                 timestamp: Date.now()
             };
-            _this.state.ausgaben.forEach(function (ausgabe) {
+            this.state.ausgaben.forEach(ausgabe => {
                 route.ausgaben.push({
                     value: ausgabe.value,
                     description: ausgabe.description,
                     id: ausgabe.id
                 });
             });
-            _this.state.links.forEach(function (link) {
+            this.state.links.forEach(link => {
                 route.links.push({
                     link: link.link,
                     text: link.text,
@@ -2756,14 +2416,14 @@ var ManageRoute = (function (_super) {
             routenModels.push(route);
         });
         this.saveRoutes(routenModels)
-            .then(function (insertedRouten) {
-            if (_this.state.routenfahrten.length === insertedRouten.length) {
+            .then(insertedRouten => {
+            if (this.state.routenfahrten.length === insertedRouten.length) {
                 console.log("ROUTES OK!");
             }
-            var filialen = [];
-            filialen = _this.state.filialen.map(function (filiale) {
-                var routeId = "";
-                insertedRouten.forEach(function (route) {
+            let filialen = [];
+            filialen = this.state.filialen.map(filiale => {
+                let routeId = "";
+                insertedRouten.forEach(route => {
                     if (filiale.fahrdatum === route.route_timestamp) {
                         routeId = route._id;
                     }
@@ -2780,29 +2440,29 @@ var ManageRoute = (function (_super) {
                     route_id: routeId
                 };
             });
-            return _this.saveFilialen(filialen);
+            return this.saveFilialen(filialen);
         })
-            .then(function (insertedFilialen) {
-            if (_this.state.filialen.length === insertedFilialen.length) {
+            .then(insertedFilialen => {
+            if (this.state.filialen.length === insertedFilialen.length) {
                 console.log("FILIALEN OK!");
             }
         })
-            .catch(function () { });
-    };
-    ManageRoute.prototype.cancelClick = function () {
+            .catch(() => { });
+    }
+    cancelClick() {
         console.log("cancel Click");
         this.props.onExitPage();
-    };
-    ManageRoute.prototype.getRouteSelectOptions = function () {
+    }
+    getRouteSelectOptions() {
         if (!this.state.routenfahrten || this.state.routenfahrten.length < 1) {
             return React.createElement("option", { value: "" }, "Bitte Fahrdaten anlegen");
         }
-        return this.state.routenfahrten.map(function (fahrt, index) {
+        return this.state.routenfahrten.map((fahrt, index) => {
             return (React.createElement("option", { value: index, key: "fahrt_opt_" + index }, date_1.getGermanDateString(fahrt)));
         });
-    };
-    ManageRoute.prototype.addFiliale = function () {
-        var ns = __assign({}, this.state);
+    }
+    addFiliale() {
+        let ns = Object.assign({}, this.state);
         ns.filialen.push({
             index: ns.filialen.length + 1,
             ausgaben: 0,
@@ -2818,148 +2478,147 @@ var ManageRoute = (function (_super) {
                 : date_1.setDatePropertiesToZero(new Date()).getTime()
         });
         this.setState(ns);
-    };
-    ManageRoute.prototype.deleteFiliale = function (id) {
-        var ns = __assign({}, this.state);
+    }
+    deleteFiliale(id) {
+        let ns = Object.assign({}, this.state);
         ns.filialen.splice(parseInt(id), 1);
         this.setState(ns);
-    };
-    ManageRoute.prototype.ausgabenChanged = function (id, value) {
-        var ns = __assign({}, this.state);
+    }
+    ausgabenChanged(id, value) {
+        let ns = Object.assign({}, this.state);
         ns.filialen[parseInt(id)].ausgaben = value;
         this.setState(ns);
-    };
-    ManageRoute.prototype.einnahmenChanged = function (id, value) {
-        var ns = __assign({}, this.state);
+    }
+    einnahmenChanged(id, value) {
+        let ns = Object.assign({}, this.state);
         ns.filialen[parseInt(id)].einnahmen = value;
         this.setState(ns);
-    };
-    ManageRoute.prototype.pkzChanged = function (id, value) {
-        var ns = __assign({}, this.state);
+    }
+    pkzChanged(id, value) {
+        let ns = Object.assign({}, this.state);
         ns.filialen[parseInt(id)].pkz = value;
         this.setState(ns);
-    };
-    ManageRoute.prototype.plzChanged = function (id, value) {
-        var ns = __assign({}, this.state);
+    }
+    plzChanged(id, value) {
+        let ns = Object.assign({}, this.state);
         ns.filialen[parseInt(id)].plz = value;
         this.setState(ns);
-    };
-    ManageRoute.prototype.testnummerChanged = function (id, value) {
-        var ns = __assign({}, this.state);
+    }
+    testnummerChanged(id, value) {
+        let ns = Object.assign({}, this.state);
         ns.filialen[parseInt(id)].testnummer = value;
         this.setState(ns);
-    };
-    ManageRoute.prototype.fahrdatumChanged = function (id, value) {
-        var ns = __assign({}, this.state);
+    }
+    fahrdatumChanged(id, value) {
+        let ns = Object.assign({}, this.state);
         ns.filialen[parseInt(id)].fahrdatum = value;
         this.setState(ns);
-    };
-    ManageRoute.prototype.strasseChanged = function (id, value) {
-        var ns = __assign({}, this.state);
+    }
+    strasseChanged(id, value) {
+        let ns = Object.assign({}, this.state);
         ns.filialen[parseInt(id)].strasse = value;
         this.setState(ns);
-    };
-    ManageRoute.prototype.ortChanged = function (id, value) {
-        var ns = __assign({}, this.state);
+    }
+    ortChanged(id, value) {
+        let ns = Object.assign({}, this.state);
         ns.filialen[parseInt(id)].ort = value;
         this.setState(ns);
-    };
-    ManageRoute.prototype.addAusgabe = function () {
-        var ns = __assign({}, this.state);
+    }
+    addAusgabe() {
+        let ns = Object.assign({}, this.state);
         ns.ausgaben.push({
             description: "",
             value: 0,
             id: uuid_1.v4()
         });
         this.setState(ns);
-    };
-    ManageRoute.prototype.deleteAusgabe = function (id) {
-        var ns = __assign({}, this.state);
+    }
+    deleteAusgabe(id) {
+        let ns = Object.assign({}, this.state);
         ns.ausgaben.splice(parseInt(id), 1);
         this.setState(ns);
-    };
-    ManageRoute.prototype.ausgabeValueChanged = function (id, value) {
-        var ns = __assign({}, this.state);
+    }
+    ausgabeValueChanged(id, value) {
+        let ns = Object.assign({}, this.state);
         ns.ausgaben[parseInt(id)].value = value;
         this.setState(ns);
-    };
-    ManageRoute.prototype.ausgabeDescriptionChanged = function (id, value) {
-        var ns = __assign({}, this.state);
+    }
+    ausgabeDescriptionChanged(id, value) {
+        let ns = Object.assign({}, this.state);
         ns.ausgaben[parseInt(id)].description = value;
         this.setState(ns);
-    };
-    ManageRoute.prototype.addLink = function () {
-        var ns = __assign({}, this.state);
+    }
+    addLink() {
+        let ns = Object.assign({}, this.state);
         ns.links.push({
             link: "",
             text: "",
             id: uuid_1.v4()
         });
         this.setState(ns);
-    };
-    ManageRoute.prototype.deleteLink = function (id) {
-        var ns = __assign({}, this.state);
+    }
+    deleteLink(id) {
+        let ns = Object.assign({}, this.state);
         ns.links.splice(parseInt(id), 1);
         this.setState(ns);
-    };
-    ManageRoute.prototype.linkChanged = function (id, value) {
-        var ns = __assign({}, this.state);
+    }
+    linkChanged(id, value) {
+        let ns = Object.assign({}, this.state);
         ns.links[parseInt(id)].link = value;
         this.setState(ns);
-    };
-    ManageRoute.prototype.addRoutenfahrt = function () {
-        var fahrten = this.state.routenfahrten.concat([
+    }
+    addRoutenfahrt() {
+        let fahrten = this.state.routenfahrten.concat([
             date_1.setDatePropertiesToZero(new Date())
         ]);
         this.setState({
             routenfahrten: fahrten
         });
-    };
-    ManageRoute.prototype.deleteRoutenfahrt = function (id) {
-        var ns = __assign({}, this.state);
+    }
+    deleteRoutenfahrt(id) {
+        let ns = Object.assign({}, this.state);
         ns.routenfahrten.splice(parseInt(id), 1);
         this.setState(ns);
-    };
-    ManageRoute.prototype.changeRouteDate = function (id, value) {
-        var d = value || new Date();
-        var ns = __assign({}, this.state);
-        var newFahrten = [];
-        ns.routenfahrten.forEach(function (element, index) {
+    }
+    changeRouteDate(id, value) {
+        let d = value || new Date();
+        let ns = Object.assign({}, this.state);
+        let newFahrten = [];
+        ns.routenfahrten.forEach((element, index) => {
             newFahrten.push(index === parseInt(id) ? value : element);
         });
         ns.routenfahrten = newFahrten;
         this.setState(ns);
-    };
-    ManageRoute.prototype.render = function () {
-        var _this = this;
+    }
+    render() {
         console.log("render ManageRoute");
         return (React.createElement(basePage_1.BasePage, { IncludeFabricElement: false, Body: React.createElement("div", { className: "ms-Grid" },
                 React.createElement("div", { className: "ms-Grid-row" },
                     React.createElement("div", { className: "ms-Grid-col ms-sm12" },
-                        React.createElement(Panel_1.Panel, { headerText: "Routenlinks", className: "custom-padding-bottom-10px", headerControls: React.createElement(office_ui_fabric_react_1.ActionButton, { "data-automation-id": "Add Link", iconProps: { iconName: "Add" }, onClick: this.addLink }) }, this.state.links.map(function (link, index) {
-                            return (React.createElement(Link_1.Link, { key: "link_" + index, linkId: index.toString(), linkModel: link, title: "Link " + (index + 1), onDeleteClick: _this.deleteLink, onLinkHrefChanged: _this.linkChanged }));
+                        React.createElement(Panel_1.Panel, { headerText: "Routenlinks", className: "custom-padding-bottom-10px", headerControls: React.createElement(office_ui_fabric_react_1.ActionButton, { "data-automation-id": "Add Link", iconProps: { iconName: "Add" }, onClick: this.addLink }) }, this.state.links.map((link, index) => {
+                            return (React.createElement(Link_1.Link, { key: "link_" + index, linkId: index.toString(), linkModel: link, title: "Link " + (index + 1), onDeleteClick: this.deleteLink, onLinkHrefChanged: this.linkChanged }));
                         })))),
                 React.createElement("div", { className: "ms-Grid-row" },
                     React.createElement("div", { className: "ms-Grid-col ms-sm12" },
                         React.createElement(Panel_1.Panel, { headerText: "Globale Ausgaben", className: "custom-padding-bottom-10px", headerControls: React.createElement(office_ui_fabric_react_1.ActionButton, { "data-automation-id": "Add Ausgabe", iconProps: { iconName: "Add" }, onClick: this.addAusgabe }) },
                             (!this.state.ausgaben || this.state.ausgaben.length < 1) && (React.createElement("div", { className: "ms-font-xl ms-fontColor-themePrimary" }, "Es wurden bisher keine globalen Ausgaben erfasst")),
-                            this.state.ausgaben.map(function (ausgabe, index) {
-                                return (React.createElement(Ausgabe_1.Ausgabe, { key: "ausgabe_" + index, ausgabeId: index.toString(), onDeleteClick: _this.deleteAusgabe, title: "Ausgabe " + (index + 1), ausgabeModel: ausgabe, onDescriptionChanged: _this.ausgabeDescriptionChanged, onValueChanged: _this.ausgabeValueChanged }));
+                            this.state.ausgaben.map((ausgabe, index) => {
+                                return (React.createElement(Ausgabe_1.Ausgabe, { key: "ausgabe_" + index, ausgabeId: index.toString(), onDeleteClick: this.deleteAusgabe, title: "Ausgabe " + (index + 1), ausgabeModel: ausgabe, onDescriptionChanged: this.ausgabeDescriptionChanged, onValueChanged: this.ausgabeValueChanged }));
                             })))),
                 React.createElement("div", { className: "ms-Grid-row" },
                     React.createElement("div", { className: "ms-Grid-col ms-sm12" },
                         React.createElement(Panel_1.Panel, { headerText: "Routenfahrdaten verwalten", className: "custom-padding-bottom-10px", headerControls: React.createElement(office_ui_fabric_react_1.ActionButton, { "data-automation-id": "Add Routenfahrt", iconProps: { iconName: "Add" }, onClick: this.addRoutenfahrt }) },
                             (!this.state.routenfahrten ||
                                 this.state.routenfahrten.length < 1) && (React.createElement("div", { className: "ms-font-xl ms-fontColor-themePrimary" }, "Es wurden bisher keine Routenfahrdaten erfasst")),
-                            this.state.routenfahrten.map(function (fahrt, index) {
-                                return (React.createElement(Routenfahrt_1.Routenfahrt, { key: "routnefahrt_" + index, onDateChanged: _this.changeRouteDate, onDeleteClick: _this.deleteRoutenfahrt, routenfahrtId: index.toString(), title: "Routenfahrt " + (index + 1), value: fahrt }));
+                            this.state.routenfahrten.map((fahrt, index) => {
+                                return (React.createElement(Routenfahrt_1.Routenfahrt, { key: "routnefahrt_" + index, onDateChanged: this.changeRouteDate, onDeleteClick: this.deleteRoutenfahrt, routenfahrtId: index.toString(), title: "Routenfahrt " + (index + 1), value: fahrt }));
                             })))),
                 React.createElement("div", { className: "ms-Grid-row" },
                     React.createElement("div", { className: "ms-Grid-col ms-sm12" },
                         React.createElement(Panel_1.Panel, { headerText: "Fahrten verwalten", className: "custom-padding-bottom-10px", headerControls: React.createElement(office_ui_fabric_react_1.ActionButton, { "data-automation-id": "Add Ausgabe", iconProps: { iconName: "Add" }, onClick: this.addFiliale }) },
                             (!this.state.filialen || this.state.filialen.length < 1) && (React.createElement("div", { className: "ms-font-xl ms-fontColor-themePrimary" }, "Es wurden bisher keine Filialen erfasst")),
-                            this.state.filialen.map(function (filiale, index) {
-                                return (React.createElement(Filiale_1.Filiale, { key: "route_" + index, id: index.toString(), title: "Fahrt " + (index + 1), filiale: filiale, fahrdaten: _this.state.routenfahrten, onDeleteClick: _this.deleteFiliale, onAusgabenChanged: _this.ausgabenChanged, onEinnahmenChanged: _this.einnahmenChanged, onFahrdatumChanged: _this.fahrdatumChanged, onOrtChanged: _this.ortChanged, onPkzChanged: _this.pkzChanged, onPlzChanged: _this.plzChanged, onStrasseChanged: _this.strasseChanged, onTestnummerChanged: _this.testnummerChanged, enableDeleteBtn: true }));
+                            this.state.filialen.map((filiale, index) => {
+                                return (React.createElement(Filiale_1.Filiale, { key: "route_" + index, id: index.toString(), title: "Fahrt " + (index + 1), filiale: filiale, fahrdaten: this.state.routenfahrten, onDeleteClick: this.deleteFiliale, onAusgabenChanged: this.ausgabenChanged, onEinnahmenChanged: this.einnahmenChanged, onFahrdatumChanged: this.fahrdatumChanged, onOrtChanged: this.ortChanged, onPkzChanged: this.pkzChanged, onPlzChanged: this.plzChanged, onStrasseChanged: this.strasseChanged, onTestnummerChanged: this.testnummerChanged, enableDeleteBtn: true }));
                             })))),
                 React.createElement("div", { className: "ms-Grid-row" },
                     React.createElement("div", { className: "ms-Grid-col ms-sm12" },
@@ -2974,16 +2633,15 @@ var ManageRoute = (function (_super) {
                                 text: "Abbrechen",
                                 onClickFunc: this.cancelClick
                             } })))), Header: React.createElement("div", { className: "ms-font-xxl ms-textAlignCenter" }, "Fahrten verwalten") }));
-    };
-    return ManageRoute;
-}(React.Component));
+    }
+}
 exports.ManageRoute = ManageRoute;
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 18)))
 
 /***/ }),
 
-/***/ 889:
+/***/ 910:
 /*!*********************************************************!*\
   !*** ./src/projects/aldi/components/stateless/Link.tsx ***!
   \*********************************************************/
@@ -2993,35 +2651,23 @@ exports.ManageRoute = ManageRoute;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ 1);
-var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
-var defaultOption = React.createElement("option", { key: "-1" }, "Bitte einen Wert angeben");
-var Link = (function (_super) {
-    __extends(Link, _super);
-    function Link(props) {
-        var _this = _super.call(this, props) || this;
-        _this.deleteLinkClicked = _this.deleteLinkClicked.bind(_this);
-        _this.onLinkHrefChanged = _this.onLinkHrefChanged.bind(_this);
-        return _this;
+const React = __webpack_require__(/*! react */ 1);
+const office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
+const defaultOption = React.createElement("option", { key: "-1" }, "Bitte einen Wert angeben");
+class Link extends React.PureComponent {
+    constructor(props) {
+        super(props);
+        this.deleteLinkClicked = this.deleteLinkClicked.bind(this);
+        this.onLinkHrefChanged = this.onLinkHrefChanged.bind(this);
     }
-    Link.prototype.deleteLinkClicked = function () {
+    deleteLinkClicked() {
         this.props.onDeleteClick(this.props.linkId);
-    };
-    Link.prototype.onLinkHrefChanged = function (value) {
+    }
+    onLinkHrefChanged(value) {
         this.props.onLinkHrefChanged(this.props.linkId, value);
-    };
-    Link.prototype.render = function () {
+    }
+    render() {
         console.log("render Link");
         return (React.createElement("div", { className: "ms-Grid-row", key: "link_comp_" + this.props.linkId },
             React.createElement("div", { className: "ms-Grid-col ms-sm2 ms-lg1" },
@@ -3034,15 +2680,14 @@ var Link = (function (_super) {
                         iconName: "Delete",
                         className: "img-font-size-large"
                     }, onClick: this.deleteLinkClicked }))));
-    };
-    return Link;
-}(React.PureComponent));
+    }
+}
 exports.Link = Link;
 
 
 /***/ }),
 
-/***/ 890:
+/***/ 911:
 /*!************************************************************!*\
   !*** ./src/projects/aldi/components/stateless/Ausgabe.tsx ***!
   \************************************************************/
@@ -3052,41 +2697,29 @@ exports.Link = Link;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ 1);
-var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
-var NumberTextField_1 = __webpack_require__(/*! ../../../../global/components/simple/NumberTextField */ 342);
-var Panel_1 = __webpack_require__(/*! ../../../../global/components/simple/Panel */ 61);
-var defaultOption = React.createElement("option", { key: "-1" }, "Bitte einen Wert angeben");
-var Ausgabe = (function (_super) {
-    __extends(Ausgabe, _super);
-    function Ausgabe(props) {
-        var _this = _super.call(this, props) || this;
-        _this.deleteClicked = _this.deleteClicked.bind(_this);
-        _this.onDescriptionChanged = _this.onDescriptionChanged.bind(_this);
-        _this.onValueChanged = _this.onValueChanged.bind(_this);
-        return _this;
+const React = __webpack_require__(/*! react */ 1);
+const office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
+const NumberTextField_1 = __webpack_require__(/*! ../../../../global/components/simple/NumberTextField */ 362);
+const Panel_1 = __webpack_require__(/*! ../../../../global/components/simple/Panel */ 62);
+const defaultOption = React.createElement("option", { key: "-1" }, "Bitte einen Wert angeben");
+class Ausgabe extends React.PureComponent {
+    constructor(props) {
+        super(props);
+        this.deleteClicked = this.deleteClicked.bind(this);
+        this.onDescriptionChanged = this.onDescriptionChanged.bind(this);
+        this.onValueChanged = this.onValueChanged.bind(this);
     }
-    Ausgabe.prototype.deleteClicked = function () {
+    deleteClicked() {
         this.props.onDeleteClick(this.props.ausgabeId);
-    };
-    Ausgabe.prototype.onValueChanged = function (value) {
+    }
+    onValueChanged(value) {
         this.props.onValueChanged(this.props.ausgabeId, value);
-    };
-    Ausgabe.prototype.onDescriptionChanged = function (value) {
+    }
+    onDescriptionChanged(value) {
         this.props.onDescriptionChanged(this.props.ausgabeId, value);
-    };
-    Ausgabe.prototype.render = function () {
+    }
+    render() {
         console.log("render Ausgabe");
         return (React.createElement(Panel_1.Panel, { key: "ausgabe_" + this.props.ausgabeId, headerText: this.props.title, className: "custom-padding-bottom-10px", headerControls: React.createElement(office_ui_fabric_react_1.ActionButton, { "data-info-title": this.props.title + " löschen", "data-info-desc": this.props.title + " löschen", iconProps: {
                     iconName: "Delete",
@@ -3096,15 +2729,14 @@ var Ausgabe = (function (_super) {
                 React.createElement(office_ui_fabric_react_1.TextField, { placeholder: "Beschreibung der Ausgabe (z.B. Tanken)", required: true, label: "Beschreibung der Ausgabe", value: this.props.ausgabeModel.description, onChanged: this.onDescriptionChanged })),
             React.createElement("div", { className: "ms-Grid-col ms-sm12 ms-lg6" },
                 React.createElement(NumberTextField_1.NumberTextField, { placeholder: "Ausgaben in Euro", label: "Wert der Ausgabe", required: true, numberValue: this.props.ausgabeModel.value, suffix: "Euro", onChanged: this.onValueChanged })))));
-    };
-    return Ausgabe;
-}(React.PureComponent));
+    }
+}
 exports.Ausgabe = Ausgabe;
 
 
 /***/ }),
 
-/***/ 891:
+/***/ 912:
 /*!****************************************************************!*\
   !*** ./src/projects/aldi/components/stateless/Routenfahrt.tsx ***!
   \****************************************************************/
@@ -3114,36 +2746,24 @@ exports.Ausgabe = Ausgabe;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ 1);
-var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
-var date_1 = __webpack_require__(/*! ../../../../helper/date */ 77);
-var defaultOption = React.createElement("option", { key: "-1" }, "Bitte einen Wert angeben");
-var Routenfahrt = (function (_super) {
-    __extends(Routenfahrt, _super);
-    function Routenfahrt(props) {
-        var _this = _super.call(this, props) || this;
-        _this.deleteRoutenfahrtClicked = _this.deleteRoutenfahrtClicked.bind(_this);
-        _this.dateChanged = _this.dateChanged.bind(_this);
-        return _this;
+const React = __webpack_require__(/*! react */ 1);
+const office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
+const date_1 = __webpack_require__(/*! ../../../../helper/date */ 79);
+const defaultOption = React.createElement("option", { key: "-1" }, "Bitte einen Wert angeben");
+class Routenfahrt extends React.PureComponent {
+    constructor(props) {
+        super(props);
+        this.deleteRoutenfahrtClicked = this.deleteRoutenfahrtClicked.bind(this);
+        this.dateChanged = this.dateChanged.bind(this);
     }
-    Routenfahrt.prototype.deleteRoutenfahrtClicked = function () {
+    deleteRoutenfahrtClicked() {
         this.props.onDeleteClick(this.props.routenfahrtId);
-    };
-    Routenfahrt.prototype.dateChanged = function (date) {
+    }
+    dateChanged(date) {
         this.props.onDateChanged(this.props.routenfahrtId, date);
-    };
-    Routenfahrt.prototype.render = function () {
+    }
+    render() {
         console.log("render Routenfahrt");
         return (React.createElement("div", { className: "ms-Grid-row", key: "route_" + this.props.routenfahrtId },
             React.createElement("div", { className: "ms-Grid-col ms-sm2 ms-md1 ms-lg1" },
@@ -3155,15 +2775,14 @@ var Routenfahrt = (function (_super) {
                         iconName: "Delete",
                         className: "img-font-size-large"
                     }, onClick: this.deleteRoutenfahrtClicked }))));
-    };
-    return Routenfahrt;
-}(React.PureComponent));
+    }
+}
 exports.Routenfahrt = Routenfahrt;
 
 
 /***/ }),
 
-/***/ 892:
+/***/ 913:
 /*!************************************!*\
   !*** ./node_modules/uuid/index.js ***!
   \************************************/
@@ -3171,8 +2790,8 @@ exports.Routenfahrt = Routenfahrt;
 /*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
-var v1 = __webpack_require__(/*! ./v1 */ 893);
-var v4 = __webpack_require__(/*! ./v4 */ 894);
+var v1 = __webpack_require__(/*! ./v1 */ 914);
+var v4 = __webpack_require__(/*! ./v4 */ 915);
 
 var uuid = v4;
 uuid.v1 = v1;
@@ -3183,7 +2802,7 @@ module.exports = uuid;
 
 /***/ }),
 
-/***/ 893:
+/***/ 914:
 /*!*********************************!*\
   !*** ./node_modules/uuid/v1.js ***!
   \*********************************/
@@ -3191,8 +2810,8 @@ module.exports = uuid;
 /*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
-var rng = __webpack_require__(/*! ./lib/rng */ 344);
-var bytesToUuid = __webpack_require__(/*! ./lib/bytesToUuid */ 345);
+var rng = __webpack_require__(/*! ./lib/rng */ 364);
+var bytesToUuid = __webpack_require__(/*! ./lib/bytesToUuid */ 365);
 
 // **`v1()` - Generate time-based UUID**
 //
@@ -3304,7 +2923,7 @@ module.exports = v1;
 
 /***/ }),
 
-/***/ 894:
+/***/ 915:
 /*!*********************************!*\
   !*** ./node_modules/uuid/v4.js ***!
   \*********************************/
@@ -3312,8 +2931,8 @@ module.exports = v1;
 /*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
-var rng = __webpack_require__(/*! ./lib/rng */ 344);
-var bytesToUuid = __webpack_require__(/*! ./lib/bytesToUuid */ 345);
+var rng = __webpack_require__(/*! ./lib/rng */ 364);
+var bytesToUuid = __webpack_require__(/*! ./lib/bytesToUuid */ 365);
 
 function v4(options, buf, offset) {
   var i = buf && offset || 0;
@@ -3345,7 +2964,7 @@ module.exports = v4;
 
 /***/ }),
 
-/***/ 895:
+/***/ 916:
 /*!**************************************************!*\
   !*** ./src/global/components/simple/ToolTip.tsx ***!
   \**************************************************/
@@ -3355,39 +2974,24 @@ module.exports = v4;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ 1);
-var ToolTip = (function (_super) {
-    __extends(ToolTip, _super);
-    function ToolTip() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    ToolTip.prototype.render = function () {
+const React = __webpack_require__(/*! react */ 1);
+class ToolTip extends React.PureComponent {
+    render() {
         return (React.createElement("div", { style: { minWidth: "150px" } },
             React.createElement("div", { className: "ms-CalloutExample-header", style: { padding: "18px 24px 12px" } },
                 React.createElement("span", { className: "ms-fontColor-themePrimary ms-fontWeight-semibold ms-font-l ms-fontSize-l" }, this.props.Title)),
             React.createElement("div", { className: "ms-CalloutExample-inner", style: { height: "100%", padding: "0 24px 20px" } },
                 React.createElement("div", { className: "ms-font-l ms-fontSize-m" },
                     React.createElement("p", { className: "ms-CalloutExample-subText" }, this.props.Description)))));
-    };
-    return ToolTip;
-}(React.PureComponent));
+    }
+}
 exports.ToolTip = ToolTip;
 
 
 /***/ }),
 
-/***/ 896:
+/***/ 917:
 /*!***********************************************************************!*\
   !*** ./src/projects/aldi/components/intelligent/Routenuebersicht.tsx ***!
   \***********************************************************************/
@@ -3397,47 +3001,28 @@ exports.ToolTip = ToolTip;
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Promise) {
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __assign = (this && this.__assign) || Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-    }
-    return t;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ 1);
-var axios_1 = __webpack_require__(/*! axios */ 30);
-var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
-var columns_1 = __webpack_require__(/*! ../../configuration/columns */ 346);
-var BaseUebersicht_1 = __webpack_require__(/*! ../../../../global/components/simple/BaseUebersicht */ 347);
-var promise_1 = __webpack_require__(/*! ../../../../helper/promise */ 134);
-var sorting_1 = __webpack_require__(/*! ../../../../helper/sorting */ 348);
-var Routenuebersicht = (function (_super) {
-    __extends(Routenuebersicht, _super);
-    function Routenuebersicht(props) {
-        var _this = _super.call(this, props) || this;
-        _this.selectionHasChanged = _this.selectionHasChanged.bind(_this);
-        _this.deleteAllRoutenClicked = _this.deleteAllRoutenClicked.bind(_this);
-        _this.deleteRouteClicked = _this.deleteRouteClicked.bind(_this);
-        _this.sortItems = _this.sortItems.bind(_this);
-        _this.deleteRoute = _this.deleteRoute.bind(_this);
-        _this.deleteRouten = _this.deleteRouten.bind(_this);
-        _this.editRoute = _this.editRoute.bind(_this);
-        _this.onCtxMenueVisible = _this.onCtxMenueVisible.bind(_this);
-        _this.renderContext = _this.renderContext.bind(_this);
-        _this.showMoreClicked = _this.showMoreClicked.bind(_this);
-        var commardbarItems = [].concat(_this.props.commandbarItems);
+const React = __webpack_require__(/*! react */ 1);
+const axios_1 = __webpack_require__(/*! axios */ 30);
+const office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
+const columns_1 = __webpack_require__(/*! ../../configuration/columns */ 366);
+const BaseUebersicht_1 = __webpack_require__(/*! ../../../../global/components/simple/BaseUebersicht */ 367);
+const promise_1 = __webpack_require__(/*! ../../../../helper/promise */ 133);
+const sorting_1 = __webpack_require__(/*! ../../../../helper/sorting */ 368);
+class Routenuebersicht extends React.Component {
+    constructor(props) {
+        super(props);
+        this.selectionHasChanged = this.selectionHasChanged.bind(this);
+        this.deleteAllRoutenClicked = this.deleteAllRoutenClicked.bind(this);
+        this.deleteRouteClicked = this.deleteRouteClicked.bind(this);
+        this.sortItems = this.sortItems.bind(this);
+        this.deleteRoute = this.deleteRoute.bind(this);
+        this.deleteRouten = this.deleteRouten.bind(this);
+        this.editRoute = this.editRoute.bind(this);
+        this.onCtxMenueVisible = this.onCtxMenueVisible.bind(this);
+        this.renderContext = this.renderContext.bind(this);
+        this.showMoreClicked = this.showMoreClicked.bind(this);
+        let commardbarItems = [].concat(this.props.commandbarItems);
         if (!commardbarItems) {
             commardbarItems = [];
         }
@@ -3446,15 +3031,15 @@ var Routenuebersicht = (function (_super) {
             name: "Delete Selected",
             icon: "delete",
             disabled: true,
-            onClick: _this.deleteAllRoutenClicked
+            onClick: this.deleteAllRoutenClicked
         });
-        var cols = columns_1.routeOverviewColumns.map(function (col) {
+        let cols = columns_1.routeOverviewColumns.map(col => {
             if (col.fieldName === "ctx") {
-                col.onRender = _this.renderContext;
+                col.onRender = this.renderContext;
             }
             return col;
         });
-        _this.state = {
+        this.state = {
             isLoading: true,
             columns: cols,
             items: [],
@@ -3464,56 +3049,54 @@ var Routenuebersicht = (function (_super) {
             ctxTarget: undefined,
             isCtxVisible: false
         };
-        return _this;
     }
-    Routenuebersicht.prototype.componentDidMount = function () {
-        var _this = this;
+    componentDidMount() {
         this.loadRouten()
-            .then(function (data) {
-            _this.setState({
+            .then((data) => {
+            this.setState({
                 rawItems: data.rawItems,
                 items: data.transformedItems,
                 isLoading: false
             });
             return null;
         })
-            .catch(function (error) {
+            .catch(error => {
             alert("Fehler loadRouten");
         });
-    };
-    Routenuebersicht.prototype.renderContext = function () {
+    }
+    renderContext() {
         return (React.createElement("div", { className: "ms-font-xl ms-fontColor-themePrimary" },
             React.createElement(office_ui_fabric_react_1.IconButton, { checked: false, iconProps: { iconName: "More" }, title: "More", ariaLabel: "More", onClick: this.showMoreClicked })));
-    };
-    Routenuebersicht.prototype.showMoreClicked = function (event) {
+    }
+    showMoreClicked(event) {
         this.setState({
             isCtxVisible: true,
             ctxTarget: event.target
         });
-    };
-    Routenuebersicht.prototype.onCtxMenueVisible = function (isVisible) {
+    }
+    onCtxMenueVisible(isVisible) {
         if (this.state.isCtxVisible === isVisible) {
             return;
         }
-        var ns = __assign({}, this.state);
+        let ns = Object.assign({}, this.state);
         ns.isCtxVisible = isVisible;
         if (isVisible === false) {
             ns.ctxTarget = null;
         }
         this.setState(ns);
-    };
-    Routenuebersicht.prototype.selectionHasChanged = function (selectedItems) {
-        var newState = __assign({}, this.state);
+    }
+    selectionHasChanged(selectedItems) {
+        let newState = Object.assign({}, this.state);
         newState.selectedItems = selectedItems;
-        newState.commandbarItems.forEach(function (item) {
+        newState.commandbarItems.forEach(item => {
             if (item.key === "delete") {
                 item.disabled = !selectedItems || selectedItems.length < 1;
             }
         });
         this.setState(newState);
-    };
-    Routenuebersicht.prototype.getRouteViewModelByRouteModel = function (items) {
-        return items.map(function (item, index) {
+    }
+    getRouteViewModelByRouteModel(items) {
+        return items.map((item, index) => {
             return {
                 index: index + 1,
                 _id: item._id,
@@ -3525,102 +3108,98 @@ var Routenuebersicht = (function (_super) {
                 ausgaben: item.ausgaben
             };
         });
-    };
-    Routenuebersicht.prototype.loadRouten = function () {
-        var _this = this;
-        return new Promise(function (resolve, reject) {
-            _this.loadRoutenRequest()
-                .then(function (data) {
-                var items = _this.getRouteViewModelByRouteModel(data);
+    }
+    loadRouten() {
+        return new Promise((resolve, reject) => {
+            this.loadRoutenRequest()
+                .then((data) => {
+                let items = this.getRouteViewModelByRouteModel(data);
                 resolve({
                     rawItems: data || [],
                     transformedItems: items || []
                 });
             })
-                .catch(function () {
+                .catch(() => {
                 alert("Fehler beim Laden der Routen");
             });
         });
-    };
-    Routenuebersicht.prototype.deleteRouten = function (routenElements) {
-        var _this = this;
-        return new Promise(function (resolve, reject) {
-            var promises = [];
-            routenElements.forEach(function (route) {
-                promises.push(_this.deleteRouteElementRequest(route));
+    }
+    deleteRouten(routenElements) {
+        return new Promise((resolve, reject) => {
+            let promises = [];
+            routenElements.forEach(route => {
+                promises.push(this.deleteRouteElementRequest(route));
             });
             promise_1.promise_all_custom(promises)
-                .then(function () {
+                .then(() => {
                 resolve();
             })
-                .catch(function () {
+                .catch(() => {
                 alert("Grober Fehler deleteRouten!");
                 reject();
             });
         });
-    };
-    Routenuebersicht.prototype.loadRoutenRequest = function () {
-        return new Promise(function (resolve, reject) {
+    }
+    loadRoutenRequest() {
+        return new Promise((resolve, reject) => {
             axios_1.default.get("/api/routen")
-                .then(function (results) {
+                .then(results => {
                 resolve(results.data);
             })
-                .catch(function () {
+                .catch(() => {
                 reject();
             });
         });
-    };
-    Routenuebersicht.prototype.deleteRouteElementRequest = function (route) {
+    }
+    deleteRouteElementRequest(route) {
         return axios_1.default.delete("/api/routen/" + route._id);
-    };
-    Routenuebersicht.prototype.deleteRoute = function (selectedItems) {
-        var _this = this;
-        return new Promise(function (resolve, reject) {
+    }
+    deleteRoute(selectedItems) {
+        return new Promise((resolve, reject) => {
             if (!selectedItems ||
                 selectedItems.length === 0 ||
                 selectedItems.length > 1) {
                 resolve();
                 return null;
             }
-            return _this.deleteRouten(selectedItems)
-                .then(function () {
-                return _this.loadRouten();
+            return this.deleteRouten(selectedItems)
+                .then(() => {
+                return this.loadRouten();
             })
-                .then(function (data) {
-                _this.setState({
+                .then((data) => {
+                this.setState({
                     rawItems: data.rawItems,
                     items: data.transformedItems,
                     isLoading: false
-                }, function () {
+                }, () => {
                     resolve();
                     return null;
                 });
             })
-                .catch(function (error) {
+                .catch(error => {
                 alert("Fehler deleteRoute");
                 reject();
                 return null;
             });
         });
-    };
-    Routenuebersicht.prototype.editRoute = function (selectedRoute) {
+    }
+    editRoute(selectedRoute) {
         if (selectedRoute) {
             this.props.onEditRouteClick(selectedRoute);
         }
-    };
-    Routenuebersicht.prototype.sortItems = function (propertyName, descending) {
+    }
+    sortItems(propertyName, descending) {
         return sorting_1.sortArrayByProperty(this.state.items, propertyName, descending);
-    };
-    Routenuebersicht.prototype.deleteRouteClicked = function (selectedItems) {
+    }
+    deleteRouteClicked(selectedItems) {
         return this.deleteRoute(selectedItems);
-    };
-    Routenuebersicht.prototype.deleteAllRoutenClicked = function () {
-        var _this = this;
-        return this.setState({ isLoading: true }, function () {
-            _this.deleteRouten(_this.state.selectedItems)
-                .then(function () {
-                _this.loadRouten().then(function (data) {
-                    _this.setState({
+    }
+    deleteAllRoutenClicked() {
+        return this.setState({ isLoading: true }, () => {
+            this.deleteRouten(this.state.selectedItems)
+                .then(() => {
+                this.loadRouten().then((data) => {
+                    this.setState({
                         rawItems: data.rawItems,
                         items: data.transformedItems,
                         isLoading: false
@@ -3628,24 +3207,23 @@ var Routenuebersicht = (function (_super) {
                     return null;
                 });
             })
-                .catch(function (error) {
+                .catch(error => {
                 alert("Fehler deleteAllRoutenClicked");
             });
         });
-    };
-    Routenuebersicht.prototype.render = function () {
+    }
+    render() {
         console.log("render Routenuebersicht");
         return (React.createElement(BaseUebersicht_1.BaseUebersicht, { key: "ru", ctxTarget: this.state.ctxTarget, ctxVisible: this.state.isCtxVisible, onCtxMenueVisible: this.onCtxMenueVisible, onDeleteItemClicked: this.deleteRouteClicked, columns: this.state.columns, items: this.state.items, onEditItemClick: this.editRoute, onItemSelectionChanged: this.selectionHasChanged, sortByPropertyName: this.sortItems, isLoading: this.state.isLoading, loadingText: "Routen werden geladen", useCommandbar: true, enableSearchBox: false, commandbarItems: this.state.commandbarItems }));
-    };
-    return Routenuebersicht;
-}(React.Component));
+    }
+}
 exports.Routenuebersicht = Routenuebersicht;
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 18)))
 
 /***/ }),
 
-/***/ 897:
+/***/ 918:
 /*!*******************************************************************!*\
   !*** ./src/projects/aldi/components/intelligent/UploadRoutes.tsx ***!
   \*******************************************************************/
@@ -3655,63 +3233,51 @@ exports.Routenuebersicht = Routenuebersicht;
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Promise) {
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ 1);
-var axios_1 = __webpack_require__(/*! axios */ 30);
-var react_1 = __webpack_require__(/*! react */ 1);
-var ButtonRow_1 = __webpack_require__(/*! ../../../../global/components/simple/ButtonRow */ 133);
-var UploadRoutes = (function (_super) {
-    __extends(UploadRoutes, _super);
-    function UploadRoutes(props) {
-        var _this = _super.call(this, props) || this;
-        _this.textareaElement = undefined;
-        _this.uploadClick = _this.uploadClick.bind(_this);
-        _this.cancelClick = _this.cancelClick.bind(_this);
-        _this.setRef = _this.setRef.bind(_this);
-        return _this;
+const React = __webpack_require__(/*! react */ 1);
+const axios_1 = __webpack_require__(/*! axios */ 30);
+const react_1 = __webpack_require__(/*! react */ 1);
+const ButtonRow_1 = __webpack_require__(/*! ../../../../global/components/simple/ButtonRow */ 132);
+class UploadRoutes extends React.Component {
+    constructor(props) {
+        super(props);
+        this.textareaElement = undefined;
+        this.uploadClick = this.uploadClick.bind(this);
+        this.cancelClick = this.cancelClick.bind(this);
+        this.setRef = this.setRef.bind(this);
     }
-    UploadRoutes.prototype.saveRoutes = function (routes) {
-        return new Promise(function (resolve, reject) {
-            var promises = [];
-            routes.forEach(function (route) {
-                promises.push(axios_1.default.post("/api/routen", { route: route }));
+    saveRoutes(routes) {
+        return new Promise((resolve, reject) => {
+            let promises = [];
+            routes.forEach(route => {
+                promises.push(axios_1.default.post("/api/routen", { route }));
             });
             Promise.all(promises)
-                .then(function (results) {
+                .then(results => {
                 console.log(JSON.stringify(results));
-                var resultValue = [];
-                results.forEach(function (p) {
+                let resultValue = [];
+                results.forEach(p => {
                     if (p.data.insertedObjects && p.data.insertedObjects.length > 0) {
                         resultValue = resultValue.concat(p.data.insertedObjects);
                     }
                 });
                 resolve(resultValue);
             })
-                .catch(function (error) {
+                .catch(error => {
                 console.log("saveRoutes", JSON.stringify(error));
                 reject({ message: "Kein Einfügen", error: error });
             });
         });
-    };
-    UploadRoutes.prototype.createRoutes = function (value) {
-        var returnValues = [];
+    }
+    createRoutes(value) {
+        let returnValues = [];
         if (!value) {
             return returnValues;
         }
-        var routes = value.split("\n");
-        routes.forEach(function (route) {
-            var rows = route.split("\t");
-            var r = {
+        let routes = value.split("\n");
+        routes.forEach(route => {
+            let rows = route.split("\t");
+            let r = {
                 timestamp: Date.now(),
                 route_timestamp: Date.now(),
                 ausgaben: [],
@@ -3720,18 +3286,18 @@ var UploadRoutes = (function (_super) {
             returnValues.push(r);
         });
         return;
-    };
-    UploadRoutes.prototype.uploadClick = function () {
-        var routes = this.createRoutes(this.textareaElement ? this.textareaElement.value : "");
+    }
+    uploadClick() {
+        let routes = this.createRoutes(this.textareaElement ? this.textareaElement.value : "");
         this.props.uploadClick(routes);
-    };
-    UploadRoutes.prototype.cancelClick = function () {
+    }
+    cancelClick() {
         this.props.cancelClick();
-    };
-    UploadRoutes.prototype.setRef = function (element) {
+    }
+    setRef(element) {
         this.textareaElement = element;
-    };
-    UploadRoutes.prototype.render = function () {
+    }
+    render() {
         console.log("render UploadRoutes");
         return (React.createElement(react_1.Fragment, null,
             React.createElement("div", { className: "ms-Grid-row" },
@@ -3750,16 +3316,15 @@ var UploadRoutes = (function (_super) {
                             checked: false,
                             onClickFunc: this.cancelClick
                         } })))));
-    };
-    return UploadRoutes;
-}(React.Component));
+    }
+}
 exports.UploadRoutes = UploadRoutes;
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 18)))
 
 /***/ }),
 
-/***/ 898:
+/***/ 919:
 /*!*********************************************************************!*\
   !*** ./src/projects/aldi/components/intelligent/UploadFilialen.tsx ***!
   \*********************************************************************/
@@ -3769,84 +3334,70 @@ exports.UploadRoutes = UploadRoutes;
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Promise) {
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ 1);
-var axios_1 = __webpack_require__(/*! axios */ 30);
-var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
-var react_1 = __webpack_require__(/*! react */ 1);
-var ButtonRow_1 = __webpack_require__(/*! ../../../../global/components/simple/ButtonRow */ 133);
-var date_1 = __webpack_require__(/*! ../../../../helper/date */ 77);
-var promise_1 = __webpack_require__(/*! ../../../../helper/promise */ 134);
-var UploadFilialen = (function (_super) {
-    __extends(UploadFilialen, _super);
-    function UploadFilialen(props) {
-        var _this = _super.call(this, props) || this;
-        _this.textareaElement = undefined;
-        _this.selectRouteElement = undefined;
-        _this.cancelBtnClick = _this.cancelBtnClick.bind(_this);
-        _this.uploadClick = _this.uploadClick.bind(_this);
-        _this.setTextareaElement = _this.setTextareaElement.bind(_this);
-        _this.setSelectRouteElement = _this.setSelectRouteElement.bind(_this);
-        _this.state = {
+const React = __webpack_require__(/*! react */ 1);
+const axios_1 = __webpack_require__(/*! axios */ 30);
+const office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
+const react_1 = __webpack_require__(/*! react */ 1);
+const ButtonRow_1 = __webpack_require__(/*! ../../../../global/components/simple/ButtonRow */ 132);
+const date_1 = __webpack_require__(/*! ../../../../helper/date */ 79);
+const promise_1 = __webpack_require__(/*! ../../../../helper/promise */ 133);
+class UploadFilialen extends React.Component {
+    constructor(props) {
+        super(props);
+        this.textareaElement = undefined;
+        this.selectRouteElement = undefined;
+        this.cancelBtnClick = this.cancelBtnClick.bind(this);
+        this.uploadClick = this.uploadClick.bind(this);
+        this.setTextareaElement = this.setTextareaElement.bind(this);
+        this.setSelectRouteElement = this.setSelectRouteElement.bind(this);
+        this.state = {
             routes: [],
             isInitialized: false,
             isError: false,
             isUploading: false
         };
-        return _this;
     }
-    UploadFilialen.prototype.componentDidMount = function () {
-        var _this = this;
+    componentDidMount() {
         this.loadRoutenRequest()
-            .then(function (result) {
-            _this.setState({ routes: result, isInitialized: true });
+            .then((result) => {
+            this.setState({ routes: result, isInitialized: true });
         })
-            .catch(function (e) {
+            .catch(e => {
             alert("Routen konnten nicht geladen werden...");
-            _this.setState({ isError: true });
+            this.setState({ isError: true });
         });
-    };
-    UploadFilialen.prototype.loadRoutenRequest = function () {
-        return new Promise(function (resolve, reject) {
+    }
+    loadRoutenRequest() {
+        return new Promise((resolve, reject) => {
             axios_1.default.get("/api/routen")
-                .then(function (results) {
+                .then(results => {
                 resolve(results.data);
             })
-                .catch(function () {
+                .catch(() => {
                 reject();
             });
         });
-    };
-    UploadFilialen.prototype.saveFilialen = function (filialen) {
-        var filialPromises = filialen.map(function (filiale, index) {
+    }
+    saveFilialen(filialen) {
+        let filialPromises = filialen.map((filiale, index) => {
             return axios_1.default.post("/api/filialen", {
-                filiale: filiale
+                filiale
             });
         });
         return promise_1.promise_all_custom(filialPromises);
-    };
-    UploadFilialen.prototype.parseNumber = function (value) {
+    }
+    parseNumber(value) {
         value = value.replace(/,/g, ".");
         value = value.replace(/[^-0-9.]/g, "");
-        var returnValue = parseFloat(value);
+        let returnValue = parseFloat(value);
         if (isNaN(returnValue)) {
             return -1;
         }
         return returnValue;
-    };
-    UploadFilialen.prototype.createFilialen = function (value) {
-        var _this = this;
-        var ret = {
+    }
+    createFilialen(value) {
+        let ret = {
             import: [],
             importCount: 0,
             skipCount: 0,
@@ -3856,17 +3407,17 @@ var UploadFilialen = (function (_super) {
             ret.messages.push("Kein Initialwert übergeben");
             return ret;
         }
-        var filialen = value.split("\n");
+        let filialen = value.split("\n");
         if (!filialen || filialen.length === 0) {
             ret.messages.push("Es konnten keine Filialen ausgelesen werden");
             return ret;
         }
-        var selectedRoute = "";
+        let selectedRoute = "";
         if (this.selectRouteElement && this.selectRouteElement.options.length > 0) {
             selectedRoute = this.selectRouteElement.options[this.selectRouteElement.selectedIndex].value;
         }
-        filialen.forEach(function (filiale) {
-            var rows = filiale.split("\t");
+        filialen.forEach(filiale => {
+            let rows = filiale.split("\t");
             if (!rows || rows.length < 7) {
                 ret.messages.push("Es konnten keine Filial-Eigenschaften ausgelesen werden. [Wert: " +
                     filiale +
@@ -3874,55 +3425,54 @@ var UploadFilialen = (function (_super) {
                 ret.skipCount += 1;
                 return;
             }
-            var model = {
+            let model = {
                 timestamp: Date.now(),
-                ausgaben: _this.parseNumber(rows[0].trim()),
-                einnahmen: _this.parseNumber(rows[1].trim()),
-                plz: _this.parseNumber(rows[2].trim()),
+                ausgaben: this.parseNumber(rows[0].trim()),
+                einnahmen: this.parseNumber(rows[1].trim()),
+                plz: this.parseNumber(rows[2].trim()),
                 ort: rows[3].trim(),
                 strasse: rows[4].trim(),
-                testnummer: _this.parseNumber(rows[5].trim()),
-                pkz: _this.parseNumber(rows[6].trim()),
+                testnummer: this.parseNumber(rows[5].trim()),
+                pkz: this.parseNumber(rows[6].trim()),
                 route_id: selectedRoute
             };
             ret.importCount += 1;
             ret.import.push(model);
         });
         return ret;
-    };
-    UploadFilialen.prototype.cancelBtnClick = function () {
+    }
+    cancelBtnClick() {
         this.props.cancelBtnClick();
-    };
-    UploadFilialen.prototype.uploadClick = function () {
-        var _this = this;
-        var filialen = this.createFilialen(this.textareaElement ? this.textareaElement.value : "");
+    }
+    uploadClick() {
+        let filialen = this.createFilialen(this.textareaElement ? this.textareaElement.value : "");
         if (!filialen) {
             return;
         }
-        this.setState({ isUploading: true }, function () {
-            _this.saveFilialen(filialen.import)
-                .then(function (r) {
+        this.setState({ isUploading: true }, () => {
+            this.saveFilialen(filialen.import)
+                .then(r => {
                 if (r.length === filialen.importCount) {
-                    _this.props.uploadFinished();
+                    this.props.uploadFinished();
                 }
                 else {
                     alert("NIX OK");
                 }
                 return null;
             })
-                .catch(function (error) {
+                .catch(error => {
                 alert("Globaler Error in saveFilialen");
-                _this.setState({ isError: true });
+                this.setState({ isError: true });
             });
         });
-    };
-    UploadFilialen.prototype.setTextareaElement = function (element) {
+    }
+    setTextareaElement(element) {
         this.textareaElement = element;
-    };
-    UploadFilialen.prototype.setSelectRouteElement = function (element) {
+    }
+    setSelectRouteElement(element) {
         this.selectRouteElement = element;
-    };
-    UploadFilialen.prototype.render = function () {
+    }
+    render() {
         console.log("render UploadFilialen");
         if (!this.state.isInitialized) {
             return React.createElement(office_ui_fabric_react_1.Spinner, { label: "Lade Daten..." });
@@ -3938,7 +3488,7 @@ var UploadFilialen = (function (_super) {
                 React.createElement("div", { className: "ms-Grid-col ms-sm12" },
                     React.createElement("div", { style: { padding: "25px" } },
                         React.createElement(office_ui_fabric_react_1.Label, null, "Routenfahrt auswählen"),
-                        React.createElement("select", { ref: this.setSelectRouteElement }, this.state.routes.map(function (route, index) {
+                        React.createElement("select", { ref: this.setSelectRouteElement }, this.state.routes.map((route, index) => {
                             return (React.createElement("option", { value: route._id, key: "r_" + index }, date_1.getGermanDateString(new Date(route.route_timestamp))));
                         }))))),
             React.createElement("div", { className: "ms-Grid-row" },
@@ -3957,16 +3507,15 @@ var UploadFilialen = (function (_super) {
                             checked: false,
                             onClickFunc: this.cancelBtnClick
                         } })))));
-    };
-    return UploadFilialen;
-}(React.Component));
+    }
+}
 exports.UploadFilialen = UploadFilialen;
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 18)))
 
 /***/ }),
 
-/***/ 899:
+/***/ 920:
 /*!***********************************************************************!*\
   !*** ./src/projects/aldi/components/intelligent/Filialuebersicht.tsx ***!
   \***********************************************************************/
@@ -3976,47 +3525,28 @@ exports.UploadFilialen = UploadFilialen;
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Promise) {
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __assign = (this && this.__assign) || Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-    }
-    return t;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ 1);
-var axios_1 = __webpack_require__(/*! axios */ 30);
-var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
-var columns_1 = __webpack_require__(/*! ../../configuration/columns */ 346);
-var BaseUebersicht_1 = __webpack_require__(/*! ../../../../global/components/simple/BaseUebersicht */ 347);
-var sorting_1 = __webpack_require__(/*! ../../../../helper/sorting */ 348);
-var promise_1 = __webpack_require__(/*! ../../../../helper/promise */ 134);
-var Filialuebersicht = (function (_super) {
-    __extends(Filialuebersicht, _super);
-    function Filialuebersicht(props) {
-        var _this = _super.call(this, props) || this;
-        _this.selectionHasChanged = _this.selectionHasChanged.bind(_this);
-        _this.deleteAllFilialenClicked = _this.deleteAllFilialenClicked.bind(_this);
-        _this.deleteFilialeClicked = _this.deleteFilialeClicked.bind(_this);
-        _this.sortItems = _this.sortItems.bind(_this);
-        _this.deleteFiliale = _this.deleteFiliale.bind(_this);
-        _this.deleteFilialen = _this.deleteFilialen.bind(_this);
-        _this.editFiliale = _this.editFiliale.bind(_this);
-        _this.onCtxMenueVisible = _this.onCtxMenueVisible.bind(_this);
-        _this.renderContext = _this.renderContext.bind(_this);
-        _this.showMoreClicked = _this.showMoreClicked.bind(_this);
-        var commardbarItems = [].concat(_this.props.commandbarItems);
+const React = __webpack_require__(/*! react */ 1);
+const axios_1 = __webpack_require__(/*! axios */ 30);
+const office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
+const columns_1 = __webpack_require__(/*! ../../configuration/columns */ 366);
+const BaseUebersicht_1 = __webpack_require__(/*! ../../../../global/components/simple/BaseUebersicht */ 367);
+const sorting_1 = __webpack_require__(/*! ../../../../helper/sorting */ 368);
+const promise_1 = __webpack_require__(/*! ../../../../helper/promise */ 133);
+class Filialuebersicht extends React.Component {
+    constructor(props) {
+        super(props);
+        this.selectionHasChanged = this.selectionHasChanged.bind(this);
+        this.deleteAllFilialenClicked = this.deleteAllFilialenClicked.bind(this);
+        this.deleteFilialeClicked = this.deleteFilialeClicked.bind(this);
+        this.sortItems = this.sortItems.bind(this);
+        this.deleteFiliale = this.deleteFiliale.bind(this);
+        this.deleteFilialen = this.deleteFilialen.bind(this);
+        this.editFiliale = this.editFiliale.bind(this);
+        this.onCtxMenueVisible = this.onCtxMenueVisible.bind(this);
+        this.renderContext = this.renderContext.bind(this);
+        this.showMoreClicked = this.showMoreClicked.bind(this);
+        let commardbarItems = [].concat(this.props.commandbarItems);
         if (!commardbarItems) {
             commardbarItems = [];
         }
@@ -4025,15 +3555,15 @@ var Filialuebersicht = (function (_super) {
             name: "Delete Selected",
             icon: "delete",
             disabled: true,
-            onClick: _this.deleteAllFilialenClicked
+            onClick: this.deleteAllFilialenClicked
         });
-        var cols = columns_1.filialOverviewColumns.map(function (col) {
+        let cols = columns_1.filialOverviewColumns.map(col => {
             if (col.fieldName === "ctx") {
-                col.onRender = _this.renderContext;
+                col.onRender = this.renderContext;
             }
             return col;
         });
-        _this.state = {
+        this.state = {
             isLoading: true,
             columns: cols,
             items: [],
@@ -4043,45 +3573,43 @@ var Filialuebersicht = (function (_super) {
             ctxTarget: undefined,
             isCtxVisible: false
         };
-        return _this;
     }
-    Filialuebersicht.prototype.componentDidMount = function () {
-        var _this = this;
+    componentDidMount() {
         this.loadFilialen()
-            .then(function (data) {
-            _this.setState({
+            .then((data) => {
+            this.setState({
                 rawItems: data.rawItems,
                 items: data.transformedItems,
                 isLoading: false
             });
             return null;
         })
-            .catch(function (error) {
+            .catch(error => {
             alert("Fehler loadFilialen");
         });
-    };
-    Filialuebersicht.prototype.renderContext = function () {
+    }
+    renderContext() {
         return (React.createElement("div", { className: "ms-font-xl ms-fontColor-themePrimary" },
             React.createElement(office_ui_fabric_react_1.IconButton, { checked: false, iconProps: { iconName: "More" }, title: "More", ariaLabel: "More", onClick: this.showMoreClicked })));
-    };
-    Filialuebersicht.prototype.showMoreClicked = function (event) {
+    }
+    showMoreClicked(event) {
         this.setState({
             isCtxVisible: true,
             ctxTarget: event.target
         });
-    };
-    Filialuebersicht.prototype.selectionHasChanged = function (selectedItems) {
-        var newState = __assign({}, this.state);
+    }
+    selectionHasChanged(selectedItems) {
+        let newState = Object.assign({}, this.state);
         newState.selectedItems = selectedItems;
-        newState.commandbarItems.forEach(function (item) {
+        newState.commandbarItems.forEach(item => {
             if (item.key === "delete") {
                 item.disabled = !selectedItems || selectedItems.length < 1;
             }
         });
         this.setState(newState);
-    };
-    Filialuebersicht.prototype.getFilialViewModelByRouteModel = function (items) {
-        return items.map(function (item, index) {
+    }
+    getFilialViewModelByRouteModel(items) {
+        return items.map((item, index) => {
             return {
                 index: index + 1,
                 _id: item._id,
@@ -4098,138 +3626,133 @@ var Filialuebersicht = (function (_super) {
                 testnummer: item.testnummer
             };
         });
-    };
-    Filialuebersicht.prototype.loadFilialen = function () {
-        var _this = this;
-        return new Promise(function (resolve, reject) {
-            _this.loadFilialenRequest()
-                .then(function (data) {
-                var items = _this.getFilialViewModelByRouteModel(data);
+    }
+    loadFilialen() {
+        return new Promise((resolve, reject) => {
+            this.loadFilialenRequest()
+                .then((data) => {
+                let items = this.getFilialViewModelByRouteModel(data);
                 resolve({
                     rawItems: data || [],
                     transformedItems: items || []
                 });
             })
-                .catch(function () {
+                .catch(() => {
                 alert("Fehler beim Laden der Filialen");
             });
         });
-    };
-    Filialuebersicht.prototype.deleteFilialen = function (filialElements) {
-        var _this = this;
-        return new Promise(function (resolve, reject) {
-            var promises = [];
-            filialElements.forEach(function (filiale) {
-                promises.push(_this.deleteFilialeElementRequest(filiale));
+    }
+    deleteFilialen(filialElements) {
+        return new Promise((resolve, reject) => {
+            let promises = [];
+            filialElements.forEach(filiale => {
+                promises.push(this.deleteFilialeElementRequest(filiale));
             });
             promise_1.promise_all_custom(promises)
-                .then(function () {
+                .then(() => {
                 resolve();
             })
-                .catch(function () {
+                .catch(() => {
                 alert("Grober Fehler!");
                 reject();
             });
         });
-    };
-    Filialuebersicht.prototype.loadFilialenRequest = function () {
-        return new Promise(function (resolve, reject) {
+    }
+    loadFilialenRequest() {
+        return new Promise((resolve, reject) => {
             axios_1.default.get("/api/filialen")
-                .then(function (results) {
+                .then(results => {
                 resolve(results.data);
             })
-                .catch(function () {
+                .catch(() => {
                 reject();
             });
         });
-    };
-    Filialuebersicht.prototype.deleteFilialeElementRequest = function (route) {
+    }
+    deleteFilialeElementRequest(route) {
         return axios_1.default.delete("/api/filialen/" + route._id);
-    };
-    Filialuebersicht.prototype.deleteFiliale = function (selectedItems) {
-        var _this = this;
-        return new Promise(function (resolve, reject) {
+    }
+    deleteFiliale(selectedItems) {
+        return new Promise((resolve, reject) => {
             if (!selectedItems ||
                 selectedItems.length === 0 ||
                 selectedItems.length > 1) {
                 resolve();
                 return null;
             }
-            return _this.deleteFilialen(selectedItems)
-                .then(function () {
-                return _this.loadFilialen();
+            return this.deleteFilialen(selectedItems)
+                .then(() => {
+                return this.loadFilialen();
             })
-                .then(function (data) {
-                _this.setState({
+                .then((data) => {
+                this.setState({
                     rawItems: data.rawItems,
                     items: data.transformedItems,
                     isLoading: false
-                }, function () {
+                }, () => {
                     resolve();
                     return null;
                 });
             })
-                .catch(function (error) {
+                .catch(error => {
                 alert("Fehler deleteFiliale");
                 reject();
                 return null;
             });
         });
-    };
-    Filialuebersicht.prototype.editFiliale = function (selectedFiliale) {
+    }
+    editFiliale(selectedFiliale) {
         if (selectedFiliale) {
             this.props.onEditFilialeClick(selectedFiliale);
         }
-    };
-    Filialuebersicht.prototype.sortItems = function (propertyName, descending) {
+    }
+    sortItems(propertyName, descending) {
         return sorting_1.sortArrayByProperty(this.state.items, propertyName, descending);
-    };
-    Filialuebersicht.prototype.deleteFilialeClicked = function (selectedItems) {
+    }
+    deleteFilialeClicked(selectedItems) {
         return this.deleteFiliale(selectedItems);
-    };
-    Filialuebersicht.prototype.deleteAllFilialenClicked = function () {
-        var _this = this;
-        return this.setState({ isLoading: true }, function () {
-            _this.deleteFilialen(_this.state.selectedItems).then(function () {
-                _this.loadFilialen()
-                    .then(function (data) {
-                    _this.setState({
+    }
+    deleteAllFilialenClicked() {
+        return this.setState({ isLoading: true }, () => {
+            this.deleteFilialen(this.state.selectedItems).then(() => {
+                this.loadFilialen()
+                    .then((data) => {
+                    this.setState({
                         rawItems: data.rawItems,
                         items: data.transformedItems,
                         isLoading: false
                     });
                     return null;
                 })
-                    .catch(function (error) {
+                    .catch(error => {
                     alert("Fehler loadFilialen");
                 });
             });
         });
-    };
-    Filialuebersicht.prototype.onCtxMenueVisible = function (isVisible) {
+    }
+    onCtxMenueVisible(isVisible) {
         if (this.state.isCtxVisible === isVisible) {
             return;
         }
-        var ns = __assign({}, this.state);
+        let ns = Object.assign({}, this.state);
         ns.isCtxVisible = isVisible;
         if (isVisible === false) {
             ns.ctxTarget = null;
         }
         this.setState(ns);
-    };
-    Filialuebersicht.prototype.render = function () {
+    }
+    render() {
         console.log("render Filialuebersicht");
         return (React.createElement(BaseUebersicht_1.BaseUebersicht, { key: "fu", onCtxMenueVisible: this.onCtxMenueVisible, ctxVisible: this.state.isCtxVisible, ctxTarget: this.state.ctxTarget, onDeleteItemClicked: this.deleteFilialeClicked, columns: this.state.columns, items: this.state.items, onEditItemClick: this.editFiliale, onItemSelectionChanged: this.selectionHasChanged, sortByPropertyName: this.sortItems, isLoading: this.state.isLoading, loadingText: "Filialen werden geladen", useCommandbar: true, enableSearchBox: false, commandbarItems: this.state.commandbarItems }));
-    };
-    return Filialuebersicht;
-}(React.Component));
+    }
+}
 exports.Filialuebersicht = Filialuebersicht;
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! bluebird */ 18)))
 
 /***/ }),
 
-/***/ 900:
+/***/ 921:
 /*!**************************************************************!*\
   !*** ./src/projects/aldi/components/intelligent/Filiale.tsx ***!
   \**************************************************************/
@@ -4239,38 +3762,19 @@ exports.Filialuebersicht = Filialuebersicht;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __assign = (this && this.__assign) || Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-    }
-    return t;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ 1);
-var axios_1 = __webpack_require__(/*! axios */ 30);
-var enums_1 = __webpack_require__(/*! ../../../../enums/enums */ 198);
-var Filiale_1 = __webpack_require__(/*! ../stateless/Filiale */ 343);
-var promise_1 = __webpack_require__(/*! ../../../../helper/promise */ 134);
-var office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
-var react_1 = __webpack_require__(/*! react */ 1);
-var ButtonRow_1 = __webpack_require__(/*! ../../../../global/components/simple/ButtonRow */ 133);
-var Filiale = (function (_super) {
-    __extends(Filiale, _super);
-    function Filiale(props) {
-        var _this = _super.call(this, props) || this;
-        _this.state = {
+const React = __webpack_require__(/*! react */ 1);
+const axios_1 = __webpack_require__(/*! axios */ 30);
+const enums_1 = __webpack_require__(/*! ../../../../enums/enums */ 197);
+const Filiale_1 = __webpack_require__(/*! ../stateless/Filiale */ 363);
+const promise_1 = __webpack_require__(/*! ../../../../helper/promise */ 133);
+const office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ 14);
+const react_1 = __webpack_require__(/*! react */ 1);
+const ButtonRow_1 = __webpack_require__(/*! ../../../../global/components/simple/ButtonRow */ 132);
+class Filiale extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
             dbEntry: undefined,
             routes: [],
             viewModel: undefined,
@@ -4281,58 +3785,56 @@ var Filiale = (function (_super) {
             },
             availableRouteDates: []
         };
-        _this.onAusgabenChanged = _this.onAusgabenChanged.bind(_this);
-        _this.onDeleteClick = _this.onDeleteClick.bind(_this);
-        _this.onEinnahmenChanged = _this.onEinnahmenChanged.bind(_this);
-        _this.onFahrdatumChanged = _this.onFahrdatumChanged.bind(_this);
-        _this.onOrtChanged = _this.onOrtChanged.bind(_this);
-        _this.onPkzChanged = _this.onPkzChanged.bind(_this);
-        _this.onPlzChanged = _this.onPlzChanged.bind(_this);
-        _this.onStrasseChanged = _this.onStrasseChanged.bind(_this);
-        _this.onTestnummerChanged = _this.onTestnummerChanged.bind(_this);
-        _this.saveClicked = _this.saveClicked.bind(_this);
-        _this.cancelClicked = _this.cancelClicked.bind(_this);
-        return _this;
+        this.onAusgabenChanged = this.onAusgabenChanged.bind(this);
+        this.onDeleteClick = this.onDeleteClick.bind(this);
+        this.onEinnahmenChanged = this.onEinnahmenChanged.bind(this);
+        this.onFahrdatumChanged = this.onFahrdatumChanged.bind(this);
+        this.onOrtChanged = this.onOrtChanged.bind(this);
+        this.onPkzChanged = this.onPkzChanged.bind(this);
+        this.onPlzChanged = this.onPlzChanged.bind(this);
+        this.onStrasseChanged = this.onStrasseChanged.bind(this);
+        this.onTestnummerChanged = this.onTestnummerChanged.bind(this);
+        this.saveClicked = this.saveClicked.bind(this);
+        this.cancelClicked = this.cancelClicked.bind(this);
     }
-    Filiale.prototype.componentDidMount = function () {
-        var _this = this;
-        var promises = [axios_1.default.get("api/routen")];
+    componentDidMount() {
+        let promises = [axios_1.default.get("api/routen")];
         if (this.props.pageType !== enums_1.PageType.Add) {
             promises.push(axios_1.default.get("api/filialen/" + this.props.filialeId));
         }
         promise_1.promise_all_custom(promises)
-            .then(function (data) {
+            .then(data => {
             if (data[0].isError) {
                 alert("Fehler beim Abfragen der Daten...");
                 return;
             }
-            if (_this.props.pageType !== enums_1.PageType.Add) {
+            if (this.props.pageType !== enums_1.PageType.Add) {
                 if (data[1].isError) {
                     alert("Fehler beim Abfragen der Daten...");
                     return;
                 }
             }
-            var routes = data[0].data.data || [];
+            let routes = data[0].data.data || [];
             if (!routes || routes.length === 0) {
-                var ns = __assign({}, _this.state);
+                let ns = Object.assign({}, this.state);
                 ns.loadingState = {
                     isLoading: false,
                     isError: true,
                     error: { message: "Keine Routen gefunden...", stacktrace: "" }
                 };
-                _this.setState(ns);
+                this.setState(ns);
                 return;
             }
-            routes = routes.sort(function (a, b) {
+            routes = routes.sort((a, b) => {
                 return a.route_timestamp > b.route_timestamp
                     ? 1
                     : a.route_timestamp < b.route_timestamp ? -1 : 0;
             });
-            var dates = routes.map(function (route) {
+            let dates = routes.map(route => {
                 return new Date(route.route_timestamp);
             });
-            var filiale = undefined;
-            if (_this.props.pageType === enums_1.PageType.Add) {
+            let filiale = undefined;
+            if (this.props.pageType === enums_1.PageType.Add) {
                 filiale = {
                     _id: undefined,
                     ausgaben: 0,
@@ -4355,16 +3857,16 @@ var Filiale = (function (_super) {
                 filiale = data[1].data.data.filiale || undefined;
             }
             if (!filiale) {
-                var ns = __assign({}, _this.state);
+                let ns = Object.assign({}, this.state);
                 ns.loadingState = {
                     isLoading: false,
                     isError: true,
                     error: { message: "Keine Filiale gefunden...", stacktrace: "" }
                 };
-                _this.setState(ns);
+                this.setState(ns);
                 return;
             }
-            var vm = {
+            let vm = {
                 _id: filiale._id,
                 ausgaben: filiale.ausgaben,
                 einnahmen: filiale.einnahmen,
@@ -4377,12 +3879,12 @@ var Filiale = (function (_super) {
                 plz: filiale.plz,
                 fahrdatum: null
             };
-            routes.forEach(function (route) {
+            routes.forEach(route => {
                 if (filiale.route_id === route._id) {
                     vm.fahrdatum = route.route_timestamp;
                 }
             });
-            _this.setState({
+            this.setState({
                 loadingState: {
                     isLoading: false,
                     isError: false,
@@ -4394,22 +3896,21 @@ var Filiale = (function (_super) {
                 viewModel: vm
             });
         })
-            .catch(function () {
+            .catch(() => {
             alert("Fehler beim Laden");
         });
-    };
-    Filiale.prototype.cancelClicked = function () {
+    }
+    cancelClicked() {
         this.props.cancel_clicked();
-    };
-    Filiale.prototype.saveClicked = function () {
-        var _this = this;
-        var routeId = "";
-        this.state.routes.forEach(function (route) {
-            if (route.route_timestamp === _this.state.viewModel.fahrdatum) {
+    }
+    saveClicked() {
+        let routeId = "";
+        this.state.routes.forEach(route => {
+            if (route.route_timestamp === this.state.viewModel.fahrdatum) {
                 routeId = route._id;
             }
         });
-        var data = {
+        let data = {
             _id: this.state.viewModel._id,
             ausgaben: this.state.viewModel.ausgaben,
             einnahmen: this.state.viewModel.einnahmen,
@@ -4423,22 +3924,22 @@ var Filiale = (function (_super) {
         };
         if (this.props.pageType === enums_1.PageType.Edit) {
             axios_1.default.put("/api/filialen/" + this.state.dbEntry._id, { filiale: data })
-                .then(function (response) {
-                _this.props.ok_clicked();
+                .then(response => {
+                this.props.ok_clicked();
                 return null;
             })
-                .catch(function (e) {
+                .catch(e => {
                 console.log("Fehler", JSON.stringify(e));
                 alert("Fehler saveClicked");
             });
         }
         if (this.props.pageType === enums_1.PageType.Add) {
             axios_1.default.post("/api/filialen", { filiale: data })
-                .then(function (response) {
-                _this.props.ok_clicked();
+                .then(response => {
+                this.props.ok_clicked();
                 return null;
             })
-                .catch(function (e) {
+                .catch(e => {
                 console.log("Fehler", JSON.stringify(e));
                 alert("Fehler saveClicked");
             });
@@ -4447,51 +3948,51 @@ var Filiale = (function (_super) {
             this.props.ok_clicked();
             return null;
         }
-    };
-    Filiale.prototype.onDeleteClick = function (id) {
+    }
+    onDeleteClick(id) {
         alert("Löschen nicht erlaubt");
-    };
-    Filiale.prototype.onFahrdatumChanged = function (id, value) {
-        var vm = __assign({}, this.state);
+    }
+    onFahrdatumChanged(id, value) {
+        let vm = Object.assign({}, this.state);
         vm.viewModel.fahrdatum = value;
         this.setState(vm);
-    };
-    Filiale.prototype.onPkzChanged = function (id, value) {
-        var vm = __assign({}, this.state);
+    }
+    onPkzChanged(id, value) {
+        let vm = Object.assign({}, this.state);
         vm.viewModel.pkz = value;
         this.setState(vm);
-    };
-    Filiale.prototype.onTestnummerChanged = function (id, value) {
-        var vm = __assign({}, this.state);
+    }
+    onTestnummerChanged(id, value) {
+        let vm = Object.assign({}, this.state);
         vm.viewModel.testnummer = value;
         this.setState(vm);
-    };
-    Filiale.prototype.onAusgabenChanged = function (id, value) {
-        var vm = __assign({}, this.state);
+    }
+    onAusgabenChanged(id, value) {
+        let vm = Object.assign({}, this.state);
         vm.viewModel.ausgaben = value;
         this.setState(vm);
-    };
-    Filiale.prototype.onEinnahmenChanged = function (id, value) {
-        var vm = __assign({}, this.state);
+    }
+    onEinnahmenChanged(id, value) {
+        let vm = Object.assign({}, this.state);
         vm.viewModel.einnahmen = value;
         this.setState(vm);
-    };
-    Filiale.prototype.onOrtChanged = function (id, value) {
-        var vm = __assign({}, this.state);
+    }
+    onOrtChanged(id, value) {
+        let vm = Object.assign({}, this.state);
         vm.viewModel.ort = value;
         this.setState(vm);
-    };
-    Filiale.prototype.onStrasseChanged = function (id, value) {
-        var vm = __assign({}, this.state);
+    }
+    onStrasseChanged(id, value) {
+        let vm = Object.assign({}, this.state);
         vm.viewModel.strasse = value;
         this.setState(vm);
-    };
-    Filiale.prototype.onPlzChanged = function (id, value) {
-        var vm = __assign({}, this.state);
+    }
+    onPlzChanged(id, value) {
+        let vm = Object.assign({}, this.state);
         vm.viewModel.plz = value;
         this.setState(vm);
-    };
-    Filiale.prototype.render = function () {
+    }
+    render() {
         console.log("render Filiale");
         if (this.state.loadingState.isLoading) {
             return React.createElement(office_ui_fabric_react_1.Spinner, { label: "Lade Filiale...", size: office_ui_fabric_react_1.SpinnerSize.large });
@@ -4516,15 +4017,14 @@ var Filiale = (function (_super) {
                             checked: false,
                             onClickFunc: this.cancelClicked
                         } })))));
-    };
-    return Filiale;
-}(React.Component));
+    }
+}
 exports.Filiale = Filiale;
 
 
 /***/ }),
 
-/***/ 901:
+/***/ 922:
 /*!*******************************************************!*\
   !*** ./src/global/components/simple/NotFoundPage.tsx ***!
   \*******************************************************/
@@ -4534,39 +4034,24 @@ exports.Filiale = Filiale;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ 1);
-var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ 83);
-var Routing_1 = __webpack_require__(/*! ./Routing */ 349);
-var NotFoundPage = (function (_super) {
-    __extends(NotFoundPage, _super);
-    function NotFoundPage() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    NotFoundPage.prototype.render = function () {
+const React = __webpack_require__(/*! react */ 1);
+const react_router_dom_1 = __webpack_require__(/*! react-router-dom */ 84);
+const Routing_1 = __webpack_require__(/*! ./Routing */ 369);
+class NotFoundPage extends React.Component {
+    render() {
         return (React.createElement(Routing_1.Status, { code: 404 },
             React.createElement("div", { className: "not-found" },
                 React.createElement("h1", null, "404"),
                 React.createElement("h2", null, "Page not found!"),
                 React.createElement("p", null,
                     React.createElement(react_router_dom_1.Link, { to: "/", replace: true }, "Return to Main Page")))));
-    };
-    return NotFoundPage;
-}(React.Component));
+    }
+}
 exports.NotFoundPage = NotFoundPage;
 
 
 /***/ })
 
-},[385]);
+},[405]);
 //# sourceMappingURL=application.js.map

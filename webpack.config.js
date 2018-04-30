@@ -14,8 +14,8 @@ var fs = require("fs");
 var currentStage = "development"; //;"development"; //production
 var nodeModules = {};
 var compileServer = true;
-var compileClient = true;
-var compileDatabase = true;
+var compileClient = false;
+var compileDatabase = false;
 var vendor = [
   "babel-polyfill",
   "react",
@@ -32,10 +32,10 @@ var vendor = [
 ];
 fs
   .readdirSync("node_modules")
-  .filter(function (x) {
+  .filter(function(x) {
     return [".bin"].indexOf(x) === -1;
   })
-  .forEach(function (mod) {
+  .forEach(function(mod) {
     if (vendor.indexOf(mod) < 0) {
       nodeModules[mod] = "commonjs " + mod;
     }
@@ -80,12 +80,8 @@ if (!!compileServer) {
         MONGO_DB_DATABASE_STRING: JSON.stringify("homeautomation"),
         MONGO_DB_SENSOR_COLLECTION_STRING: JSON.stringify("sensors"),
         MONGO_DB_APPLICATION_COLLECTION_STRING: JSON.stringify("application"),
-        MONGO_DB_CONFIGURATION_COLLECTION_STRING: JSON.stringify(
-          "configuration"
-        ),
-        MONGO_DB_MERGED_SENSOR_DATA_COLLECTION_STRING: JSON.stringify(
-          "sensordata"
-        ),
+        MONGO_DB_CONFIGURATION_COLLECTION_STRING: JSON.stringify("configuration"),
+        MONGO_DB_MERGED_SENSOR_DATA_COLLECTION_STRING: JSON.stringify("sensordata"),
         MONGO_DB_FILIALEN_COLLECTION_STRING: JSON.stringify("filialen"),
         MONGO_DB_ROUTEN_COLLECTION_STRING: JSON.stringify("routen"),
         "process.env": {
@@ -306,7 +302,8 @@ if (!!compileDatabase) {
       extensions: ["*", ".js", ".jsx", ".ts", ".tsx"]
     },
     entry: {
-      database: ["./src/global/mongoDB/cleanSensorData.ts"]
+      database: ["./src/global/mongoDB/cleanSensorData.ts"],
+      rechnungen: ["./src/global/mongoDB/createRechnungen.ts"]
     },
     devtool: "#source-map",
     output: {
@@ -325,13 +322,9 @@ if (!!compileDatabase) {
         MONGO_DB_CONNECTION_STRING: JSON.stringify(dbConnection),
         MONGO_DB_DATABASE_STRING: JSON.stringify("homeautomation"),
         MONGO_DB_SENSOR_COLLECTION_STRING: JSON.stringify("sensors"),
-        MONGO_DB_MERGED_SENSOR_DATA_COLLECTION_STRING: JSON.stringify(
-          "sensordata"
-        ),
+        MONGO_DB_MERGED_SENSOR_DATA_COLLECTION_STRING: JSON.stringify("sensordata"),
         MONGO_DB_APPLICATION_COLLECTION_STRING: JSON.stringify("application"),
-        MONGO_DB_CONFIGURATION_COLLECTION_STRING: JSON.stringify(
-          "configuration"
-        ),
+        MONGO_DB_CONFIGURATION_COLLECTION_STRING: JSON.stringify("configuration"),
         MONGO_DB_FILIALEN_COLLECTION_STRING: JSON.stringify("filialen"),
         MONGO_DB_ROUTEN_COLLECTION_STRING: JSON.stringify("routen"),
         "process.env": {
@@ -355,8 +348,8 @@ if (!!compileDatabase) {
           test: /\.tsx?$/,
           loader: "awesome-typescript-loader",
           options: {
-            instance: 'server',
-            configFile: 'tsconfig.json',
+            instance: "server",
+            configFile: "tsconfig.json"
           },
           exclude: /(node_modules)/
         }
