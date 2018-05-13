@@ -1,37 +1,102 @@
 "use strict";
 import { ILightModel } from "../../interfaces/xiaomi";
 import { Application } from "express";
+const { color } = require("abstract-things/values");
 
 const cfg = require("../../../config/config.json");
 class LightService {
-  getLights(app: Application): ILightModel[] {
-    let result: ILightModel[] = [];
-    let yeelights: any[] = app.locals.xiaomi.yeelights;
-    if (!yeelights || yeelights.length < 1) {
-      return result;
-    }
-
-    result = yeelights.map((light, index) => {
-      return {
+  private getLightData(app: Application, id: string): Promise<ILightModel> {
+    return new Promise((resolve, reject) => {
+      let result: ILightModel = {
+        colorTemperature: -1,
+        id: id,
+        ip: "",
+        power: false,
+        rgb: { b: 0, r: 0, g: 0 },
         name: "",
-        power: light.power,
-        id: light.id,
-        intensity: light.intensity,
-        brightness: light.brightness,
-        colorTemperature: light.colorTemperature,
-        ip: light.address,
-        rgb: light.rgb || { b: 0, g: 0, r: 0 }
-      } as ILightModel;
-    });
-
-    cfg.devices.lights.forEach(light => {
-      result.forEach(lightModel => {
-        if (lightModel.id === light.id) {
-          lightModel.name = light.name;
+        brightness: -1
+      };
+      let lights: any[] = app.locals.xiaomi.yeelights;
+      if (!lights || lights.length < 1) {
+        console.log("NO LIGHTS FOUND!");
+        resolve(undefined);
+        return;
+      }
+      let filteredLight = undefined;
+      lights.forEach(light => {
+        if (light.id === id) {
+          filteredLight = light;
         }
       });
+      if (!filteredLight) {
+        console.log("NO LIGHT FOUND WITH ID:", id, result.id);
+        resolve(undefined);
+        return;
+      }
+      let proms = [];
+
+      let p1 = filteredLight.call("get_prop", ["rgb", "ct", "name", "HUE"]).then(properties => {
+        console.log("PROPERTIES: " + properties);
+        const intToRGB = require("int-to-rgb");
+        const rgbInt = parseInt(properties[0]);
+        const colors = intToRGB(rgbInt);
+        result.rgb = {
+          b: colors.blue,
+          g: colors.green,
+          r: colors.red
+        };
+        result.colorTemperature = properties[1];
+      });
+      proms.push(p1);
+      let p2 = filteredLight.power().then(value => {
+        result.power = value;
+      });
+      proms.push(p2);
+      let p4 = filteredLight.brightness().then(value => {
+        result.brightness = value;
+      });
+      proms.push(p4);
+      Promise.all(proms)
+        .then(() => {
+          let cleanId = id.indexOf(":") > -1 ? id.split(":")[1] : id;
+          cfg.devices.lights.forEach(gw => {
+            if (cleanId === gw.id) {
+              result.name = gw.name;
+            }
+          });
+          resolve(result);
+          //  filteredLight.destroy();
+        })
+        .catch(() => {
+          reject();
+        });
     });
-    return result;
+  }
+  getLights(app: Application): Promise<ILightModel[]> {
+    return new Promise((resolve, reject) => {
+      let result: ILightModel[] = [];
+      let yeelights: any[] = app.locals.xiaomi.yeelights;
+      if (!yeelights || yeelights.length < 1) {
+        resolve(result);
+      }
+      let proms = [];
+      yeelights.forEach(gw => {
+        let p = this.getLightData(app, gw.id).then(data => {
+          if (data) {
+            result.push(data);
+          }
+        });
+        proms.push(p);
+      });
+      Promise.all(proms)
+        .then(resultProperties => {
+          resolve(result);
+        })
+        .catch(err => {
+          console.log("Error:" + JSON.stringify(err));
+          reject({ error: "error" });
+        });
+    });
   }
   getLightDetails(app: Application) {
     return new Promise<ILightModel[]>((resolve, reject) => {
@@ -42,48 +107,22 @@ class LightService {
         resolve(result);
         return;
       }
-      console.log("step 1");
-      result = yeelights.map((light, index) => {
-        return {
-          name: "",
-          power: light.power,
-          id: light.id,
-          intensity: light.intensity,
-          brightness: light.brightness,
-          colorTemperature: light.colorTemperature,
-          ip: light.address,
-          rgb: light.rgb || { b: 0, g: 0, r: 0 }
-        } as ILightModel;
-      });
-      cfg.devices.lights.forEach(light => {
-        result.forEach(lightModel => {
-          if (lightModel.id === light.id) {
-            lightModel.name = light.name;
+      let proms = [];
+      yeelights.forEach(gw => {
+        let p = this.getLightData(app, gw.id).then(data => {
+          if (data) {
+            result.push(data);
           }
         });
+        proms.push(p);
       });
-      console.log("step 2");
-      let requests = yeelights.map(light => {
-        return light.call("get_prop", ["rgb", "ct", "name", "HUE"]);
-      });
-      Promise.all(requests)
+      Promise.all(proms)
         .then(resultProperties => {
-          resultProperties.forEach((properties, index) => {
-            console.log("PROPERTIES: " + properties);
-            const intToRGB = require("int-to-rgb");
-            const rgbInt = parseInt(properties[0]);
-            const colors = intToRGB(rgbInt);
-            result[index].rgb = {
-              b: colors.blue,
-              g: colors.green,
-              r: colors.red
-            };
-            result[index].colorTemperature = properties[1];
-          });
           resolve(result);
         })
-        .catch(error => {
-          reject({ message: "error query 'get_prop'", error: error });
+        .catch(err => {
+          console.log("Error:" + JSON.stringify(err));
+          reject({ error: "error" });
         });
     });
   }
@@ -98,6 +137,7 @@ class LightService {
           .call("get_prop", properties)
           .then(resultProperties => {
             resolve({ id: lightId, properties: resultProperties });
+            //  light.destroy();
           })
           .catch(() => {
             reject({ info: "Error fetching Info" });
@@ -110,25 +150,28 @@ class LightService {
   setPower(app: Application, lightId: string) {
     return new Promise((resolve, reject) => {
       let yeelights: any[] = app.locals.xiaomi.yeelights;
-      let light = yeelights.find(gw => {
+      let yeelight = yeelights.find(gw => {
         return gw.id === lightId;
       });
-      if (!light) {
-        reject({ power: "Light not found" });
-        return;
-      }
-      light
-        .setPower(!light.power)
-        .then(newValue => {
-          resolve({ power: newValue });
-        })
-        .catch(error => {
-          reject({
-            message: "can not set power",
-            response: error,
-            power: "error"
+      this.getLightData(app, lightId).then(light => {
+        if (!light) {
+          reject({ power: "Light not found" });
+          return;
+        }
+        yeelight
+          .power(!light.power)
+          .then(newValue => {
+            resolve({ power: newValue });
+            // yeelight.destroy();
+          })
+          .catch(error => {
+            reject({
+              message: "can not set power",
+              response: error,
+              power: "error"
+            });
           });
-        });
+      });
     });
   }
   setBrightness(app: Application, lightId: string, value: string) {
@@ -142,15 +185,15 @@ class LightService {
         return;
       }
       console.log("found light: " + lightId + " @@ brightness: " + value);
-      let bright = parseInt(value);
-
       light
-        .setBrightness(bright)
+        .brightness(value)
         .then(newValue => {
-          console.log("Light brightness: " + bright);
+          console.log("Light brightness: " + newValue);
           resolve({ brightness: newValue });
+          //  light.destroy();
         })
-        .catch(() => {
+        .catch(e => {
+          console.log("Error changeBrightness!", JSON.stringify(e));
           reject({ brightness: "error" });
         });
     });
@@ -170,14 +213,18 @@ class LightService {
         reject({ error: "value must between 1700 and 6500" });
         return;
       }
+      // this.updateColor(color.temperature(parsedValue));
       //  _propertiesToMonitor: [ 'power', 'bright', 'color_mode', 'model', 'ct', 'delayoff', 'rgb' ],
+
       light
         .call("set_ct_abx", [parsedValue, "smooth", 100])
         .then(newValue => {
           console.log("set ct!" + newValue);
+          // light.destroy();
           resolve({ set_ct_abx: newValue });
         })
-        .catch(() => {
+        .catch(e => {
+          console.log("error... updateColor in setTemperature", e);
           reject({ set_ct_abx: "error" });
         });
     });
@@ -195,12 +242,14 @@ class LightService {
       let parsedValue = parseInt(value);
       if (isNaN(parsedValue)) {
         reject({ error: "can not parse color temperature" });
+        return;
       }
-
+      console.log("set color to: " + parsedValue);
       light
         .call("set_rgb", [parsedValue, "smooth", 200])
         .then(newValue => {
           resolve({ rgb: newValue });
+          //    light.destroy();
         })
         .catch(() => {
           reject({ rgb: "error" });

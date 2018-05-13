@@ -1,11 +1,9 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    //"outDir": "./definitions",
     "declaration": false,
-    //"declarationDir": "/build",
     "sourceMap": false,
-    "target": "es5",
+    "target": "es6",
     "watch": false,
     "module": "commonjs",
     "jsx": "react",
@@ -13,39 +11,17 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "noLib": false,
-    "lib": [
-      "dom",
-      "es6"
-    ],
+    "lib": ["dom", "es6"],
     "preserveConstEnums": true,
     "suppressImplicitAnyIndexErrors": true,
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "removeComments": true,
     "charset": "utf8",
-    "typeRoots": [
-      "node_modules/@types/"
-    ],
-    "types": [
-      "react",
-      "react-dom",
-      "node",
-      "bluebird"
-    ]
+    "typeRoots": ["node_modules/@types/"],
+    "types": ["react", "react-dom", "node", "bluebird"]
   },
-  "filesGlob": [
-    "**/*.ts",
-    "**/*.tsx",
-    "!node_modules/**",
-    "!**/*.d.ts"
-  ],
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "typings",
-    "build",
-    "definitions"
-  ]
+  "filesGlob": ["**/*.ts", "**/*.tsx", "!node_modules/**", "!**/*.d.ts"],
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "typings", "build", "definitions"]
 }

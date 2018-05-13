@@ -12,28 +12,18 @@ class SensorController {
   }
   registerRoutes() {
     this.router.get("/sensors", this.getSensors.bind(this));
-    this.router.get(
-      "/sensors/:id/info/:properties",
-      this.getProperties.bind(this)
-    );
+    this.router.get("/sensors/:id/info/:properties", this.getProperties.bind(this));
     this.router.get("/sensors/:id/data/", this.getLoggedSensorData.bind(this));
-    this.router.get(
-      "/sensors/:id/between/:t1/:t2",
-      this.getLoggedSensorDataBetweenDates.bind(this)
-    );
+    this.router.get("/sensors/:id/between/:t1/:t2", this.getLoggedSensorDataBetweenDates.bind(this));
   }
 
   getSensors(req: express.Request, res: express.Response) {
-    let result = SensorServiceInstance.getSensors(req.app);
-    res.json({ sensors: result });
+    SensorServiceInstance.getSensors(req.app).then(result => {
+      res.json({ sensors: result });
+    });
   }
-
   getProperties(req: express.Request, res: express.Response) {
-    let result = SensorServiceInstance.getSensorProperties(
-      req.app,
-      req.params.id,
-      req.params.properties.split(";")
-    )
+    let result = SensorServiceInstance.getSensorProperties(req.app, req.params.id, req.params.properties.split(";"))
       .then(result => {
         res.status(200).json(result);
       })
@@ -41,7 +31,6 @@ class SensorController {
         res.status(500).json(error);
       });
   }
-
   getLoggedSensorData(req: express.Request, res: express.Response) {
     let result = SensorServiceInstance.getSensorData(req.app, req.params.id)
       .then(result => {
@@ -52,12 +41,7 @@ class SensorController {
       });
   }
   getLoggedSensorDataBetweenDates(req: express.Request, res: express.Response) {
-    let result = SensorServiceInstance.getSensorDataBetweenDates(
-      req.app,
-      req.params.id,
-      req.params.t1,
-      req.params.t2
-    )
+    let result = SensorServiceInstance.getSensorDataBetweenDates(req.app, req.params.id, req.params.t1, req.params.t2)
       .then(result => {
         res.status(200).json(result);
       })

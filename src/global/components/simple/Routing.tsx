@@ -6,16 +6,13 @@ export interface IRedirectWithStatusProps {
   to: string;
   status: any;
 }
-export class RedirectWithStatus extends React.Component<
-  IRedirectWithStatusProps,
-  {}
-> {
+export class RedirectWithStatus extends React.Component<IRedirectWithStatusProps, {}> {
   render() {
     return (
       <Route
         render={({ staticContext }) => {
           if (staticContext) {
-            staticContext.status = this.props.status;
+            staticContext.statusCode = this.props.status;
           }
           return <Redirect from={this.props.from} to={this.props.to} />;
         }}
@@ -32,7 +29,7 @@ export class Status extends React.Component<IStatusProps, {}> {
       <Route
         render={({ staticContext }) => {
           if (staticContext) {
-            staticContext.status = this.props.code;
+            staticContext.statusCode = this.props.code;
           }
           return this.props.children;
         }}

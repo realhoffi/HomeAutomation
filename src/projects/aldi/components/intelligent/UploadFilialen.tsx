@@ -47,7 +47,7 @@ export interface IUploadFilialenState {
 export class UploadFilialen extends React.Component<
   IUploadFilialenProps,
   IUploadFilialenState
-> {
+  > {
   textareaElement: HTMLTextAreaElement = undefined;
   selectRouteElement: HTMLSelectElement = undefined;
   constructor(props) {
@@ -133,8 +133,8 @@ export class UploadFilialen extends React.Component<
       if (!rows || rows.length < 7) {
         ret.messages.push(
           "Es konnten keine Filial-Eigenschaften ausgelesen werden. [Wert: " +
-            filiale +
-            "]"
+          filiale +
+          "]"
         );
         ret.skipCount += 1;
         return;
@@ -146,8 +146,8 @@ export class UploadFilialen extends React.Component<
         plz: this.parseNumber(rows[2].trim()),
         ort: rows[3].trim(),
         strasse: rows[4].trim(),
-        pkz: this.parseNumber(rows[5].trim()),
-        testnummer: this.parseNumber(rows[6].trim()),
+        testnummer: this.parseNumber(rows[5].trim()),
+        pkz: this.parseNumber(rows[6].trim()),
         route_id: selectedRoute
       };
       ret.importCount += 1;

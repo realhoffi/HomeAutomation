@@ -315,7 +315,12 @@ export class BaseWeatherSensorChart extends React.Component<
         sensorDataContent = "Keine Daten vorhanden...";
       } else {
         sensorDataContent = (
-          <Line data={this.state.sensorData} options={this.state.options} />
+          <Line
+            data={this.state.sensorData}
+            options={this.state.options}
+            height={400}
+            width={400}
+          />
         );
       }
     }

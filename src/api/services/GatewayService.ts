@@ -1,51 +1,104 @@
 import { IGatewayModel, IRGBColor } from "../../interfaces/xiaomi";
 import { Application } from "express";
-
+const { color } = require("abstract-things/values");
 "use strict";
 const cfg = require("../../../config/config.json");
 class GatewayService {
+  private getGatewayLight(gateway) {
+    if (!gateway) {
+      return undefined;
+    }
+    const children = gateway.children();
+    for (let child of children) {
+      if (child.matches("type:miio:gateway-light")) {
+        return child;
+      }
+    }
+  }
+  private getGatewayData(app: Application, id: string): Promise<IGatewayModel> {
+    return new Promise((resolve, reject) => {
+      let result: IGatewayModel = {
+        illuminance: -1,
+        id: id,
+        ip: "",
+        power: false,
+        rgb: { b: 0, r: 0, g: 0 },
+        name: "",
+        brightness: -1
+      };
+      let gateways: any[] = app.locals.xiaomi.gateways;
+      if (!gateways || gateways.length < 1) {
+        console.log("NO GATEWAYS FOUND!");
+        resolve(undefined);
+        return;
+      }
+      let filteredGw = undefined;
+      gateways.forEach(gw => {
+        if (gw.id === id) {
+          filteredGw = gw;
+        }
+      });
+      if (!filteredGw) {
+        console.log("NO GATEWAY FOUND WITH ID:", id, result.id);
+        resolve(undefined);
+        return;
+      }
+      let proms = [];
+
+      let p1 = filteredGw.illuminance().then(value => {
+        result.illuminance = value ? value.value : -1;
+      });
+      proms.push(p1);
+      let light = this.getGatewayLight(filteredGw);
+      if (!light) {
+        console.log("NO LIGHT FOUND!");
+        resolve(undefined);
+        return;
+      }
+      let p2 = light.power().then(value => {
+        result.power = value;
+      });
+      proms.push(p2);
+      let p3 = light.color().then(value => {
+        console.log("color", value);
+        result.rgb = { r: value.values[0], g: value.values[1], b: value.values[2] };
+      });
+      proms.push(p3);
+      let p4 = light.brightness().then(value => {
+        result.brightness = value;
+      });
+      proms.push(p4);
+      Promise.all(proms).then(() => {
+        let cleanId = id.indexOf(":") > -1 ? id.split(":")[1] : id;
+        cfg.devices.gateways.forEach(gw => {
+          if (cleanId === gw.id) {
+            result.name = gw.name;
+          }
+        });
+        resolve(result);
+      });
+    });
+  }
   getGateways(app: Application) {
     return new Promise((resolve, reject) => {
       let result: IGatewayModel[] = [];
       let gateways: any[] = app.locals.xiaomi.gateways;
       if (!gateways || gateways.length < 1) {
+        console.log("NO GATEWAYS FOUND!");
         reject({ gateways: result });
         return;
       }
-
-      result = gateways.map((gw): IGatewayModel => {
-        return {
-          illuminance: gw.illuminance,
-          id: gw.id,
-          ip: gw.ip,
-          power: gw.brightness > 0,
-          rgb: gw.color || { b: 0, r: 0, g: 0 },
-          name: "",
-          brightness: gw.brightness
-        };
-      });
-      cfg.devices.gateways.forEach(gw => {
-        result.forEach(gwModel => {
-          if (gwModel.id === gw.id) {
-            gwModel.name = gw.name;
+      let proms = [];
+      gateways.forEach(gw => {
+        let p = this.getGatewayData(app, gw.id).then(data => {
+          if (data) {
+            result.push(data);
           }
         });
+        proms.push(p);
       });
-      let requests = gateways.map(gw => {
-        return gw.call("get_prop", ["rgb"]);
-      });
-      Promise.all(requests)
+      Promise.all(proms)
         .then(resultProperties => {
-          resultProperties.forEach((properties, index) => {
-            const buf = Buffer.alloc(4);
-            buf.writeUInt32BE(properties[0], 0);
-            result[index].rgb = {
-              b: buf.readUInt8(3),
-              g: buf.readUInt8(2),
-              r: buf.readUInt8(1)
-            };
-            result[index].brightness = buf.readUInt8(0);
-          });
           resolve({ gateways: result });
         })
         .catch(err => {
@@ -54,11 +107,7 @@ class GatewayService {
         });
     });
   }
-  getGatewayProperties(
-    app: Application,
-    gatewayId: string,
-    properties: string[]
-  ) {
+  getGatewayProperties(app: Application, gatewayId: string, properties: string[]) {
     return new Promise((resolve, reject) => {
       let gateways: any[] = app.locals.xiaomi.gateways;
       let gateway = gateways.find(gw => {
@@ -85,33 +134,16 @@ class GatewayService {
       let gateway = gateways.find(gw => {
         return gw.id === gatewayId;
       });
-      if (gateway) {
-        const color = gateway.rgb;
-        const bright = gateway.brightness;
-
-        const brightness = Math.max(
-          0,
-          Math.min(100, Math.round(gateway.brightness > 0 ? 0 : 100))
-        );
-        const rgb =
-          (brightness << 24) |
-          (color.red << 16) |
-          (color.green << 8) |
-          color.blue;
-        console.log("RGB::: " + rgb);
-        gateway
-          .call("set_rgb", [rgb], { refresh: true })
-          .then(newValue => {
-            resolve({ power: gateway.brightness > 0 });
-          })
-          .catch(() => {
-            reject({ error: "brightness not set" });
-          });
-      } else {
-        reject({
-          error: "Kein Gateway mit ID " + gatewayId + " gefunden"
-        });
+      if (!gateway) {
+        reject({ error: "Kein Gateway mit ID " + gatewayId + " gefunden" });
       }
+      let light = this.getGatewayLight(gateway);
+      light.power().then(power => {
+        light.power(!power).then(() => {
+          resolve(!power);
+          return;
+        });
+      });
     });
   }
   setBrightness(app: Application, gatewayId: string, value: any) {
@@ -120,32 +152,14 @@ class GatewayService {
       let gateway = gateways.find(gw => {
         return gw.id === gatewayId;
       });
-      if (gateway) {
-        let newBrightness = value;
-        const color = gateway.rgb;
-        const bright = gateway.brightness;
-
-        const brightness = Math.max(
-          0,
-          Math.min(100, Math.round(newBrightness))
-        );
-        const rgb =
-          (brightness << 24) |
-          (color.red << 16) |
-          (color.green << 8) |
-          color.blue;
-
-        gateway
-          .call("set_rgb", [rgb], { refresh: true })
-          .then(newValue => {
-            resolve({ rgb: newValue });
-          })
-          .catch(() => {
-            reject({ error: "brightness not set" });
-          });
-      } else {
-        reject({ brightness: "error! can not set brightness" });
+      if (!gateway) {
+        reject({ error: "Kein Gateway mit ID " + gatewayId + " gefunden" });
       }
+      let light = this.getGatewayLight(gateway);
+      light.changeBrightness(value).then(newValue => {
+        resolve(newValue);
+        return;
+      });
     });
   }
   setColor(app: Application, gatewayId: string, colorValue: any) {
@@ -154,25 +168,16 @@ class GatewayService {
       let gateway = gateways.find(gw => {
         return gw.id === gatewayId;
       });
-      let color: IRGBColor = colorValue;
-      console.log("Color: " + JSON.stringify(color));
-      if (gateway && color) {
-        const brightness = Math.max(
-          0,
-          Math.min(100, Math.round(gateway.brightness))
-        );
-        const rgb =
-          (brightness << 24) | (color.r << 16) | (color.g << 8) | color.b;
-        console.log("new color: " + rgb);
-        gateway
-          .call("set_rgb", [rgb], { refresh: true })
-          .then(newValue => {
-            resolve({ rgb: newValue });
-          })
-          .catch(() => {
-            reject({ error: "color not set" });
-          });
+      if (!gateway) {
+        reject({ error: "Kein Gateway mit ID " + gatewayId + " gefunden" });
       }
+
+      let color: IRGBColor = colorValue;
+      let light = this.getGatewayLight(gateway);
+      light.changeColor({ rgb: { red: color.r, green: color.g, blue: color.b } }).then(newValue => {
+        resolve(newValue);
+        return;
+      });
     });
   }
 }
