@@ -3,6 +3,7 @@ __dirname = __dirname.charAt(0).toUpperCase() + __dirname.slice(1);
 var outDir = __dirname + "/build/";
 var path = require("path");
 var webpack = require("webpack");
+// import webpack from "webpack";
 var pkg = require("./package.json");
 // var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CopyWebpackPlugin = require("copy-webpack-plugin");
@@ -13,8 +14,8 @@ var fs = require("fs");
 
 var currentStage = "development"; //;"development"; //production
 var nodeModules = {};
-var compileServer = true;
-var compileClient = false;
+var compileServer = false;
+var compileClient = true;
 var compileDatabase = false;
 var vendor = [
   "babel-polyfill",
@@ -49,6 +50,7 @@ var exportWebpack = [];
 
 if (!!compileServer) {
   var serverJs = {
+    mode: currentStage,
     externals: nodeModules,
     name: "nodejs",
     target: "node",
@@ -105,23 +107,21 @@ if (!!compileServer) {
           test: /\.tsx?$/,
           loader: "awesome-typescript-loader",
           exclude: /(node_modules)/
-        }
-      ],
-      loaders: [
+        },
         {
           test: /\.js(x)$/,
-          loader: "babel",
+          loader: "babel-loader",
           exclude: /node_modules/,
           query: {
             cacheDirectory: "babel_cache",
             compact: false,
-            presets: ["es2015", "react"]
+            presets: ["env", "react"] //env es2015
           }
         },
-        {
-          test: require.resolve("react"),
-          loader: "expose-loader?React!react"
-        },
+        // {
+        //   test: require.resolve("react"),
+        //   loader: "expose-loader?React!react"
+        // },
         {
           test: /\.css$/,
           include: /node_modules/,
@@ -137,24 +137,20 @@ if (!!compileServer) {
           loader: "url-loader?limit=25000"
         },
         {
-          test: /\.json$/,
-          loader: "json-loader"
-        },
-        {
           test: /\.scss$/,
           loaders: ["style-loader", "css-loader", "sass-loader"]
         },
         {
           test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
-          loader: "url?limit=10000&mimetype=application/font-woff"
+          loader: "url-loader?limit=10000&mimetype=application/font-woff"
         },
         {
           test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
-          loader: "url?limit=10000&mimetype=application/font-woff"
+          loader: "url-loader?limit=10000&mimetype=application/font-woff"
         },
         {
           test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-          loader: "url?limit=10000&mimetype=application/octet-stream"
+          loader: "url-loader?limit=10000&mimetype=application/octet-stream"
         },
         {
           test: /\.(png|woff|woff2|eot|ttf|svg|jpg|gif)$/,
@@ -167,13 +163,14 @@ if (!!compileServer) {
 }
 if (!!compileClient) {
   var clientJs = {
+    mode: currentStage,
     name: "normal",
     resolve: {
       extensions: ["*", ".js", ".jsx", ".ts", ".tsx"]
     },
     entry: {
-      application: ["./src/global/components/pages/initApp.tsx"],
-      vendor: vendor
+      application: ["./src/global/components/pages/initApp.tsx"]
+      //   vendor: vendor
     },
     devtool: "#source-map",
     output: {
@@ -181,6 +178,17 @@ if (!!compileClient) {
       path: outDir,
       filename: "js/[name].js",
       chunkFilename: "js/[name].js"
+    },
+    optimization: {
+      splitChunks: {
+        cacheGroups: {
+          commons: {
+            test: /[\\/]node_modules[\\/]/,
+            name: "vendor.bundle",
+            chunks: "all"
+          }
+        }
+      }
     },
     plugins: [
       new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /de.js/),
@@ -203,10 +211,11 @@ if (!!compileClient) {
       }),
       new webpack.optimize.AggressiveMergingPlugin(),
       new webpack.optimize.OccurrenceOrderPlugin(true),
-      new webpack.optimize.CommonsChunkPlugin({
-        name: "vendor",
-        filename: "js/vendor.bundle.js"
-      }),
+
+      // new webpack.optimize.CommonsChunkPlugin({
+      //   name: "vendor",
+      //   filename: "js/vendor.bundle.js"
+      // }),
       new CopyWebpackPlugin([
         {
           from: "./node_modules/office-ui-fabric-react/dist/css/fabric.css",
@@ -219,33 +228,25 @@ if (!!compileClient) {
     ],
     module: {
       rules: [
-        // {
-        //     enforce: 'pre',
-        //     test: /\.js?$/,
-        //     loader: 'source-map-loader',
-        //     exclude: /(node_modules)/,
-        // },
         {
           test: /\.tsx?$/,
           loader: "awesome-typescript-loader",
           exclude: /(node_modules)/
-        }
-      ],
-      loaders: [
+        },
         {
           test: /\.js(x)$/,
-          loader: "babel",
+          loader: "babel-loader",
           exclude: /node_modules/,
           query: {
             cacheDirectory: "babel_cache",
             compact: false,
-            presets: ["es2015", "react"]
+            presets: ["env", "react"]
           }
         },
-        {
-          test: require.resolve("react"),
-          loader: "expose-loader?React!react"
-        },
+        // {
+        //   test: require.resolve("react"),
+        //   loader: "expose-loader?React!react"
+        // },
         {
           test: /\.css$/,
           include: /node_modules/,
@@ -261,24 +262,20 @@ if (!!compileClient) {
           loader: "url-loader?limit=25000"
         },
         {
-          test: /\.json$/,
-          loader: "json-loader"
-        },
-        {
           test: /\.scss$/,
           loaders: ["style-loader", "css-loader", "sass-loader"]
         },
         {
           test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
-          loader: "url?limit=10000&mimetype=application/font-woff"
+          loader: "url-loader?limit=10000&mimetype=application/font-woff"
         },
         {
           test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
-          loader: "url?limit=10000&mimetype=application/font-woff"
+          loader: "url-loader?limit=10000&mimetype=application/font-woff"
         },
         {
           test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-          loader: "url?limit=10000&mimetype=application/octet-stream"
+          loader: "url-loader?limit=10000&mimetype=application/octet-stream"
         },
         {
           test: /\.(png|woff|woff2|eot|ttf|svg|jpg|gif)$/,
@@ -291,6 +288,7 @@ if (!!compileClient) {
 }
 if (!!compileDatabase) {
   var serverJs = {
+    mode: currentStage,
     externals: nodeModules,
     name: "nodejs",
     target: "node",
@@ -352,22 +350,16 @@ if (!!compileDatabase) {
             configFile: "tsconfig.json"
           },
           exclude: /(node_modules)/
-        }
-      ],
-      loaders: [
+        },
         {
           test: /\.js(x)$/,
-          loader: "babel",
+          loader: "babel-loader",
           exclude: /node_modules/,
           query: {
             cacheDirectory: "babel_cache",
             compact: false,
-            presets: ["es2015", "react"]
+            presets: ["env", "react"]
           }
-        },
-        {
-          test: /\.json$/,
-          loader: "json-loader"
         }
       ]
     }
