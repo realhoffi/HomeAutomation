@@ -4,6 +4,7 @@
 /******/ 		var chunkIds = data[0];
 /******/ 		var moreModules = data[1];
 /******/ 		var executeModules = data[2];
+/******/
 /******/ 		// add "moreModules" to the modules object,
 /******/ 		// then flag all "chunkIds" as loaded and fire callback
 /******/ 		var moduleId, chunkId, i = 0, resolves = [];
@@ -20,6 +21,7 @@
 /******/ 			}
 /******/ 		}
 /******/ 		if(parentJsonpFunction) parentJsonpFunction(data);
+/******/
 /******/ 		while(resolves.length) {
 /******/ 			resolves.shift()();
 /******/ 		}
@@ -93,17 +95,32 @@
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, {
-/******/ 				configurable: false,
-/******/ 				enumerable: true,
-/******/ 				get: getter
-/******/ 			});
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
 /******/ 		}
 /******/ 	};
 /******/
 /******/ 	// define __esModule on exports
 /******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
 /******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
 /******/ 	};
 /******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
@@ -151,13 +168,12 @@ var map = {
 
 function webpackContext(req) {
 	var id = webpackContextResolve(req);
-	var module = __webpack_require__(id);
-	return module;
+	return __webpack_require__(id);
 }
 function webpackContextResolve(req) {
 	var id = map[req];
 	if(!(id + 1)) { // check for number or string
-		var e = new Error('Cannot find module "' + req + '".');
+		var e = new Error("Cannot find module '" + req + "'");
 		e.code = 'MODULE_NOT_FOUND';
 		throw e;
 	}
@@ -643,7 +659,7 @@ class BaseUebersicht extends React.Component {
                 this.props.commandbarItems &&
                 this.props.commandbarItems.length > 0 && (React.createElement("div", { className: "ms-Grid-row" },
                 React.createElement("div", { className: "ms-Grid-col ms-sm12" },
-                    React.createElement(office_ui_fabric_react_1.CommandBar, { isSearchBoxVisible: this.props.enableSearchBox, items: this.props.commandbarItems })))),
+                    React.createElement(office_ui_fabric_react_1.CommandBar, { items: this.props.commandbarItems })))),
             React.createElement("div", { className: "ms-Grid-row" },
                 React.createElement("div", { className: "ms-Grid-col ms-sm12" },
                     this.props.isLoading && React.createElement(office_ui_fabric_react_1.Spinner, { label: this.props.loadingText }),
@@ -830,12 +846,7 @@ class BaseWeatherSensorChart extends React.Component {
         return data;
     }
     querySensorDataByDateRange(from, to) {
-        return axios_1.default.get("/api/sensors/" +
-            this.props.sensorInformations.id +
-            "/between/" +
-            from +
-            "/" +
-            to);
+        return axios_1.default.get("/api/sensors/" + this.props.sensorInformations.id + "/between/" + from + "/" + to);
     }
     queryAllSensorData() {
         return axios_1.default.get("/api/sensors/" + this.props.sensorInformations.id + "/data");
@@ -886,8 +897,7 @@ class BaseWeatherSensorChart extends React.Component {
     }
     getTooltipTitle(tooltipItem, data) {
         let returnValue = undefined;
-        if (this.state.rawSensorData &&
-            this.state.rawSensorData.length >= tooltipItem[0].index) {
+        if (this.state.rawSensorData && this.state.rawSensorData.length >= tooltipItem[0].index) {
             let sensorTimeStamp = this.state.rawSensorData[tooltipItem[0].index];
             if (sensorTimeStamp) {
                 let timestamp = sensorTimeStamp.timestamp;
@@ -950,14 +960,14 @@ class BaseWeatherSensorChart extends React.Component {
         }
         let sensorDataContent = null;
         if (this.state.isLoadingSensorData) {
-            sensorDataContent = (React.createElement(office_ui_fabric_react_1.Spinner, { size: office_ui_fabric_react_1.SpinnerSize.large, label: "Lade Sensor-Daten..." }));
+            sensorDataContent = React.createElement(office_ui_fabric_react_1.Spinner, { size: office_ui_fabric_react_1.SpinnerSize.large, label: "Lade Sensor-Daten..." });
         }
         else {
             if (!this.state.sensorData) {
                 sensorDataContent = "Keine Daten vorhanden...";
             }
             else {
-                sensorDataContent = (React.createElement(react_chartjs_2_1.Line, { data: this.state.sensorData, options: this.state.options, height: 400, width: 400 }));
+                sensorDataContent = React.createElement(react_chartjs_2_1.Line, { datasetKeyProvider: undefined, data: this.state.sensorData, options: this.state.options, height: 400, width: 400 });
             }
         }
         return (React.createElement("div", { className: "ms-Grid-row" },
@@ -3354,7 +3364,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 const office_ui_fabric_react_1 = __webpack_require__(/*! office-ui-fabric-react */ "./node_modules/office-ui-fabric-react/lib/index.js");
 const axios_1 = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-const timers_1 = __webpack_require__(/*! timers */ "./node_modules/timers-browserify/main.js");
+const timers_1 = __webpack_require__(/*! timers */ "../../Users/florian/AppData/Roaming/npm/node_modules/webpack/node_modules/timers-browserify/main.js");
 const react_1 = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 class SystemInfo extends React.Component {
     constructor(props) {
@@ -3481,7 +3491,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 const axios_1 = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 const BaseLight_1 = __webpack_require__(/*! ../../../../global/components/simple/BaseLight */ "./src/global/components/simple/BaseLight.tsx");
-const timers_1 = __webpack_require__(/*! timers */ "./node_modules/timers-browserify/main.js");
+const timers_1 = __webpack_require__(/*! timers */ "../../Users/florian/AppData/Roaming/npm/node_modules/webpack/node_modules/timers-browserify/main.js");
 const intToRGB = __webpack_require__(/*! int-to-rgb */ "./node_modules/int-to-rgb/index.js");
 class Application extends React.Component {
     constructor(props) {
@@ -3588,7 +3598,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 const axios_1 = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 const BaseWeatherSensor_1 = __webpack_require__(/*! ../../../../global/components/simple/BaseWeatherSensor */ "./src/global/components/simple/BaseWeatherSensor.tsx");
-const timers_1 = __webpack_require__(/*! timers */ "./node_modules/timers-browserify/main.js");
+const timers_1 = __webpack_require__(/*! timers */ "../../Users/florian/AppData/Roaming/npm/node_modules/webpack/node_modules/timers-browserify/main.js");
 const intToRGB = __webpack_require__(/*! int-to-rgb */ "./node_modules/int-to-rgb/index.js");
 class Application extends React.Component {
     constructor(props) {
@@ -3654,7 +3664,7 @@ exports.Application = Application;
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 const axios_1 = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-const timers_1 = __webpack_require__(/*! timers */ "./node_modules/timers-browserify/main.js");
+const timers_1 = __webpack_require__(/*! timers */ "../../Users/florian/AppData/Roaming/npm/node_modules/webpack/node_modules/timers-browserify/main.js");
 const Yeelight_1 = __webpack_require__(/*! ../simple/Yeelight */ "./src/projects/yeelight/components/simple/Yeelight.tsx");
 const react_1 = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 const intToRGB = __webpack_require__(/*! int-to-rgb */ "./node_modules/int-to-rgb/index.js");
