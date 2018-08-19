@@ -1,11 +1,5 @@
 import * as React from "react";
-import {
-  ActionButton,
-  TextField,
-  Label,
-  Link as OfficeLink
-} from "office-ui-fabric-react";
-import { BasePage } from "../../../../global/components/container/basePage";
+import { ActionButton, TextField } from "office-ui-fabric-react";
 import { IAusgabeModel } from "../../../../interfaces/aldi";
 import { NumberTextField } from "../../../../global/components/simple/NumberTextField";
 import { Panel } from "../../../../global/components/simple/Panel";

@@ -4,7 +4,6 @@ import { IBaseWeatherSensor } from "../../interfaces/xiaomi";
 import { Db } from "mongodb";
 const cfg = require("../../../config/config.json");
 declare let MONGO_DB_SENSOR_COLLECTION_STRING: string;
-declare let MONGO_DB_MERGED_SENSOR_DATA_COLLECTION_STRING: string;
 
 class SensorService {
   private getCurrentDataFromSensor(app: Application, id: string): Promise<IBaseWeatherSensor> {
@@ -161,8 +160,7 @@ class SensorService {
       console.log("Query Sensor Data: ", query);
       let db = app.locals.database as Db;
 
-      db
-        .collection(MONGO_DB_SENSOR_COLLECTION_STRING)
+      db.collection(MONGO_DB_SENSOR_COLLECTION_STRING)
         .find(query)
         .toArray()
         .then(resultItems => {
@@ -205,8 +203,7 @@ class SensorService {
       console.log("Query Sensor Data: ", query);
       let db = app.locals.database as Db;
 
-      db
-        .collection(MONGO_DB_SENSOR_COLLECTION_STRING)
+      db.collection(MONGO_DB_SENSOR_COLLECTION_STRING)
         .find(query)
         .toArray()
         .then(resultItems => {

@@ -1,13 +1,11 @@
 import * as React from "react";
 
 import { Application as YeelightApplication } from "../../../projects/yeelight/components/pages/application";
-import { Application as VacuumApplication } from "../../../projects/vacuumRoboter/components/pages/application";
-import { Application as AldiApplication } from "../../../projects/aldi/components/pages/application";
 import { Application as SensorApplication } from "../../../projects/xiaomi/components/pages/sensors";
 import { Application as GatewayApplication } from "../../../projects/xiaomi/components/pages/gateways";
 
-import { Pivot, Label, PivotLinkSize } from "office-ui-fabric-react";
-import { PivotItem } from "office-ui-fabric-react/lib/components/Pivot/PivotItem";
+import { Pivot, PivotLinkSize } from "office-ui-fabric-react";
+import { PivotItem } from "office-ui-fabric-react";
 import { SystemInfo } from "../../../projects/system/components/pages/systeminfo";
 export interface IApplicationState {
   GatewayInformations: JSX.Element;
@@ -18,10 +16,7 @@ export interface IApplicationState {
 export interface IApplicationProps {
   requestUrl: string;
 }
-export class Application extends React.PureComponent<
-  IApplicationProps,
-  IApplicationState
-> {
+export class Application extends React.PureComponent<IApplicationProps, IApplicationState> {
   constructor(props) {
     super(props);
     this.state = {
@@ -45,19 +40,13 @@ export class Application extends React.PureComponent<
             </div>
           </PivotItem> */}
           <PivotItem linkText="Sensoren" itemIcon="CloudWeather">
-            <div style={{ paddingTop: "15px" }}>
-              {this.state.SensorInformations}
-            </div>
+            <div style={{ paddingTop: "15px" }}>{this.state.SensorInformations}</div>
           </PivotItem>
           <PivotItem linkText="Gateways" itemIcon="Light">
-            <div style={{ paddingTop: "15px" }}>
-              {this.state.GatewayInformations}
-            </div>
+            <div style={{ paddingTop: "15px" }}>{this.state.GatewayInformations}</div>
           </PivotItem>
           <PivotItem linkText="Yeelights" itemIcon="Lightbulb">
-            <div style={{ paddingTop: "15px" }}>
-              {this.state.YeelightInformations}
-            </div>
+            <div style={{ paddingTop: "15px" }}>{this.state.YeelightInformations}</div>
           </PivotItem>
         </Pivot>
       </div>

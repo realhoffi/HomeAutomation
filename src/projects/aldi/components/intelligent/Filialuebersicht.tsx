@@ -1,22 +1,8 @@
 import * as React from "react";
 import Axios from "axios";
-import {
-  TextField,
-  DetailsList,
-  DetailsListLayoutMode,
-  Selection,
-  MarqueeSelection,
-  IColumn,
-  SelectionMode,
-  IconButton,
-  ContextualMenu,
-  ContextualMenuItemType,
-  DirectionalHint,
-  IContextualMenuItem
-} from "office-ui-fabric-react";
+import { IColumn, IconButton, IContextualMenuItem } from "office-ui-fabric-react";
 import { IFilialeViewModel, IFilialeModel } from "../../../../interfaces/aldi";
 import { filialOverviewColumns } from "../../configuration/columns";
-import { Fragment } from "react";
 import { BaseUebersicht } from "../../../../global/components/simple/BaseUebersicht";
 import { sortArrayByProperty } from "../../../../helper/sorting";
 import { promise_all_custom } from "../../../../helper/promise";
@@ -39,10 +25,7 @@ export interface IFilialuebersichtState {
   isCtxVisible: boolean;
   ctxTarget: any;
 }
-export class Filialuebersicht extends React.Component<
-  IFilialuebersichtProps,
-  IFilialuebersichtState
-> {
+export class Filialuebersicht extends React.Component<IFilialuebersichtProps, IFilialuebersichtState> {
   constructor(props) {
     super(props);
 
@@ -58,9 +41,7 @@ export class Filialuebersicht extends React.Component<
     this.renderContext = this.renderContext.bind(this);
     this.showMoreClicked = this.showMoreClicked.bind(this);
 
-    let commardbarItems: IContextualMenuItem[] = [].concat(
-      this.props.commandbarItems
-    );
+    let commardbarItems: IContextualMenuItem[] = [].concat(this.props.commandbarItems);
     if (!commardbarItems) {
       commardbarItems = [];
     }
@@ -106,13 +87,7 @@ export class Filialuebersicht extends React.Component<
   private renderContext() {
     return (
       <div className="ms-font-xl ms-fontColor-themePrimary">
-        <IconButton
-          checked={false}
-          iconProps={{ iconName: "More" }}
-          title="More"
-          ariaLabel="More"
-          onClick={this.showMoreClicked}
-        />
+        <IconButton checked={false} iconProps={{ iconName: "More" }} title="More" ariaLabel="More" onClick={this.showMoreClicked} />
       </div>
     );
   }
@@ -155,9 +130,7 @@ export class Filialuebersicht extends React.Component<
     return new Promise((resolve, reject) => {
       this.loadFilialenRequest()
         .then((data: IFilialeModel[]) => {
-          let items: IFilialeViewModel[] = this.getFilialViewModelByRouteModel(
-            data
-          );
+          let items: IFilialeViewModel[] = this.getFilialViewModelByRouteModel(data);
           resolve({
             rawItems: data || [],
             transformedItems: items || []
@@ -200,11 +173,7 @@ export class Filialuebersicht extends React.Component<
   }
   private deleteFiliale(selectedItems: IFilialeViewModel[]) {
     return new Promise((resolve, reject) => {
-      if (
-        !selectedItems ||
-        selectedItems.length === 0 ||
-        selectedItems.length > 1
-      ) {
+      if (!selectedItems || selectedItems.length === 0 || selectedItems.length > 1) {
         resolve();
         return null;
       }

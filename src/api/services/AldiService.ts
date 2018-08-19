@@ -1,10 +1,8 @@
 "use strict";
 import { Application } from "express";
-import { IBaseWeatherSensor } from "../../interfaces/xiaomi";
 import { Db } from "mongodb";
 import { IFilialeModel, IRouteModel } from "../../interfaces/aldi";
 import { ObjectId } from "bson";
-const cfg = require("../../../config/config.json");
 declare let MONGO_DB_FILIALEN_COLLECTION_STRING: string;
 declare let MONGO_DB_ROUTEN_COLLECTION_STRING: string;
 
@@ -31,8 +29,7 @@ class AldiService {
       let objectId = new ObjectId(filialId);
       console.log(objectId + "@" + JSON.stringify(objectId) + "@");
       let db = app.locals.database as Db;
-      db
-        .collection(MONGO_DB_FILIALEN_COLLECTION_STRING)
+      db.collection(MONGO_DB_FILIALEN_COLLECTION_STRING)
         .findOne({ _id: objectId })
         .then(result => {
           console.log("filiale found");
@@ -53,8 +50,7 @@ class AldiService {
     return new Promise((resolve, reject) => {
       let db = app.locals.database as Db;
 
-      db
-        .collection(MONGO_DB_ROUTEN_COLLECTION_STRING)
+      db.collection(MONGO_DB_ROUTEN_COLLECTION_STRING)
         .find({})
         .toArray()
         .then(result => {
@@ -73,8 +69,7 @@ class AldiService {
       filiale.created = Date.now();
       filiale.modified = Date.now();
       let db = app.locals.database as Db;
-      db
-        .collection(MONGO_DB_FILIALEN_COLLECTION_STRING)
+      db.collection(MONGO_DB_FILIALEN_COLLECTION_STRING)
         .insert(filiale)
         .then(result => {
           resolve({
@@ -97,8 +92,7 @@ class AldiService {
       let db = app.locals.database as Db;
       route.created = Date.now();
       route.modified = Date.now();
-      db
-        .collection(MONGO_DB_ROUTEN_COLLECTION_STRING)
+      db.collection(MONGO_DB_ROUTEN_COLLECTION_STRING)
         .insert(route)
         .then(result => {
           resolve({
@@ -120,8 +114,7 @@ class AldiService {
     return new Promise((resolve, reject) => {
       let objectId = new ObjectId(routeId);
       let db = app.locals.database as Db;
-      db
-        .collection(MONGO_DB_ROUTEN_COLLECTION_STRING)
+      db.collection(MONGO_DB_ROUTEN_COLLECTION_STRING)
         .deleteOne({ _id: objectId })
         .then(result => {
           console.log("deleted");
@@ -143,8 +136,7 @@ class AldiService {
       let objectId = new ObjectId(filialId);
       console.log(objectId + "@" + JSON.stringify(objectId) + "@");
       let db = app.locals.database as Db;
-      db
-        .collection(MONGO_DB_FILIALEN_COLLECTION_STRING)
+      db.collection(MONGO_DB_FILIALEN_COLLECTION_STRING)
         .deleteOne({ _id: objectId })
         .then(result => {
           console.log("deleted filiale");
@@ -161,19 +153,14 @@ class AldiService {
       // };
     });
   }
-  public updateFiliale(
-    app: Application,
-    filialId: string,
-    filiale: IFilialeModel
-  ) {
+  public updateFiliale(app: Application, filialId: string, filiale: IFilialeModel) {
     return new Promise((resolve, reject) => {
       let objectId = new ObjectId(filialId);
       let b: any = { ...filiale };
       delete b._id;
       console.log("B:" + JSON.stringify(b) + "@");
       let db = app.locals.database as Db;
-      db
-        .collection(MONGO_DB_FILIALEN_COLLECTION_STRING)
+      db.collection(MONGO_DB_FILIALEN_COLLECTION_STRING)
         .updateOne(
           { _id: objectId },
           {

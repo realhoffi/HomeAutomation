@@ -1,6 +1,5 @@
 import * as React from "react";
-import { IconButton, IButtonProps } from "office-ui-fabric-react/lib/Button";
-import { Icon, IconType } from "office-ui-fabric-react/lib/Icon";
+import { IconButton } from "office-ui-fabric-react";
 
 export interface IPanelState {
   isContentVisible: boolean;
@@ -55,9 +54,7 @@ export class Panel extends React.PureComponent<IPanelProps, IPanelState> {
               style={{ width: "40px", height: "36px" }}
               checked={false}
               iconProps={{
-                iconName: this.props.canToggleContentHidden
-                  ? this.state.isContentVisible ? "ChevronUp" : "ChevronDownMed"
-                  : "blank"
+                iconName: this.props.canToggleContentHidden ? (this.state.isContentVisible ? "ChevronUp" : "ChevronDownMed") : "blank"
               }}
               title="Emoji"
               ariaLabel="Emoji"
@@ -70,15 +67,11 @@ export class Panel extends React.PureComponent<IPanelProps, IPanelState> {
                 width: this.props.headerControls ? "75%" : "100%"
               }}
             >
-              <span className="ms-font-xl ms-fontColor-themePrimary">
-                {this.props.headerText}
-              </span>
+              <span className="ms-font-xl ms-fontColor-themePrimary">{this.props.headerText}</span>
             </div>
             {this.props.headerControls && this.props.headerControls}
           </div>
-          {this.state.isContentVisible && (
-            <div className={contentClass}>{this.props.children}</div>
-          )}
+          {this.state.isContentVisible && <div className={contentClass}>{this.props.children}</div>}
         </div>
       </div>
     );

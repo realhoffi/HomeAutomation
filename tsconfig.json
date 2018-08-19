@@ -3,9 +3,9 @@
   "compilerOptions": {
     "declaration": false,
     "sourceMap": false,
-    "target": "es6",
+    "target": "es5",
     "watch": false,
-    "module": "commonjs",
+    "module": "esnext",
     "jsx": "react",
     "isolatedModules": false,
     "experimentalDecorators": true,

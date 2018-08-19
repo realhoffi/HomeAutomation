@@ -1,7 +1,6 @@
 import * as React from "react";
 import { ActionButton, TextField, Label } from "office-ui-fabric-react";
-import { BasePage } from "../../../../global/components/container/basePage";
-import { IFilialeViewModel, IKeyValueModel } from "../../../../interfaces/aldi";
+import { IFilialeViewModel } from "../../../../interfaces/aldi";
 import { NumberTextField } from "../../../../global/components/simple/NumberTextField";
 import { Panel } from "../../../../global/components/simple/Panel";
 import { getGermanDateString } from "../../../../helper/date";
@@ -73,12 +72,7 @@ export class Filiale extends React.Component<IFilialeProps, {}> {
             headerText={this.props.title}
             headerControls={
               this.props.enableDeleteBtn ? (
-                <ActionButton
-                  data-info-title="Filiale entfernen"
-                  data-info-desc="Löscht die Filiale"
-                  iconProps={{ iconName: "Delete" }}
-                  onClick={this.deleteClicked}
-                />
+                <ActionButton data-info-title="Filiale entfernen" data-info-desc="Löscht die Filiale" iconProps={{ iconName: "Delete" }} onClick={this.deleteClicked} />
               ) : null
             }
           >
@@ -86,17 +80,10 @@ export class Filiale extends React.Component<IFilialeProps, {}> {
               <div className="ms-Grid-col ms-sm12 ms-md5">
                 <div>
                   <Label>Routenfahrdatum</Label>
-                  <select
-                    className="custom-ddl-control"
-                    onChange={this.fahrDatumChanged}
-                    value={this.props.filiale.fahrdatum || undefined}
-                  >
+                  <select className="custom-ddl-control" onChange={this.fahrDatumChanged} value={this.props.filiale.fahrdatum || undefined}>
                     {this.props.fahrdaten.map((fahrtDatum, index) => {
                       return (
-                        <option
-                          key={"fahrt__" + index}
-                          value={fahrtDatum.getTime()}
-                        >
+                        <option key={"fahrt__" + index} value={fahrtDatum.getTime()}>
                           {getGermanDateString(fahrtDatum)}
                         </option>
                       );
@@ -105,67 +92,25 @@ export class Filiale extends React.Component<IFilialeProps, {}> {
                 </div>
               </div>
               <div className="ms-Grid-col ms-sm8 ms-md4">
-                <NumberTextField
-                  required={true}
-                  placeholder="Testnummer"
-                  label="Testnummer"
-                  numberValue={this.props.filiale.testnummer}
-                  onChanged={this.testnummerChanged}
-                />
+                <NumberTextField required={true} placeholder="Testnummer" label="Testnummer" numberValue={this.props.filiale.testnummer} onChanged={this.testnummerChanged} />
               </div>
               <div className="ms-Grid-col ms-sm4 ms-md3">
-                <NumberTextField
-                  required={true}
-                  placeholder="Prüfkennziffer"
-                  label="Pkz."
-                  numberValue={this.props.filiale.pkz}
-                  onChanged={this.pkzChanged}
-                />
+                <NumberTextField required={true} placeholder="Prüfkennziffer" label="Pkz." numberValue={this.props.filiale.pkz} onChanged={this.pkzChanged} />
               </div>
               <div className="ms-Grid-col ms-sm12 ms-lg5">
-                <TextField
-                  required={true}
-                  placeholder="Straße"
-                  label="Straße"
-                  value={this.props.filiale.strasse}
-                  onChanged={this.strasseChanged}
-                />
+                <TextField required={true} placeholder="Straße" label="Straße" value={this.props.filiale.strasse} onChanged={this.strasseChanged} />
               </div>
               <div className="ms-Grid-col ms-sm4 ms-md3 ms-lg2">
-                <NumberTextField
-                  required={true}
-                  placeholder="Plz"
-                  label="Plz"
-                  numberValue={this.props.filiale.plz}
-                  onChanged={this.plzChanged}
-                />
+                <NumberTextField required={true} placeholder="Plz" label="Plz" numberValue={this.props.filiale.plz} onChanged={this.plzChanged} />
               </div>
               <div className="ms-Grid-col ms-sm8 ms-md9 ms-lg5">
-                <TextField
-                  required={true}
-                  placeholder="Ort"
-                  label="Ort"
-                  value={this.props.filiale.ort}
-                  onChanged={this.ortChanged}
-                />
+                <TextField required={true} placeholder="Ort" label="Ort" value={this.props.filiale.ort} onChanged={this.ortChanged} />
               </div>
               <div className="ms-Grid-col ms-sm6 ms-md6 ms-lg6">
-                <NumberTextField
-                  placeholder="Einnahmen"
-                  label="Einnahmen"
-                  numberValue={this.props.filiale.einnahmen}
-                  onChanged={this.einnahmenChanged}
-                  suffix=" €"
-                />
+                <NumberTextField placeholder="Einnahmen" label="Einnahmen" numberValue={this.props.filiale.einnahmen} onChanged={this.einnahmenChanged} suffix=" €" />
               </div>
               <div className="ms-Grid-col ms-sm6 ms-md6 ms-lg6">
-                <NumberTextField
-                  placeholder="Ausgaben"
-                  label="Ausgaben"
-                  numberValue={this.props.filiale.ausgaben}
-                  onChanged={this.ausgabenChanged}
-                  suffix=" €"
-                />
+                <NumberTextField placeholder="Ausgaben" label="Ausgaben" numberValue={this.props.filiale.ausgaben} onChanged={this.ausgabenChanged} suffix=" €" />
               </div>
             </div>
           </Panel>

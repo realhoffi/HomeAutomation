@@ -1,10 +1,6 @@
 "use strict";
 import express from "express";
-import * as SensorService from "../services/SensorService";
-import { IBaseWeatherSensor } from "../../interfaces/xiaomi";
-import { SensorServiceInstance } from "../services/SensorService";
 import { AldiServiceInstance } from "../services/AldiService";
-const cfg = require("../../../config/config.json");
 class AldiController {
   router: express.Router;
   constructor(router: express.Router) {
@@ -98,11 +94,7 @@ class AldiController {
     console.log("updateFiliale");
     console.log("filialId", JSON.stringify(req.params.filialId));
     console.log("filiale", JSON.stringify(req.body.filiale));
-    let result = AldiServiceInstance.updateFiliale(
-      req.app,
-      req.params.filialId,
-      req.body.filiale
-    )
+    let result = AldiServiceInstance.updateFiliale(req.app, req.params.filialId, req.body.filiale)
       .then(result => {
         res.status(200).json(result);
       })

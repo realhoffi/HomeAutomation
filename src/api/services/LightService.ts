@@ -1,7 +1,6 @@
 "use strict";
 import { ILightModel } from "../../interfaces/xiaomi";
 import { Application } from "express";
-const { color } = require("abstract-things/values");
 
 const cfg = require("../../../config/config.json");
 class LightService {

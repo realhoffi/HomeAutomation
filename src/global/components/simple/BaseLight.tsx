@@ -1,8 +1,7 @@
 import * as React from "react";
-import { Toggle, Slider, Label } from "office-ui-fabric-react";
+import { Toggle, Slider } from "office-ui-fabric-react";
 import { ILightModel, IRGBColor } from "../../../interfaces/xiaomi";
 import { Panel } from "../../../global/components/simple/Panel";
-import Axios from "axios";
 // const fc = require("./../../../config/config");
 export interface IBaseLightProps {
   onBrightnessChanged(lightInformation: ILightModel, brightness: number);

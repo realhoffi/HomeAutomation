@@ -1,13 +1,10 @@
 import * as React from "react";
-import { Toggle, Slider, Label, Icon, Spinner, SpinnerSize } from "office-ui-fabric-react";
 import { IBaseWeatherSensor } from "../../../interfaces/xiaomi";
-import { Panel } from "../../../global/components/simple/Panel";
 import Axios from "axios";
-import { Fragment } from "react";
 import { Line, ChartData } from "react-chartjs-2";
 import * as chartjs from "chart.js";
 import { getGermanDateString, addDays, setDatePropertiesToZero, getGermanDateTimeString } from "../../../helper/date";
-import { ChartOptions } from "chart.js";
+import { Spinner, SpinnerSize, Label } from "office-ui-fabric-react";
 
 const options = [
   <option value="1" key={"k1"}>

@@ -1,22 +1,24 @@
 "use strict";
 __dirname = __dirname.charAt(0).toUpperCase() + __dirname.slice(1);
 var outDir = __dirname + "/build/";
-var path = require("path");
+//var path = require("path");
 var webpack = require("webpack");
 // import webpack from "webpack";
 var pkg = require("./package.json");
 // var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CopyWebpackPlugin = require("copy-webpack-plugin");
 var WebpackNotifierPlugin = require("webpack-notifier");
-var CompressionPlugin = require("compression-webpack-plugin");
-var LoaderOptionsPlugin = require("webpack/lib/LoaderOptionsPlugin");
+//var CompressionPlugin = require("compression-webpack-plugin");
+//var LoaderOptionsPlugin = require("webpack/lib/LoaderOptionsPlugin");
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+
 var fs = require("fs");
 
 var currentStage = "development"; //;"development"; //production
 var nodeModules = {};
-var compileServer = false;
+var compileServer = true;
 var compileClient = true;
-var compileDatabase = false;
+var compileDatabase = true;
 var vendor = [
   "babel-polyfill",
   "react",
@@ -31,8 +33,7 @@ var vendor = [
   "axios",
   "@uifabric/icons"
 ];
-fs
-  .readdirSync("node_modules")
+fs.readdirSync("node_modules")
   .filter(function(x) {
     return [".bin"].indexOf(x) === -1;
   })
@@ -64,7 +65,7 @@ if (!!compileServer) {
     entry: {
       app: ["./src/global/server.tsx"]
     },
-    devtool: "#source-map",
+    devtool: "none", // "#source-map",
     output: {
       pathinfo: true,
       path: outDir,
@@ -180,6 +181,10 @@ if (!!compileClient) {
       chunkFilename: "js/[name].js"
     },
     optimization: {
+      minimize: false,
+      splitChunks: {
+        chunks: "all"
+      },
       splitChunks: {
         cacheGroups: {
           commons: {
@@ -191,6 +196,7 @@ if (!!compileClient) {
       }
     },
     plugins: [
+      new BundleAnalyzerPlugin(),
       new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /de.js/),
       new webpack.ProvidePlugin({
         Promise: "bluebird"
@@ -211,7 +217,6 @@ if (!!compileClient) {
       }),
       new webpack.optimize.AggressiveMergingPlugin(),
       new webpack.optimize.OccurrenceOrderPlugin(true),
-
       // new webpack.optimize.CommonsChunkPlugin({
       //   name: "vendor",
       //   filename: "js/vendor.bundle.js"
@@ -240,7 +245,7 @@ if (!!compileClient) {
           query: {
             cacheDirectory: "babel_cache",
             compact: false,
-            presets: ["env", "react"]
+            presets: ["es2015", "react"]
           }
         },
         // {
@@ -303,7 +308,7 @@ if (!!compileDatabase) {
       database: ["./src/global/mongoDB/cleanSensorData.ts"],
       rechnungen: ["./src/global/mongoDB/createRechnungen.ts"]
     },
-    devtool: "#source-map",
+    devtool: "none", // "#source-map",
     output: {
       pathinfo: true,
       path: outDir,

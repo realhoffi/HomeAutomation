@@ -1,14 +1,6 @@
 import * as React from "react";
-import {
-  ActionButton,
-  TextField,
-  Label,
-  Link as OfficeLink
-} from "office-ui-fabric-react";
-import { BasePage } from "../../../../global/components/container/basePage";
+import { ActionButton, TextField, Label, Link as OfficeLink } from "office-ui-fabric-react";
 import { ILinkModel } from "../../../../interfaces/aldi";
-import { NumberTextField } from "../../../../global/components/simple/NumberTextField";
-import { Panel } from "../../../../global/components/simple/Panel";
 
 export interface ILinkProps {
   linkModel: ILinkModel;
@@ -36,21 +28,13 @@ export class Link extends React.PureComponent<ILinkProps, {}> {
       <div className="ms-Grid-row" key={"link_comp_" + this.props.linkId}>
         <div className="ms-Grid-col ms-sm2 ms-lg1">
           <Label>
-            <OfficeLink
-              href={this.props.linkModel.link}
-              disabled={!this.props.linkModel.link}
-              target="_blank"
-            >
+            <OfficeLink href={this.props.linkModel.link} disabled={!this.props.linkModel.link} target="_blank">
               {this.props.title}
             </OfficeLink>
           </Label>
         </div>
         <div className="ms-Grid-col ms-sm8 ms-lg-10">
-          <TextField
-            placeholder="Link eingeben"
-            value={this.props.linkModel.link}
-            onChanged={this.onLinkHrefChanged}
-          />
+          <TextField placeholder="Link eingeben" value={this.props.linkModel.link} onChanged={this.onLinkHrefChanged} />
         </div>
         <div className="ms-Grid-col ms-sm2 ms-lg1">
           <ActionButton

@@ -1,13 +1,18 @@
 "use strict";
-import path = require("path");
+// import path = require("path");
+import * as path from "path";
 import * as http from "http";
-import express = require("express");
-import url = require("url");
-import favicon = require("serve-favicon");
+// import express = require("express");
+import * as express from "express";
+// import url = require("url");
+import * as url from "url";
+// import favicon = require("serve-favicon");
+import * as favicon from "serve-favicon";
 import { registerRoutes } from "../startUp/routes";
 import { registerDevices } from "../startUp/miio";
 
-import bodyParser = require("body-parser");
+// import bodyParser = require("body-parser");
+import * as bodyParser from "body-Parser";
 import { Request } from "express";
 import { initializeDatabase } from "../startUp/database";
 
@@ -64,16 +69,12 @@ router.use(function(req, res, next) {
 app.use("/api", router);
 
 app.get("/", function(request, response) {
-  response.sendFile(
-    path.join("views", "index.html"),
-    { root: __dirname },
-    error => {
-      if (error) {
-        console.log("ERROR SENDFILE!" + JSON.stringify(error));
-      }
-      response.end();
+  response.sendFile(path.join("views", "index.html"), { root: __dirname }, error => {
+    if (error) {
+      console.log("ERROR SENDFILE!" + JSON.stringify(error));
     }
-  );
+    response.end();
+  });
 });
 
 // last route to catch routing errors 404 not found

@@ -1,8 +1,6 @@
 "use strict";
 import express from "express";
 import { LightServiceInstance } from "../services/LightService";
-import { ILightModel } from "../../interfaces/xiaomi";
-const cfg = require("../../../config/config.json");
 class LightController {
   router: express.Router;
   constructor(router: express.Router) {

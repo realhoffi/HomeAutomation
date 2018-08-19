@@ -1,11 +1,6 @@
 import * as React from "react";
 import Axios from "axios";
-import {
-  IFilialeModel,
-  IFilialeViewModel,
-  IRouteModel
-} from "../../../../interfaces/aldi";
-import { Panel } from "../../../../global/components/simple/Panel";
+import { IFilialeModel, IFilialeViewModel, IRouteModel } from "../../../../interfaces/aldi";
 import { PageType } from "../../../../enums/enums";
 import { Filiale as FilialForm } from "../stateless/Filiale";
 import { promise_all_custom } from "../../../../helper/promise";
@@ -87,9 +82,7 @@ export class Filiale extends React.Component<IFilialProps, IFilialState> {
           return;
         }
         routes = routes.sort((a, b) => {
-          return a.route_timestamp > b.route_timestamp
-            ? 1
-            : a.route_timestamp < b.route_timestamp ? -1 : 0;
+          return a.route_timestamp > b.route_timestamp ? 1 : a.route_timestamp < b.route_timestamp ? -1 : 0;
         });
         let dates = routes.map(route => {
           return new Date(route.route_timestamp);
@@ -263,13 +256,7 @@ export class Filiale extends React.Component<IFilialProps, IFilialState> {
       return <Spinner label="Lade Filiale..." size={SpinnerSize.large} />;
     }
     if (this.state.loadingState.isError) {
-      return (
-        <h1>
-          {"Es ist ein Fehler beim Laden aufgetreten... (Message: " +
-            this.state.loadingState.error.message +
-            ")"}
-        </h1>
-      );
+      return <h1>{"Es ist ein Fehler beim Laden aufgetreten... (Message: " + this.state.loadingState.error.message + ")"}</h1>;
     }
     return (
       <Fragment>
