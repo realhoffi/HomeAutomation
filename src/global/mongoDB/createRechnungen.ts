@@ -1,7 +1,4 @@
-let fs = require("fs");
-import { MongoClient, Db, Collection, Timestamp } from "mongodb";
-import { getGermanDateString, setDatePropertiesToZero } from "../../helper/date";
-import { IBaseWeatherSensor } from "../../interfaces/xiaomi";
+import { MongoClient, Db } from "mongodb";
 import { Promise } from "bluebird";
 import { RechnungServiceInstance } from "../../api/services/RechnungService";
 
@@ -15,14 +12,18 @@ declare let MONGO_DB_MERGED_SENSOR_DATA_COLLECTION_STRING: string;
 export function initializeDatabase() {
   return new Promise((resolve, reject) => {
     console.log("Try connect to Database", MONGO_DB_CONNECTION_STRING);
-    MongoClient.connect(MONGO_DB_CONNECTION_STRING, function(err, database) {
-      if (err) {
-        reject({ message: "Error adding database startup entry", error: err });
-        // throw err;
+    MongoClient.connect(
+      MONGO_DB_CONNECTION_STRING,
+      { useNewUrlParser: true },
+      function(err, database) {
+        if (err) {
+          reject({ message: "Error adding database startup entry", error: err });
+          // throw err;
+        }
+        console.log("Success connected to database.", MONGO_DB_CONNECTION_STRING);
+        resolve(database.db(MONGO_DB_DATABASE_STRING));
       }
-      console.log("Success connected to database.", MONGO_DB_CONNECTION_STRING);
-      resolve(database.db(MONGO_DB_DATABASE_STRING));
-    });
+    );
   });
 }
 

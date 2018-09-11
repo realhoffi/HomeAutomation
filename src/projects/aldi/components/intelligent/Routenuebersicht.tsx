@@ -1,22 +1,8 @@
 import * as React from "react";
 import Axios from "axios";
-import {
-  TextField,
-  DetailsList,
-  DetailsListLayoutMode,
-  Selection,
-  MarqueeSelection,
-  IColumn,
-  SelectionMode,
-  IconButton,
-  ContextualMenu,
-  ContextualMenuItemType,
-  DirectionalHint,
-  IContextualMenuItem
-} from "office-ui-fabric-react";
+import { IColumn, IconButton, IContextualMenuItem } from "office-ui-fabric-react";
 import { IRouteViewModel, IRouteModel } from "../../../../interfaces/aldi";
 import { routeOverviewColumns } from "../../configuration/columns";
-import { Fragment } from "react";
 import { BaseUebersicht } from "../../../../global/components/simple/BaseUebersicht";
 import { promise_all_custom } from "../../../../helper/promise";
 import { sortArrayByProperty } from "../../../../helper/sorting";
@@ -40,10 +26,7 @@ export interface IRoutenuebersichtState {
   isCtxVisible: boolean;
   ctxTarget: any;
 }
-export class Routenuebersicht extends React.Component<
-  IRoutenuebersichtProps,
-  IRoutenuebersichtState
-> {
+export class Routenuebersicht extends React.Component<IRoutenuebersichtProps, IRoutenuebersichtState> {
   constructor(props) {
     super(props);
 
@@ -58,9 +41,7 @@ export class Routenuebersicht extends React.Component<
     this.renderContext = this.renderContext.bind(this);
     this.showMoreClicked = this.showMoreClicked.bind(this);
 
-    let commardbarItems: IContextualMenuItem[] = [].concat(
-      this.props.commandbarItems
-    );
+    let commardbarItems: IContextualMenuItem[] = [].concat(this.props.commandbarItems);
     if (!commardbarItems) {
       commardbarItems = [];
     }
@@ -106,13 +87,7 @@ export class Routenuebersicht extends React.Component<
   private renderContext() {
     return (
       <div className="ms-font-xl ms-fontColor-themePrimary">
-        <IconButton
-          checked={false}
-          iconProps={{ iconName: "More" }}
-          title="More"
-          ariaLabel="More"
-          onClick={this.showMoreClicked}
-        />
+        <IconButton checked={false} iconProps={{ iconName: "More" }} title="More" ariaLabel="More" onClick={this.showMoreClicked} />
       </div>
     );
   }
@@ -161,9 +136,7 @@ export class Routenuebersicht extends React.Component<
     return new Promise((resolve, reject) => {
       this.loadRoutenRequest()
         .then((data: IRouteModel[]) => {
-          let items: IRouteViewModel[] = this.getRouteViewModelByRouteModel(
-            data
-          );
+          let items: IRouteViewModel[] = this.getRouteViewModelByRouteModel(data);
           resolve({
             rawItems: data || [],
             transformedItems: items || []
@@ -206,11 +179,7 @@ export class Routenuebersicht extends React.Component<
   }
   private deleteRoute(selectedItems: IRouteViewModel[]) {
     return new Promise((resolve, reject) => {
-      if (
-        !selectedItems ||
-        selectedItems.length === 0 ||
-        selectedItems.length > 1
-      ) {
+      if (!selectedItems || selectedItems.length === 0 || selectedItems.length > 1) {
         resolve();
         return null;
       }

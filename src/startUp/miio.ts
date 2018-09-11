@@ -49,22 +49,10 @@ export function registerDevices(app: express.Application) {
       }
 
       const children = device.children();
+      // console.log(children);
       for (let child of children) {
-        // console.log(child);
-        // console.log(child.state());
-        // console.log(child.properties());
         console.log("@@@", child.id);
-        // console.log(child.metadata);
         console.log(child.internalId, "@@@");
-        // let p = "";
-        // if (child.hasOwnProperty("model")) {
-        //   p = child.model;
-        // } else if (child.hasOwnProperty("miioModel")) {
-        //   p = child.miioModel;
-        // } else {
-        //   console.log("NO MODEL INFO!");
-        // }
-        // console.log(p, "-> model");
         if (child.matches("type:miio:subdevice") && child.matches("cap:temperature")) {
           indexOfElement = findIdInArray(app.locals.xiaomi.sensors, child.id);
           if (indexOfElement < 0) {
@@ -96,87 +84,6 @@ export function registerDevices(app: express.Application) {
         console.log("Robot existiert", device.id);
         app.locals.xiaomi.robots[indexOfElement] = device;
       }
-      // console.log("33Value of error is", await device.error());
-      //  await console.log("error:", device.error);
-      // device.error()
-      //   .then((v) => {
-      //     console.log("error", v);
-      //   })
-      //   .catch(console.log);
-      // device.error()
-      //   .then((v) => {
-      //     console.log("error", v);
-      //   })
-      //   .catch(console.log);
-      // await device.
-      // if (device.matches("cap:charging-state")) {
-      //   console.log("1cap:charging-state");
-
-      //   console.log("2cap:charging-state", await device.charging());
-
-      // }
-      // device
-      //   .batteryLevel()
-      //   .then(v => {
-      //     console.log("batteryLevel", v);
-      //   })
-      //   .catch(console.log);
-
-      // device
-      //   .state()
-      //   .then(v => {
-      //     console.log("state", v);
-      //   })
-      //   .catch(console.log);
-
-      // // console.log(device.cleanTime);
-
-      // device
-      //   .fanSpeed()
-      //   .then(v => {
-      //     console.log("fanSpeed", v);
-      //   })
-      //   .catch(console.log);
-      //  console.log("GATEWAY");
-      //  console.log(iterator1);
-      //  console.log("GATEWAY CHILDREN: ", children);
-      //  console.log("GATEWAY CHILDREN: ");
-      // for (let [key, value] of device.device.children()) {
-      //   console.log(key + " = " + value);
-      // }
-
-      // device.device.activateCharging();
-      // if (false) {
-      //   device.device.cleaning()
-      //     .then(isCleaning => {
-      //       console.log("ISCLEANING: ", isCleaning);
-      //       if (isCleaning === false) {
-      //         console.log("CLEAN!");
-      //         device.device.clean()
-      //           .then(() => {
-      //             setTimeout(() => {
-      //               device.device.stop()
-      //                 .then(console.log)
-      //                 .catch(console.log);
-      //             }, 10000);
-      //           })
-      //           .catch(console.log);
-
-      //       }
-      //     })
-      //     .catch((e) => {
-      //       console.log("error isCleaning", e);
-      //     });
-
-      // }
-      /*
-       * This device is a vacuum.
-       */
-      // console.log("@@@@");
-      // console.log(device.device);
-      // const device = device;
-      // console.log(reg);
-      // console.log(device);
     } else if (device.matches("type:miio:yeelight")) {
       console.log("yeelight detected");
       indexOfElement = findIdInArray(app.locals.xiaomi.yeelights, device.id);
@@ -190,7 +97,6 @@ export function registerDevices(app: express.Application) {
     } else {
       console.log("DEVICE NOT FOUND!");
       console.log(device);
-      // Do something useful with device
     }
     device.on("thing:unavailable", sub => console.log("device thing:unavailable", sub.id));
     device.on("unavailable", sub => console.log("device unavailable", sub.id));

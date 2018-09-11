@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Route, Redirect } from "react-router-dom";
-import { RouteComponentProps } from "react-router";
 export interface IRedirectWithStatusProps {
   from: string;
   to: string;

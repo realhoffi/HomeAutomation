@@ -1,24 +1,28 @@
 "use strict";
 __dirname = __dirname.charAt(0).toUpperCase() + __dirname.slice(1);
 var outDir = __dirname + "/build/";
-//var path = require("path");
+
 var webpack = require("webpack");
 // import webpack from "webpack";
-var pkg = require("./package.json");
+// var pkg = require("./package.json");
+// var path = require("path");
 // var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var CopyWebpackPlugin = require("copy-webpack-plugin");
-var WebpackNotifierPlugin = require("webpack-notifier");
 //var CompressionPlugin = require("compression-webpack-plugin");
-//var LoaderOptionsPlugin = require("webpack/lib/LoaderOptionsPlugin");
+
+const HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
+// const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+// const CleanWebpackPlugin = require("clean-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const WebpackNotifierPlugin = require("webpack-notifier");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
-var fs = require("fs");
-
-var currentStage = "development"; //;"development"; //production
-var nodeModules = {};
-var compileServer = true;
+var currentStage = "production"; //;"production"; //development
+var compileServer = false;
 var compileClient = true;
-var compileDatabase = true;
+var compileDatabase = false;
+
+var fs = require("fs");
+var nodeModules = {};
 var vendor = [
   "babel-polyfill",
   "react",
@@ -41,9 +45,6 @@ fs.readdirSync("node_modules")
     if (vendor.indexOf(mod) < 0) {
       nodeModules[mod] = "commonjs " + mod;
     }
-    // else {
-    //     console.log("Include " + mod);
-    // }
   });
 
 var dbConnection = "mongodb://localhost:27017";
@@ -73,6 +74,8 @@ if (!!compileServer) {
       chunkFilename: "[name].js"
     },
     plugins: [
+      new HardSourceWebpackPlugin(),
+      // new ForkTsCheckerWebpackPlugin({ checkSyntacticErrors: true }),
       new webpack.ProvidePlugin({
         Promise: "bluebird"
       }),
@@ -91,7 +94,6 @@ if (!!compileServer) {
           NODE_ENV: JSON.stringify(currentStage)
         }
       }),
-
       new WebpackNotifierPlugin({ title: "Webpack Build finished" }),
       new webpack.LoaderOptionsPlugin({
         options: {
@@ -106,57 +108,78 @@ if (!!compileServer) {
       rules: [
         {
           test: /\.tsx?$/,
-          loader: "awesome-typescript-loader",
-          exclude: /(node_modules)/
-        },
-        {
-          test: /\.js(x)$/,
-          loader: "babel-loader",
-          exclude: /node_modules/,
-          query: {
-            cacheDirectory: "babel_cache",
-            compact: false,
-            presets: ["env", "react"] //env es2015
-          }
-        },
+          exclude: /(node_modules)/,
+          use: [
+            {
+              loader: "thread-loader",
+              options: {
+                // there should be 1 cpu for the fork-ts-checker-webpack-plugin
+                // workers: require('os').cpus().length - 1,
+                workers: require("os").cpus().length - 1 // fastest build time for devServer: 3 threads; for production: 7 threads (os cpus minus 1)
+              }
+            },
+            {
+              loader: "ts-loader",
+              options: {
+                // disable type checker - we will use it in fork plugin
+                transpileOnly: true,
+                happyPackMode: true
+              }
+            }
+          ]
+        }
+        // {
+        //   test: /\.tsx?$/,
+        //   loader: "awesome-typescript-loader",
+        //   exclude: /(node_modules)/
+        // },
+        // {
+        //   test: /\.js(x)$/,
+        //   loader: "babel-loader",
+        //   exclude: /node_modules/,
+        //   query: {
+        //     cacheDirectory: "babel_cache",
+        //     compact: false,
+        //     presets: ["env", "react"] //env es2015
+        //   }
+        // },
         // {
         //   test: require.resolve("react"),
         //   loader: "expose-loader?React!react"
         // },
-        {
-          test: /\.css$/,
-          include: /node_modules/,
-          loaders: ["style-loader", "css-loader"]
-        },
-        //{ test: /\.css$/, loader: ExtractTextPlugin.extract("style-loader", "css-loader") },
-        {
-          test: /\.less$/,
-          loader: "style-loader!css-loader!less-loader"
-        },
-        {
-          test: /\.(png|jpg)$/,
-          loader: "url-loader?limit=25000"
-        },
-        {
-          test: /\.scss$/,
-          loaders: ["style-loader", "css-loader", "sass-loader"]
-        },
-        {
-          test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
-          loader: "url-loader?limit=10000&mimetype=application/font-woff"
-        },
-        {
-          test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
-          loader: "url-loader?limit=10000&mimetype=application/font-woff"
-        },
-        {
-          test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-          loader: "url-loader?limit=10000&mimetype=application/octet-stream"
-        },
-        {
-          test: /\.(png|woff|woff2|eot|ttf|svg|jpg|gif)$/,
-          loader: "url-loader?limit=100000"
-        }
+        // {
+        //   test: /\.css$/,
+        //   include: /node_modules/,
+        //   loaders: ["style-loader", "css-loader"]
+        // }
+        // {
+        //   test: /\.less$/,
+        //   loader: "style-loader!css-loader!less-loader"
+        // },
+        // {
+        //   test: /\.(png|jpg)$/,
+        //   loader: "url-loader?limit=25000"
+        // },
+        // {
+        //   test: /\.scss$/,
+        //   loaders: ["style-loader", "css-loader", "sass-loader"]
+        // },
+        // {
+        //   test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
+        //   loader: "url-loader?limit=10000&mimetype=application/font-woff"
+        // },
+        // {
+        //   test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
+        //   loader: "url-loader?limit=10000&mimetype=application/font-woff"
+        // },
+        // {
+        //   test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
+        //   loader: "url-loader?limit=10000&mimetype=application/octet-stream"
+        // },
+        // {
+        //   test: /\.(png|woff|woff2|eot|ttf|svg|jpg|gif)$/,
+        //   loader: "url-loader?limit=100000"
+        // }
       ]
     }
   };
@@ -171,7 +194,6 @@ if (!!compileClient) {
     },
     entry: {
       application: ["./src/global/components/pages/initApp.tsx"]
-      //   vendor: vendor
     },
     devtool: "#source-map",
     output: {
@@ -181,7 +203,7 @@ if (!!compileClient) {
       chunkFilename: "js/[name].js"
     },
     optimization: {
-      minimize: false,
+      minimize: true,
       splitChunks: {
         chunks: "all"
       },
@@ -196,6 +218,8 @@ if (!!compileClient) {
       }
     },
     plugins: [
+      new HardSourceWebpackPlugin(),
+      // new ForkTsCheckerWebpackPlugin({ checkSyntacticErrors: true }),
       new BundleAnalyzerPlugin(),
       new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /de.js/),
       new webpack.ProvidePlugin({
@@ -235,19 +259,41 @@ if (!!compileClient) {
       rules: [
         {
           test: /\.tsx?$/,
-          loader: "awesome-typescript-loader",
-          exclude: /(node_modules)/
+          exclude: /(node_modules)/,
+          use: [
+            {
+              loader: "thread-loader",
+              options: {
+                // there should be 1 cpu for the fork-ts-checker-webpack-plugin
+                // workers: require('os').cpus().length - 1,
+                workers: require("os").cpus().length - 1 // fastest build time for devServer: 3 threads; for production: 7 threads (os cpus minus 1)
+              }
+            },
+            {
+              loader: "ts-loader",
+              options: {
+                // disable type checker - we will use it in fork plugin
+                transpileOnly: true,
+                happyPackMode: true
+              }
+            }
+          ]
         },
-        {
-          test: /\.js(x)$/,
-          loader: "babel-loader",
-          exclude: /node_modules/,
-          query: {
-            cacheDirectory: "babel_cache",
-            compact: false,
-            presets: ["es2015", "react"]
-          }
-        },
+        // {
+        //   test: /\.tsx?$/,
+        //   loader: "awesome-typescript-loader",
+        //   exclude: /(node_modules)/
+        // },
+        // {
+        //   test: /\.js(x)$/,
+        //   loader: "babel-loader",
+        //   exclude: /node_modules/,
+        //   query: {
+        //     cacheDirectory: "babel_cache",
+        //     compact: false,
+        //     presets: ["es2015", "react"]
+        //   }
+        // },
         // {
         //   test: require.resolve("react"),
         //   loader: "expose-loader?React!react"
@@ -256,36 +302,36 @@ if (!!compileClient) {
           test: /\.css$/,
           include: /node_modules/,
           loaders: ["style-loader", "css-loader"]
-        },
-        //{ test: /\.css$/, loader: ExtractTextPlugin.extract("style-loader", "css-loader") },
-        {
-          test: /\.less$/,
-          loader: "style-loader!css-loader!less-loader"
-        },
-        {
-          test: /\.(png|jpg)$/,
-          loader: "url-loader?limit=25000"
-        },
-        {
-          test: /\.scss$/,
-          loaders: ["style-loader", "css-loader", "sass-loader"]
-        },
-        {
-          test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
-          loader: "url-loader?limit=10000&mimetype=application/font-woff"
-        },
-        {
-          test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
-          loader: "url-loader?limit=10000&mimetype=application/font-woff"
-        },
-        {
-          test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-          loader: "url-loader?limit=10000&mimetype=application/octet-stream"
-        },
-        {
-          test: /\.(png|woff|woff2|eot|ttf|svg|jpg|gif)$/,
-          loader: "url-loader?limit=100000"
         }
+        //{ test: /\.css$/, loader: ExtractTextPlugin.extract("style-loader", "css-loader") },
+        // {
+        //   test: /\.less$/,
+        //   loader: "style-loader!css-loader!less-loader"
+        // },
+        // {
+        //   test: /\.(png|jpg)$/,
+        //   loader: "url-loader?limit=25000"
+        // },
+        // {
+        //   test: /\.scss$/,
+        //   loaders: ["style-loader", "css-loader", "sass-loader"]
+        // },
+        // {
+        //   test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
+        //   loader: "url-loader?limit=10000&mimetype=application/font-woff"
+        // },
+        // {
+        //   test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
+        //   loader: "url-loader?limit=10000&mimetype=application/font-woff"
+        // },
+        // {
+        //   test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
+        //   loader: "url-loader?limit=10000&mimetype=application/octet-stream"
+        // },
+        // {
+        //   test: /\.(png|woff|woff2|eot|ttf|svg|jpg|gif)$/,
+        //   loader: "url-loader?limit=100000"
+        // }
       ]
     }
   };
@@ -316,6 +362,8 @@ if (!!compileDatabase) {
       chunkFilename: "[name].js"
     },
     plugins: [
+      new HardSourceWebpackPlugin(),
+      // new ForkTsCheckerWebpackPlugin({ checkSyntacticErrors: true }),
       new webpack.ProvidePlugin({
         Promise: "bluebird"
       }),
@@ -349,23 +397,45 @@ if (!!compileDatabase) {
       rules: [
         {
           test: /\.tsx?$/,
-          loader: "awesome-typescript-loader",
-          options: {
-            instance: "server",
-            configFile: "tsconfig.json"
-          },
-          exclude: /(node_modules)/
-        },
-        {
-          test: /\.js(x)$/,
-          loader: "babel-loader",
-          exclude: /node_modules/,
-          query: {
-            cacheDirectory: "babel_cache",
-            compact: false,
-            presets: ["env", "react"]
-          }
+          exclude: /(node_modules)/,
+          use: [
+            {
+              loader: "thread-loader",
+              options: {
+                // there should be 1 cpu for the fork-ts-checker-webpack-plugin
+                // workers: require('os').cpus().length - 1,
+                workers: require("os").cpus().length - 1 // fastest build time for devServer: 3 threads; for production: 7 threads (os cpus minus 1)
+              }
+            },
+            {
+              loader: "ts-loader",
+              options: {
+                // disable type checker - we will use it in fork plugin
+                transpileOnly: true,
+                happyPackMode: true
+              }
+            }
+          ]
         }
+        // {
+        //   test: /\.tsx?$/,
+        //   loader: "awesome-typescript-loader",
+        //   options: {
+        //     instance: "server",
+        //     configFile: "tsconfig.json"
+        //   },
+        //   exclude: /(node_modules)/
+        // },
+        // {
+        //   test: /\.js(x)$/,
+        //   loader: "babel-loader",
+        //   exclude: /node_modules/,
+        //   query: {
+        //     cacheDirectory: "babel_cache",
+        //     compact: false,
+        //     presets: ["env", "react"]
+        //   }
+        // }
       ]
     }
   };

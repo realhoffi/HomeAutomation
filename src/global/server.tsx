@@ -1,13 +1,21 @@
 "use strict";
-// import path = require("path");
-import * as path from "path";
-import * as http from "http";
-// import express = require("express");
-import * as express from "express";
-// import url = require("url");
-import * as url from "url";
-// import favicon = require("serve-favicon");
-import * as favicon from "serve-favicon";
+
+// import * as path from "path";
+// import * as http from "http";
+// import * as express from "express";
+// import * as favicon from "serve-favicon";
+// import * as url from "url";
+// import * as compression from "compression";
+
+let http = require("http");
+let express = require("express");
+let path = require("path");
+
+let compression = require("compression");
+let url = require("url");
+
+let favicon = require("serve-favicon");
+
 import { registerRoutes } from "../startUp/routes";
 import { registerDevices } from "../startUp/miio";
 
@@ -37,6 +45,7 @@ function getUriFromRequest(request: Request) {
 }
 
 const app = express();
+app.use(compression());
 const port = normalizePort(process.env.PORT || 8080);
 const env = process.env.NODE_ENV || "production";
 

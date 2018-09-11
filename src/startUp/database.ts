@@ -10,6 +10,7 @@ export function initializeDatabase(app: Application) {
     console.log("Try connect to Database", MONGO_DB_CONNECTION_STRING);
     MongoClient.connect(
       MONGO_DB_CONNECTION_STRING,
+      { useNewUrlParser: true },
       function(err, database) {
         if (err) {
           reject({ message: "Error adding database startup entry", error: err });

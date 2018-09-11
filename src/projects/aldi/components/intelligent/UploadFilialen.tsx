@@ -1,32 +1,10 @@
 import * as React from "react";
 import Axios from "axios";
-import {
-  TextField,
-  DetailsList,
-  DetailsListLayoutMode,
-  Selection,
-  MarqueeSelection,
-  IColumn,
-  SelectionMode,
-  IconButton,
-  ContextualMenu,
-  ContextualMenuItemType,
-  DirectionalHint,
-  Label,
-  Spinner
-} from "office-ui-fabric-react";
-import {
-  IRouteViewModel,
-  IRouteModel,
-  IFilialeModel
-} from "../../../../interfaces/aldi";
+import { Label, Spinner } from "office-ui-fabric-react";
+import { IRouteModel, IFilialeModel } from "../../../../interfaces/aldi";
 import { Fragment } from "react";
 import { ButtonRow } from "../../../../global/components/simple/ButtonRow";
-import { isNumber } from "util";
-import {
-  getGermanDateTimeString,
-  getGermanDateString
-} from "../../../../helper/date";
+import { getGermanDateString } from "../../../../helper/date";
 import { promise_all_custom } from "../../../../helper/promise";
 interface IUploadReport {
   import: any[];
@@ -44,10 +22,7 @@ export interface IUploadFilialenState {
   isError: boolean;
   isUploading: boolean;
 }
-export class UploadFilialen extends React.Component<
-  IUploadFilialenProps,
-  IUploadFilialenState
-  > {
+export class UploadFilialen extends React.Component<IUploadFilialenProps, IUploadFilialenState> {
   textareaElement: HTMLTextAreaElement = undefined;
   selectRouteElement: HTMLSelectElement = undefined;
   constructor(props) {
@@ -124,18 +99,12 @@ export class UploadFilialen extends React.Component<
 
     let selectedRoute = "";
     if (this.selectRouteElement && this.selectRouteElement.options.length > 0) {
-      selectedRoute = this.selectRouteElement.options[
-        this.selectRouteElement.selectedIndex
-      ].value;
+      selectedRoute = this.selectRouteElement.options[this.selectRouteElement.selectedIndex].value;
     }
     filialen.forEach(filiale => {
       let rows = filiale.split("\t");
       if (!rows || rows.length < 7) {
-        ret.messages.push(
-          "Es konnten keine Filial-Eigenschaften ausgelesen werden. [Wert: " +
-          filiale +
-          "]"
-        );
+        ret.messages.push("Es konnten keine Filial-Eigenschaften ausgelesen werden. [Wert: " + filiale + "]");
         ret.skipCount += 1;
         return;
       }
@@ -159,9 +128,7 @@ export class UploadFilialen extends React.Component<
     this.props.cancelBtnClick();
   }
   private uploadClick() {
-    let filialen = this.createFilialen(
-      this.textareaElement ? this.textareaElement.value : ""
-    );
+    let filialen = this.createFilialen(this.textareaElement ? this.textareaElement.value : "");
     if (!filialen) {
       return;
     }
@@ -218,11 +185,7 @@ export class UploadFilialen extends React.Component<
         </div>
         <div className="ms-Grid-row">
           <div className="ms-Grid-col ms-sm12">
-            <textarea
-              rows={20}
-              ref={this.setTextareaElement}
-              style={{ width: "100%" }}
-            />
+            <textarea rows={20} ref={this.setTextareaElement} style={{ width: "100%" }} />
           </div>
         </div>
         <div className="ms-Grid-row">
