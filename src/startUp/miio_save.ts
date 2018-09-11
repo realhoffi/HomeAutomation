@@ -1,10 +1,8 @@
 "use strict";
 import express from "express";
 import { SensorServiceInstance } from "../api/services/SensorService";
-import { setInterval } from "timers";
 const miio = require("miio");
 
-let isConnected = false;
 function findIdInArray(targetArray: any[], id): number {
   let returnValue = -1;
   if (!targetArray) {

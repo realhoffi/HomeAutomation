@@ -1,14 +1,11 @@
 import * as React from "react";
 
 import {
-  TextField,
   DetailsList,
   DetailsListLayoutMode,
   Selection,
-  MarqueeSelection,
   IColumn,
   SelectionMode,
-  IconButton,
   ContextualMenu,
   ContextualMenuItemType,
   DirectionalHint,
@@ -40,10 +37,7 @@ export interface IBaseUebersichtState {
   items: any[];
   ctxMenues: IContextualMenuItem[];
 }
-export class BaseUebersicht extends React.Component<
-  IBaseUebersichtProps,
-  IBaseUebersichtState
-> {
+export class BaseUebersicht extends React.Component<IBaseUebersichtProps, IBaseUebersichtState> {
   private _selection: Selection;
   private _target: any;
   constructor(props) {
@@ -85,11 +79,7 @@ export class BaseUebersicht extends React.Component<
       onSelectionChanged: this.selectionHasChanged
     });
   }
-  componentDidUpdate(
-    prevProps: Readonly<IBaseUebersichtProps>,
-    prevState: Readonly<IBaseUebersichtState>,
-    prevContext: any
-  ) {
+  componentDidUpdate(prevProps: Readonly<IBaseUebersichtProps>, prevState: Readonly<IBaseUebersichtState>, prevContext: any) {
     if (JSON.stringify(this.props.items) !== JSON.stringify(prevProps.items)) {
       this._selection["_onSelectionChanged"] = undefined;
       this._selection.getItems().forEach((e, i) => {
@@ -141,11 +131,9 @@ export class BaseUebersicht extends React.Component<
   private onColumnClick(ev: React.MouseEvent<HTMLElement>, column: IColumn) {
     const { columns, items } = this.state;
     let newColumns: IColumn[] = columns.slice();
-    let currColumn: IColumn = newColumns.filter(
-      (currCol: IColumn, idx: number) => {
-        return column.key === currCol.key;
-      }
-    )[0];
+    let currColumn: IColumn = newColumns.filter((currCol: IColumn, idx: number) => {
+      return column.key === currCol.key;
+    })[0];
     newColumns.forEach((newCol: IColumn) => {
       if (newCol === currColumn) {
         currColumn.isSortedDescending = !currColumn.isSortedDescending;
@@ -155,10 +143,7 @@ export class BaseUebersicht extends React.Component<
         newCol.isSortedDescending = true;
       }
     });
-    this.props.sortByPropertyName(
-      currColumn.fieldName,
-      currColumn.isSortedDescending
-    );
+    this.props.sortByPropertyName(currColumn.fieldName, currColumn.isSortedDescending);
     this.setState({
       columns: newColumns
     });
@@ -173,10 +158,7 @@ export class BaseUebersicht extends React.Component<
           this.props.commandbarItems.length > 0 && (
             <div className="ms-Grid-row">
               <div className="ms-Grid-col ms-sm12">
-                <CommandBar
-                  isSearchBoxVisible={this.props.enableSearchBox}
-                  items={this.props.commandbarItems}
-                />
+                <CommandBar items={this.props.commandbarItems} />
               </div>
             </div>
           )}

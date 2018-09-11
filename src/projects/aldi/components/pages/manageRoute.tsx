@@ -1,32 +1,12 @@
 import * as React from "react";
 
-import {
-  ActionButton,
-  TextField,
-  DatePicker,
-  IDropdownOption,
-  CommandBarButton,
-  Link as OfficeLink,
-  IIconProps,
-  IButtonProps,
-  Label
-} from "office-ui-fabric-react";
+import { ActionButton } from "office-ui-fabric-react";
 import { PageType } from "../../../../enums/enums";
 import { BasePage } from "../../../../global/components/container/basePage";
 import { ButtonRow } from "../../../../global/components/simple/ButtonRow";
 import { Panel } from "../../../../global/components/simple/Panel";
-import { NumberTextField } from "../../../../global/components/simple/NumberTextField";
-import {
-  getGermanDateString,
-  setDatePropertiesToZero
-} from "../../../../helper/date";
-import {
-  IFilialeViewModel,
-  IAusgabeModel,
-  IRouteModel,
-  ILinkModel,
-  IFilialeModel
-} from "../../../../interfaces/aldi";
+import { getGermanDateString, setDatePropertiesToZero } from "../../../../helper/date";
+import { IFilialeViewModel, IAusgabeModel, IRouteModel, ILinkModel, IFilialeModel } from "../../../../interfaces/aldi";
 import { Link } from "../stateless/Link";
 import { Ausgabe } from "../stateless/Ausgabe";
 import { Filiale } from "../stateless/Filiale";
@@ -44,10 +24,7 @@ export interface IManageRouteState {
   ausgaben: IAusgabeModel[];
   links: ILinkModel[];
 }
-export class ManageRoute extends React.Component<
-  IManageRouteProps,
-  IManageRouteState
-> {
+export class ManageRoute extends React.Component<IManageRouteProps, IManageRouteState> {
   constructor(props) {
     super(props);
 
@@ -244,10 +221,7 @@ export class ManageRoute extends React.Component<
       strasse: "",
       testnummer: 0,
       timestamp: Date.now(),
-      fahrdatum:
-        this.state.routenfahrten.length > 0
-          ? this.state.routenfahrten[0].getTime()
-          : setDatePropertiesToZero(new Date()).getTime()
+      fahrdatum: this.state.routenfahrten.length > 0 ? this.state.routenfahrten[0].getTime() : setDatePropertiesToZero(new Date()).getTime()
     });
     this.setState(ns);
   }
@@ -345,9 +319,7 @@ export class ManageRoute extends React.Component<
   }
 
   private addRoutenfahrt() {
-    let fahrten = this.state.routenfahrten.concat([
-      setDatePropertiesToZero(new Date())
-    ]);
+    let fahrten = this.state.routenfahrten.concat([setDatePropertiesToZero(new Date())]);
     this.setState({
       routenfahrten: fahrten
     });
@@ -379,13 +351,7 @@ export class ManageRoute extends React.Component<
                 <Panel
                   headerText="Routenlinks"
                   className="custom-padding-bottom-10px"
-                  headerControls={
-                    <ActionButton
-                      data-automation-id="Add Link"
-                      iconProps={{ iconName: "Add" }}
-                      onClick={this.addLink}
-                    />
-                  }
+                  headerControls={<ActionButton data-automation-id="Add Link" iconProps={{ iconName: "Add" }} onClick={this.addLink} />}
                 >
                   {this.state.links.map((link, index) => {
                     return (
@@ -407,18 +373,10 @@ export class ManageRoute extends React.Component<
                 <Panel
                   headerText="Globale Ausgaben"
                   className="custom-padding-bottom-10px"
-                  headerControls={
-                    <ActionButton
-                      data-automation-id="Add Ausgabe"
-                      iconProps={{ iconName: "Add" }}
-                      onClick={this.addAusgabe}
-                    />
-                  }
+                  headerControls={<ActionButton data-automation-id="Add Ausgabe" iconProps={{ iconName: "Add" }} onClick={this.addAusgabe} />}
                 >
                   {(!this.state.ausgaben || this.state.ausgaben.length < 1) && (
-                    <div className="ms-font-xl ms-fontColor-themePrimary">
-                      Es wurden bisher keine globalen Ausgaben erfasst
-                    </div>
+                    <div className="ms-font-xl ms-fontColor-themePrimary">Es wurden bisher keine globalen Ausgaben erfasst</div>
                   )}
                   {this.state.ausgaben.map((ausgabe, index) => {
                     return (
@@ -441,19 +399,10 @@ export class ManageRoute extends React.Component<
                 <Panel
                   headerText="Routenfahrdaten verwalten"
                   className="custom-padding-bottom-10px"
-                  headerControls={
-                    <ActionButton
-                      data-automation-id="Add Routenfahrt"
-                      iconProps={{ iconName: "Add" }}
-                      onClick={this.addRoutenfahrt}
-                    />
-                  }
+                  headerControls={<ActionButton data-automation-id="Add Routenfahrt" iconProps={{ iconName: "Add" }} onClick={this.addRoutenfahrt} />}
                 >
-                  {(!this.state.routenfahrten ||
-                    this.state.routenfahrten.length < 1) && (
-                    <div className="ms-font-xl ms-fontColor-themePrimary">
-                      Es wurden bisher keine Routenfahrdaten erfasst
-                    </div>
+                  {(!this.state.routenfahrten || this.state.routenfahrten.length < 1) && (
+                    <div className="ms-font-xl ms-fontColor-themePrimary">Es wurden bisher keine Routenfahrdaten erfasst</div>
                   )}
                   {this.state.routenfahrten.map((fahrt, index) => {
                     return (
@@ -475,19 +424,9 @@ export class ManageRoute extends React.Component<
                 <Panel
                   headerText="Fahrten verwalten"
                   className="custom-padding-bottom-10px"
-                  headerControls={
-                    <ActionButton
-                      data-automation-id="Add Ausgabe"
-                      iconProps={{ iconName: "Add" }}
-                      onClick={this.addFiliale}
-                    />
-                  }
+                  headerControls={<ActionButton data-automation-id="Add Ausgabe" iconProps={{ iconName: "Add" }} onClick={this.addFiliale} />}
                 >
-                  {(!this.state.filialen || this.state.filialen.length < 1) && (
-                    <div className="ms-font-xl ms-fontColor-themePrimary">
-                      Es wurden bisher keine Filialen erfasst
-                    </div>
-                  )}
+                  {(!this.state.filialen || this.state.filialen.length < 1) && <div className="ms-font-xl ms-fontColor-themePrimary">Es wurden bisher keine Filialen erfasst</div>}
                   {this.state.filialen.map((filiale, index) => {
                     return (
                       <Filiale
@@ -532,11 +471,7 @@ export class ManageRoute extends React.Component<
             </div>
           </div>
         }
-        Header={
-          <div className="ms-font-xxl ms-textAlignCenter">
-            {"Fahrten verwalten"}
-          </div>
-        }
+        Header={<div className="ms-font-xxl ms-textAlignCenter">{"Fahrten verwalten"}</div>}
       />
     );
   }

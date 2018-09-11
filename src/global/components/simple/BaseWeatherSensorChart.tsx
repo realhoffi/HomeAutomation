@@ -1,25 +1,10 @@
 import * as React from "react";
-import {
-  Toggle,
-  Slider,
-  Label,
-  Icon,
-  Spinner,
-  SpinnerSize
-} from "office-ui-fabric-react";
 import { IBaseWeatherSensor } from "../../../interfaces/xiaomi";
-import { Panel } from "../../../global/components/simple/Panel";
 import Axios from "axios";
-import { Fragment } from "react";
 import { Line, ChartData } from "react-chartjs-2";
 import * as chartjs from "chart.js";
-import {
-  getGermanDateString,
-  addDays,
-  setDatePropertiesToZero,
-  getGermanDateTimeString
-} from "../../../helper/date";
-import { ChartOptions } from "chart.js";
+import { getGermanDateString, addDays, setDatePropertiesToZero, getGermanDateTimeString } from "../../../helper/date";
+import { Spinner, SpinnerSize, Label } from "office-ui-fabric-react";
 
 const options = [
   <option value="1" key={"k1"}>
@@ -47,10 +32,7 @@ export interface IBaseWeatherSensorChartState {
   isLoadingSensorData: boolean;
   selectedRange: string;
 }
-export class BaseWeatherSensorChart extends React.Component<
-  IBaseWeatherSensorChartProps,
-  IBaseWeatherSensorChartState
-> {
+export class BaseWeatherSensorChart extends React.Component<IBaseWeatherSensorChartProps, IBaseWeatherSensorChartState> {
   constructor(props) {
     super(props);
     this.state = {
@@ -155,19 +137,10 @@ export class BaseWeatherSensorChart extends React.Component<
     return data;
   }
   querySensorDataByDateRange(from: number, to: number) {
-    return Axios.get(
-      "/api/sensors/" +
-        this.props.sensorInformations.id +
-        "/between/" +
-        from +
-        "/" +
-        to
-    );
+    return Axios.get("/api/sensors/" + this.props.sensorInformations.id + "/between/" + from + "/" + to);
   }
   queryAllSensorData() {
-    return Axios.get(
-      "/api/sensors/" + this.props.sensorInformations.id + "/data"
-    );
+    return Axios.get("/api/sensors/" + this.props.sensorInformations.id + "/data");
   }
   getDateTickRangeBySelection(selectedOption: string) {
     let from = -1;
@@ -188,11 +161,7 @@ export class BaseWeatherSensorChart extends React.Component<
       case "4":
         break;
       default:
-        console.log(
-          "getDateTickRangeBySelection",
-          "value not found...",
-          selectedOption
-        );
+        console.log("getDateTickRangeBySelection", "value not found...", selectedOption);
     }
     return {
       from: from,
@@ -220,10 +189,7 @@ export class BaseWeatherSensorChart extends React.Component<
   }
   getTooltipTitle(tooltipItem, data) {
     let returnValue = undefined;
-    if (
-      this.state.rawSensorData &&
-      this.state.rawSensorData.length >= tooltipItem[0].index
-    ) {
+    if (this.state.rawSensorData && this.state.rawSensorData.length >= tooltipItem[0].index) {
       let sensorTimeStamp: any = this.state.rawSensorData[tooltipItem[0].index];
       if (sensorTimeStamp) {
         let timestamp = sensorTimeStamp.timestamp;
@@ -298,30 +264,19 @@ export class BaseWeatherSensorChart extends React.Component<
       return (
         this.state.isError && (
           <div className="ms-Grid-row">
-            <div className="ms-Grid-col ms-sm12">
-              Es ist ein Fehler aufgetreten...
-            </div>
+            <div className="ms-Grid-col ms-sm12">Es ist ein Fehler aufgetreten...</div>
           </div>
         )
       );
     }
     let sensorDataContent = null;
     if (this.state.isLoadingSensorData) {
-      sensorDataContent = (
-        <Spinner size={SpinnerSize.large} label="Lade Sensor-Daten..." />
-      );
+      sensorDataContent = <Spinner size={SpinnerSize.large} label="Lade Sensor-Daten..." />;
     } else {
       if (!this.state.sensorData) {
         sensorDataContent = "Keine Daten vorhanden...";
       } else {
-        sensorDataContent = (
-          <Line
-            data={this.state.sensorData}
-            options={this.state.options}
-            height={400}
-            width={400}
-          />
-        );
+        sensorDataContent = <Line datasetKeyProvider={undefined} data={this.state.sensorData} options={this.state.options} height={400} width={400} />;
       }
     }
     return (
@@ -330,10 +285,7 @@ export class BaseWeatherSensorChart extends React.Component<
           <div className="ms-Grid-row">
             <div className="ms-Grid-col ms-sm12">
               <Label>Zeitraum</Label>
-              <select
-                onChange={this.dateRangeSelectionChanged}
-                value={this.state.selectedRange}
-              >
+              <select onChange={this.dateRangeSelectionChanged} value={this.state.selectedRange}>
                 {options}
               </select>
             </div>

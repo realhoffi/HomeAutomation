@@ -1,13 +1,26 @@
 "use strict";
-import path = require("path");
-import * as http from "http";
-import express = require("express");
-import url = require("url");
-import favicon = require("serve-favicon");
+
+// import * as path from "path";
+// import * as http from "http";
+// import * as express from "express";
+// import * as favicon from "serve-favicon";
+// import * as url from "url";
+// import * as compression from "compression";
+
+let http = require("http");
+let express = require("express");
+let path = require("path");
+
+let compression = require("compression");
+let url = require("url");
+
+let favicon = require("serve-favicon");
+
 import { registerRoutes } from "../startUp/routes";
 import { registerDevices } from "../startUp/miio";
 
-import bodyParser = require("body-parser");
+// import bodyParser = require("body-parser");
+import * as bodyParser from "body-Parser";
 import { Request } from "express";
 import { initializeDatabase } from "../startUp/database";
 
@@ -32,6 +45,7 @@ function getUriFromRequest(request: Request) {
 }
 
 const app = express();
+app.use(compression());
 const port = normalizePort(process.env.PORT || 8080);
 const env = process.env.NODE_ENV || "production";
 
@@ -64,16 +78,12 @@ router.use(function(req, res, next) {
 app.use("/api", router);
 
 app.get("/", function(request, response) {
-  response.sendFile(
-    path.join("views", "index.html"),
-    { root: __dirname },
-    error => {
-      if (error) {
-        console.log("ERROR SENDFILE!" + JSON.stringify(error));
-      }
-      response.end();
+  response.sendFile(path.join("views", "index.html"), { root: __dirname }, error => {
+    if (error) {
+      console.log("ERROR SENDFILE!" + JSON.stringify(error));
     }
-  );
+    response.end();
+  });
 });
 
 // last route to catch routing errors 404 not found

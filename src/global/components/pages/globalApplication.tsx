@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Route, Switch, Link } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import { Application } from "./application";
 import { Application as YeelightApplication } from "../../../projects/yeelight/components/pages/application";
 import { Application as VacuumApplication } from "../../../projects/vacuumRoboter/components/pages/application";
@@ -10,25 +10,20 @@ import { NotFoundPage } from "../../components/simple/NotFoundPage";
 import { RedirectWithStatus } from "../simple/Routing";
 import { BasePage } from "../container/basePage";
 import { SystemInfo } from "../../../projects/system/components/pages/systeminfo";
-import { Nav, INavLink } from "office-ui-fabric-react";
+import { Nav } from "office-ui-fabric-react";
 
 export interface IGlobalApplicationProps {}
 export interface IGlobalApplicationState {
   selectedNavKey: string;
 }
-export class GlobalApplication extends React.Component<
-  IGlobalApplicationProps,
-  IGlobalApplicationState
-> {
+export class GlobalApplication extends React.Component<IGlobalApplicationProps, IGlobalApplicationState> {
   constructor(props) {
     super(props);
     this.state = { selectedNavKey: this.getRouteIdFromHash() };
     this.routeChanged = this.routeChanged.bind(this);
   }
   private getRouteIdFromHash(): string {
-    return document.location.hash
-      ? "#" + document.location.hash.replace("#/", "")
-      : "#";
+    return document.location.hash ? "#" + document.location.hash.replace("#/", "") : "#";
   }
   componentDidMount() {
     document.title = "Web-Application by Florian Hoffmann";

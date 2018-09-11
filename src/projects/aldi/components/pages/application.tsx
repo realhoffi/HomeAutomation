@@ -1,35 +1,17 @@
 import * as React from "react";
-import Axios from "axios";
-import {
-  CommandBarButton,
-  BaseButton,
-  Button,
-  Callout,
-  CommandBar
-} from "office-ui-fabric-react";
-import { Modal } from "office-ui-fabric-react/lib/Modal";
+
+import { BaseButton, Button } from "office-ui-fabric-react";
 import { ManageRoute } from "./manageRoute";
 import { PageType } from "../../../../enums/enums";
-import { SyntheticEvent, MouseEventHandler, Fragment } from "react";
-import { CalloutContent } from "office-ui-fabric-react/lib/components/Callout/CalloutContent";
+import { Fragment } from "react";
 import { ToolTip } from "../../../../global/components/simple/ToolTip";
 import { Routenuebersicht } from "../intelligent/Routenuebersicht";
-import {
-  IRouteModel,
-  IRouteViewModel,
-  IFilialeModel,
-  IFilialeViewModel
-} from "../../../../interfaces/aldi";
+import { IRouteModel, IRouteViewModel, IFilialeViewModel } from "../../../../interfaces/aldi";
 import { UploadRoutes } from "../intelligent/UploadRoutes";
 import { UploadFilialen } from "../intelligent/UploadFilialen";
-import {
-  promise_all_custom,
-  ICustomPromiseResult
-} from "../../../../helper/promise";
 import { Filialuebersicht } from "../intelligent/Filialuebersicht";
 import { Panel } from "../../../../global/components/simple/Panel";
 import { Filiale } from "../intelligent/Filiale";
-// import { BaseUebersicht } from "../../../../global/components/simple/BaseUebersicht";
 
 export interface IApplicationProps {
   requestUrl: string;
@@ -43,10 +25,7 @@ export interface IApplicationState {
   selectedFilialen: IFilialeViewModel[];
 }
 
-export class Application extends React.Component<
-  IApplicationProps,
-  IApplicationState
-> {
+export class Application extends React.Component<IApplicationProps, IApplicationState> {
   private targetCallOutElement: HTMLElement | null;
   constructor(props) {
     super(props);
@@ -79,12 +58,7 @@ export class Application extends React.Component<
   private showUploadFilialenClick() {
     this.setState({
       showModal: true,
-      modalContent: (
-        <UploadFilialen
-          uploadFinished={this.uploadFilialen}
-          cancelBtnClick={this.closeModal}
-        />
-      )
+      modalContent: <UploadFilialen uploadFinished={this.uploadFilialen} cancelBtnClick={this.closeModal} />
     });
   }
   private uploadFilialen() {
@@ -94,12 +68,7 @@ export class Application extends React.Component<
   private showUploadRoutesClick() {
     this.setState({
       showModal: true,
-      modalContent: (
-        <UploadRoutes
-          uploadClick={this.routeUploaded}
-          cancelClick={this.closeModal}
-        />
-      )
+      modalContent: <UploadRoutes uploadClick={this.routeUploaded} cancelClick={this.closeModal} />
     });
   }
   private routeUploaded(routes: IRouteModel[]) {
@@ -108,9 +77,7 @@ export class Application extends React.Component<
   private addRouteClick() {
     this.setState({
       showModal: true,
-      modalContent: (
-        <ManageRoute onExitPage={this.closeModal} pageType={PageType.Add} />
-      )
+      modalContent: <ManageRoute onExitPage={this.closeModal} pageType={PageType.Add} />
     });
     this.hideCallOut();
   }
@@ -123,22 +90,14 @@ export class Application extends React.Component<
       this.setState({ showModal: false, modalContent: undefined });
     }
   }
-  private showCallOut(
-    event: React.SyntheticEvent<
-      HTMLAnchorElement | HTMLButtonElement | BaseButton | Button
-    >
-  ) {
+  private showCallOut(event: React.SyntheticEvent<HTMLAnchorElement | HTMLButtonElement | BaseButton | Button>) {
     console.log("MouseIn - " + event.target["tagName"]);
     if (this.state.isCalloutVisible || this.state.showModal) {
       return;
     }
     this.targetCallOutElement = event.target as any;
-    let title = this.targetCallOutElement.hasAttribute("data-info-title")
-      ? this.targetCallOutElement.getAttribute("data-info-title")
-      : "";
-    let description = this.targetCallOutElement.hasAttribute("data-info-desc")
-      ? this.targetCallOutElement.getAttribute("data-info-desc")
-      : "";
+    let title = this.targetCallOutElement.hasAttribute("data-info-title") ? this.targetCallOutElement.getAttribute("data-info-title") : "";
+    let description = this.targetCallOutElement.hasAttribute("data-info-desc") ? this.targetCallOutElement.getAttribute("data-info-desc") : "";
 
     if (!title && !description) {
       return;
@@ -164,13 +123,7 @@ export class Application extends React.Component<
     this.setState({
       showModal: true,
       modalContent: (
-        <Filiale
-          cancel_clicked={this.closeModal}
-          pageType={PageType.Edit}
-          filialeId={filialElement._id}
-          headerText="Filiale bearbeiten"
-          ok_clicked={this.filialeSavedClick}
-        />
+        <Filiale cancel_clicked={this.closeModal} pageType={PageType.Edit} filialeId={filialElement._id} headerText="Filiale bearbeiten" ok_clicked={this.filialeSavedClick} />
       )
     });
     this.hideCallOut();
@@ -178,15 +131,7 @@ export class Application extends React.Component<
   private createFiliale() {
     this.setState({
       showModal: true,
-      modalContent: (
-        <Filiale
-          cancel_clicked={this.closeModal}
-          pageType={PageType.Add}
-          filialeId={null}
-          headerText="Filiale hinzufügen"
-          ok_clicked={this.filialeSavedClick}
-        />
-      )
+      modalContent: <Filiale cancel_clicked={this.closeModal} pageType={PageType.Add} filialeId={null} headerText="Filiale hinzufügen" ok_clicked={this.filialeSavedClick} />
     });
     this.hideCallOut();
   }
@@ -203,11 +148,7 @@ export class Application extends React.Component<
       <Fragment>
         <div className="ms-Grid-row">
           <div className="ms-Grid-col ms-sm12">
-            <Panel
-              contentClass="custom-padding-top-10px"
-              headerText="Routenübersicht"
-              className="custom-padding-bottom-10px custom-padding-top-10px"
-            >
+            <Panel contentClass="custom-padding-top-10px" headerText="Routenübersicht" className="custom-padding-bottom-10px custom-padding-top-10px">
               <Routenuebersicht
                 onEditRouteClick={this.editRoute}
                 commandbarItems={[
@@ -230,11 +171,7 @@ export class Application extends React.Component<
         </div>
         <div className="ms-Grid-row">
           <div className="ms-Grid-col ms-sm12">
-            <Panel
-              contentClass="custom-padding-top-10px"
-              headerText="Filialübersicht"
-              className="custom-padding-bottom-10px"
-            >
+            <Panel contentClass="custom-padding-top-10px" headerText="Filialübersicht" className="custom-padding-bottom-10px">
               <div>
                 <Filialuebersicht
                   onEditFilialeClick={this.editFiliale}

@@ -1,15 +1,5 @@
 import * as React from "react";
-import {
-  ActionButton,
-  TextField,
-  Label,
-  Link as OfficeLink,
-  DatePicker
-} from "office-ui-fabric-react";
-import { BasePage } from "../../../../global/components/container/basePage";
-import { ILinkModel } from "../../../../interfaces/aldi";
-import { NumberTextField } from "../../../../global/components/simple/NumberTextField";
-import { Panel } from "../../../../global/components/simple/Panel";
+import { ActionButton, Label, DatePicker } from "office-ui-fabric-react";
 import { getGermanDateString } from "../../../../helper/date";
 
 export interface IRoutenfahrtProps {
@@ -37,9 +27,7 @@ export class Routenfahrt extends React.PureComponent<IRoutenfahrtProps, {}> {
     return (
       <div className="ms-Grid-row" key={"route_" + this.props.routenfahrtId}>
         <div className="ms-Grid-col ms-sm2 ms-md1 ms-lg1">
-          <Label className="ms-fontSize-l ms-textAlignCenter">
-            {this.props.title}
-          </Label>
+          <Label className="ms-fontSize-l ms-textAlignCenter">{this.props.title}</Label>
         </div>
         <div className="ms-Grid-col ms-sm8 ms-md8 ms-lg6">
           <DatePicker

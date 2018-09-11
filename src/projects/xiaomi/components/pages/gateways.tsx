@@ -1,16 +1,8 @@
 import * as React from "react";
-import { Toggle } from "office-ui-fabric-react";
 import Axios from "axios";
-import {
-  ILightModel,
-  IRGBColor,
-  IBaseWeatherSensor,
-  IGatewayModel
-} from "../../../../interfaces/xiaomi";
+import { ILightModel, IRGBColor, IGatewayModel } from "../../../../interfaces/xiaomi";
 import { BaseLight } from "../../../../global/components/simple/BaseLight";
-import { BaseWeatherSensor } from "../../../../global/components/simple/BaseWeatherSensor";
 import { setInterval } from "timers";
-const intToRGB = require("int-to-rgb");
 export interface IApplicationProps {}
 export interface IApplicationState {
   isInitialized: boolean;
@@ -18,10 +10,7 @@ export interface IApplicationState {
   gatewayLights: ILightModel[];
   intervalId: undefined;
 }
-export class Application extends React.Component<
-  IApplicationProps,
-  IApplicationState
-> {
+export class Application extends React.Component<IApplicationProps, IApplicationState> {
   private isMountedFinished = false;
   constructor(props) {
     super(props);
@@ -80,67 +69,31 @@ export class Application extends React.Component<
     return (
       <div className="ms-Grid-row">
         <div className="ms-Grid-col ms-sm12">
-          {(!this.state.gatewayLights ||
-            this.state.gatewayLights.length < 1) && (
-            <h1 className="ms-font-xl ms-fontColor-themePrimary">
-              Keine Gateways gefunden
-            </h1>
-          )}
+          {(!this.state.gatewayLights || this.state.gatewayLights.length < 1) && <h1 className="ms-font-xl ms-fontColor-themePrimary">Keine Gateways gefunden</h1>}
           <div className="ms-Grid-row">
             {this.state.gatewayLights &&
               this.state.gatewayLights.length > 0 &&
               this.state.gatewayLights.map((gw, index) => {
                 return (
-                  <div
-                    className="ms-Grid-col ms-sm12 ms-lg6 ms-xl3"
-                    key={"gwr_" + index}
-                  >
+                  <div className="ms-Grid-col ms-sm12 ms-lg6 ms-xl3" key={"gwr_" + index}>
                     <BaseLight
                       lightInformation={gw}
                       id={index}
-                      onBrightnessChanged={(
-                        lightInformation: ILightModel,
-                        brightness: number
-                      ) => {
-                        Axios.post(
-                          "/api/gateways/" +
-                            lightInformation.id +
-                            "/brightness/" +
-                            brightness
-                        ).then(this.loadDevices);
+                      onBrightnessChanged={(lightInformation: ILightModel, brightness: number) => {
+                        Axios.post("/api/gateways/" + lightInformation.id + "/brightness/" + brightness).then(this.loadDevices);
                       }}
-                      onColorChanged={(
-                        lightInformation: ILightModel,
-                        color: IRGBColor
-                      ) => {
-                        Axios.post(
-                          "/api/gateways/" + lightInformation.id + "/color",
-                          { color }
-                        ).then(this.loadDevices);
+                      onColorChanged={(lightInformation: ILightModel, color: IRGBColor) => {
+                        Axios.post("/api/gateways/" + lightInformation.id + "/color", { color }).then(this.loadDevices);
                       }}
-                      onColorSchemaChanged={(
-                        lightInformation: ILightModel,
-                        color: IRGBColor,
-                        brightness: number
-                      ) => {
-                        Axios.post(
-                          "/api/gateways/" + lightInformation.id + "/color",
-                          { color }
-                        )
+                      onColorSchemaChanged={(lightInformation: ILightModel, color: IRGBColor, brightness: number) => {
+                        Axios.post("/api/gateways/" + lightInformation.id + "/color", { color })
                           .then(() => {
-                            return Axios.post(
-                              "/api/gateways/" +
-                                lightInformation.id +
-                                "/brightness/" +
-                                brightness
-                            );
+                            return Axios.post("/api/gateways/" + lightInformation.id + "/brightness/" + brightness);
                           })
                           .then(this.loadDevices);
                       }}
                       onPowerChanged={(lightInformation: ILightModel) => {
-                        Axios.post(
-                          "/api/gateways/" + lightInformation.id + "/power"
-                        ).then(this.loadDevices);
+                        Axios.post("/api/gateways/" + lightInformation.id + "/power").then(this.loadDevices);
                       }}
                     />
                   </div>

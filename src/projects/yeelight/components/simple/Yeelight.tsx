@@ -1,22 +1,13 @@
 import * as React from "react";
-import { Toggle, Slider, Label } from "office-ui-fabric-react";
-import Axios from "axios";
+import { Toggle, Slider } from "office-ui-fabric-react";
 import { ILightModel, IRGBColor } from "../../../../interfaces/xiaomi";
 import { Panel } from "../../../../global/components/simple/Panel";
-// const fc = require("./../../../config/config");
 export interface IYeelightProps {
-  onColorTemperatureChanged(
-    lightInformation: ILightModel,
-    colorTemperature: number
-  );
+  onColorTemperatureChanged(lightInformation: ILightModel, colorTemperature: number);
   onBrightnessChanged(lightInformation: ILightModel, brightness: number);
   onColorChanged(lightInformation: ILightModel, color: IRGBColor);
   onPowerChanged(lightInformation: ILightModel);
-  onColorSchemaChanged(
-    lightInformation: ILightModel,
-    color: IRGBColor,
-    brightness: number
-  );
+  onColorSchemaChanged(lightInformation: ILightModel, color: IRGBColor, brightness: number);
   lightInformation: ILightModel;
   id: number;
 }
@@ -57,11 +48,7 @@ export class Yeelight extends React.Component<IYeelightProps, {}> {
     let schemeIndex = event.currentTarget.selectedIndex;
     let schema = this.colorSchemes[schemeIndex];
     if (!schema || schema.intensity === -1) return;
-    this.props.onColorSchemaChanged(
-      this.props.lightInformation,
-      schema.color,
-      schema.brightness
-    );
+    this.props.onColorSchemaChanged(this.props.lightInformation, schema.color, schema.brightness);
   }
   private togglePower() {
     this.props.onPowerChanged(this.props.lightInformation);
@@ -123,34 +110,15 @@ export class Yeelight extends React.Component<IYeelightProps, {}> {
     return (
       <div className="ms-Grid-row" key={"list_" + this.props.id}>
         <div className="ms-Grid-col ms-sm12 ms-lg12">
-          <Panel
-            headerText={this.props.lightInformation.name}
-            className="custom-padding-bottom-10px"
-          >
+          <Panel headerText={this.props.lightInformation.name} className="custom-padding-bottom-10px">
             <div className="ms-Grid-row">
               <div className="ms-Grid-col ms-sm6">
-                <h1 className="ms-font-xl ms-fontColor-themePrimary">
-                  {this.props.lightInformation.power
-                    ? "Licht anschalten"
-                    : "Licht ausschalten"}
-                </h1>
-                <Toggle
-                  key={"light_power_" + this.props.id}
-                  checked={this.props.lightInformation.power}
-                  onText="On"
-                  offText="Off"
-                  onChanged={this.togglePower}
-                />
+                <h1 className="ms-font-xl ms-fontColor-themePrimary">{this.props.lightInformation.power ? "Licht anschalten" : "Licht ausschalten"}</h1>
+                <Toggle key={"light_power_" + this.props.id} checked={this.props.lightInformation.power} onText="On" offText="Off" onChanged={this.togglePower} />
               </div>
               <div className="ms-Grid-col ms-sm6">
-                <h1 className="ms-font-xl ms-fontColor-themePrimary">
-                  Farbschema
-                </h1>
-                <select
-                  onChange={this.colorSchemeChanged}
-                  style={{ padding: "10px", width: "100%" }}
-                  disabled={!this.props.lightInformation.power}
-                >
+                <h1 className="ms-font-xl ms-fontColor-themePrimary">Farbschema</h1>
+                <select onChange={this.colorSchemeChanged} style={{ padding: "10px", width: "100%" }} disabled={!this.props.lightInformation.power}>
                   {this.colorSchemes.map((schema, index) => {
                     return (
                       <option key={"option_schema_" + index} value={index}>
@@ -161,9 +129,7 @@ export class Yeelight extends React.Component<IYeelightProps, {}> {
                 </select>
               </div>
               <div className="ms-Grid-col ms-sm12">
-                <h1 className="ms-font-xl ms-fontColor-themePrimary">
-                  Leuchtstärke
-                </h1>
+                <h1 className="ms-font-xl ms-fontColor-themePrimary">Leuchtstärke</h1>
                 <Slider
                   min={1}
                   max={100}
@@ -175,9 +141,7 @@ export class Yeelight extends React.Component<IYeelightProps, {}> {
                 />
               </div>
               <div className="ms-Grid-col ms-sm12">
-                <h1 className="ms-font-xl ms-fontColor-themePrimary">
-                  Farbtemperatur
-                </h1>
+                <h1 className="ms-font-xl ms-fontColor-themePrimary">Farbtemperatur</h1>
                 <Slider
                   min={1700}
                   max={6500}
@@ -189,9 +153,7 @@ export class Yeelight extends React.Component<IYeelightProps, {}> {
                 />
               </div>
               <div className="ms-Grid-col ms-sm12">
-                <h1 className="ms-font-xl ms-fontColor-themePrimary">
-                  RGB Farben
-                </h1>
+                <h1 className="ms-font-xl ms-fontColor-themePrimary">RGB Farben</h1>
                 <Slider
                   label="Rot"
                   min={0}

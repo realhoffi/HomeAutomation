@@ -1,19 +1,10 @@
 "use strict";
-let JSZip = require("jszip");
-let Docxtemplater = require("docxtemplater");
-
-let fs = require("fs");
-let path = require("path");
 
 import { Application } from "express";
-import { IBaseWeatherSensor } from "../../interfaces/xiaomi";
 import { Db } from "mongodb";
-import { IFilialeModel, IRouteModel } from "../../interfaces/aldi";
 import { ObjectId } from "bson";
 import { AldiServiceInstance } from "./AldiService";
 import { DokumentServiceInstance } from "./DokumentService";
-import { getGermanDateString } from "../../helper/date";
-const cfg = require("../../../config/config.json");
 declare let MONGO_DB_FILIALEN_COLLECTION_STRING: string;
 declare let MONGO_DB_ROUTEN_COLLECTION_STRING: string;
 
@@ -58,8 +49,7 @@ class RechnungService {
       let objectId = new ObjectId(filialId);
       console.log(objectId + "@" + JSON.stringify(objectId) + "@");
       let db = app.locals.database as Db;
-      db
-        .collection(MONGO_DB_FILIALEN_COLLECTION_STRING)
+      db.collection(MONGO_DB_FILIALEN_COLLECTION_STRING)
         .findOne({ _id: objectId })
         .then(result => {
           console.log("filiale found");
@@ -78,8 +68,7 @@ class RechnungService {
     return new Promise((resolve, reject) => {
       let db = app.locals.database as Db;
 
-      db
-        .collection(MONGO_DB_ROUTEN_COLLECTION_STRING)
+      db.collection(MONGO_DB_ROUTEN_COLLECTION_STRING)
         .find({})
         .toArray()
         .then(result => {

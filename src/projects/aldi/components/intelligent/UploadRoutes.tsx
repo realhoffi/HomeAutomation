@@ -1,20 +1,6 @@
 import * as React from "react";
 import Axios from "axios";
-import {
-  TextField,
-  DetailsList,
-  DetailsListLayoutMode,
-  Selection,
-  MarqueeSelection,
-  IColumn,
-  SelectionMode,
-  IconButton,
-  ContextualMenu,
-  ContextualMenuItemType,
-  DirectionalHint
-} from "office-ui-fabric-react";
-import { IRouteViewModel, IRouteModel } from "../../../../interfaces/aldi";
-import { routeOverviewColumns } from "../../configuration/columns";
+import { IRouteModel } from "../../../../interfaces/aldi";
 import { Fragment } from "react";
 import { ButtonRow } from "../../../../global/components/simple/ButtonRow";
 
@@ -75,9 +61,7 @@ export class UploadRoutes extends React.Component<IUploadRoutesProps, {}> {
     return;
   }
   private uploadClick() {
-    let routes = this.createRoutes(
-      this.textareaElement ? this.textareaElement.value : ""
-    );
+    let routes = this.createRoutes(this.textareaElement ? this.textareaElement.value : "");
     this.props.uploadClick(routes);
   }
   private cancelClick() {

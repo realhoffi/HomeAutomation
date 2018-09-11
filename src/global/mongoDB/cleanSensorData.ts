@@ -1,9 +1,7 @@
-let fs = require("fs");
-import { MongoClient, Db, Collection, Timestamp } from "mongodb";
+import { MongoClient, Db, Collection } from "mongodb";
 import { getGermanDateString, setDatePropertiesToZero } from "../../helper/date";
 import { IBaseWeatherSensor } from "../../interfaces/xiaomi";
 import { Promise } from "bluebird";
-import { RechnungServiceInstance } from "../../api/services/RechnungService";
 
 declare let MONGO_DB_CONNECTION_STRING: string;
 declare let MONGO_DB_DATABASE_STRING: string;
@@ -37,14 +35,18 @@ export interface ICleanSensorCongfigurationEntry {
 export function initializeDatabase() {
   return new Promise((resolve, reject) => {
     console.log("Try connect to Database", MONGO_DB_CONNECTION_STRING);
-    MongoClient.connect(MONGO_DB_CONNECTION_STRING, function(err, database) {
-      if (err) {
-        reject({ message: "Error adding database startup entry", error: err });
-        // throw err;
+    MongoClient.connect(
+      MONGO_DB_CONNECTION_STRING,
+      { useNewUrlParser: true },
+      function(err, database) {
+        if (err) {
+          reject({ message: "Error adding database startup entry", error: err });
+          // throw err;
+        }
+        console.log("Success connected to database.", MONGO_DB_CONNECTION_STRING);
+        resolve(database.db(MONGO_DB_DATABASE_STRING));
       }
-      console.log("Success connected to database.", MONGO_DB_CONNECTION_STRING);
-      resolve(database.db(MONGO_DB_DATABASE_STRING));
-    });
+    );
   });
 }
 export function getSensorIds(database: Db) {
@@ -94,7 +96,7 @@ export function cleanSensorData(database: Db, sensorId: string) {
         // Alle Sensor-Daten für einen Sensor gruppiert nach Datum
         itemsToInsert = mergeSensorDataByHours(sensorData);
         console.log(`[${sensorId}] Ergebnis: ${itemsToInsert.length}`);
-        let perc = 100 - itemsToInsert.length * 100 / maxItems;
+        let perc = 100 - (itemsToInsert.length * 100) / maxItems;
         console.log(`[${sensorId}] Saved ${perc.toFixed(1)}%`);
         return itemsToInsert;
       })

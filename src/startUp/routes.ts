@@ -1,7 +1,7 @@
 "use strict";
 import express from "express";
-import os = require("os");
-
+// import os = require("os");
+import * as os from "os";
 import LightController from "../api/controllers/LightController";
 import SensorController from "../api/controllers/SensorController";
 import GatewayController from "../api/controllers/GatewayController";

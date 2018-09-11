@@ -1,8 +1,6 @@
 "use strict";
 import express from "express";
 import { GatewayServiceInstance } from "../services/GatewayService";
-import { IGatewayModel, IRGBColor } from "../../interfaces/xiaomi";
-const cfg = require("../../../config/config.json");
 
 class GatewayController {
   router: express.Router;
@@ -12,14 +10,8 @@ class GatewayController {
   }
   registerRoutes() {
     this.router.get("/gateways", this.getGateways.bind(this));
-    this.router.get(
-      "/gateways/:id/info/:properties",
-      this.getGatewayProperties.bind(this)
-    );
-    this.router.post(
-      "/gateways/:id/brightness/:value",
-      this.setBrightness.bind(this)
-    );
+    this.router.get("/gateways/:id/info/:properties", this.getGatewayProperties.bind(this));
+    this.router.post("/gateways/:id/brightness/:value", this.setBrightness.bind(this));
     this.router.post("/gateways/:id/color", this.setColor.bind(this));
     this.router.post("/gateways/:id/power", this.setPower.bind(this));
   }
@@ -34,11 +26,7 @@ class GatewayController {
       });
   }
   getGatewayProperties(req: express.Request, res: express.Response) {
-    return GatewayServiceInstance.getGatewayProperties(
-      req.app,
-      req.params.id,
-      req.params.properties.split(";")
-    )
+    return GatewayServiceInstance.getGatewayProperties(req.app, req.params.id, req.params.properties.split(";"))
       .then(result => {
         res.json(result);
       })
@@ -56,11 +44,7 @@ class GatewayController {
       });
   }
   setBrightness(req: express.Request, res: express.Response) {
-    return GatewayServiceInstance.setBrightness(
-      req.app,
-      req.params.id,
-      req.params.value
-    )
+    return GatewayServiceInstance.setBrightness(req.app, req.params.id, req.params.value)
       .then(result => {
         res.json(result);
       })
@@ -69,11 +53,7 @@ class GatewayController {
       });
   }
   setColor(req: express.Request, res: express.Response) {
-    return GatewayServiceInstance.setColor(
-      req.app,
-      req.params.id,
-      req.body.color
-    )
+    return GatewayServiceInstance.setColor(req.app, req.params.id, req.body.color)
       .then(result => {
         res.json(result);
       })

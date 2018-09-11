@@ -1,6 +1,5 @@
 import { IGatewayModel, IRGBColor } from "../../interfaces/xiaomi";
 import { Application } from "express";
-const { color } = require("abstract-things/values");
 "use strict";
 const cfg = require("../../../config/config.json");
 class GatewayService {
